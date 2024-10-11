@@ -1,0 +1,570 @@
+<!-- <app-left-menu>
+</app-left-menu> -->
+
+<section class="home-section" appLeftMenuNavbar>
+  <app-header></app-header>
+  <div class="home-content">
+    <div class="TopbarAllComponentDivs">
+      <div class="Innerpagename">
+        <span [innerHTML]="'figma-backgarrow-ico' | svgIcons:''" (click)="backClicked()" style="cursor: pointer;"></span><h2>Update Campaign Set</h2>
+    </div>
+    <div class="SideBTnAllstyle"></div>
+    </div>
+    <div class="sales-boxes">
+      <div class="recent-sales box">
+        <div class="row">
+          <div class="col-lg-11">
+            <form #f="ngForm" name="theForm" (submit)="addCampaignSet(f)">
+              <div class="lead-update-container">
+                <div class="lead-update-wrapper">
+                  <label>Campaign Set Name </label>
+                  <div>
+                    <input type="text" class="input-fld required-fld" name="CampaignSetName"
+                      [(ngModel)]=compaigns.CampaignSetName #CampaignSetName="ngModel" placeholder="Campaign Set Name"
+                      required><br>
+                    <span class="help-block danger" *ngIf="CampaignSetName.errors?.required && CampaignSetName.touched">
+                      Campaign Set Name is required
+                    </span>
+                  </div>
+                </div>
+
+                <!-- <div class="lead-update-wrapper">
+                                    <div class="col-sm-4">
+                                        <label>Campaign Set Owner<span
+                                                class="text-danger font-weight-bold">*</span></label>
+                                    </div>
+                                    <div >
+                                        <input type="text" class="input-fld required-fld" name="CampaignSetOwner"
+                                            [(ngModel)]=compaigns.CampaignSetOwner placeholder="Campaign Set Owner"><br>
+
+                                    </div>
+                                    <div class="col-sm-1"></div>
+                                </div> -->
+
+
+                <!-- <div class="lead-update-wrapper">
+                                    <div class="col-sm-4">
+                                        <label>Assign To </label>
+                                    </div>
+                                    <div >
+                                        <input type="text" class="input-fld required-fld" name="AssignTo" [(ngModel)]=compaigns.CampaignSetName
+                                            placeholder="Assign To"><br>
+
+                                    </div>
+                                    <div class="col-sm-1"></div>
+                                </div> -->
+                <div class="lead-update-wrapper">
+                  <!-- <div class="col-sm-4">
+                                        <label>End Date  </label>
+                                    </div>
+                                    <div >
+                                        <input type="date" required class="input-fld required-fld" name="ClosingDate"  placeholder="End Date"><br>
+
+                                    </div> -->
+                  <label>Campaign Access </label>
+                  <div>
+                    <ng-select #selectCampaignaccess [clearOnBackspace]="false" [searchable]="false" name="CampaignAcces" [(ngModel)]="compaigns.CampaignAccess"
+                    #CampaignAcces="ngModel" required class="ngsearch-dropdown input-fld required-fld">
+                      <ng-template ng-header-tmp>
+                        <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
+                          type="text" (input)="selectCampaignaccess.filter($event.target.value)" />
+                      </ng-template>
+                      <ng-option value="" disable selected>Select Campaign Access</ng-option>
+                      <ng-option value="{{camAccess}}" *ngFor="let camAccess of CampaignAccess">{{camAccess}}</ng-option>
+                    </ng-select>
+
+                    <!-- <select class="input-fld required-fld" name="CampaignAcces" [(ngModel)]="compaigns.CampaignAccess"
+                      #CampaignAcces="ngModel" required>
+                      <option value="" selected>Choose Select</option>
+                      <option value="{{camAccess}}" *ngFor="let camAccess of CampaignAccess">{{camAccess}}</option>
+
+
+                    </select><br> -->
+                    <span class="help-block danger" *ngIf="(CampaignAcces.errors?.required && f.submitted)||(CampaignAcces.errors?.required && CampaignAcces.touched)">
+                      CampaignAccess is required
+                    </span>
+
+                  </div>
+                </div>
+                <div class="lead-update-wrapper">
+                  <label>Status  </label>
+                  <div>
+                    <ng-select #selectstatus [clearOnBackspace]="false" [searchable]="false" [items]="userStatus" bindLabel="name"
+                    bindValue="num" name="Status" [(ngModel)]="compaigns.Status" required class="ngsearch-dropdown input-fld required-fld">
+                      <ng-template ng-header-tmp>
+                        <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
+                          type="text" (input)="selectstatus.filter($event.target.value)" />
+                      </ng-template>
+                      <!-- <ng-option value="" disable selected>Select Status</ng-option>
+                      <ng-option value="{{status.num}}" *ngFor="let status of userStatus">{{status.name}}</ng-option> -->
+                    </ng-select>
+                    <!-- <select class="input-fld required-fld" name="Status" [(ngModel)]="compaigns.Status" required>
+                      <option value="" selected disabled>Choose Select</option>
+                      <option value="{{status.num}}" *ngFor="let status of userStatus">{{status.name}}</option>
+
+                    </select> -->
+                  </div>
+                </div>
+                <div class="lead-update-wrapper">
+                  <label>Description </label>
+                  <div>
+                    <textarea class="input-fld required-fld" placeholder="Description" required name="Description"
+                      #Description="ngModel" [(ngModel)]="compaigns.Description"></textarea>
+                    <!-- <input type="text" class="input-fld required-fld"
+                                            [(ngModel)]=compaigns.Description name="Description" #Description="ngModel"
+                                            placeholder="Description" required><br> -->
+                    <span class="help-block danger" *ngIf="Description.errors?.required && Description.touched">
+                      Description is required
+                    </span>
+
+                  </div>
+                </div>
+                <h6 class="label-mark">Members</h6>
+                <!-- <div style="display: flex;"> -->
+                <h6 class="label-mark-inner">Leads</h6>
+
+                <div class="lead-update-checkbox">
+                  <input class="form-check-input chk" type="checkbox" value="" (change)="fireLead($event)"
+                    id="flexCheckDefaultAlllead">
+                  <label class="form-check-label" for="flexCheckDefault">
+                    All Leads Selected
+                  </label>
+                </div>
+                <div class="lead-update-wrapper">
+                  <label>Source</label>
+                  <div>
+                    <!-- <select class="input-fld Alllead" name="LeadSource" [(ngModel)]=compaigns.LeadSource>
+                                            <option value="" selected disabled>Choose Select</option>
+                                            <option value="{{item1.Name}}" *ngFor="let item1 of source">{{item1.Name}}</option> -->
+                    <!-- <option value="Facebook">Facebook</option>
+                                            <option value="Linkedin">Linkedin</option>
+                                            <option value="Instagram">Instagram</option>
+                                            <option value="Google Seo">Google Seo</option>
+                                            <option value="Just Dial">Just Dial</option>
+                                            <option value="Website">Website</option>
+                                            <option value="Email Marketing">Email Marketing</option>
+                                            <option value="WorkShop">WorkShop</option>
+                                            <option value="Conference">Conference</option>
+                                            <option value="Seminar">Seminar</option>
+                                            <option value="Cold Call">Cold Call</option>
+                                            <option value="Fisher Scientific">Fisher Scientific</option>
+                                            <option value="Lead Exchange">Lead Exchange</option>
+                                            <option value="Phone Enquiry">Phone Enquiry</option>
+                                            <option value="Referral">Referral</option>
+                                            <option value="Recommended by KOL">Recommended by KOL</option>
+                                            <option value="Sales Generated">Sales Generated</option>
+                                            <option value="Service">Service</option>
+                                            <option value="Trade Show">Trade Show </option>
+                                            <option value="Web">Web</option> -->
+
+                    <!-- </select><br> -->
+
+                    <ng-multiselect-dropdown style="font-size:12px !important" [(ngModel)]="selectleadsource"
+                      [placeholder]="'Select Days'" [settings]="dropdownSettings1" [data]="dropdownList"
+                      name="LeadSource" [class]="deselectCheck?'deselectCheck':'deselectnotCheck'"
+                      (onSelect)="onItemSelect($event)" (onDeSelect)="onDeSelect($event)"
+                      (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)">
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+                <div class="lead-update-wrapper">
+                  <label>Priority</label>
+                  <div class="position-relative">
+                    <div class="Alllead">
+                    </div>
+                      <ng-select #selectReporting [clearOnBackspace]="false" [searchable]="false" name="LeadPriority" [(ngModel)]="compaigns.LeadPriority" class="ngsearch-dropdown input-fld">
+                        <ng-template ng-header-tmp>
+                          <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
+                            type="text" (input)="selectReporting.filter($event.target.value)" />
+                        </ng-template>
+                        <ng-option value="" disable selected>Select Priority</ng-option>
+                        <ng-option value="{{priority.Name}}" *ngFor="let priority of lead_Type">{{priority.Name}}</ng-option>
+                      </ng-select>
+
+                      <!-- <select class="input-fld Alllead" name="LeadPriority" [(ngModel)]=compaigns.LeadPriority>
+                        <option value="" selected disabled>Choose Select</option>
+                        <option value="{{priority.Name}}" *ngFor="let priority of lead_Type">{{priority.Name}}</option>
+
+                      </select> -->
+
+
+                  </div>
+                </div>
+                <div class="lead-update-wrapper">
+                  <label>From Date </label>
+                  <div class="position-relative">
+                    <div class="Alllead">
+                    </div>
+                    <input type="date" class="input-fld" name="LeadFromDate"
+                      [(ngModel)]="compaigns.LeadFromDate" placeholder="From Date">
+                  </div>
+                  <label>To</label>
+                  <div class="position-relative">
+                    <div class="Alllead">
+                    </div>
+                    <input type="date" class="input-fld Alllead" name="LeadToDate" [(ngModel)]="compaigns.LeadToDate"
+                      placeholder="To Date">
+                  </div>
+                  <!-- <div class="col-sm-1"></div> -->
+                </div>
+                <!-- <div class="lead-update-wrapper">
+                                    <div class="col-sm-4">
+                                        <label>To Date  </label>
+                                    </div>
+                                    <div >
+                                        <input type="date" required class="input-fld required-fld"
+                                            [(ngModel)]=compaigns.LeadToDate name="LeadToDate"
+                                            placeholder="To Date "><br>
+
+                                    </div>
+                                    <div class="col-sm-1"></div>
+                                </div> -->
+                <!-- <div class="col-md-5"></div> -->
+                <div class="lead-update-wrapper">
+                  <label>Status </label>
+                  <div>
+                    <!-- <select class="input-fld Alllead" name="LeadStatus" [(ngModel)]=compaigns.LeadStatus>
+                                            <option value="" selected disabled>Choose Select</option>
+                                            <option value="Follow Up">Follow Up</option>
+                                            <option value="Demo">Demo</option>
+                                            <option value="Proposal">Proposal</option>
+                                            <option value="Shared">Shared</option>
+                                            <option value="Negotiation">Negotiation</option>
+                                            <option value="Hold">Hold</option>
+                                            <option value="Dead">Dead</option>
+
+                                        </select><br> -->
+
+                    <ng-multiselect-dropdown style="font-size:12px !important" [(ngModel)]="selectleadstatus"
+                      [placeholder]="'Select Days'" [settings]="dropdownSettings1" [data]="dropdownList1"
+                      name="LeadStatus" [class]="deselectCheck?'deselectCheck':'deselectnotCheck'"
+                      (onSelect)="onItemSelect1($event)" (onDeSelect)="onDeSelect1($event)"
+                      (onSelectAll)="onSelectAll1($event)" (onDeSelectAll)="onDeSelectAll1($event)">
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+                <h6 class="label-mark-inner">Opportunity</h6>
+                <div class="lead-update-checkbox">
+                  <input class="form-check-input chk1" (change)="fireAllOP($event)" type="checkbox" value=""
+                    id="flexCheckDefault1">
+                  <label class="form-check-label" for="flexCheckDefault">
+                    All Opportunities Selected
+                  </label>
+                </div>
+
+                <!-- <div class="lead-update-wrapper">
+                                    <div class="col-sm-4">
+                                        <label>Division </label>
+                                    </div>
+                                    <div >
+                                        <select class="input-fld required-fld"
+                                        name="CategoryName"
+                                        [(ngModel)]=compaigns.CategoryName required>
+                                            <option value="" selected disabled>Choose Select</option>
+                                            <option value="{{item.CategoryName}}" *ngFor="let item of categorys;">{{item.CategoryName}}</option>
+
+
+                                        </select><br>
+
+                                    </div>
+                                    <div class="col-sm-1"></div>
+                                </div> -->
+
+
+
+
+                <div class="lead-update-wrapper">
+                  <label>From Date </label>
+                  <div class="position-relative">
+                    <div class="AllOppcl">
+                    </div>
+                    <input type="date" class="input-fld" [(ngModel)]="compaigns.OppFromDate" name="OppFromDate"
+                      placeholder="From Date"><br>
+                  </div>
+                </div>
+                <div class="lead-update-wrapper">
+                  <label>To</label>
+                  <div class="position-relative">
+                    <div class="AllOppcl">
+                    </div>
+                    <input type="date" class="input-fld" [(ngModel)]="compaigns.OppToDate" name="OppToDate"
+                      placeholder="To Date"><br>
+                  </div>
+                </div>
+                <!-- <div class="lead-update-wrapper">
+                                    <div class="col-sm-4">
+                                        <label>To Date  </label>
+                                    </div>
+                                    <div >
+                                        <input type="date" required class="input-fld required-fld"
+                                            [(ngModel)]=compaigns.OppToDate name="OppToDate" placeholder="To Date"><br>
+
+                                    </div>
+                                    <div class="col-sm-1"></div>
+                                </div> -->
+
+                <div class="lead-update-wrapper">
+                  <label>Type </label>
+                  <div class="position-relative">
+                    <div class="AllOppcl">
+                    </div>
+                    <ng-select #selecttype [clearOnBackspace]="false" [searchable]="false" name="OppType" [(ngModel)]="compaigns.OppType" class="ngsearch-dropdown input-fld">
+                      <ng-template ng-header-tmp>
+                        <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
+                          type="text" (input)="selecttype.filter($event.target.value)" />
+                      </ng-template>
+                      <ng-option value="" disable selected>Select Type</ng-option>
+                      <ng-option value="{{opptype}}" *ngFor="let opptype of CampaignOpportunityType">{{opptype}}</ng-option>
+                    </ng-select>
+
+                    <!-- <select class="input-fld  AllOppcl" name="OppType" [(ngModel)]="compaigns.OppType">
+                      <option value="" selected>Choose Select</option>
+                      <option value="{{opptype}}" *ngFor="let opptype of CampaignOpportunityType">{{opptype}}</option>
+
+                    </select> -->
+                  </div>
+                </div>
+                <div class="lead-update-wrapper">
+                  <label>Sales Employee</label>
+                  <div>
+                    <!-- <select class="input-fld  AllOppcl" name="OppSalePerson"
+                                            [(ngModel)]=compaigns.OppSalePerson>
+                                            <option value="" selected disabled>Choose Select</option>
+                                            <option value="{{item.SalesEmployeeCode}}" *ngFor="let item of empall">
+                                                {{item.SalesEmployeeName}}</option>
+
+                                        </select><br> -->
+
+                    <ng-multiselect-dropdown [(ngModel)]="selectOppEmployeee" [placeholder]="'Select Employee'"
+                      style="font-size: 12px;" [settings]="dropdownSettings2" [data]="dropdownListemp"
+                      name="OppSalePerson" [class]="deselectCheck1?'deselectCheck':'deselectnotCheck'"
+                      (onSelect)="onItemSelect2($event)" (onDeSelect)="onDeSelect2($event)"
+                      (onSelectAll)="onSelectAll2($event)" (onDeSelectAll)="onDeSelectAll2($event)">
+                    </ng-multiselect-dropdown>
+
+                  </div>
+                </div>
+                <!-- <div class="lead-update-wrapper">
+                                    <div class="col-sm-4">
+                                        <label>Sales Employee </label>
+                                    </div>
+                                    <div >
+                                        <input type="text" class="input-fld required-fld"
+                                            [(ngModel)]=compaigns.OppSalePerson name="OppSalePerson"
+                                            placeholder="Sales Employee"><br>
+
+                                    </div>
+                                    <div class="col-sm-1"></div>
+                                </div> -->
+                <h6 class="label-mark-inner">Business Partner</h6>
+                <div class="lead-update-checkbox ">
+                  <input class="form-check-input chk1" (change)="fireBP($event)" type="checkbox" value=""
+                    id="flexCheckDefaultAllBP">
+                  <label class="form-check-label" for="flexCheckDefault">
+                    All Business Partners Selected
+                  </label>
+                </div>
+                <div class="lead-update-wrapper">
+                  <label>Type </label>
+                  <div class="position-relative">
+                    <div class="AllBP">
+                    </div>
+                    <ng-select #selecttyp [clearOnBackspace]="false" [searchable]="false" name="BPType" [(ngModel)]="compaigns.BPType" class="ngsearch-dropdown input-fld">
+                      <ng-template ng-header-tmp>
+                        <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
+                          type="text" (input)="selecttyp.filter($event.target.value)" />
+                      </ng-template>
+                      <ng-option value="" disable selected>Select Type</ng-option>
+                      <ng-option value="{{opptype}}" *ngFor="let opptype of CampaignOpportunityType">{{opptype}}</ng-option>
+                    </ng-select>
+                    <!-- <select class="input-fld  AllBP" name="BPType" [(ngModel)]=compaigns.BPType>
+                      <option value="" selected>Choose Select</option>
+                      <option value="{{opptype}}" *ngFor="let opptype of CampaignOpportunityType">{{opptype}}</option>
+
+                    </select> -->
+                  </div>
+                </div>
+                <div class="lead-update-wrapper">
+                  <label>Sales Person</label>
+                  <div>
+                    <!-- <select class="input-fld AllBP" name="BPSalePerson"
+                                            [(ngModel)]=compaigns.BPSalePerson>
+                                            <option value="" selected disabled>Choose Select</option>
+                                            <option value="{{item.SalesEmployeeCode}}" *ngFor="let item of empall">
+                                                {{item.SalesEmployeeName}}</option>
+
+                                        </select><br> -->
+
+                    <ng-multiselect-dropdown style="font-size:12px !important" [(ngModel)]="selectBPEmployeee"
+                      [placeholder]="'Select Employee'" [settings]="dropdownSettings2" [data]="dropdownListemp"
+                      name="BPSalePerson" [class]="deselectCheck2?'deselectCheck':'deselectnotCheck'"
+                      (onSelect)="onItemSelect2($event)" (onDeSelect)="onDeSelect2($event)"
+                      (onSelectAll)="onSelectAll2($event)" (onDeSelectAll)="onDeSelectAll2($event)">
+                    </ng-multiselect-dropdown>
+
+                    <!-- <input type="text" class="input-fld required-fld"
+                                            [(ngModel)]=compaigns.BPSalePerson name="BPSalePerson"
+                                            placeholder="Sales Person"><br> -->
+
+                  </div>
+                </div>
+
+                <div class="lead-update-wrapper">
+                  <label>From Date </label>
+                  <div class="position-relative">
+                    <div class="AllBP">
+                    </div>
+                    <input type="date" class="input-fld" [(ngModel)]="compaigns.BPFromDate" name="BPFromDate"
+                      placeholder="From Date"><br>
+                  </div>
+                </div>
+                <div class="lead-update-wrapper">
+                  <label>To</label>
+                  <div class="position-relative">
+                    <div class="AllBP">
+                    </div>
+                    <input type="date" class="input-fld" [(ngModel)]="compaigns.BPToDate" name="BPToDate"
+                      placeholder="To Date"><br>
+                  </div>
+                </div>
+                <!-- <div class="lead-update-wrapper">
+                                    <div class="col-sm-4">
+                                        <label>To Date  </label>
+                                    </div>
+                                    <div >
+                                        <input type="date" required class="input-fld required-fld"
+                                            [(ngModel)]=compaigns.BPToDate name="BPToDate" placeholder="To Date"><br>
+
+                                    </div>
+                                    <div class="col-sm-1"></div>
+                                </div> -->
+                <div class="lead-update-wrapper">
+                  <label>Industry </label>
+                  <div>
+                    <!-- <select class="input-fld AllBP" name="BPIndustry" [(ngModel)]=compaigns.BPIndustry>
+                                            <option value="" selected>Choose Select</option>
+                                            <option *ngFor="let item of industorys" value="{{item.IndustryCode}}">
+                                                {{item.IndustryName}}</option>
+
+
+                                        </select><br> -->
+
+                    <ng-multiselect-dropdown style="font-size:12px !important" [(ngModel)]="selectIndustory"
+                      [placeholder]="'Select Employee'" [settings]="dropdownSettings2" [data]="dropdownListind"
+                      name="BPIndustry" [class]="deselectCheck2?'deselectCheck':'deselectnotCheck'"
+                      (onSelect)="onItemSelect2($event)" (onDeSelect)="onDeSelect2($event)"
+                      (onSelectAll)="onSelectAll2($event)" (onDeSelectAll)="onDeSelectAll2($event)">
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+
+
+
+                <div class="lead-update-wrapper">
+                  <label>Country </label>
+                  <div class="position-relative">
+                    <div class="AllBP">
+                    </div>
+                    <ng-select #selectcountry [clearOnBackspace]="false" [searchable]="false" [items]="countrys" bindLabel="Name"
+                    bindValue="Code" name="Countrys" placeholder="Select Country" (change)="selectChangeHandler($event)"
+                    [(ngModel)]="compaigns.BPCountryCode" class="ngsearch-dropdown input-fld">
+                      <ng-template ng-header-tmp>
+                        <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
+                          type="text" (input)="selectcountry.filter($event.target.value)" />
+                      </ng-template>
+                      <!-- <ng-option value="" disable selected>Select Country</ng-option>
+                      <ng-option *ngFor="let item of countrys" value="{{item.Code}}">{{item.Name}}</ng-option> -->
+                    </ng-select>
+
+                    <!-- <select class="input-fld  AllBP" name="Countrys" (change)="selectChangeHandler($event)"
+                      [(ngModel)]="compaigns.BPCountryCode">
+                      <option value="" selected>Choose Select</option>
+                      <option *ngFor="let item of countrys" value="{{item.Code}}">
+                        {{item.Name}}</option>
+                    </select> -->
+                    <!-- <select class="input-fld required-fld" name="BPCountry"
+                                            [(ngModel)]=compaigns.BPCountry required>
+                                            <option value="" selected>Choose Select</option>
+                                            <option value="India">India</option>
+                                            <option value="USA">USA</option>
+
+                                        </select><br> -->
+                  </div>
+                </div>
+                <div class="lead-update-wrapper">
+                  <label>States </label>
+                  <div class="position-relative">
+                    <div class="AllBP">
+                    </div>
+                    <ng-select #selectstate [clearOnBackspace]="false" [searchable]="false" name="Statess" placeholder="Select State" [items]="statess" bindLabel="Name"
+                    bindValue="Code"  (change)="selectChangeHandlerState($event)"
+                    #State=ngModel [(ngModel)]="compaigns.BPStateCode" class="ngsearch-dropdown input-fld">
+                      <ng-template ng-header-tmp>
+                        <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
+                          type="text" (input)="selectstate.filter($event.target.value)" />
+                      </ng-template>
+                      <!-- <ng-option value="" disable selected>Select State</ng-option>
+                      <ng-option *ngFor="let item of statess" value="{{item.Code}}">{{item.Name}}</ng-option> -->
+                    </ng-select>
+
+                    <!-- <select class="input-fld AllBP" name="Statess" (change)="selectChangeHandlerState($event)"
+                      #State=ngModel [(ngModel)]="compaigns.BPStateCode">
+                      <option value="" selected>Choose Select</option>
+                      <option *ngFor="let item of statess" value="{{item.Code}}">
+                        {{item.Name}}</option>
+                    </select> -->
+
+                    <!-- <select class="input-fld required-fld" name="BPState"
+                                            [(ngModel)]=compaigns.BPState required>
+                                            <option value="" selected>Choose Select</option>
+                                            <option value="Delhi">Delhi</option>
+                                            <option value="Uttar Pradesh ">Uttar Pradesh </option>
+
+                                        </select><br> -->
+                  </div>
+                </div>
+
+
+                <!-- <div class="lead-update-wrapper">
+                                    <div class="col-sm-4">
+                                        <label>Members NAme   </label>
+                                    </div>
+                                    <div >
+                                        <div class="scrolling-box">
+                                            <div class="row">
+                                    <p>dasda</p>
+                                    <p>dasda</p>
+                                    <p>dasda</p>
+                                    <p>dasda</p>
+                                    <p>dasda</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1"></div>
+                                </div> -->
+
+
+              </div>
+              <div style="text-align: center;" *ngIf="isLoading">
+                <img src="../../assets/img/loder.gif" style="height: 100%;width: 10%;">
+              </div>
+              <div class="col-md-12 text-center" *ngIf="!isLoading">
+                <button class="add-invent">Update</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="loadercss" style="text-align: center;" *ngIf="isdataLoading">
+      <img src="../../assets/img/loder.gif">
+    </div>
+
+  </div>
+</section>
+<div class="alert alert-primary success-box alert-dismissible fade show" role="alert">
+  Campaign Set Update Successfully !
+</div>

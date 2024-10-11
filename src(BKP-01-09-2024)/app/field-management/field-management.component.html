@@ -1,0 +1,184 @@
+<!-- <p>field-management works!</p> -->
+<section class="home-section" appLeftMenuNavbar>
+    <app-header></app-header>
+
+    <div class="home-content">
+      <div class="custom-search-container">
+        <p class="custom-search-head-name"><span [innerHTML]="'figma-backgarrow-ico' | svgIcons:''" (click)="backClicked()" style="cursor:pointer;"></span>Field Management
+         </p>
+        <div class="custom-search-wrapper">
+          <div ngbDropdown class="custom-common-search-container">
+            <!-- <button type="button" class="custom-com-temp-btn" (click)="SaveChange()">-->
+              <button class="custom-com-temp-btn" (click)="deleteAttach(confirmModal)">
+              <span
+                class="custom-sp-plus-ft-sz"></span> Save</button>
+
+          </div>
+        </div>
+      </div>
+      <div class="sales-boxes">
+
+          <div class="recent-sales UserManagement">
+
+            <div class="sales-details">
+              <div class="custom-outter-body-lead-list-c9">
+                <div class="custom-table-select-icons">
+                  <span [innerHTML]="'figma-table-refresh' | svgIcons:'figma-template-central'" (click)="getModuleData()"></span>
+                </div>
+              </div>
+            </div>
+                    <!-- Parent Table -->
+                    <table id="table-data" class="new-tabl">
+                        <thead class="MainUserList">
+                          <tr>
+                            <th>ID</th>
+                            <th>Module Name</th>
+                            <th class="text-center">Add New</th>
+                            <th class="text-center">Action</th>
+                          </tr>
+                        </thead>
+                          <ng-container *ngFor="let module of Module; let i = index">
+                            <tr class="hover">
+                              <td>{{ module.module_id }}</td>
+                              <td>{{ module.module_name }}</td>
+                              <td class="text-center"><div class="ActiveBTN rounded-pill badge-primary" style="color:#000;"  (click)="openmaximize(mymodal,false,module,4)"> <i class="fa fa-plus"></i>&nbsp;Add</div></td>
+                              <td class="text-center" (click)="toggleSubfields(i)">
+                                <i [ngClass]="{'fa-caret-down': openId == i,'fa-caret-right': openId != i}" class="fa fa-caret-right" style="padding: 8px;"></i>
+                              </td>
+                            </tr>
+                            <!-- Subfields table: Visible when openId equals the current index -->
+                            <tr *ngIf="openId == i">
+                              <td colspan="4">
+                                <table id="table-data" class="new-tabl">
+                                  <thead style="border: 1px solid #cdcdcd;">
+                                    <tr>
+                                      <th>S. No.</th>
+                                      <th>Field Name</th>
+                                      <th>Required</th>
+                                      <th>Workflow</th>
+                                      <th>Action</th>
+                                    </tr>
+                                  </thead>
+                                    <tr *ngFor="let subfield of module.data;let j = index">
+                                      <td>{{ j+1 }}</td>
+                                      <td>
+                                       <span *ngIf="isEditIndex != j"> {{ subfield.label }} </span>
+                                       <span *ngIf="isEditIndex == j">
+                                         <input type="text" [(ngModel)]="subfield.label" (change)="subfield.label = subfield.label.trim()" name="label_{{i}}">
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <span *ngIf="isEditIndex != j">  {{ subfield.is_mandatory == 'true' || subfield.is_mandatory == true ? 'Yes' : 'No' }} </span>
+                                        <span *ngIf="isEditIndex == j"> <select [(ngModel)]="subfield.is_mandatory" name="is_mandatory_{{i}}">
+                                        <option [value]="true">Yes</option>
+                                        <option [value]="false" *ngIf="subfield.is_key_mandatory == false">No</option>
+                                        </select>
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <span *ngIf="isEditIndex != j">{{ subfield.is_workflow || false }} </span>
+                                        <span *ngIf="isEditIndex == j && subfield.is_workflow == true">
+                                          <select [(ngModel)]="subfield.workflow_id" name="workflow_id_{{i}}">
+                                            <!-- <option value="">Select WorkFlow</option> -->
+                                            <option *ngFor="let role of UserRole" value="{{role.id}}">{{role.workflow_title}}</option>
+                                            </select>
+                                        </span>
+
+                                        </td>
+                                      <td>
+                                        <i class="fa fa-pencil" style="color: #4a79e4;font-size: 14px;cursor: pointer;padding: 6px;" (click)="handleAction(subfield,j)" *ngIf="isEditIndex != j"></i>
+                                        <i class="fa fa-check" style="color: #67e44a;font-size: 16px;cursor: pointer;padding: 6px;" (click)="SaveAction(subfield,j)" *ngIf="isEditIndex == j"></i>
+                                      </td>
+                                    </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </ng-container>
+                      </table>
+
+
+  <div class="LoderGifHere" *ngIf="isLoading">
+    <img src="../../assets/img/loder.gif">
+  </div>
+
+          </div>
+        </div>
+      </div>
+    <!--  -->
+  </section>
+  <ng-template #confirmModal let-modal>
+    <div class="modal-body">
+      <p> Are You Sure To Save ?</p>
+      <div class="confirm-btn">
+        <button class="btn custom-btn-blue" (click)="SaveChange()">OK</button>
+        <button class="btn custom-btn-outline-blue" (click)="modal.dismiss('Cross click')">Cancel</button>
+      </div>
+    </div>
+  </ng-template>
+
+
+
+
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title modal-heading" id="modal-basic-title">{{isEdit?'Edit':'Add'}} New Field in {{AddUser.model_name}}</h4>
+    <!-- <span class="figma-screen-ico"
+      [innerHTML]="(commonObj.bigScreenMode ? 'figma-modal-big-screen-ico' : 'figma-modal-mid-screen-ico') | svgIcons:''"
+      (click)="common.bigScreenOrMid()"></span> -->
+    <!-- <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''"
+      (click)="modal.dismiss('Cross click')"></span> -->
+  </div>
+  <div class="modal-body">
+    <div class="lead-update-wrapper">
+      <label>Field Type</label>
+      <div>
+        <select class="input-fld" [(ngModel)]="AddUser.field_data[0].data_type"  name="data_type">
+        <option value="text">Text</option>
+        <option value="number">Number</option>
+        <option value="date">Date</option>
+        <option value="Dropdown">Dropdown</option>
+        </select>
+      </div>
+    </div>
+
+
+    <div class="lead-update-wrapper" *ngIf="AddUser.field_data[0].data_type == 'Dropdown'">
+      <label>Options</label>
+      <div>
+        <ng-container *ngFor="let address of addresses; let i = index;">
+        <input type="text" class="input-fld" placeholder="Enter Option {{i+1}}"
+        [(ngModel)]="address.value" name="value_{{i}}" style="width: 80%;">
+        <i class="fa fa-times" style="color: #e4694a;cursor: pointer;width: 20%;text-align: center;" (click)="removeAddress(i)" *ngIf="i != 0"></i>
+        </ng-container>
+         <div (click)="addAddress()" style="color: #ef343b;font-size: 13px;padding: 10px;width: 135px;cursor: pointer;">Add New Option</div>
+      </div>
+    </div>
+
+    <div class="lead-update-wrapper">
+      <label>Field Title</label>
+      <div>
+        <input type="text" class="input-fld" placeholder="Enter Title" maxlength="30"
+        [(ngModel)]="AddUser.field_data[0].verbose_name"  name="verbose_name">
+      </div>
+    </div>
+
+    <!-- <div class="lead-update-wrapper">
+      <label>Field Mandatory</label>
+      <div>
+        <select class="input-fld"
+        [(ngModel)]="AddUser.is_mandatory"  name="is_mandatory">
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+        </select>
+      </div><br>
+    </div> -->
+    <br>
+
+    <div class="confirm-btn">
+      <button class="custom-btn-blue" (click)="AppruvedPosition2()" *ngIf="!isLoading">Save</button>
+      <button class="custom-btn-outline-blue" *ngIf="isLoading" style="cursor: no-drop;">Save</button>
+      <button class="custom-btn-outline-blue" (click)="modal.dismiss('Cross click')">Cancel</button>
+    </div>
+  </div>
+
+</ng-template>

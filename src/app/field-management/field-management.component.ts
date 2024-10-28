@@ -18,6 +18,7 @@ export class FieldManagementComponent implements OnInit {
   isanythingEdit:boolean = false;
   isLoading:boolean = false;
   openId: number | null = null; // Stores the index of the currently open module
+  AddDynamicFields:any = sessionStorage.getItem('AddDynamicFields');
 
   constructor(private bridgeService: BridgeService,private _location: Location,
     private _NotifierService: NotiferService,private route: Router,private modalService: NgbModal,) {}
@@ -25,6 +26,7 @@ export class FieldManagementComponent implements OnInit {
   ngOnInit(): void {
     this.getModuleData();
     this.getRoles();
+
   }
 
   backClicked() {
@@ -77,6 +79,7 @@ mainarray.forEach((mainItem: { module_name: any; is_accessible: boolean; id: any
         }
 
       let AccessSuperModules2:any = sessionStorage.getItem('SuperAdminModuleAccess');
+
       this.AccessSuperModules = JSON.parse(AccessSuperModules2);
 
       this.Module = this.AddDymainkey2(this.Module,this.AccessSuperModules);
@@ -334,6 +337,8 @@ SaveChange2(){
     this._NotifierService.showError('Please Enter the Title');
   }
   }
+
+
 
 }
 

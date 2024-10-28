@@ -345,8 +345,8 @@
   <div class="alert-arrow"></div>
   <div class="alert-content" style="position:relative;">
     <i class="fa fa-times" aria-hidden="true" style="position: absolute;t;top: -18px;right: -15px;cursor: pointer;" (click)="closePaymentALert(false)"></i>
-    <h3>Payment Alert</h3>
-    <p>2 Days Remaining in Your Payment! Make sure to complete your payment on time.</p>
+    <h3>{{headingline}}</h3>
+    <p>{{PaymentMessage}}</p>
     <button class="alert-button" (click)="closePaymentALert(false)">Pay Now</button>
   </div>
 </div>

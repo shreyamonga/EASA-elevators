@@ -675,7 +675,7 @@
             <div class="invoice-company text-inverse f-w-600">
               <span class="pull-right hidden-print ">
                 <a href="javascript:;" onclick="generatePDF()" class="btn btn-sm btn-white m-b-10 p-l-5 right-print1"><i
-                    class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Download as Pdf</a>
+                    class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Download as PDF</a>
                 <!-- <button id="hideexcbtn" onclick="exportexcel();" style="font-size: 14px;">Download as .Excel</button> -->
 
             </div>
@@ -1008,7 +1008,7 @@
           $(".OrderId").html((response.data[0].id));
           $(".CreateDate").html((changedateformatt(response.data[0].CreateDate)));
           $(".Comments").html((response.data[0].Comments || 'NA'));
-          $(".Freight").html(Number(response.data[0].FreightCharge || '0')).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+          $(".Freight").html(Number(response.data[0].FreightCharge || '0').toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }));
 
           if(response.data[0].ContactPersonCodeDetails.length != 0){
           $(".MobilePhone").html((response.data[0].ContactPersonCodeDetails[0].MobilePhone));

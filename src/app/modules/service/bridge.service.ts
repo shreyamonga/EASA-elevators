@@ -70,7 +70,7 @@ export class BridgeService {
 
 
   getPaymentAlertSocket(){
-    return  new WebSocket('ws://103.234.187.197:8123/ws/notifications/');
+    return  new WebSocket('ws://103.234.187.197:8123/ws/licence_notifications/');
   }
 // Super Admin Api
 
@@ -79,6 +79,14 @@ export class BridgeService {
       map((res: any) => {
         sessionStorage.setItem('accesstoken', res.token);
         this.getHeader();
+        return res;
+      })
+    );
+  }
+
+  getPaymentAlertSocketvalue() {
+    return this.http.get(`${this.baseUrl2}/push_notifications/check_license_expiry_view`, { 'headers': this.getHeader() }).pipe(
+      map((res: any) => {
         return res;
       })
     );

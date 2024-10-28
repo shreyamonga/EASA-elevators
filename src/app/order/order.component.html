@@ -74,7 +74,6 @@
                 <td>{{item.id}}</td>
                 <td (click)="suplier(item.id)">
                   {{item.CreateDate | customDate}}
-
                 </td>
                 <td (click)="suplier(item.id)">{{item.CardName || 'NA'}}</td>
                 <td (click)="suplier(item.id)">{{item.TaxDate | customDate}} </td>
@@ -257,7 +256,7 @@
       </div>
 
       <div style="margin-top: 5px;position: relative;top: 2px;" *ngIf="AppHistoryData[0].json_fields != ''">
-      
+
         <span *ngFor="let it of AppHistoryData[0].json_fields; let i = index; let last = last">
           {{it.field_name == 'DiscountPercent' ? 'Discount (%) :- '+it.field_new_value : 'Total Amount '+(it.field_new_value | priceFormat)}}
           <span *ngIf="!last">,</span>

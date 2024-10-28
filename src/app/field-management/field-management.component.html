@@ -33,7 +33,7 @@
                           <tr>
                             <th style="width: 100px;">ID</th>
                             <th style="width: 400px;">Module Name</th>
-                            <th style="width: 300px;" class="text-center">Add New</th>
+                            <th style="width: 300px;" class="text-center" *ngIf="AddDynamicFields == 'true'">Add New</th>
                             <th style="width: 100px;" class="text-center">Action</th>
                           </tr>
                         </thead>
@@ -41,7 +41,7 @@
                             <tr [class.MainUserList2]="openId == i" *ngIf="module.is_accessible == true">
                               <td>{{ module.module_id }}</td>
                               <td>{{ module.module_name }}</td>
-                              <td class="text-center"><div class="ActiveBTN rounded-pill badge-primary" style="color:#000;"  (click)="openmaximize(mymodal,false,module,4)"> <i class="fa fa-plus"></i>&nbsp;Add</div></td>
+                              <td class="text-center" *ngIf="AddDynamicFields == 'true'"><div class="ActiveBTN rounded-pill badge-primary" style="color:#000;"  (click)="openmaximize(mymodal,false,module,4)"> <i class="fa fa-plus"></i>&nbsp;Add</div></td>
                               <td class="text-center" style="cursor:pointer" (click)="toggleSubfields(i)">
                                 <i [ngClass]="{'fa-caret-down': openId == i,'fa-caret-right': openId != i}" class="fa fa-caret-right" style="padding: 8px;"></i>
                               </td>

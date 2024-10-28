@@ -129,17 +129,21 @@ export class LoginComponent implements OnInit {
               sessionStorage.setItem('exportStatus', res.data[0]['ProjectSetting'][0].export_status);
               sessionStorage.setItem('UserId', this.empId);
               sessionStorage.setItem('SuperAdminModuleAccess', JSON.stringify(ressession.module_data));
+              sessionStorage.setItem('AddDynamicFields', JSON.stringify(ressession.can_add_dynamic_fields));
               sessionStorage.setItem('Mobile', this.mobile);
               sessionStorage.setItem('role', this.role.toLowerCase());
               sessionStorage.setItem('FirstLogin', 'true');
               sessionStorage.setItem('reportingTo', this.reportingTo);
               sessionStorage.setItem('SalesEmployeeCode', this.SalesEmployeeCode);
+              this.bridgeService.getPaymentAlertSocketvalue().subscribe((gettokken: any) => {
+              })
               // this.bridgeService.logindatapost(res.data[0]);
               // this.route.navigate(['/dashboard']);
               this.bridgeService.getAccessManagementRole(this.roleid).subscribe((accessRes: any) => {
                   // console.log(accessRes.data);
                   res.data[0].AccessManagement = accessRes.data;
-              this.bridgeService.logindatapost(res.data[0],ressession.module_data);
+                  this.bridgeService.logindatapost(res.data[0],ressession.module_data);
+
                   sessionStorage.setItem('savedModules', JSON.stringify(accessRes.data));
                 },
                 (accessError: any) => {

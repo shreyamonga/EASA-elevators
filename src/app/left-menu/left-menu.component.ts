@@ -34,6 +34,8 @@ export class LeftMenuComponent implements OnInit {
   AccessSuperModules: any[] = [];
   SocektMessage: any[] = [];
   showPaymentAlert: boolean = false;
+  PaymentMessage:any = '';
+  headingline:any = '';
   constructor(private route: Router, private router: ActivatedRoute,
     private _NotifierService: NotiferService,
     private modalService: NgbModal, private bridgeService2: BridgeService,
@@ -116,7 +118,19 @@ export class LeftMenuComponent implements OnInit {
     this.Paymentsocket = this.bridgeService2.getPaymentAlertSocket();
 
     this.Paymentsocket.addEventListener('message', (event) => {
-      // this.showPaymentAlert = true;
+      console.log(JSON.parse(event.data).message)
+      if(JSON.parse(event.data).message.logined_client_id == sessionStorage.getItem('client_id')){
+
+        if(JSON.parse(event.data).message.is_logined == 0){
+          this.Logout();
+        }
+        else{
+          this.PaymentMessage = JSON.parse(event.data).message.msg;
+          this.headingline = JSON.parse(event.data).message.heading;
+          this.showPaymentAlert = true;
+        }
+
+      }
     });
 
 

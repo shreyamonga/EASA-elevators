@@ -100,7 +100,7 @@ export class PreviewModalComponent implements OnInit {
       // totalamount += Number(total);
       this.total_after += afterfdis;
       this.total_after_tax += aftersdis;
-      this.tax_Value +=  (aftersdis * (Number(val.Tax) / 100));
+      this.tax_Value +=  (aftersdis * (Number(val.TaxRate) / 100));
       });
       this.total_Amount = Number(this.total_after_tax)+Number(this.tax_Value);
       if(data.FreightCharge != ''){

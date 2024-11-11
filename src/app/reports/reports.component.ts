@@ -46,6 +46,11 @@ export class ReportsComponent implements OnInit {
     maxItem: '10',
     PageShow:10
   }
+  pagination3: any = {
+    PageNo: 1,
+    maxItem: '10',
+    PageShow:10
+  }
   ReportModule:any[] = []
   totalCount:any;
   commonObj : any={exportLoading:false}
@@ -75,7 +80,7 @@ export class ReportsComponent implements OnInit {
   constructor(private modalService: NgbModal,
     private HeadingServices: HeadingServicesService,
     private _NotifierService: NotiferService, private route: Router, public bridgeService2: BridgeService) { }
-  
+
 
   ngOnInit(): void {
     this.bridgeService2.autoCall();
@@ -110,6 +115,25 @@ export class ReportsComponent implements OnInit {
     });
 
     this.getReports();
+    this.getRole();
+  }
+
+  getRole(){
+    this.bridgeService2.getRoleMasterByDepartmentPagination({PageNo: 1,maxItem: 'All'},'','id','asc').subscribe(
+      (data: any) => {
+        this.rolefilter = data.data;
+        for (let i = 0; i < this.rolefilter.length; i++) {
+          if (this.rolefilter[i]['Name'] == 'Admin') {
+            this.rolefilter.splice(i, 1);
+          }
+        }
+
+      },
+      (err) => {
+        console.log(err);
+        this.error = err;
+      }
+    )
   }
 
   toggleNav(event: Event) {
@@ -126,8 +150,8 @@ export class ReportsComponent implements OnInit {
     this.AllReport = false;
     this.isNavVisible = false;
     this.getIndustryList();
-    
-    
+
+
   }
   allReport(){
     this.Table2Show = false;
@@ -136,6 +160,7 @@ export class ReportsComponent implements OnInit {
     this.AllReport = true;
     this.ModuleItemSub = '';
     this.ModuleItem = '';
+    this.searchValue = '';
     this.filteruser.report_category = '';
     this.getIndustryList();
   }
@@ -144,14 +169,58 @@ export class ReportsComponent implements OnInit {
     this.ReportHistoryActive = true;
     this.AllReport = false;
     this.AllReportList = true;
+    this.searchValue = '';
+    this.getReports();
+  }
+
+
+
+  reload3() {
+    this.count = [];
+      $('#selectAll1').prop('checked', false);
+      this.commonObj.tbCheckM_1 = false;
+      this.commonObj.tbCheckM_2 = false;
+      this.getReports();
+  }
+
+  pageChanged3(event:any){
+    this.pagination3.PageNo = event;
+    this.reload3();
+  }
+
+  emptySeach3(){
+    this.searchValue = '';
+    this.RowPerPage3();
+  }
+  RowPerPage3() {
+    this.pagination3.PageNo = 1;
+    this.reload3();
   }
 
   getReports(): void {
     // console.log(item)
-    this.bridgeService2.getReportList().subscribe(
+    this.bridgeService2.getReportList(this.pagination3,this.searchValue,this.order_by_field,this.order_by_value,this.filter_customer).subscribe(
       (response: any) => {
-        this.reportsData = response.data; 
-        console.log("Reports Data: ", this.reportsData); 
+        this.reportsData = response.data;
+
+        // console.log(this.Datas);
+        this.totalCount = response.meta.count;
+        if(this.pagination3.maxItem != 'All'){
+          this.startind = ((this.pagination3.PageNo - 1) * Number(this.pagination3.maxItem)) + 1;
+          this.endind = ((this.pagination3.PageNo - 1) * Number(this.pagination3.maxItem)) + Number(this.pagination3.maxItem);
+          if (this.endind > this.totalCount) {
+            this.endind = this.totalCount;
+          }
+          this.pagination3.PageShow = Number(this.pagination3.maxItem);
+        }
+        else{
+          this.startind = 1;
+          this.endind = this.totalCount;
+          this.pagination3.PageShow = Number(this.totalCount);
+        }
+        if(this.totalCount == 0){
+          this.startind = this.totalCount;
+        }
       },
       (error: any) => {
         console.error('Error fetching report list', error);
@@ -160,7 +229,7 @@ export class ReportsComponent implements OnInit {
 
     this.AllReportList = true;
   }
-  
+
   reload2() {
     this.count = [];
       $('#selectAll1').prop('checked', false);
@@ -173,7 +242,7 @@ export class ReportsComponent implements OnInit {
     this.pagination2.PageNo = event;
     this.reload2();
   }
-  
+
   emptySeach2(){
     this.searchValue = '';
     this.RowPerPage2();
@@ -188,8 +257,9 @@ export class ReportsComponent implements OnInit {
   ExportIt(){
     this.bridgeService2.reportDetails(this.NewITme.id,this.pagination2,this.searchValue,this.filterfield,'1').subscribe(
       (data: any) => {
-        const excelUrl = data.data; 
-          this.downloadExcelFile(excelUrl); 
+        const excelUrl = data.data;
+          this.downloadExcelFile(excelUrl);
+          this.getReports();
       },
       (err) => {
         console.log(err);
@@ -201,9 +271,9 @@ export class ReportsComponent implements OnInit {
   downloadExcelFile(excelUrl: string) {
     const link = document.createElement('a');
     link.href = excelUrl;
-    const fileName = excelUrl.split('/').pop() || 'download.xlsx'; 
+    const fileName = excelUrl.split('/').pop() || 'download.xlsx';
     link.download = fileName;
-  
+
     link.click();
   }
 
@@ -371,8 +441,10 @@ export class ReportsComponent implements OnInit {
   // }
 
   resetfilter() {
-    this.filter_customer =  {CreateDate:'',CardCode:''};
-    this.RowPerPage();
+    this.filter_customer =  {CreateDate__gte:'',CreateDate__lte:''};
+    this.RowPerPage3();
+    // this.RowPerPage();
+    // this.RowPerPage();
 
   }
 
@@ -441,7 +513,7 @@ export class ReportsComponent implements OnInit {
       this.commonObj.tbCheckM_2 = false;
       this.getIndustryList();
   }
-  
+
 
   resetAlerts() {
     this.error = '';
@@ -544,7 +616,7 @@ export class ReportsComponent implements OnInit {
   //       //   this.router.navigate([currentUrl]);
   //       // }, 2000);
   //     }
-    
+
   //     else {
   //       this._NotifierService.showError(Object(res)['message']);
   //     }
@@ -628,6 +700,53 @@ CanelID: any;
         }
       );
 
+  }
+
+
+  // Handle actions like edit, delete, etc.
+  isEditIndex:any = -1;
+  rolefilter:any;
+  SelectedRole:any;
+  Selectedid:any;
+  handleAction(subfield: any,index:any): void {
+    // this.oldsubnamevalu = subfield.label;
+    this.SelectedRole = subfield.role_access.split(',');
+    var xxxx =  this.SelectedRole.indexOf("1");
+
+if (xxxx !== -1) {
+  this.SelectedRole.splice(xxxx, 1);
+}
+    this.Selectedid = subfield.id;
+    // alert(this.oldsubnamevalu);
+    this.isEditIndex = index;
+    // Implement your action logic here (e.g., edit, delete)
+  }
+
+
+  SaveAction(subfield: any,index:any): void {
+    this.SelectedRole.push('1')
+    let roles = this.SelectedRole.join(',')
+    this.bridgeService2.UpdateReportRole({"report_id":this.Selectedid,"role_access":roles}).subscribe(
+      (res: any) => {
+        if (Object(res)['status'] == "200") {
+          this.modalService.dismissAll();
+          this.isEditIndex = -1;
+          this.ngOnInit();
+          // this.RowPerPage();
+        }
+        else {
+          this.isEditIndex = -1;
+          this._NotifierService.showError(Object(res)['message']);
+        }
+      },
+      (err) => {
+        this.isEditIndex = -1;
+        const delim = ":"
+        const name = err.message
+        const result = name.split(delim).slice(3).join(delim)
+        this._NotifierService.showError(result);
+      }
+    );
   }
 
 }

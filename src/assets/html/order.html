@@ -990,7 +990,7 @@
       let access_token = search_params.get('token');
 
         var settings = {
-          "url": "http://103.234.187.197:8095/order/one",
+          "url": "http://103.197.76.50:8019/order/one",
           "method": "POST",
           "timeout": 0,
           "headers": {
@@ -1006,6 +1006,8 @@
 
           $(".CardName").html((response.data[0].CardName));
           $(".OrderId").html((response.data[0].id));
+          $(".PODate").html(changedateformatt(response.data[0].PODate));
+          $(".PONumber").html((response.data[0].PONumber));
           $(".CreateDate").html((changedateformatt(response.data[0].CreateDate)));
           $(".Comments").html((response.data[0].Comments || 'NA'));
           $(".Freight").html(Number(response.data[0].FreightCharge || '0').toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }));

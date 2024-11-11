@@ -205,7 +205,7 @@ export class QuotationEditComponent implements OnInit {
             this.quotation[this.DynamicFiledPositionDetials[i].field_name] = '';
           }
           
-          this.getQuotation();
+        // this.getQuotation();
         }
         else {
           this._NotifierService.showError(Object(res)['message']);

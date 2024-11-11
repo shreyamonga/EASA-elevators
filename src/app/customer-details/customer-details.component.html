@@ -56,11 +56,11 @@
           <div class="figma-detail-properties">
             <div class="figma-detail-proper" *ngFor="let semp of item.SalesPersonCode"><span>{{Headingss[0].heading8}} :</span>
               {{semp.SalesEmployeeName}}</div>
-              <div class="figma-detail-proper"><span>{{Headingss[0].heading11}}</span> {{item?.ZoneDetails?.Name || 'NA'}}</div>  
+              <div class="figma-detail-proper"><span>{{Headingss[0].heading11}}</span> {{item?.ZoneDetails?.Name || 'NA'}}</div>
               <div class="figma-detail-proper" *ngIf="isModulefieldview(3, 'U_PARENTACC')"><span>{{Headingss[0].heading12}}</span> {{item.U_PARENTACC || 'NA'}}</div>
               <div class="figma-detail-proper" *ngIf="isModulefieldview(3, 'U_ANLRVN')"><span>{{Headingss[0].heading6}}</span> {{item.U_ANLRVN || 0 | priceFormat}}</div>
-              <div class="figma-detail-proper" *ngFor="let paytermsgroupcode of item.PayTermsGrpCode"><span>{{Headingss[0].heading10}} :</span>
-                {{paytermsgroupcode.PaymentTermsGroupName || 'NA'}}</div>
+              <div class="figma-detail-proper"><span>{{Headingss[0].heading10}} :</span>
+                {{item.PayTermsGrpCode[0].PaymentTermsGroupName || 'NA'}}</div>
           </div>
 
           <div class="figma-ul-types-container">
@@ -150,12 +150,12 @@
                     <div></div>
                     <div></div>
                     <div></div>
-                    <div class="grey1">{{Headingss[2].SubHeading1}} {{Headingss[2].heading0}} </div>
+                    <div class="grey1"> {{Headingss[2].heading0}} </div>
                     <div>
                       <p class="cstmr-size">{{item.BPAddresses[0].AddressName}}</p>
                     </div>
 
-                    <div class="grey1">{{Headingss[2].SubHeading1}} {{Headingss[2].heading1}}</div>
+                    <div class="grey1"> {{Headingss[2].heading1}}</div>
                     <div>
                       <p class="cstmr-size">{{item.BPAddresses[0].Street}}</p>
                     </div>
@@ -181,16 +181,16 @@
                     <div>
                       <p class="cstmr-size">{{item.BPAddresses[0].U_SHPTYP || 'NA'}}</p>
                     </div>
-                  
+
                     <br/>
                     <br/>
                     <div></div>
                   </ng-container>
-                    <div class="grey1">{{Headingss[2].SubHeading2}} {{Headingss[2].heading0}}</div>
+                    <div class="grey1"> {{Headingss[2].heading0}}</div>
                     <div>
                       <p class="cstmr-size">{{item.BPAddresses[1].AddressName}}</p>
                     </div>
-                    <div class="grey1">{{Headingss[2].SubHeading2}} {{Headingss[2].heading1}} </div>
+                    <div class="grey1"> {{Headingss[2].heading1}} </div>
                     <div>
                       <p class="cstmr-size">{{item.BPAddresses[1].Street}}</p>
                     </div>
@@ -214,7 +214,7 @@
                     <div>
                       <p class="cstmr-size">{{item.BPAddresses[1].U_SHPTYP || 'NA'}}</p>
                     </div>
-                    
+
                   </div>
                 </div>
               </div>

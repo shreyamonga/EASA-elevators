@@ -164,7 +164,7 @@ export class RolemasterComponent implements OnInit {
       }
       getCustomerTypeList(): void {
         this.isLoading2 = true;
-        this.bridgeService2.getRoleMasterPagination(this.pagination,this.searchValue,this.order_by_field,this.order_by_value).subscribe(
+        this.bridgeService2.getRoleMasterPagination(this.pagination,this.searchValue,this.order_by_field,this.order_by_value,'').subscribe(
           (data: any) => {
             this.customertype = data.data;
             this.totalCount = data.meta.count;

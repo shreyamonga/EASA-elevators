@@ -1031,7 +1031,7 @@
       let access_token = search_params.get('token');
 
         var settings = {
-          "url": "http://103.234.187.197:8095/order/one",
+          "url": "http://103.197.76.50:8019/order/one",
           "method": "POST",
           "timeout": 0,
           "headers": {
@@ -1046,7 +1046,7 @@
         $.ajax(settings).done(function (response) {
          var CardCode = response.data[0].CardCode
           var settings2 = {
-          "url": "http://103.234.187.197:8095/businesspartner/one",
+          "url": "http://103.197.76.50:8019/businesspartner/one",
           "method": "POST",
           "timeout": 0,
           "headers": {

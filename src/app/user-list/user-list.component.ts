@@ -334,10 +334,11 @@ export class UserListComponent implements OnInit {
     this.filteruserposition = filterdata[3];
     this.order_by_field = filterdata[4];
     this.order_by_value = filterdata[5];
+    this.filteruserreporting = filterdata[6];
     }
   }
   setNew(){
-    this.bridgeService.setAllFilter('customer',[this.pagination,this.searchValue,this.filterusersrole,this.filteruserposition,this.order_by_field,this.order_by_value]);
+    this.bridgeService.setAllFilter('customer',[this.pagination,this.searchValue,this.filterusersrole,this.filteruserposition,this.order_by_field,this.order_by_value,this.filteruserreporting]);
   }
   getBridge(): void {
     this.isLoading2 = true;

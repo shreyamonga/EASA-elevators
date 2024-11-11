@@ -5,27 +5,36 @@
       <p class="custom-search-head-name">{{Headingss[0].leftheading}}</p>
       <div class="custom-search-wrapper">
         <div ngbDropdown class="custom-common-search-container">
-          <button type="button" class="custom-action-btn openbtn" *ngIf="Table2Show" (click)="open(Greport)"><i class="fa fa-filter openbtn"></i>Filter
+          <button type="button" class="custom-action-btn openbtn" *ngIf="Table2Show && ReportHistoryActive == false" (click)="open(Greport)"><i class="fa fa-filter openbtn"></i>Filter
             Report
           </button>
-          <button type="button" class="custom-action-btn openbtn" *ngIf="!Table2Show" (click)="openNav()"><i class="fa fa-filter openbtn"></i> Filter
+          <!-- <button type="button" class="custom-action-btn openbtn" *ngIf="!Table2Show" (click)="openNav()"><i class="fa fa-filter openbtn"></i> Filter
+          </button> -->
+          <button type="button" class="custom-action-btn openbtn" *ngIf="ReportHistoryActive == true" (click)="openNav()"><i class="fa fa-filter openbtn"></i> Filter
           </button>
           <ng-template #filter>{{Headingss[0].heading109}}</ng-template>
           <div class="custom-search-ico-input-container">
             <!-- <span [innerHTML]="'search-icon' | svgIcons:''" class="custom-search"></span> -->
 
             <input type="text" name="" id="" placeholder="Search" [(ngModel)]="searchValue"
-              (keyup.enter)="RowPerPage()" *ngIf="!Table2Show">
+              (keyup.enter)="RowPerPage()" *ngIf="!Table2Show && ReportHistoryActive == false">
             <span [innerHTML]="'figma-modal-close2' | svgIcons:''" class="new-search-cross" (click)="emptySeach()"
-              *ngIf="searchValue != '' && !Table2Show"></span>
-            <button type="button" class="new-search-btn" (click)="RowPerPage()" *ngIf="!Table2Show"><i
+              *ngIf="searchValue != '' && !Table2Show && ReportHistoryActive == false"></span>
+            <button type="button" class="new-search-btn" (click)="RowPerPage()" *ngIf="!Table2Show && ReportHistoryActive == false"><i
                 class="fa-solid fa-magnifying-glass" ></i></button>
             <input type="text" name="" id="" placeholder="Search" [(ngModel)]="searchValue"
-              (keyup.enter)="RowPerPage2()" *ngIf="Table2Show">
+              (keyup.enter)="RowPerPage2()" *ngIf="Table2Show && ReportHistoryActive == false">
             <span [innerHTML]="'figma-modal-close2' | svgIcons:''" class="new-search-cross" (click)="emptySeach2()"
-              *ngIf="searchValue != '' && Table2Show" ></span>
-            <button type="button" class="new-search-btn" (click)="RowPerPage2()" *ngIf="Table2Show"><i
+              *ngIf="searchValue != '' && Table2Show && ReportHistoryActive == false" ></span>
+            <button type="button" class="new-search-btn" (click)="RowPerPage2()" *ngIf="Table2Show && ReportHistoryActive == false"><i
                 class="fa-solid fa-magnifying-glass" ></i></button>
+
+                <input type="text" name="" id="" placeholder="Search" [(ngModel)]="searchValue"
+                (keyup.enter)="RowPerPage3()" *ngIf="ReportHistoryActive == true">
+              <span [innerHTML]="'figma-modal-close2' | svgIcons:''" class="new-search-cross" (click)="emptySeach3()"
+                *ngIf="searchValue != '' && ReportHistoryActive == true" ></span>
+              <button type="button" class="new-search-btn" (click)="RowPerPage3()" *ngIf="ReportHistoryActive == true"><i
+                  class="fa-solid fa-magnifying-glass" ></i></button>
           </div>
 
         </div>
@@ -83,20 +92,29 @@
                   [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th>
               <th (click)="togglesortType('title')">{{Headingss[0].Extra4}} <span
                   [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th>
-              <!-- <th class="text-center">{{Headingss[0].heading111}}</th> -->
+              <th class="text-center">{{Headingss[0].heading111}}</th>
             </tr>
           </thead>
 
-          <tr class="hover" *ngFor="let item of industry; let i = index ">
+          <tr class="hover" *ngFor="let item of industry; let j = index ">
             <td (click)="goDetail(item)">{{item.title}}</td>
             <td (click)="goDetail(item)" style="width:600px">{{item.description}}</td>
-            <td (click)="goDetail(item)">{{item.UpdateDate || 'NA' | customDate}},<br>{{item.UpdateTime || 'NA' | customDate}}</td>
-            <td (click)="goDetail(item)">{{item.role_access}}</td>
-            <!-- <td>
-              <select class="input-fld">
-                <option>Role</option>
-              </select>
-            </td> -->
+            <td (click)="goDetail(item)">{{item.UpdateDate || 'NA' | customDate}} {{item.UpdateTime | customTime: 'HH:mm' }}</td>
+            <td>
+              <span *ngIf="isEditIndex != j" (click)="goDetail(item)">{{item.role_access_names}}</span>
+              <span *ngIf="isEditIndex == j">
+                <ng-select style="width: 150px;" class="input-fld" placeholder="Select Role" [multiple]="true"  name="SelectedRole" [(ngModel)]="SelectedRole">
+                  <!-- <ng-option>Role</ng-option> -->
+                  <ng-option *ngFor="let role of rolefilter" value="{{role.id}}">{{role.Name}}</ng-option>
+
+                </ng-select>
+              </span>
+            </td>
+
+            <td>
+              <i class="fa fa-pencil" style="color: #4a79e4;font-size: 14px;cursor: pointer;padding: 6px;" (click)="handleAction(item,j)" *ngIf="isEditIndex != j"></i>
+              <i class="fa fa-check" style="color: #67e44a;font-size: 16px;cursor: pointer;padding: 6px;" (click)="SaveAction(item,j)" *ngIf="isEditIndex == j"></i>
+            </td>
             <!-- <td class="text-center" style="padding: 0 15px;">
               <span class="edit-delete edit-delete{{item.id}}" (click)="editdeletepop(item)"
                 [innerHTML]="'table-v-dots' | svgIcons:''" class="table-v-dots"></span>
@@ -201,6 +219,26 @@
         </ngb-pagination>
       </div>
     </div>
+
+
+    <div class="figma-pagination-controls" *ngIf="ReportHistoryActive == true">
+      <div class="figma-pagination-rows-total">
+        <div class="figma-rows-per-page">
+          <div class="figma-rows-per-page-label">Row per page</div>
+          <ng-select class="figma-row-per-page-ng-select"
+            [(ngModel)]="pagination3.maxItem" (change)="RowPerPage3()">
+          <ng-option *ngFor="let lo of ['10','20','50','100',totalCount]; let last = last" value="{{lo}}"> {{ last ? 'All' : lo }}</ng-option>
+          </ng-select>
+          <div class="figma-rows-per-page-total">Total {{startind}}-{{endind}} of {{totalCount}}</div>
+        </div>
+        <ngb-pagination [collectionSize]="totalCount" [pageSize]="pagination3.PageShow"
+          (pageChange)="pageChanged3($event)" [(page)]="pagination3.PageNo" [maxSize]="5" [rotate]="true"
+          [boundaryLinks]="false" class="figma-pagination">
+          <ng-template ngbPaginationPrevious><i class="fa-solid fa-chevron-left"></i> Prev</ng-template>
+          <ng-template ngbPaginationNext>Next <i class="fa-solid fa-chevron-right"></i></ng-template>
+        </ngb-pagination>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -229,7 +267,7 @@
     </div>
     <form name="form">
       <div class="filterForm-container">
-        <!-- <div class="row">
+        <div class="row">
       <div class="col-md-6">
         <label class="MainFilterLabel filtersize">{{'From Date'}}</label>
         <input class="input-fld" type="date" name="CreateDate__gte" [(ngModel)]="filter_customer.CreateDate__gte" [ngModelOptions]="{standalone: true}">
@@ -238,7 +276,7 @@
         <label class="MainFilterLabel filtersize">{{'To Date'}}</label>
         <input class="input-fld" type="date" name="CreateDate__lte" [(ngModel)]="filter_customer.CreateDate__lte" [ngModelOptions]="{standalone: true}">
       </div>
-    </div> -->
+    </div>
       </div>
       <!-- <hr class="TophrLIne"> -->
       <div class="row">
@@ -247,7 +285,7 @@
             <a (click)="resetfilter()">{{Headingss[0].heading114}}</a>
           </div>
           <div class="ApplyBTN">
-            <button (click)="RowPerPage()">{{Headingss[0].heading113}}</button>
+            <button (click)="RowPerPage3()">{{Headingss[0].heading113}}</button>
           </div>
         </div>
       </div>

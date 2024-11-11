@@ -111,6 +111,7 @@ export class LoginComponent implements OnInit {
 
           this.bridgeService.loginFunctionbyToken(this.rememberMe).subscribe((res: any) => {
 
+            if(Object(res)['data'][0].Active == "tYES"){
             if (Object(res)['message'] == "Success" && Object(res)['status'] == 200) {
               this.loginLoder = false;
               this.empName = res.data[0]['firstName']+' '+res.data[0]['lastName'];
@@ -170,6 +171,11 @@ export class LoginComponent implements OnInit {
               this.loginLoder = false;
               this._NotifierService.showError(Object(res)['message']);
             }
+          }
+          else{
+            this.loginLoder = false;
+            this._NotifierService.showError('Inactive User');
+          }
           },
             (err) => {
               this.loginLoder = false;

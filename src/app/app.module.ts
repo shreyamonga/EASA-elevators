@@ -178,6 +178,7 @@ import { GenreatedReportsComponent } from './genreated-reports/genreated-reports
 import { FieldManagementComponent } from './field-management/field-management.component';
 import { WorkflowlistComponent } from './workflowlist/workflowlist.component';
 import { AddEditWorkflowComponent } from './workflowlist/add-edit-workflow/add-edit-workflow.component';
+import { CustomTimePipe } from './custom-time.pipe';
 
 
 // import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
@@ -338,7 +339,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     GenreatedReportsComponent,
     FieldManagementComponent,
     AddEditWorkflowComponent,
-    WorkflowlistComponent
+    WorkflowlistComponent,
+    CustomTimePipe
   ],
   imports: [
     BrowserModule,

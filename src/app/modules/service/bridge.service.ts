@@ -38,8 +38,8 @@ export class BridgeService {
   SalesEmployeeCode = sessionStorage.getItem('SalesEmployeeCode');
   // baseUrl2 = 'http://103.234.187.197:8111';
   // SuperbaseUrl = 'http://103.234.187.197:8084/api';
-  baseUrl2 = 'http://103.234.187.197:8095';
-  SuperbaseUrl = 'http://103.234.187.197:8096/api';
+  baseUrl2 = 'http://103.197.76.50:8018';
+  SuperbaseUrl = 'http://103.197.76.50:8017/api';
   // baseUrl2 = 'http://192.168.29.103:8002';
   // SuperbaseUrl = 'http://192.168.29.103:8000/api';
   // baseUrl2 = 'http://192.168.77.231:8002';
@@ -65,12 +65,17 @@ export class BridgeService {
 
 
   getNotificationSocket(){
-    return  new WebSocket('ws://103.234.187.197:8123/ws/notifications/');
+    return  new WebSocket('ws://103.197.76.50:8019/ws/notifications/');
   }
 
 
   getPaymentAlertSocket(){
-    return  new WebSocket('ws://103.234.187.197:8123/ws/licence_notifications/');
+    return  new WebSocket('ws://103.197.76.50:8019/ws/licence_notifications/');
+  }
+
+
+  getLicenaceExpireSocket(){
+    return  new WebSocket('ws://103.197.76.50:8019/ws/licence_expiry_notifications/');
   }
 // Super Admin Api
 
@@ -415,6 +420,14 @@ storeApplication(customer: any,appEdit:boolean) {
     const params = new HttpParams()
       .set('id', id.toString());
     return this.http.post(`${this.baseUrl2}/mis_reports/delete_report_history`, { id: id }, { 'headers': this.getHeader() }).pipe(
+      map((res: any) => {
+        return res;
+      })
+    );
+  }
+
+  UpdateReportRole(Paylod: any) {
+    return this.http.post(`${this.baseUrl2}/mis_reports/report_access_update`, Paylod, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
         return res;
       })
@@ -2413,7 +2426,9 @@ storeApplication(customer: any,appEdit:boolean) {
   getEmployeeByPagination(pagination: any, searchValue: any, filteruser: any, filteruserposition: any, order_by_field: any, order_by_value: any, filteruserreporting?: any) {
     filteruser = this.checkKeyEpty(filteruser);
     filteruserposition = this.checkKeyEpty(filteruserposition);
+    console.log(filteruserreporting)
     filteruserreporting = this.checkKeyEpty(filteruserreporting);
+    filteruserreporting = filteruserreporting==undefined?undefined:[filteruserreporting]
     return this.http.post(`${this.baseUrl2}/employee/all_filter_page`, {
       "SalesPersonCode": this.SalesEmployeeCode,
       "PageNo": pagination.PageNo,
@@ -2892,14 +2907,16 @@ storeApplication(customer: any,appEdit:boolean) {
     );
   }
 
-  getZoneMasterPagination(pagination: any, searchValue: any, order_by_field: any, order_by_value: any) {
+  getZoneMasterPagination(pagination: any, searchValue: any, order_by_field: any, order_by_value: any,Status?:any) {
+
+    Status = Status == ''?undefined:1;
     return this.http.post(`${this.baseUrl2}/dropdown/zone/all_filter_page`, {
       "PageNo": pagination.PageNo,
       "maxItem": pagination.maxItem,
       "order_by_field": order_by_field,
       "order_by_value": order_by_value,
       "SearchText": searchValue,
-      "field": {}
+      "field": {"Status":Status}
     }, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
         return res;
@@ -2967,14 +2984,16 @@ storeApplication(customer: any,appEdit:boolean) {
     );
   }
 
-  getRoleMasterPagination(pagination: any, searchValue: any, order_by_field: any, order_by_value: any) {
+  getRoleMasterPagination(pagination: any, searchValue: any, order_by_field: any, order_by_value: any,Status?:any) {
+
+    Status = Status == ''?undefined:1;
     return this.http.post(`${this.baseUrl2}/dropdown/roles/all_filter_page`, {
       "PageNo": pagination.PageNo,
       "maxItem": pagination.maxItem,
       "order_by_field": order_by_field,
       "order_by_value": order_by_value,
       "SearchText": searchValue,
-      "field": {}
+      "field": {Status:Status}
     }, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
         return res;
@@ -2982,14 +3001,15 @@ storeApplication(customer: any,appEdit:boolean) {
     );
   }
 
-  getRoleMasterByDepartmentPagination(pagination: any, searchValue: any, order_by_field: any, order_by_value: any) {
+  getRoleMasterByDepartmentPagination(pagination: any, searchValue: any, order_by_field: any, order_by_value: any,Status?:any) {
+    Status = Status == ''?undefined:1;
     return this.http.post(`${this.baseUrl2}/dropdown/roles/all_filter_page`, {
       "PageNo": pagination.PageNo,
       "maxItem": pagination.maxItem,
       "order_by_field": order_by_field,
       "order_by_value": order_by_value,
       "SearchText": searchValue,
-      "field": { "Department__in": [1, 2] }
+      "field": {Status:Status, "Department__in": [1, 2] }
     }, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
         return res;
@@ -3690,15 +3710,38 @@ replaceKeyInArray(arr: any[], oldKey: string, newKey: string): any[] {
   //   );
   // }
 
-  getReportList() {
-    return this.http.get(`${this.baseUrl2}/mis_reports/report_history/?user_id=${this.SalesEmployeeCode}`, { 'headers': this.getHeader() }).pipe(
+  // getReportList() {
+  //   return this.http.get(`${this.baseUrl2}/mis_reports/report_history/?user_id=${this.SalesEmployeeCode}`, { 'headers': this.getHeader() }).pipe(
+  //     map((res: any) => {
+  //       // //console.log(res)
+  //       return res;
+  //     })
+  //   );
+  // }
+
+
+  getReportList(pagination: any, searchValue: any, order_by_field: any, order_by_value: any,filter:any) {
+
+    filter.CreateDate__gte = this.checkKeyEpty(filter.CreateDate__gte);
+    filter.CreateDate__lte = this.checkKeyEpty(filter.CreateDate__lte);
+    return this.http.post(`${this.baseUrl2}/mis_reports/filter_report_history`, {
+      "SalesPersonCode": this.SalesEmployeeCode,
+      "PageNo": pagination.PageNo,
+      "maxItem": pagination.maxItem,
+      "order_by_field": order_by_field,
+      "order_by_value": order_by_value,
+      "search_text": searchValue, "field": {
+        CreateDate__gte: filter.CreateDate__gte,
+        CreateDate__lte: filter.CreateDate__lte
+      }
+    }, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
         // //console.log(res)
         return res;
       })
     );
-  }
 
+  }
 
   OneWorkFlow(id: any) {
     return this.http.post(`${this.baseUrl2}/get_workflow`,{

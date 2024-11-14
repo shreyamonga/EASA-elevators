@@ -195,7 +195,7 @@ export class InvoiceAddComponent implements OnInit {
       this.getQuotationItem();
       this.getCustomerTypeList();
       this.getPaymentTerms();
-      
+
       var today = new Date().toISOString().split('T')[0];
       document.getElementsByName('TaxDate')[0].setAttribute('min', today);
       document.getElementsByName('DocDueDate')[0].setAttribute('min', today);
@@ -770,7 +770,7 @@ export class InvoiceAddComponent implements OnInit {
       this.pagination2.PageNo = 1;
       this.getQuotationItem2(this.CategroyIDD);
     }
-  
+
     pageChanged2(event:any){
       this.pagination2.PageNo = event;
       this.getQuotationItem2(this.CategroyIDD);
@@ -812,12 +812,12 @@ export class InvoiceAddComponent implements OnInit {
           }
         );
       }
-    
+
       RowPerPage() {
         this.pagination.PageNo = 1;
         this.getQuotationItem();
       }
-    
+
       pageChanged(event:any){
         this.pagination.PageNo = event;
         this.getQuotationItem();
@@ -1099,20 +1099,20 @@ export class InvoiceAddComponent implements OnInit {
 
            if(Type != 'Quot'){
           this.BP_Detailsdata = data
-          this.order.AddressExtension.BillToId = String(this.BP_Detailsdata[0].BPAddresses[1].id)
+          this.order.AddressExtension.BillToId = String(this.BP_Detailsdata[0].BPAddresses[0].id)
           this.order.AddressExtension.ShipToId = String(this.BP_Detailsdata[0].BPAddresses[1].id)
           this.order.PaymentGroupCode =  String(this.BP_Detailsdata[0].PayTermsGrpCode[0].GroupNumber)
           this.order.SalesPersonCode = this.BP_Detailsdata[0].SalesPersonCode[0].SalesEmployeeCode;
 
-          this.order.AddressExtension.BillToBuilding = this.BP_Detailsdata[0].BPAddresses[1].AddressName;
-          this.order.AddressExtension.BillToZipCode = this.BP_Detailsdata[0].BPAddresses[1].ZipCode;
-          this.order.AddressExtension.BillToCountry = this.BP_Detailsdata[0].BPAddresses[1].Country;
-          this.order.AddressExtension.U_BCOUNTRY = this.BP_Detailsdata[0].BPAddresses[1].U_COUNTRY;
-          this.order.AddressExtension.BillToState = this.BP_Detailsdata[0].BPAddresses[1].State;
-          this.order.AddressExtension.U_BSTATE = this.BP_Detailsdata[0].BPAddresses[1].U_STATE;
-          this.order.AddressExtension.BillToCity = this.BP_Detailsdata[0].BPAddresses[1].City;
-          this.order.AddressExtension.U_SHPTYPB = this.BP_Detailsdata[0].BPAddresses[1].U_SHPTYP;
-          this.order.AddressExtension.BillToStreet = this.BP_Detailsdata[0].BPAddresses[1].Street;
+          this.order.AddressExtension.BillToBuilding = this.BP_Detailsdata[0].BPAddresses[0].AddressName;
+          this.order.AddressExtension.BillToZipCode = this.BP_Detailsdata[0].BPAddresses[0].ZipCode;
+          this.order.AddressExtension.BillToCountry = this.BP_Detailsdata[0].BPAddresses[0].Country;
+          this.order.AddressExtension.U_BCOUNTRY = this.BP_Detailsdata[0].BPAddresses[0].U_COUNTRY;
+          this.order.AddressExtension.BillToState = this.BP_Detailsdata[0].BPAddresses[0].State;
+          this.order.AddressExtension.U_BSTATE = this.BP_Detailsdata[0].BPAddresses[0].U_STATE;
+          this.order.AddressExtension.BillToCity = this.BP_Detailsdata[0].BPAddresses[0].City;
+          this.order.AddressExtension.U_SHPTYPB = this.BP_Detailsdata[0].BPAddresses[0].U_SHPTYP;
+          this.order.AddressExtension.BillToStreet = this.BP_Detailsdata[0].BPAddresses[0].Street;
 
           this.order.AddressExtension.ShipToBuilding = this.BP_Detailsdata[0].BPAddresses[1].AddressName;
           this.order.AddressExtension.ShipToZipCode = this.BP_Detailsdata[0].BPAddresses[1].ZipCode;
@@ -1230,6 +1230,7 @@ export class InvoiceAddComponent implements OnInit {
           this.order.FreightCharge = 0
         }
 
+        this.order.BaseType = this.Type;
         this.order.QuotationID = this.order.U_QUOTID;
         this.order.DocTotal = this.total_Amount;
         if (this.CountItem == 0) {
@@ -1315,7 +1316,7 @@ export class InvoiceAddComponent implements OnInit {
       this._location.back();
     }
 
-//     isModulefieldview(module_id: number, key: string): boolean {  
+//     isModulefieldview(module_id: number, key: string): boolean {
 //       const selectedModule = this.savedModules?.find((module: any) => module.module_id === module_id);
 //       if (selectedModule) {
 //           const hasViewPermission = selectedModule.data.some((item: any) => item.key === key && item.view);
@@ -1323,14 +1324,14 @@ export class InvoiceAddComponent implements OnInit {
 //       }
 //       return false;
 //   }
-  
-//   isModulefieldedit(module_id: number, key: string): boolean {  
+
+//   isModulefieldedit(module_id: number, key: string): boolean {
 //     // debugger
 //     const selectedModule = this.savedModules?.find((module: any) => module.module_id === module_id);
 //     if (selectedModule) {
 //       // debugger
 //         const hasEditPermission = selectedModule.data.some((item: any) => item.key === key && item.edit);
-//         //  
+//         //
 //  // console.log(key,hasEditPermission)
 //         return hasEditPermission;
 //     }

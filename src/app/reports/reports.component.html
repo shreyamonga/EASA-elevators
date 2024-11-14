@@ -99,7 +99,7 @@
           <tr class="hover" *ngFor="let item of industry; let j = index ">
             <td (click)="goDetail(item)">{{item.title}}</td>
             <td (click)="goDetail(item)" style="width:600px">{{item.description}}</td>
-            <td (click)="goDetail(item)">{{item.UpdateDate || 'NA' | customDate}} {{item.UpdateTime | customTime: 'HH:mm' }}</td>
+            <td (click)="goDetail(item)">{{item.UpdateDate || 'NA' | customDate}} {{item.UpdateTime.substring(0, 5) }}</td>
             <td>
               <span *ngIf="isEditIndex != j" (click)="goDetail(item)">{{item.role_access_names}}</span>
               <span *ngIf="isEditIndex == j">

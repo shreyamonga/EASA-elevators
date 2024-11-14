@@ -242,10 +242,14 @@ export class AddOpportunityComponent implements OnInit {
     this.bridgeService2.getOneLeaddata(idd).subscribe(
       (data: any) => {
         this.isdataLoading = false;
+        if(data.length != 0){
         this.opportunity.U_LEADNM = data[0].companyName;
         this.opportunity.U_LEADID = String(data[0].id);
+        this.opportunity.SalesPersonName = data[0].assignedTo.SalesEmployeeName;
+        this.opportunity.SalesPerson = data[0].assignedTo.SalesEmployeeCode;
         this.opportunity.OpportunityName = data[0].companyName;
         this.opportunity.U_LSOURCE = data[0].source;
+        }
       },
       (err) => {
         this.isdataLoading = false;
@@ -559,7 +563,7 @@ export class AddOpportunityComponent implements OnInit {
       this.pagination2.PageNo = 1;
       this.getQuotationItem2(this.CategroyIDD);
     }
-  
+
     pageChanged2(event:any){
       this.pagination2.PageNo = event;
       this.getQuotationItem2(this.CategroyIDD);
@@ -955,7 +959,7 @@ export class AddOpportunityComponent implements OnInit {
     );
   }
 
-//   isModulefieldview(module_id: number, key: string): boolean {  
+//   isModulefieldview(module_id: number, key: string): boolean {
 //     const selectedModule = this.savedModules?.find((module: any) => module.module_id === module_id);
 //     if (selectedModule) {
 //         const hasViewPermission = selectedModule.data.some((item: any) => item.key === key && item.view);
@@ -964,13 +968,13 @@ export class AddOpportunityComponent implements OnInit {
 //     return false;
 // }
 
-// isModulefieldedit(module_id: number, key: string): boolean {  
+// isModulefieldedit(module_id: number, key: string): boolean {
 //   // debugger
 //   const selectedModule = this.savedModules?.find((module: any) => module.module_id === module_id);
 //   if (selectedModule) {
 //     // debugger
 //       const hasEditPermission = selectedModule.data.some((item: any) => item.key === key && item.edit);
-//       //  
+//       //
 //  // console.log(key,hasEditPermission)
 //       return hasEditPermission;
 //   }

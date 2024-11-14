@@ -6,7 +6,7 @@
   <div class="home-content">
     <div class="TopbarAllComponentDivs">
       <div class="Innerpagename">
-        <span [innerHTML]="'figma-backgarrow-ico' | svgIcons:''" (click)="backClicked()" style="cursor: pointer;"></span><h2>{{quotation.is_draft == 1?Headingss[0].heading101:Headingss[0].heading102}}
+        <span [innerHTML]="'figma-backgarrow-ico' | svgIcons:''" (click)="backClicked()" style="cursor: pointer;"></span><h2>{{quotation.is_draft == 1?Headingss[0].heading101:Headingss[0].heading102}} {{Headingss[0].leftheading}}
           </h2>
     </div>
     <div class="SideBTnAllstyle"></div>
@@ -671,7 +671,7 @@
           <ng-container *ngFor="let item of categorys | inventorysearchfilter: searchValue1">
             <div (click)="getQuotationItem2(item.id)">
               <img *ngIf="item.CategoryImageURL == ''" src="../../assets/img/iner-box1.png" alt="" class="figma-inventory-product-img">
-              <img *ngIf="item.CategoryImageURL != ''" src="{{bridgeService2.baseUrl2}}{{item.CategoryImageURL}}" alt="" class="figma-inventory-product-img">     
+              <img *ngIf="item.CategoryImageURL != ''" src="{{bridgeService2.baseUrl2}}{{item.CategoryImageURL}}" alt="" class="figma-inventory-product-img">
               <p> {{item.CategoryName}}</p>
             </div>
           </ng-container>

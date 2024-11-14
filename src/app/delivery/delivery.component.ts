@@ -41,7 +41,7 @@ export class DeliveryComponent implements OnInit {
 
   defaultordercustomer:any;
   defaultorderstartdate:any;
-  
+
   order_id:any = '';
   baseUrl:any;
   commonObj : any={exportLoading:false,previousItem:'form'}
@@ -512,7 +512,7 @@ export class DeliveryComponent implements OnInit {
 
   getQuotationList(): void {
     this.isLoading2 = true;
-    this.bridgeService2.getOrderByPagination({PageNo: 1,maxItem: 'All',},'',{DocumentStatus:'bost_Open',CancelStatus:'csNo'},'id','desc').subscribe(
+    this.bridgeService2.getOrderByPagination({PageNo: 1,maxItem: 'All',},'',{DocumentStatus:'bost_Open',CancelStatus:'csNo', is_draft: "0"},'id','desc').subscribe(
       (data: any) => {
         this.isLoading2 = false;
         this.quotationsList = data.data;
@@ -898,7 +898,7 @@ bigScreenOrMid() {
     this.exportStatus = status === 'true'; // sessionStorage stores everything as strings
   }
 
-  // Default excel file name when download 
+  // Default excel file name when download
   fileName ="delivery_export.xlsx";
 
   Exportexcel(){
@@ -915,7 +915,7 @@ bigScreenOrMid() {
 
   }
 
-//   isModuleViewadd(module_id: number): boolean {  
+//   isModuleViewadd(module_id: number): boolean {
 //     const selectedModule = this.savedModules?.filter((module: any) => module.module_id === module_id);
 //     if (selectedModule && selectedModule.length > 0 && selectedModule[0].is_add) {
 //       return true;
@@ -923,7 +923,7 @@ bigScreenOrMid() {
 //     return false;
 //   }
 
-//   isModulefieldview(module_id: number, key: string): boolean {  
+//   isModulefieldview(module_id: number, key: string): boolean {
 //     const selectedModule = this.savedModules?.find((module: any) => module.module_id === module_id);
 //     if (selectedModule) {
 //         const hasViewPermission = selectedModule.data.some((item: any) => item.key === key && item.view);
@@ -932,16 +932,16 @@ bigScreenOrMid() {
 //     return false;
 // }
 
-// isModulefieldedit(module_id: number, key: string): boolean {  
+// isModulefieldedit(module_id: number, key: string): boolean {
 //   // debugger
 //   const selectedModule = this.savedModules?.find((module: any) => module.module_id === module_id);
 //   if (selectedModule) {
 //     // debugger
 //       const hasEditPermission = selectedModule.data.some((item: any) => item.key === key && item.edit);
-//       //  
+//       //
 //  // console.log(key,hasEditPermission)
 //       return hasEditPermission;
 //   }
 //   return false;
-// }                
+// }
 }

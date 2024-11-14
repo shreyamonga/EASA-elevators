@@ -852,22 +852,23 @@ showitem() {
         this.BP_Detailsdata = data
         // console.log(data)
         // this.quotation.AddressExtension.BillToId = String(this.BP_Detailsdata[0].BPAddresses[0].id)
-        this.quotation.AddressExtension.BillToId = String(this.BP_Detailsdata[0].BPAddresses[1].id)
-        this.quotation.AddressExtension.ShipToId = String(this.BP_Detailsdata[0].BPAddresses[1].id)
         if(this.BP_Detailsdata[0].PayTermsGrpCode.length != 0){
         this.quotation.PaymentGroupCode =  String(this.BP_Detailsdata[0].PayTermsGrpCode[0].GroupNumber)
         }
         // this.quotation.SalesPersonCode = this.BP_Detailsdata[0].SalesPersonCode;
         if(this.BP_Detailsdata[0].BPAddresses.length != 0){
-        this.quotation.AddressExtension.BillToBuilding = this.BP_Detailsdata[0].BPAddresses[1].AddressName;
-        this.quotation.AddressExtension.BillToZipCode = this.BP_Detailsdata[0].BPAddresses[1].ZipCode;
-        this.quotation.AddressExtension.BillToCountry = this.BP_Detailsdata[0].BPAddresses[1].Country;
-        this.quotation.AddressExtension.U_BCOUNTRY = this.BP_Detailsdata[0].BPAddresses[1].U_COUNTRY;
-        this.quotation.AddressExtension.BillToState = this.BP_Detailsdata[0].BPAddresses[1].State;
-        this.quotation.AddressExtension.U_BSTATE = this.BP_Detailsdata[0].BPAddresses[1].U_STATE;
-        this.quotation.AddressExtension.BillToCity = this.BP_Detailsdata[0].BPAddresses[1].City;
-        this.quotation.AddressExtension.U_SHPTYPB = this.BP_Detailsdata[0].BPAddresses[1].U_SHPTYP;
-        this.quotation.AddressExtension.BillToStreet = this.BP_Detailsdata[0].BPAddresses[1].Street;
+          this.quotation.AddressExtension.BillToId = String(this.BP_Detailsdata[0].BPAddresses[0].id)
+          this.quotation.AddressExtension.ShipToId = String(this.BP_Detailsdata[0].BPAddresses[1].id)
+
+        this.quotation.AddressExtension.BillToBuilding = this.BP_Detailsdata[0].BPAddresses[0].AddressName;
+        this.quotation.AddressExtension.BillToZipCode = this.BP_Detailsdata[0].BPAddresses[0].ZipCode;
+        this.quotation.AddressExtension.BillToCountry = this.BP_Detailsdata[0].BPAddresses[0].Country;
+        this.quotation.AddressExtension.U_BCOUNTRY = this.BP_Detailsdata[0].BPAddresses[0].U_COUNTRY;
+        this.quotation.AddressExtension.BillToState = this.BP_Detailsdata[0].BPAddresses[0].State;
+        this.quotation.AddressExtension.U_BSTATE = this.BP_Detailsdata[0].BPAddresses[0].U_STATE;
+        this.quotation.AddressExtension.BillToCity = this.BP_Detailsdata[0].BPAddresses[0].City;
+        this.quotation.AddressExtension.U_SHPTYPB = this.BP_Detailsdata[0].BPAddresses[0].U_SHPTYP;
+        this.quotation.AddressExtension.BillToStreet = this.BP_Detailsdata[0].BPAddresses[0].Street;
 
         this.quotation.AddressExtension.ShipToBuilding = this.BP_Detailsdata[0].BPAddresses[1].AddressName;
         this.quotation.AddressExtension.ShipToZipCode = this.BP_Detailsdata[0].BPAddresses[1].ZipCode;

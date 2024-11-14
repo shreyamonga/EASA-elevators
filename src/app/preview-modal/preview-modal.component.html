@@ -49,13 +49,12 @@
                   <td colspan="11" style="font-size: 12px;">
 
                     <div class="col-xs-6 col-sm-6">
-                      <span class="col-xs-4 col-sm-4 pedig-left0">Sales Quot No</span><span
-                        class="col-xs-8 col-sm-8">: <span class="OrderId">NA</span></span><br>
-                      <span class="col-xs-4 col-sm-4 pedig-left0">Sales Quot Date</span><span
+                      <span class="col-xs-4 col-sm-4 pedig-left0">Sales Order No</span><span
+                        class="col-xs-8 col-sm-8">: <span class="OrderId">{{childData.id}}</span></span><br>
+                      <span class="col-xs-4 col-sm-4 pedig-left0">Sales Order Date</span><span
                         class="col-xs-8 col-sm-8">: <span class="CreateDate">{{childData.CreateDate | customDate}}</span></span><br>
                       <span class="col-xs-4 col-sm-4 pedig-left0">Employee</span><span class="col-xs-8 col-sm-8">:
                         <span class="SalesEmployeeName">{{SalesEmployeeName}}</span></span><br>
-
                     </div>
                     <div class="col-xs-6 col-sm-6">
                       <span class="col-xs-4 col-sm-4 pedig-left0">PO No.</span><span class="col-xs-8 col-sm-8">:
@@ -63,19 +62,16 @@
                       <span class="col-xs-4 col-sm-4 pedig-left0">PO Date</span><span class="col-xs-8 col-sm-8">:
                         <span class="PODate">{{childData.PODate | customDate}}</span></span><br>
                       <span class="col-xs-4 col-sm-4 pedig-left0">Payment Terms</span><span
-                        class="col-xs-8 col-sm-8">: <span class="PaymentTermsGroupName">{{PaymentTermsGroupName}}</span></span><br>
+                        class="col-xs-8 col-sm-8">: <span class="PaymentTermsGroupName">{{childData.PaymentTermsGroupName}}</span></span><br>
                     </div>
                   </td>
-
-
                 </tr>
 
                 <tr *ngIf="TypeOfPop == 'Quotation'">
                   <td colspan="11" style="font-size: 12px;">
-
                     <div class="col-xs-6 col-sm-6">
                       <span class="col-xs-4 col-sm-4 pedig-left0">Sales Quot No</span><span
-                        class="col-xs-8 col-sm-8">: <span class="OrderId">NA</span></span><br>
+                        class="col-xs-8 col-sm-8">: <span class="OrderId">{{childData.id}}</span></span><br>
                       <span class="col-xs-4 col-sm-4 pedig-left0">Sales Quot Date</span><span
                         class="col-xs-8 col-sm-8">: <span class="CreateDate">{{childData.CreateDate | customDate}}</span></span><br>
 
@@ -91,9 +87,6 @@
 
 
                 </tr>
-
-
-
                 <tr style="    background-color: #c5c5c5;
                                       color: #181818;">
                   <td colspan="3">
@@ -184,7 +177,7 @@
 <tr>
                   <th colspan="4">
                     <span style="font-weight: 800;  font-size: 13px;">Amount In Words : </span>
-                    <div style="font-size: 13px;text-transform: capitalize;">...</div>
+                    <div style="font-size: 13px;text-transform: capitalize;">{{convertNumberToWords(total_Amount)}}</div>
                     <br><br>
                      </th>
                   <td colspan="7" rowspan="1">

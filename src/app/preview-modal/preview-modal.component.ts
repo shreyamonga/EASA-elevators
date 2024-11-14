@@ -58,6 +58,96 @@ export class PreviewModalComponent implements OnInit {
     // console.log(this.childData)
     this.populateData(this.childData)
   }
+
+  convertNumberToWords(amount: number): string {
+
+    const ones = [
+
+        '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'
+
+    ];
+
+    const teens = [
+
+        'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'
+
+    ];
+
+    const tens = [
+
+        '', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'
+
+    ];
+
+    const thousands = [
+
+        '', 'thousand', 'million', 'billion'
+
+    ];
+
+    if (amount === 0) return 'zero';
+
+    function convertChunk(chunk: number): string {
+
+        let words = '';
+
+        if (chunk >= 100) {
+
+            words += ones[Math.floor(chunk / 100)] + ' hundred ';
+
+            chunk %= 100;
+
+        }
+
+        if (chunk >= 10 && chunk < 20) {
+
+            words += teens[chunk - 10] + ' ';
+
+        } else if (chunk >= 20 || chunk === 10) {
+
+            words += tens[Math.floor(chunk / 10)] + ' ';
+
+            chunk %= 10;
+
+        }
+
+        if (chunk > 0 && chunk < 10) {
+
+            words += ones[chunk] + ' ';
+
+        }
+
+        return words.trim();
+
+    }
+
+    let result = '';
+
+    let thousandCounter = 0;
+
+    while (amount > 0) {
+
+        const chunk = amount % 1000;
+
+        if (chunk !== 0) {
+
+            result = convertChunk(chunk) + ' ' + thousands[thousandCounter] + ' ' + result;
+
+        }
+
+        amount = Math.floor(amount / 1000);
+
+        thousandCounter++;
+
+    }
+
+    return result.trim();
+
+}
+
+
+ // Output: "One Thousand Two Hundred Thirty Eight Only"
+
   ourBranchContent:any = '...';
   BPLName:any = "...";
   FederalTaxID:any = "...";
@@ -96,7 +186,7 @@ export class PreviewModalComponent implements OnInit {
         var basic = Number(val.Quantity) * Number(val.UnitPrice);
       var afterfdis = basic - (basic * (Number(val.DiscountPercent) / 100))
       var aftersdis = afterfdis - (afterfdis * (Number(data.DiscountPercent) / 100))
-        var total = aftersdis + (aftersdis * (Number(val.Tax) / 100));
+        var total = aftersdis + (aftersdis * (Number(val.TaxRate) / 100));
       // totalamount += Number(total);
       this.total_after += afterfdis;
       this.total_after_tax += aftersdis;

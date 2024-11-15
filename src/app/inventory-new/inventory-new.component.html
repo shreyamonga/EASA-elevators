@@ -79,7 +79,7 @@
                 <td>{{item.SKU}}</td>
                 <td>{{item.ROP}}</td>
                 <td>{{item.Inventory}}</td>
-                <td>{{item.Discount}}</td>
+                <td>{{item.UnitPrice}}</td>
 
                 <td class="EditBoxForm text-center" style="padding: 0 0px; width: 150px;">
                   <span class="edit-delete edit-delete{{item.id}}" (click)="editdeletepop(item)"
@@ -256,7 +256,7 @@
 
     <div class="figma-form-wrapper">
       <label>Tax (%)</label>
-      <input type="number" class="input-fld required-fld" name="Tax" [(ngModel)]="item.Tax" pattern="^[0-9]*$" #TaxCode="ngModel" placeholder="18" min="0" max="100" required>
+      <input type="number" class="input-fld required-fld" name="Tax" [(ngModel)]="item.Tax" pattern="^[0-9,.]*$" #TaxCode="ngModel" placeholder="18" min="0" max="100" required>
       <span class="help-block danger" *ngIf="TaxCode.errors?.required && TaxCode.touched">
         The Tax is required
       </span>
@@ -270,7 +270,7 @@
 
     <div class="figma-form-wrapper">
       <label>Discount (%)</label>
-      <input type="number" class="input-fld required-fld" name="Discount" [(ngModel)]="item.Discount" pattern="^[0-9]*$" #Discount="ngModel" placeholder="10" min="0" max="100" required>
+      <input type="number" class="input-fld required-fld" name="Discount" [(ngModel)]="item.Discount" pattern="^[0-9,.]*$" #Discount="ngModel" placeholder="10" min="0" max="100" required>
       <span class="help-block danger" *ngIf="Discount.errors?.required && Discount.touched">
         The Discount is required
       </span>

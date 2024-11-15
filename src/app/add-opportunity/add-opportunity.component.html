@@ -361,7 +361,7 @@
 
         </div>
       </div>
-      
+
       <div class="figma-pagination-controls" *ngIf="paginDisplay">
         <div class="figma-pagination-rows-total">
           <div class="figma-rows-per-page">
@@ -446,7 +446,7 @@
           <label>{{Headingss[1].heading2}}</label>
           <div class="newrupe">
             <span class="span9">{{'' | priceFormat:''}}</span>
-          <input type="number" placeholder="Enter {{Headingss[1].heading2}}" class="input-fld required-fld" min="0" name="price" readonly [(ngModel)]="ItemPrice" pattern="^[0-9]*$" #price="ngModel" (change)="ITemDataUpdate($event)">
+          <input type="number" placeholder="Enter {{Headingss[1].heading2}}" class="input-fld required-fld" min="0" name="price" readonly [(ngModel)]="ItemPrice" pattern="^[0-9,.]*$" #price="ngModel" (change)="ITemDataUpdate($event)">
           </div>
           <span class="help-block danger" *ngIf="price.errors?.pattern && price.touched">
             Take Numeric Value Only
@@ -455,7 +455,7 @@
 
         <div class="col-md-12">
           <label>{{Headingss[1].heading6}}</label>
-          <input type="number" placeholder="Enter {{Headingss[1].heading6}}" class="input-fld required-fld" min="1" max="10000000"  name="quantity" [(ngModel)]="ItemQty" pattern="^[0-9]*$" #quantity="ngModel" (change)="ITemDataUpdate($event)">
+          <input type="number" placeholder="Enter {{Headingss[1].heading6}}" class="input-fld required-fld" min="1" max="10000000"  name="quantity" [(ngModel)]="ItemQty" pattern="^[0-9,.]*$" #quantity="ngModel" (change)="ITemDataUpdate($event)">
           <span class="help-block danger" *ngIf="quantity.errors?.pattern && quantity.touched">
             Take Numeric Value Only and {{Headingss[1].heading6}} is 1 to 10000000
           </span>
@@ -464,7 +464,7 @@
 
         <div class="col-md-12">
           <label>{{Headingss[1].heading8}}</label>
-          <input type="number" placeholder="Enter {{Headingss[1].heading8}}" class="input-fld required-fld" min="0" max="100" [(ngModel)]="ItemDis" name="discount" pattern="^[0-9]*$" #discount="ngModel" (change)="ITemDataUpdate($event)">
+          <input type="number" placeholder="Enter {{Headingss[1].heading8}}" class="input-fld required-fld" min="0" max="100" [(ngModel)]="ItemDis" name="discount" pattern="^[0-9,.]*$" #discount="ngModel" (change)="ITemDataUpdate($event)">
         </div>
         <span class="help-block danger" *ngIf="discount.errors?.pattern && discount.touched">
           Take Numeric Value Only
@@ -472,7 +472,7 @@
 
         <div class="col-md-12">
           <label>{{Headingss[1].heading7}}</label>
-          <input type="number" placeholder="Enter {{Headingss[1].heading7}}" class="input-fld required-fld" min="0" max="100" name="tax" [(ngModel)]="Tax" pattern="^[0-9]*$" #tax="ngModel" (change)="ITemDataUpdate($event)">
+          <input type="number" placeholder="Enter {{Headingss[1].heading7}}" class="input-fld required-fld" min="0" max="100" name="tax" [(ngModel)]="Tax" pattern="^[0-9,.]*$" #tax="ngModel" (change)="ITemDataUpdate($event)">
           <span class="help-block danger" *ngIf="tax.errors?.pattern && tax.touched">
             Take Numeric Value Only
           </span>

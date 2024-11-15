@@ -365,12 +365,19 @@ storeApplication(customer: any,appEdit:boolean) {
     );
   }
 
-  loginFunctionbyToken(rememberMe:any) {
+  loginFunctionbyToken(rememberMe:any,data:any) {
     // console.log(this.getHeader())
     return this.http.get(`${this.baseUrl2}/employee/get_user_info`, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
         if (rememberMe) {
           localStorage.setItem('currentUser', this.accessToken);
+          localStorage.setItem('currentUserEmail', data.email);
+          localStorage.setItem('currentUserPassword', data.password);
+        }
+        else{
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('currentUserEmail');
+    localStorage.removeItem('currentUserPassword');
         }
         return res;
       })
@@ -380,6 +387,8 @@ storeApplication(customer: any,appEdit:boolean) {
   logout(): void {
     this.loggedIn = false;
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('currentUserEmail');
+    localStorage.removeItem('currentUserPassword');
     sessionStorage.clear();
     console.clear();
     this.router.navigate(['/login']);

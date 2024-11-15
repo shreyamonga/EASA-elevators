@@ -1137,7 +1137,7 @@
 
           <div class="col-md-12">
             <label>Enter Quantity</label>
-            <input type="number" placeholder="Enter Quantity" class="input-fld required-fld" min="1" max="10000000"  name="quantity" [(ngModel)]="ItemQty" pattern="^[0-9]*$" #quantity="ngModel">
+            <input type="number" placeholder="Enter Quantity" class="input-fld required-fld" min="1" max="10000000"  name="quantity" [(ngModel)]="ItemQty" pattern="^[0-9,.]*$" #quantity="ngModel">
             <span class="help-block danger" *ngIf="quantity.errors?.pattern && quantity.touched">
               Take Numeric Value Only and Quantity is 1 to 10000000
             </span>
@@ -1146,7 +1146,7 @@
 
           <div class="col-md-12">
             <label>Enter Discount (%) on Item</label>
-            <input type="number" placeholder="Enter Discount (%) on Item" class="input-fld required-fld" min="0" max="100" [(ngModel)]="ItemDis" name="discount" pattern="^[0-9]*$" #discount="ngModel" (change)="ITemDataUpdate($event)">
+            <input type="number" placeholder="Enter Discount (%) on Item" class="input-fld required-fld" min="0" max="100" [(ngModel)]="ItemDis" name="discount" pattern="^[0-9,.]*$" #discount="ngModel" (change)="ITemDataUpdate($event)">
           </div>
           <span class="help-block danger" *ngIf="discount.errors?.pattern && discount.touched">
             Take Numeric Value Only

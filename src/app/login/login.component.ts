@@ -41,10 +41,11 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.bridgeService.autoCall();
 
-    var currentUserdat:any =  localStorage.getItem('currentUser')
+    var currentUserdat:any =  localStorage.getItem('currentUserEmail')
     if (currentUserdat) {
-      this.bridgeService.getHeader(currentUserdat)
-      this.autoLogin(true);
+      this.login.email = localStorage.getItem('currentUserEmail');
+      this.login.password = localStorage.getItem('currentUserPassword');
+      this.rememberMe = true;
     }
     // this.getCars();
   }
@@ -53,49 +54,6 @@ export class LoginComponent implements OnInit {
     //   this.verifyEmail.email = '';
     // }
     this.forgotPasswordClicked = pos;
-  }
-
-  autoLogin(rememberMe:boolean){
-    this.bridgeService.loginFunctionbyToken(rememberMe).subscribe((res: any) => {
-
-      if (Object(res)['message'] == "Success" && Object(res)['status'] == 200) {
-        this.loginLoder = false;
-        this.empName = res.data[0]['firstName']+' '+res.data[0]['lastName'];
-        this.empId = res.data[0]['id'];
-        this.mobile = res.data[0]['Mobile'];
-        this.role = res.data[0]['RoleDetails'].Name;
-        this.reportingTo = res.data[0]['reportingTo'];
-
-
-        this.SalesEmployeeCode = res.data[0]['SalesEmployeeCode'];
-        sessionStorage.setItem('Currency', res.data[0]['ProjectSetting'][0].currency_value);
-        sessionStorage.setItem('ProjectSetting', JSON.stringify(res.data[0]['ProjectSetting']));
-        sessionStorage.setItem('UserName', this.empName);
-        sessionStorage.setItem('client_id', res.data[0]['client_id']);
-        sessionStorage.setItem('UserId', this.empId);
-        sessionStorage.setItem('Mobile', this.mobile);
-        sessionStorage.setItem('role', this.role.toLowerCase());
-        sessionStorage.setItem('reportingTo', this.reportingTo);
-        sessionStorage.setItem('currencySymbol', res.data[0]['ProjectSetting'][0].currency_value);
-        sessionStorage.setItem('currencyCode', res.data[0]['ProjectSetting'][0].currency_type);
-        sessionStorage.setItem('exportStatus', res.data[0]['ProjectSetting'][0].export_status);
-        sessionStorage.setItem('SalesEmployeeCode', this.SalesEmployeeCode);
-
-
-      }
-      else {
-        this.loginLoder = false;
-        this._NotifierService.showError(Object(res)['message']);
-      }
-    },
-      (err) => {
-        this.loginLoder = false;
-        const delim = ":"
-        const name = err.message
-        const result = name.split(delim).slice(3).join(delim)
-        this._NotifierService.showError(result);
-      }
-    );
   }
   loginLoder:boolean = false;
   addLogin(f: NgForm) {
@@ -109,7 +67,7 @@ export class LoginComponent implements OnInit {
       (ressession: any) => {
         if (ressession.status == 200) {
 
-          this.bridgeService.loginFunctionbyToken(this.rememberMe).subscribe((res: any) => {
+          this.bridgeService.loginFunctionbyToken(this.rememberMe,this.login).subscribe((res: any) => {
 
             if (Object(res)['message'] == "Success" && Object(res)['status'] == 200) {
               if(Object(res)['data'][0].Active == "tYES"){

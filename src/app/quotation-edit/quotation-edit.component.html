@@ -23,7 +23,7 @@
                   <div>
                     <input type="text" required class="input-fld required-fld" name="U_QUOTNM" #U_QUOTNM=ngModel
                       [(ngModel)]="quotation.U_QUOTNM" placeholder="Enter {{Headingss[0].heading2}}">
-                    <span class="help-block danger" *ngIf="U_QUOTNM.errors?.required && U_QUOTNM.touched">
+                    <span class="help-block danger" *ngIf="U_QUOTNM.errors?.required">
                       The {{Headingss[0].heading2}} is required
                     </span>
                   </div>
@@ -45,7 +45,7 @@
                     </ng-select>
                     <ng-container *ngIf="HeadingServices.isModulefieldMendetory(5, 'U_OPPRNM')">
                       <span class="help-block danger"
-                        *ngIf="(U_OPPID.errors?.required && f.submitted)||(U_OPPID.errors?.required && U_OPPID.touched)">
+                        *ngIf="(U_OPPID.errors?.required && f.submitted)||(U_OPPID.errors?.required)">
                         The {{Headingss[0].heading1}} is required
                       </span>
                     </ng-container>
@@ -120,7 +120,7 @@
                       <ng-option *ngFor="let item of bridgess"
                         value="{{item.SalesEmployeeCode}}">{{item.firstName}}</ng-option>
                     </ng-select>
-                    <span class="help-block danger" *ngIf="(SalesPersonCode.errors?.required && f.submitted)||(SalesPersonCode.errors?.required && SalesPersonCode.touched)">
+                    <span class="help-block danger" *ngIf="(SalesPersonCode.errors?.required && f.submitted)||(SalesPersonCode.errors?.required)">
                       {{Headingss[0].heading6}} is required
                     </span>
                   </div>
@@ -129,9 +129,9 @@
                 <div class="lead-update-wrapper">
                   <label>{{Headingss[0].heading5}}</label>
                   <div>
-                    <input type="date" [min]="this.HeadingServices.getDateTime()" class="input-fld required-fld" name="TaxDate" #TaxDate="ngModel"
+                    <input type="date" [min]="this.HeadingServices.getDate()" class="input-fld required-fld" name="TaxDate" #TaxDate="ngModel"
                       [(ngModel)]="quotation.TaxDate" required placeholder="{{Headingss[0].heading5}}">
-                    <span class="help-block danger" *ngIf="TaxDate.errors?.required && TaxDate.touched">
+                    <span class="help-block danger" *ngIf="TaxDate.errors?.required">
                       {{Headingss[0].heading5}} is required
                     </span>
                   </div>
@@ -140,9 +140,9 @@
                 <div class="lead-update-wrapper">
                   <label>{{Headingss[0].heading50}}</label>
                   <div>
-                    <input type="date" [min]="this.HeadingServices.getDateTime()" class="input-fld required-fld" name="DocDueDate"
+                    <input type="date" [min]="this.HeadingServices.getDate()" class="input-fld required-fld" name="DocDueDate"
                       #DocDueDate="ngModel" [(ngModel)]="quotation.DocDueDate" required placeholder="{{Headingss[0].heading50}}">
-                    <span class="help-block danger" *ngIf="DocDueDate.errors?.required && DocDueDate.touched">
+                    <span class="help-block danger" *ngIf="DocDueDate.errors?.required">
                       {{Headingss[0].heading50}} is required
                     </span>
                   </div>
@@ -151,9 +151,9 @@
                 <div class="lead-update-wrapper">
                   <label>{{Headingss[0].heading51}}</label>
                   <div>
-                    <input type="date" [min]="this.HeadingServices.getDateTime()" class="input-fld required-fld" name="DocDate" #DocDate="ngModel"
+                    <input type="date" [min]="this.HeadingServices.getDate()" class="input-fld required-fld" name="DocDate" #DocDate="ngModel"
                       [(ngModel)]="quotation.DocDate" required placeholder="{{Headingss[0].heading51}}">
-                    <span class="help-block danger" *ngIf="DocDate.errors?.required && DocDate.touched">
+                    <span class="help-block danger" *ngIf="DocDate.errors?.required">
                       {{Headingss[0].heading51}} is required
                     </span>
                   </div>
@@ -175,7 +175,7 @@
                     </ng-select>
 
                     <span class="help-block danger"
-                      *ngIf="(BPLID.errors?.required && f.submitted)||(BPLID.errors?.required && BPLID.touched)">
+                      *ngIf="(BPLID.errors?.required && f.submitted)||(BPLID.errors?.required)">
                       {{Headingss[0].heading7}} is required
                     </span>
                   </div>
@@ -196,7 +196,7 @@
                     </ng-select>
 
                     <span class="help-block danger"
-                      *ngIf="(PayTermsGrpCode.errors?.required && f.submitted)||(PayTermsGrpCode.errors?.required && PayTermsGrpCode.touched)">
+                      *ngIf="(PayTermsGrpCode.errors?.required && f.submitted)||(PayTermsGrpCode.errors?.required)">
                       {{Headingss[0].heading8}} is required
                     </span>
                   </div>
@@ -207,12 +207,12 @@
                     <textarea class="input-fld" [class.required-fld]="HeadingServices.isModulefieldMendetory(5, 'Comments')" name="Comments" [(ngModel)]="quotation.Comments"
                       placeholder="Enter {{Headingss[0].heading10}}" #Comments="ngModel"
                       [class.disable-fld]="!HeadingServices.isModulefieldedit(5, 'Comments')" [disabled]="!HeadingServices.isModulefieldedit(5, 'Comments')" [required]="HeadingServices.isModulefieldMendetory(5, 'Comments')"></textarea>
-                    <span class="help-block danger" *ngIf="Comments.errors?.required && Comments.touched">
+                    <!-- <span class="help-block danger" *ngIf="Comments.errors?.required">
                       The Description is required
-                    </span>
+                    </span> -->
                     <ng-container *ngIf="HeadingServices.isModulefieldMendetory(5, 'Comments')">
                       <span class="help-block danger"
-                        *ngIf="(Comments.errors?.required && f.submitted)||(Comments.errors?.required && Comments.touched)">
+                        *ngIf="(Comments.errors?.required && f.submitted)||(Comments.errors?.required)">
                         The {{Headingss[1].heading10}} is required
                       </span>
                     </ng-container>
@@ -253,7 +253,7 @@
                         </select>
                       <ng-container *ngIf="HeadingServices.isModulefieldMendetory(5, item.field_name)">
                         <span class="help-block danger"
-                          *ngIf="HeadingServices.isModulefieldMendetory(5, item.field_name) && ((fieldControl.errors?.['required'] && f.submitted) || (fieldControl.errors?.['required'] && fieldControl.touched))">
+                          *ngIf="HeadingServices.isModulefieldMendetory(5, item.field_name) && ((fieldControl.errors?.['required'] && f.submitted) || (fieldControl.errors?.['required']))">
                           The {{ HeadingServices.isfindlablebykey(5, item.field_name) }} is required
                         </span>
                       </ng-container>
@@ -286,12 +286,12 @@
                     <input type="number" min="0" max="100" class="input-fld" [class.required-fld]="HeadingServices.isModulefieldMendetory(5, 'DiscountPercent')" name="DiscountPercent"
                     [(ngModel)]="quotation.DiscountPercent" #DiscountPercent="ngModel" placeholder="Enter {{Headingss[0].heading12}}" (change)="changeCal()"
                     [class.disable-fld]="!HeadingServices.isModulefieldedit(5, 'DiscountPercent')" [disabled]="!HeadingServices.isModulefieldedit(5, 'DiscountPercent')" [required]="HeadingServices.isModulefieldMendetory(5, 'DiscountPercent')">
-                    <span class="help-block danger" *ngIf="DiscountPercent.errors?.max || DiscountPercent.errors?.min && DiscountPercent.touched">
+                    <span class="help-block danger" *ngIf="DiscountPercent.errors?.max || DiscountPercent.errors?.min">
                       Take Numeric Value Only and Value between 1 to 100
                     </span>
                     <ng-container *ngIf="HeadingServices.isModulefieldMendetory(5, 'DiscountPercent')">
                       <span class="help-block danger"
-                        *ngIf="(DiscountPercent.errors?.required && f.submitted)||(DiscountPercent.errors?.required && DiscountPercent.touched)">
+                        *ngIf="(DiscountPercent.errors?.required && f.submitted)||(DiscountPercent.errors?.required)">
                         The {{Headingss[0].heading12}} is required
                       </span>
                     </ng-container>
@@ -305,12 +305,12 @@
                     <input type="number" min="0" class="input-fld" name="FreightCharge" [class.required-fld]="HeadingServices.isModulefieldMendetory(5, 'FreightCharge')"
                       [(ngModel)]="quotation.FreightCharge" #FreightCharge="ngModel" placeholder="Enter {{Headingss[0].heading9}}" (change)="changeCal()"
                       [class.disable-fld]="!HeadingServices.isModulefieldedit(5, 'FreightCharge')" [disabled]="!HeadingServices.isModulefieldedit(5, 'FreightCharge')" [required]="HeadingServices.isModulefieldMendetory(5, 'FreightCharge')">
-                      <span class="help-block danger" *ngIf="FreightCharge.errors?.min && FreightCharge.touched">
+                      <span class="help-block danger" *ngIf="FreightCharge.errors?.min">
                         Take Numeric Value Only
                       </span>
                       <ng-container *ngIf="HeadingServices.isModulefieldMendetory(5, 'FreightCharge')">
                         <span class="help-block danger"
-                          *ngIf="(FreightCharge.errors?.required && f.submitted)||(FreightCharge.errors?.required && FreightCharge.touched)">
+                          *ngIf="(FreightCharge.errors?.required && f.submitted)||(FreightCharge.errors?.required)">
                           The {{Headingss[0].heading9}} is required
                         </span>
                       </ng-container>
@@ -331,7 +331,7 @@
                       <ng-option value="" disable selected>Select {{Headingss[1].heading1}}</ng-option>
                       <ng-option *ngFor="let item of branchs" value="{{item.id}}">{{item.AddressName}}</ng-option>
                     </ng-select>
-                    <span class="help-block danger" *ngIf="(BillToId.errors?.required && f.submitted)||(BillToId.errors?.required && BillToId.touched)">
+                    <span class="help-block danger" *ngIf="(BillToId.errors?.required && f.submitted)||(BillToId.errors?.required)">
                       {{Headingss[1].heading1}} is required
                     </span>
                   </div>
@@ -342,7 +342,7 @@
                     <input type="text" class="input-fld required-fld" name="BillToBuilding"
                       [(ngModel)]="quotation.AddressExtension.BillToBuilding" placeholder="Enter {{Headingss[1].heading0}}" required
                       #BillToBuilding="ngModel">
-                    <span class="help-block danger" *ngIf="BillToBuilding.errors?.required && BillToBuilding.touched">
+                    <span class="help-block danger" *ngIf="BillToBuilding.errors?.required">
                       The {{Headingss[1].heading0}} is required
                     </span>
                   </div>
@@ -354,7 +354,7 @@
                     <input type="text" class="input-fld required-fld" name="BillToZipCode"
                       [(ngModel)]="quotation.AddressExtension.BillToZipCode" placeholder="Enter {{Headingss[1].heading5}}" required
                       pattern="^[0-9]*$" #BillToZipCode="ngModel">
-                    <span class="help-block danger" *ngIf="BillToZipCode.errors?.required && BillToZipCode.touched">
+                    <span class="help-block danger" *ngIf="BillToZipCode.errors?.required">
                       {{Headingss[1].heading5}} is required
                     </span>
                     <span class="help-block danger" *ngIf="BillToZipCode.errors?.pattern">
@@ -382,7 +382,7 @@
                       required>
                       <option *ngFor="let item of countrys" [value]="item.Code">{{item.Name}}</option>
                     </select> -->
-                    <span class="help-block danger" *ngIf="(BillToCountry.errors?.required && f.submitted)||(BillToCountry.errors?.required && BillToCountry.touched)">
+                    <span class="help-block danger" *ngIf="(BillToCountry.errors?.required && f.submitted)||(BillToCountry.errors?.required)">
                       {{Headingss[1].heading4}} is required
                     </span>
                   </div>
@@ -408,7 +408,7 @@
                       <option value="" disable selected>Select State</option>
                       <option *ngFor="let item of statess2" value="{{item.Code}}">{{item.Name}}</option>
                     </select> -->
-                    <span class="help-block danger" *ngIf="(BillToState.errors?.required && f.submitted)||(BillToState.errors?.required && BillToState.touched)">
+                    <span class="help-block danger" *ngIf="(BillToState.errors?.required && f.submitted)||(BillToState.errors?.required)">
                       {{Headingss[1].heading3}}  is required
                     </span>
                   </div>
@@ -420,7 +420,7 @@
                     <input type="text" class="input-fld required-fld" maxlength="1000" name="BillToCity"
                       [(ngModel)]="quotation.AddressExtension.BillToCity" placeholder="Enter {{Headingss[1].heading2}}" required
                       #BillToCity="ngModel">
-                    <span class="help-block danger" *ngIf="BillToCity.errors?.required && BillToCity.touched">
+                    <span class="help-block danger" *ngIf="BillToCity.errors?.required">
                       {{Headingss[1].heading2}} is required
                     </span>
                   </div>
@@ -451,7 +451,7 @@
                     </span> -->
                     <ng-container *ngIf="HeadingServices.isModulefieldMendetory(5, 'U_SHPTYPB')">
                       <span class="help-block danger"
-                        *ngIf="(U_SHPTYPB.errors?.required && f.submitted)||(U_SHPTYPB.errors?.required && U_SHPTYPB.touched)">
+                        *ngIf="(U_SHPTYPB.errors?.required && f.submitted)||(U_SHPTYPB.errors?.required)">
                         The {{Headingss[1].heading6}} is required
                       </span>
                     </ng-container>
@@ -488,7 +488,7 @@
             <ng-option value="" disable selected>Select {{Headingss[1].SubHeading2}}</ng-option>
             <ng-option *ngFor="let item of branchs" value="{{item.id}}">{{item.AddressName}}</ng-option>
           </ng-select>
-          <span class="help-block danger" *ngIf="(ShipToId.errors?.required && f.submitted)||(ShipToId.errors?.required && ShipToId.touched)">
+          <span class="help-block danger" *ngIf="(ShipToId.errors?.required && f.submitted)||(ShipToId.errors?.required)">
             {{Headingss[1].SubHeading2}} is required
           </span>
         </div>
@@ -499,7 +499,7 @@
                     <input type="text" class="input-fld required-fld" name="ShipToBuilding"
                       [(ngModel)]="quotation.AddressExtension.ShipToBuilding" placeholder="Enter {{Headingss[1].heading7}}"
                       #ShipToBuilding="ngModel" required>
-                    <span class="help-block danger" *ngIf="ShipToBuilding.errors?.required && ShipToBuilding.touched">
+                    <span class="help-block danger" *ngIf="ShipToBuilding.errors?.required">
                       The {{Headingss[1].heading7}} is required
                     </span>
                   </div>
@@ -511,7 +511,7 @@
                     <input type="text" class="input-fld required-fld" name="ShipToZipCode"
                       [(ngModel)]="quotation.AddressExtension.ShipToZipCode" placeholder="Enter {{Headingss[1].heading8}}" required
                       pattern="^[0-9]*$" #ShipToZipCode="ngModel">
-                    <span class="help-block danger" *ngIf="ShipToZipCode.errors?.required && ShipToZipCode.touched">
+                    <span class="help-block danger" *ngIf="ShipToZipCode.errors?.required">
                       {{Headingss[1].heading8}} is required
                     </span>
                     <span class="help-block danger" *ngIf="ShipToZipCode.errors?.pattern">
@@ -538,7 +538,7 @@
 
                       <option *ngFor="let item of countrys" value="{{item.Code}}">{{item.Name}}</option>
                     </select> -->
-                    <span class="help-block danger" *ngIf="(ShipToCountry.errors?.required && f.submitted)||(ShipToCountry.errors?.required && ShipToCountry.touched)">
+                    <span class="help-block danger" *ngIf="(ShipToCountry.errors?.required && f.submitted)||(ShipToCountry.errors?.required)">
                       {{Headingss[1].heading9}} is required
                     </span>
                   </div>
@@ -563,7 +563,7 @@
                       <option value="" disable selected>Select State</option>
                       <option *ngFor="let item of statess" value="{{item.Code}}">{{item.Name}}</option>
                     </select> -->
-                    <span class="help-block danger" *ngIf="(ShipToState.errors?.required && f.submitted)||(ShipToState.errors?.required && ShipToState.touched)">
+                    <span class="help-block danger" *ngIf="(ShipToState.errors?.required && f.submitted)||(ShipToState.errors?.required)">
                       {{Headingss[1].heading10}} is required
                     </span>
                   </div>
@@ -575,7 +575,7 @@
                     <input type="text" class="input-fld required-fld" name="ShipToCity"
                       [(ngModel)]="quotation.AddressExtension.ShipToCity" maxlength="1000" placeholder="Enter {{Headingss[1].heading11}}" required
                       #ShipToCity="ngModel">
-                    <span class="help-block danger" *ngIf="ShipToCity.errors?.required && ShipToCity.touched">
+                    <span class="help-block danger" *ngIf="ShipToCity.errors?.required">
                       {{Headingss[1].heading11}} is required
                     </span>
                   </div>
@@ -607,7 +607,7 @@
                     </span> -->
                     <ng-container *ngIf="HeadingServices.isModulefieldMendetory(5, 'U_SHPTYPS')">
                       <span class="help-block danger"
-                        *ngIf="(U_SHPTYPS.errors?.required && f.submitted)||(U_SHPTYPS.errors?.required && U_SHPTYPS.touched)">
+                        *ngIf="(U_SHPTYPS.errors?.required && f.submitted)||(U_SHPTYPS.errors?.required)">
                         The {{Headingss[1].heading13}} is required
                       </span>
                     </ng-container>
@@ -619,7 +619,7 @@
                   <div>
                     <textarea class="input-fld required-fld" placeholder="Enter {{Headingss[1].SubHeading22}}" maxlength="1000" name="ShipToStreet"
                       [(ngModel)]="quotation.AddressExtension.ShipToStreet" #ShipToStreet="ngModel" required></textarea>
-                    <span class="help-block danger" *ngIf="ShipToStreet.errors?.required && ShipToStreet.touched">
+                    <span class="help-block danger" *ngIf="ShipToStreet.errors?.required">
                       The {{Headingss[1].SubHeading22}} is required
                     </span>
                   </div>
@@ -631,7 +631,7 @@
               <div class="col-md-12 text-center" *ngIf="!isLoading">
                 <span class="add-invent me-3" style="padding: 6px 15px;cursor:pointer" (click)="openPrviewLg(content)">Preview</span>
                 <button class="add-invent drafbtn" (click)="updateQuotation(f,'draft')" *ngIf="quotation.is_draft == 1">{{'Save as Draft'}}</button>
-                <button class="add-invent" [disabled]="f.invalid" (click)="updateQuotation(f,'order')">{{Headingss[0].heading105}}</button>
+                <button class="add-invent" (click)="updateQuotation(f,'order')">{{Headingss[0].heading105}}</button>
               </div>
             </form>
 
@@ -856,31 +856,40 @@
 
         <div class="col-md-12">
           <label>{{Headingss[2].heading6}}</label>
-          <input type="number" placeholder="Enter {{Headingss[2].heading6}}" class="input-fld required-fld" min="1" max="10000000"  name="quantity" [(ngModel)]="ItemQty" pattern="^[0-9,.]*$" #quantity="ngModel" (change)="ITemDataUpdate($event)">
+          <input type="number" placeholder="Enter {{Headingss[2].heading6}}" class="input-fld required-fld" min="1" max="10000000"  name="quantity" [(ngModel)]="ItemQty" pattern="^[0-9,.]*$" #quantity="ngModel" (change)="ITemDataUpdate($event)" required>
           <span class="help-block danger" *ngIf="quantity.errors?.pattern && quantity.touched">
             Take Numeric Value Only and {{Headingss[2].heading6}} is 1 to 10000000
+          </span>
+          <span class="help-block danger" *ngIf="(quantity.errors?.required && f.submitted)||(quantity.errors?.required)">
+            The {{Headingss[2].heading6}} is required
           </span>
         </div>
 
 
         <div class="col-md-12">
           <label>{{Headingss[2].heading8}}</label>
-          <input type="number" placeholder="Enter {{Headingss[2].heading8}}" class="input-fld required-fld" min="0" max="100" [(ngModel)]="ItemDis" name="discount" pattern="^[0-9,.]*$" #discount="ngModel" (change)="ITemDataUpdate($event)">
+          <input type="number" placeholder="Enter {{Headingss[2].heading8}}" class="input-fld required-fld" min="0" max="100" [(ngModel)]="ItemDis" name="discount" pattern="^[0-9,.]*$" #discount="ngModel" (change)="ITemDataUpdate($event)" required>
         </div>
+        <span class="help-block danger" *ngIf="(discount.errors?.required && f.submitted)||(discount.errors?.required)">
+          The {{Headingss[2].heading8}} is required
+        </span>
         <span class="help-block danger" *ngIf="discount.errors?.pattern && discount.touched">
           Take Numeric Value Only
         </span>
 
         <div class="col-md-12">
           <label>{{Headingss[2].heading7}}</label>
-          <input type="number" placeholder="Enter {{Headingss[2].heading7}}" class="input-fld required-fld" min="0" max="100" name="tax" [(ngModel)]="TaxRate" pattern="^[0-9,.]*$" #tax="ngModel" (change)="ITemDataUpdate($event)">
+          <input type="number" placeholder="Enter {{Headingss[2].heading7}}" class="input-fld required-fld" min="0" max="100" name="tax" [(ngModel)]="TaxRate" pattern="^[0-9,.]*$" #tax="ngModel" (change)="ITemDataUpdate($event)" required>
           <span class="help-block danger" *ngIf="tax.errors?.pattern && tax.touched">
             Take Numeric Value Only
+          </span>
+          <span class="help-block danger" *ngIf="(tax.errors?.required && f.submitted)||(tax.errors?.required)">
+            The {{Headingss[2].heading7}} is required
           </span>
         </div>
 
         <div class="col-md-12 text-center my-3">
-          <button class="add-invent1" [disabled]="f.invalid">Save</button>
+          <button class="add-invent1" >Save</button>
         </div>
 
         </div>

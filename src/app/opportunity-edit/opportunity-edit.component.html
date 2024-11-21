@@ -484,31 +484,40 @@
 
         <div class="col-md-12">
           <label>{{Headingss[1].heading6}}</label>
-          <input type="number" placeholder="Enter {{Headingss[1].heading6}}" class="input-fld required-fld" min="1" max="10000000"  name="quantity" [(ngModel)]="ItemQty" pattern="^[0-9,.]*$" #quantity="ngModel" (change)="ITemDataUpdate($event)">
-          <span class="help-block danger" *ngIf="quantity.errors?.pattern && quantity.touched">
+          <input type="number" placeholder="Enter {{Headingss[1].heading6}}" class="input-fld required-fld" min="1" max="10000000"  name="quantity" [(ngModel)]="ItemQty" pattern="^[0-9,.]*$" #quantity="ngModel" (change)="ITemDataUpdate($event)" required>
+          <span class="help-block danger" *ngIf="quantity.errors?.pattern">
             Take Numeric Value Only and {{Headingss[1].heading6}} is 1 to 10000000
+          </span>
+          <span class="help-block danger" *ngIf="(quantity.errors?.required && f.submitted)||(quantity.errors?.required)">
+            The {{Headingss[1].heading6}} is required
           </span>
         </div>
 
 
         <div class="col-md-12">
           <label>{{Headingss[1].heading8}}</label>
-          <input type="number" placeholder="Enter {{Headingss[1].heading8}}" class="input-fld required-fld" min="0" max="100" [(ngModel)]="ItemDis" name="discount" pattern="^[0-9,.]*$" #discount="ngModel" (change)="ITemDataUpdate($event)">
+          <input type="number" placeholder="Enter {{Headingss[1].heading8}}" class="input-fld required-fld" min="0" max="100" [(ngModel)]="ItemDis" name="discount" pattern="^[0-9,.]*$" #discount="ngModel" (change)="ITemDataUpdate($event)" required>
         </div>
         <span class="help-block danger" *ngIf="discount.errors?.pattern && discount.touched">
           Take Numeric Value Only
         </span>
+        <span class="help-block danger" *ngIf="(discount.errors?.required && f.submitted)||(discount.errors?.required)">
+          The {{Headingss[1].heading8}} is required
+        </span>
 
         <div class="col-md-12">
           <label>{{Headingss[1].heading7}}</label>
-          <input type="number" placeholder="Enter {{Headingss[1].heading7}}" class="input-fld required-fld" min="0" max="100" name="tax" [(ngModel)]="Tax" pattern="^[0-9]*$" #tax="ngModel" (change)="ITemDataUpdate($event)">
+          <input type="number" placeholder="Enter {{Headingss[1].heading7}}" class="input-fld required-fld" min="0" max="100" name="tax" [(ngModel)]="Tax" pattern="^[0-9]*$" #tax="ngModel" (change)="ITemDataUpdate($event)" required>
           <span class="help-block danger" *ngIf="tax.errors?.pattern && tax.touched">
             Take Numeric Value Only
+          </span>
+          <span class="help-block danger" *ngIf="(tax.errors?.required && f.submitted)||(tax.errors?.required)">
+            The {{Headingss[1].heading7}} is required
           </span>
         </div>
 
         <div class="col-md-12 text-center my-3">
-          <button class="add-invent1" [disabled]="f.invalid">{{Headingss[0].heading105}}</button>
+          <button class="add-invent1" >{{Headingss[0].heading105}}</button>
         </div>
 
       </div>

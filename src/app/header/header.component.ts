@@ -195,16 +195,16 @@ for (let i = 0; i < this.appList.length; i++) {
                   window.open('/#/dashboard', '_blank');
                 }
                 else if(type == '1'){
-                  window.open('http://superadmin.bridgexd.com/assets/html/omini.html', '_blank');
+                  window.open('http://103.197.76.50:4217/assets/html/omini.html', '_blank');
                 }
                 else if(type == '4'){
-                  window.open('http://superadmin.bridgexd.com/assets/html/nexus.html', '_blank');
+                  window.open('http://103.197.76.50:4217/assets/html/nexus.html', '_blank');
                 }
                 else if(type == '5'){
-                  window.open('http://superadmin.bridgexd.com/assets/html/pulse.html', '_blank');
+                  window.open('http://103.197.76.50:4217/assets/html/pulse.html', '_blank');
                 }
                 else if(type == '6'){
-                  window.open('http://superadmin.bridgexd.com/assets/html/intel.html', '_blank');
+                  window.open('http://103.197.76.50:4217/assets/html/intel.html', '_blank');
                 }
       else{
         alert('This app is under maintenance')

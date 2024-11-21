@@ -160,7 +160,7 @@ export class InvoiceAddComponent implements OnInit {
       this.baseUrl2 = this.bridgeService2.baseUrl2;
     }
   isEdit:boolean=false;
-  Type:any = '';
+  Type:any = 'Self';
     ngOnInit(): void {
       if (!this.HeadingServices.isModuleView(8) || !this.HeadingServices.isModuleViewadd(8)) {
         this.router.navigate(['/dashboard']);
@@ -344,7 +344,9 @@ export class InvoiceAddComponent implements OnInit {
       },'','id','desc').subscribe(
         (data: any) => {
           this.customertype = data.data;
-
+          if(this.customertype.length != 0){
+           this.order.BPLID =  this.customertype[0].BPLId;
+          }
 
         },
         (err) => {
@@ -1084,6 +1086,7 @@ export class InvoiceAddComponent implements OnInit {
       this.bridgeService2.getOneCustomerdata(event).subscribe(
         (data: any) => {
 
+          // this.Type = 'Self';
           this.order.CardCode = data[0]['CardCode'];
           this.order.CardName = data[0]['CardName'];
           this.selectedDayItem = data[0]['CardCode'];
@@ -1247,6 +1250,11 @@ export class InvoiceAddComponent implements OnInit {
           $('.item-list-area').css('border', 'none');
           $('.item-list-area').css('box-shadow', 'none');
           this.order = this.bridgeService2.replaceNullWithSpace(this.order);
+          this.order.CreateDate= this.HeadingServices.getDate(),
+          this.order.CreateTime=this.HeadingServices.getTime(),
+          this.order.UpdateDate=this.HeadingServices.getDate(),
+          this.order.UpdateTime=this.HeadingServices.getTime(),
+
           this.bridgeService2.addEditInvoice(this.order,this.isEdit).subscribe(
             (res: Orders) => {
               if (Object(res)['status'] == '200') {

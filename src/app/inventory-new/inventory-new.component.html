@@ -240,6 +240,10 @@
     <div class="figma-form-wrapper figma-form-wrapper-full">
       <label>{{Headingss[0].Extra2}}</label>
       <input type="text" class="input-fld required-fld" name="ItemName" [(ngModel)]="item.ItemName" #ItemName="ngModel" placeholder="Item Name" required>
+      <span class="help-block danger"
+              *ngIf="(ItemName.errors?.required && f.submitted)||(ItemName.errors?.required && ItemName.touched)">
+              The {{Headingss[0].Extra2}} is required
+            </span>
     </div>
 
     <div class="figma-form-wrapper">
@@ -251,12 +255,16 @@
     <div class="figma-form-wrapper">
       <label>Item ID</label>
       <input type="text"  class="input-fld required-fld" name="ItemCode" [(ngModel)]="item.ItemCode" #ItemCode="ngModel" autocomplete="off" placeholder="Item ID" required>
+      <span class="help-block danger"
+              *ngIf="(ItemCode.errors?.required && f.submitted)||(ItemCode.errors?.required && ItemCode.touched)">
+              The Item ID is required
+            </span>
     </div>
 
 
     <div class="figma-form-wrapper">
       <label>Tax (%)</label>
-      <input type="number" class="input-fld required-fld" name="Tax" [(ngModel)]="item.Tax" pattern="^[0-9,.]*$" #TaxCode="ngModel" placeholder="18" min="0" max="100" required>
+      <input type="number" class="input-fld required-fld" name="Tax" [(ngModel)]="item.Tax" pattern="^[0-9,.]*$" #TaxCode="ngModel" placeholder="Enter Tax" min="0" max="100" required>
       <span class="help-block danger" *ngIf="TaxCode.errors?.required && TaxCode.touched">
         The Tax is required
       </span>
@@ -288,11 +296,17 @@
         <div class="figma-form-wrapper">
           <label>SKU</label>
           <input type="text" class="input-fld required-fld" name="SKU" [(ngModel)]="item.SKU" #SKU="ngModel" autocomplete="off" placeholder="SKU" required>
+          <span class="help-block danger" *ngIf="SKU.errors?.required && SKU.touched">
+            The SKU is required
+          </span>
         </div>
 
         <div class="figma-form-wrapper">
           <label>Reorder Point</label>
           <input type="number" class="input-fld required-fld" name="ROP" [(ngModel)]="item.ROP" #ROP="ngModel" autocomplete="off" placeholder="Reorder Point" required>
+          <span class="help-block danger" *ngIf="ROP.errors?.required && ROP.touched">
+            The ROP is required
+          </span>
         </div>
 
         <div class="figma-form-wrapper">
@@ -301,12 +315,18 @@
             <span style="top:14px;">{{'' | priceFormat:''}}</span>
             <input type="number" min="0" class="input-fld required-fld" name="UnitPrice" [(ngModel)]="item.UnitPrice" #UnitPrice="ngModel" name="FreightCharge" required
              placeholder="Selling Unit Price">
+             <span class="help-block danger" *ngIf="UnitPrice.errors?.required && UnitPrice.touched">
+              The Selling Unit Price is required
+            </span>
             </div>
         </div>
 
         <div class="figma-form-wrapper">
           <label>Quantity in Stock</label>
           <input type="text" class="input-fld required-fld" name="Inventory" [(ngModel)]="item.Inventory" #Inventory="ngModel" autocomplete="off" placeholder="Quantity in Stock" required>
+          <span class="help-block danger" *ngIf="Inventory.errors?.required && Inventory.touched">
+            The Quantity in Stock is required
+          </span>
         </div>
 
         <div class="figma-form-wrapper figma-form-wrapper-full" style="display: none;">
@@ -473,7 +493,7 @@
 
       <div class="figma-modal-fotter">
         <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
-        <button class="figma-outline-btn">Save and Create Other</button>
+        <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
         <button class="figma-prim-btn">Save</button>
       </div>
     </form>

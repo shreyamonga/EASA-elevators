@@ -74,6 +74,7 @@
                 <div class="table-status-danger">{{'Cancel'}}</div>
                 </ng-container>
             <td class="EditBoxForm" style="padding: 0 0px; width: 50px;">
+              <div>
               <span class="edit-delete edit-delete{{item.id}}" (click)="editdeletepop(item)"
                 [innerHTML]="'table-v-dots' | svgIcons:''" class="table-v-dots"></span>
               <div class="hover-show hover-show{{item.id}} hover-show-inactive"  *ngIf="item.CancelStatus == 'csNo' && item.DocumentStatus == 'bost_Open'">
@@ -82,6 +83,7 @@
                   <span (click)="CanelOrderPopup(confirmModal,item.id)" *ngIf="item.DocumentStatus == 'bost_Open'"><i class="fa fa-times-circle" aria-hidden="true"></i>  {{Headingss[0].heading112}}
                     {{Headingss[0].leftheading}}</span><br *ngIf="item.DocumentStatus == 'bost_Open'">
               </div>
+            </div>
             </td>
           </tr>
           <!-- </ng-container> -->
@@ -303,7 +305,7 @@
           <div class="figma-form-wrapper">
             <label>{{Headingss[2].heading5}}</label>
             <div>
-              <input type="text" class="input-fld required-fld" name="ShipToZipCode"
+              <input type="number" class="input-fld required-fld" name="ShipToZipCode"
                 [(ngModel)]="AddDelivery.AddressExtension.ShipToZipCode" placeholder="Enter {{Headingss[2].heading5}}" #ShipToZipCode=ngModel
                 pattern="^[0-9]*$" required>
               <span class="help-block danger" *ngIf="ShipToZipCode.errors?.required && ShipToZipCode.touched">

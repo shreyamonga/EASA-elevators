@@ -33,7 +33,7 @@ export class ConfirmAppComponent implements OnInit {
 
 
   upgradeIt(){
-    window.location.href = 'http://superadmin.bridgexd.com/assets/html/serve.html#PricingSection';
+    window.location.href = 'http://103.197.76.50:4217/assets/html/serve.html#PricingSection';
     }
 
   confirmFun(){

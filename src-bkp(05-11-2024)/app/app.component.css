@@ -1,8 +1,0 @@
-.internetConnection{
-  position: absolute;
-  width:300px;
-  top:5px;
-  transform: translateX(-50%);
-    left: 50%;
-    text-align: center;
-}

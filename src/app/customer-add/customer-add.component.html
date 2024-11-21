@@ -76,7 +76,7 @@
                 <div class="lead-update-wrapper">
                   <label>{{Headingss[0].heading4}} </label>
                   <div class="customermatch-sign">
-                    <input type="text" class="input-fld required-fld"
+                    <input type="number" class="input-fld required-fld"
                       name="Phone1" [(ngModel)]="customer.Phone1" placeholder="Enter {{Headingss[0].heading4}}" maxlength="15"
                       pattern="^((\\+91-?)|0)?[0-9]{7,15}$" #Phone1="ngModel" required><br>
                     <span class="help-block danger" *ngIf="Phone1.errors?.required && Phone1.touched">
@@ -216,7 +216,7 @@
                   <label>{{Headingss[1].heading1}}</label>
                   <div class="customermatch-sign">
 
-                    <input type="text" class="input-fld required-fld" name="MobilePhone"
+                    <input type="number" class="input-fld required-fld" name="MobilePhone"
                       [(ngModel)]="customer.ContactEmployees[0].MobilePhone" placeholder="Enter {{Headingss[1].heading1}}" maxlength="15"
                       pattern="^((\\+91-?)|0)?[0-9]{7,15}$" #MobilePhone="ngModel" required><br>
                     <span class="help-block danger" *ngIf="MobilePhone.errors?.required && MobilePhone.touched">

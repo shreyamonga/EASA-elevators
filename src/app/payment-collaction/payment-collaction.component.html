@@ -129,6 +129,10 @@
           <ng-option *ngFor="let item of businesspartners"
             value="{{item.CardCode}}">{{item.CardName}}</ng-option>
         </ng-select>
+        <span class="help-block danger"
+              *ngIf="(BusinessPartner.errors?.required && f.submitted)||(BusinessPartner.errors?.required && BusinessPartner.touched)">
+              The {{Headingss[0].heading1}} is required
+            </span>
         </div>
         <div class="col-md-6">
           <label>{{Headingss[0].Extra4}} </label>
@@ -144,17 +148,25 @@
           <ng-option *ngFor="let item of invoice"
             value="{{item.id}}">{{item.CardName}} (#INV{{item.id}})</ng-option>
         </ng-select>
+        <span class="help-block danger"
+              *ngIf="(InvoiceNo.errors?.required && f.submitted)||(InvoiceNo.errors?.required && InvoiceNo.touched)">
+              The {{Headingss[0].Extra4}} is required
+            </span>
         </div>
 
         <div class="col-md-6">
           <label>{{Headingss[0].Extra6}} </label>
-          <select type="text" class="input-fld required-fld" name="TransactMod" [(ngModel)]="pyaddterms.TransactMod" placeholder="Transaction Mode" required>
+          <select type="text" class="input-fld required-fld" name="TransactMod" #TransactMod="ngModel" [(ngModel)]="pyaddterms.TransactMod" placeholder="Transaction Mode" required>
           <option value="" disabled>Select {{Headingss[0].Extra5}}</option>
           <option value="Online">Online</option>
           <option value="Bank">Bank</option>
           <option value="Cheque">Cheque</option>
           <option value="Other">Other</option>
           </select>
+          <span class="help-block danger"
+              *ngIf="(TransactMod.errors?.required && f.submitted)||(TransactMod.errors?.required && TransactMod.touched)">
+              The {{Headingss[0].Extra10}} is required
+            </span>
           <br>
         </div>
 
@@ -176,6 +188,10 @@
         <div class="col-md-6">
           <label>{{Headingss[0].Extra7}} </label>
           <input type="number" class="input-fld required-fld" min="0" max="{{pyaddterms.TotalAmt}}" name="ReceivedAmount" [(ngModel)]="pyaddterms.ReceivedAmount" placeholder="Received Amount" #ReceivedAmount="ngModel"  pattern="^[0-9,.]*$" (input)="calculateDue()" required>
+          <span class="help-block danger"
+              *ngIf="(ReceivedAmount.errors?.required && f.submitted)||(ReceivedAmount.errors?.required && ReceivedAmount.touched)">
+              The {{Headingss[0].Extra7}} is required
+            </span>
           <span class="help-block danger" *ngIf="ReceivedAmount.errors?.pattern">
             Take Numeric Value Only
           </span>
@@ -190,6 +206,10 @@
           <!-- <span class="help-block danger" *ngIf="TotalAmt.errors?.pattern">
             Take Numeric Value Only
           </span> -->
+          <span class="help-block danger"
+              *ngIf="(TotalAmt.errors?.required && f.submitted)||(TotalAmt.errors?.required && TotalAmt.touched)">
+              The {{Headingss[0].Extra9}} is required
+            </span>
         </div>
 
         <div class="col-md-6">
@@ -198,11 +218,19 @@
           <span class="help-block danger" *ngIf="DueAmount.errors?.pattern">
             Take Numeric Value Only
           </span>
+          <span class="help-block danger"
+              *ngIf="(DueAmount.errors?.required && f.submitted)||(DueAmount.errors?.required && DueAmount.touched)">
+              The {{Headingss[0].Extra8}} is required
+            </span>
         </div>
 
         <div class="col-md-6">
           <label>{{Headingss[0].Extra10}}</label>
-          <input type="date" class="input-fld required-fld" name="PaymentDate" [max]="newdate" [(ngModel)]="pyaddterms.PaymentDate" placeholder="Transaction Date" required>
+          <input type="date" class="input-fld required-fld" name="PaymentDate" #PaymentDate="ngModel" [max]="newdate" [(ngModel)]="pyaddterms.PaymentDate" placeholder="Transaction Date" required>
+          <span class="help-block danger"
+              *ngIf="(PaymentDate.errors?.required && f.submitted)||(PaymentDate.errors?.required && PaymentDate.touched)">
+              The {{Headingss[0].Extra10}} is required
+            </span>
           <br>
         </div>
         <div class="col-md-12" *ngIf="this.isEdit == false">

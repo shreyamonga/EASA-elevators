@@ -1137,26 +1137,35 @@
 
           <div class="col-md-12">
             <label>Enter Quantity</label>
-            <input type="number" placeholder="Enter Quantity" class="input-fld required-fld" min="1" max="10000000"  name="quantity" [(ngModel)]="ItemQty" pattern="^[0-9,.]*$" #quantity="ngModel">
+            <input type="number" placeholder="Enter Quantity" class="input-fld required-fld" min="1" max="10000000"  name="quantity" [(ngModel)]="ItemQty" pattern="^[0-9,.]*$" #quantity="ngModel" required>
             <span class="help-block danger" *ngIf="quantity.errors?.pattern && quantity.touched">
               Take Numeric Value Only and Quantity is 1 to 10000000
+            </span>
+            <span class="help-block danger" *ngIf="(quantity.errors?.required && f.submitted)||(quantity.errors?.required)">
+              The Enter Quantity is required
             </span>
           </div>
 
 
           <div class="col-md-12">
             <label>Enter Discount (%) on Item</label>
-            <input type="number" placeholder="Enter Discount (%) on Item" class="input-fld required-fld" min="0" max="100" [(ngModel)]="ItemDis" name="discount" pattern="^[0-9,.]*$" #discount="ngModel" (change)="ITemDataUpdate($event)">
+            <input type="number" placeholder="Enter Discount (%) on Item" class="input-fld required-fld" min="0" max="100" [(ngModel)]="ItemDis" name="discount" pattern="^[0-9,.]*$" #discount="ngModel" (change)="ITemDataUpdate($event)" required>
           </div>
           <span class="help-block danger" *ngIf="discount.errors?.pattern && discount.touched">
             Take Numeric Value Only
           </span>
+          <span class="help-block danger" *ngIf="(discount.errors?.required && f.submitted)||(discount.errors?.required)">
+            The Discount (%) on Item is required
+          </span>
 
           <div class="col-md-12">
             <label>Enter Tax(GST)</label>
-            <input type="number" placeholder="Enter Price" class="input-fld required-fld" min="0" max="100" name="tax" [(ngModel)]="TaxRate" pattern="^[0-9]*$" #tax="ngModel" (change)="ITemDataUpdate($event)">
+            <input type="number" placeholder="Enter Price" class="input-fld required-fld" min="0" max="100" name="tax" [(ngModel)]="TaxRate" pattern="^[0-9]*$" #tax="ngModel" (change)="ITemDataUpdate($event)" required>
             <span class="help-block danger" *ngIf="tax.errors?.pattern && tax.touched">
               Take Numeric Value Only
+            </span>
+            <span class="help-block danger" *ngIf="(tax.errors?.required && f.submitted)||(tax.errors?.required)">
+              The Tax(GST) is required
             </span>
           </div>
 
@@ -1168,7 +1177,7 @@
           </div>
 
           <div class="col-md-12" style="text-align: center;">
-            <button class="add-invent" [disabled]="f.invalid">Save</button>
+            <button class="add-invent" >Save</button>
           </div>
 
         </div>

@@ -378,7 +378,7 @@
                 <div class="lead-update-wrapper">
                   <label>{{Headingss[1].heading5}} </label>
                   <div>
-                    <input type="text" class="input-fld required-fld" name="BillToZipCode"
+                    <input type="number" class="input-fld required-fld" name="BillToZipCode"
                       [(ngModel)]="quotation.AddressExtension.BillToZipCode"
                       placeholder="Enter {{Headingss[1].heading5}}" required pattern="^[0-9]*$"
                       #BillToZipCode="ngModel">
@@ -541,7 +541,7 @@
                   <div class="lead-update-wrapper">
                     <label>{{Headingss[1].heading8}}</label>
                     <div>
-                      <input type="text" class="input-fld required-fld" name="ShipToZipCode" #ShipToZipCode="ngModel"
+                      <input type="number" class="input-fld required-fld" name="ShipToZipCode" #ShipToZipCode="ngModel"
                         [(ngModel)]="quotation.AddressExtension.ShipToZipCode"
                         placeholder="Enter {{Headingss[1].heading8}}" required>
                       <span class="help-block danger" *ngIf="ShipToZipCode.errors?.required && ShipToZipCode.touched">
@@ -880,9 +880,12 @@
             <label>{{Headingss[2].heading6}}</label>
             <input type="number" placeholder="Enter {{Headingss[2].heading6}}" class="input-fld required-fld" min="1"
               max="10000000" name="quantity" [(ngModel)]="ItemQty" pattern="^[0-9,.]*$" #quantity="ngModel"
-              (change)="ITemDataUpdate($event)">
+              (change)="ITemDataUpdate($event)" required>
             <span class="help-block danger" *ngIf="quantity.errors?.pattern && quantity.touched">
               Take Numeric Value Only and {{Headingss[2].heading6}} is 1 to 10000000
+            </span>
+            <span class="help-block danger" *ngIf="(quantity.errors?.required && f.submitted)||(quantity.errors?.required)">
+              The {{Headingss[2].heading6}} is required
             </span>
           </div>
 
@@ -891,7 +894,10 @@
             <label>{{Headingss[2].heading8}}</label>
             <input type="number" placeholder="Enter {{Headingss[2].heading8}}" class="input-fld required-fld" min="0"
               max="100" [(ngModel)]="ItemDis" name="discount" pattern="^[0-9,.]*$" #discount="ngModel"
-              (change)="ITemDataUpdate($event)">
+              (change)="ITemDataUpdate($event)" required>
+            <span class="help-block danger" *ngIf="(discount.errors?.required && f.submitted)||(discount.errors?.required)">
+              The {{Headingss[2].heading8}} is required
+            </span>
           </div>
           <span class="help-block danger" *ngIf="discount.errors?.pattern && discount.touched">
             Take Numeric Value Only
@@ -901,14 +907,17 @@
             <label>{{Headingss[2].heading7}}</label>
             <input type="number" placeholder="Enter {{Headingss[2].heading7}}" class="input-fld required-fld" min="0"
               max="100" name="TaxRate" [(ngModel)]="TaxRate" pattern="^[0-9,.]*$" #tax="ngModel"
-              (change)="ITemDataUpdate($event)">
+              (change)="ITemDataUpdate($event)" required>
+            <span class="help-block danger" *ngIf="(tax.errors?.required && f.submitted)||(tax.errors?.required)">
+              The {{Headingss[2].heading6}} is required
+            </span>
             <span class="help-block danger" *ngIf="tax.errors?.pattern && tax.touched">
               Take Numeric Value Only
             </span>
           </div>
 
           <div class="col-md-12 text-center my-3">
-            <button class="add-invent1" [disabled]="f.invalid">{{Headingss[0].heading105}}</button>
+            <button class="add-invent1" >{{Headingss[0].heading105}}</button>
           </div>
 
         </div>

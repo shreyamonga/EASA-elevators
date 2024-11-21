@@ -65,13 +65,13 @@ export class CustomerEditComponent implements OnInit {
     id: '',
     CardCode: '',
     CardName: '',
-    Industry: '-1',
+    Industry: '',
 
     CardType: 'cCustomer',
     Website: '',
     EmailAddress: '',
     Phone1: '',
-    U_LEADID:'0',
+    U_LEADID:'',
     U_LEADNM:'',
     DiscountPercent: '',
     Currency: 'INR',
@@ -241,7 +241,7 @@ export class CustomerEditComponent implements OnInit {
           for(let i=0;i<this.DynamicFiledPositionDetials.length;i++){
             this.editcustomer[this.DynamicFiledPositionDetials[i].field_name] = '';
           }
-          
+
           this.getoneCountry();
         }
         else {
@@ -315,6 +315,8 @@ export class CustomerEditComponent implements OnInit {
           // console.log("data[0]",data[0])
 
         this.editcustomer.Industry = data[0]['Industry'];
+        this.editcustomer.U_LEADID = data[0]['U_LEADID'];
+        this.editcustomer.U_LEADNM = data[0]['U_LEADNM'];
         this.editcustomer.zone = data[0]['zone'];
 
         this.editcustomer.CardType = data[0]['CardType'];
@@ -382,7 +384,7 @@ export class CustomerEditComponent implements OnInit {
             this.error = err;
           }
 
-          
+
         );
 
         // this.bridgeService2.getStatedata(this.editcustomer.BPAddresses[1].U_COUNTRY).subscribe(
@@ -561,16 +563,16 @@ export class CustomerEditComponent implements OnInit {
     //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.editcustomer));
 
     this.resetAlerts();
-    for(let [keys,value] of Object.entries(f.value)){
-      let numKey = ["U_LEADID"];
-      if(numKey.includes(keys)){
-        f.value[keys] = 0;
+    // for(let [keys,value] of Object.entries(f.value)){
+    //   let numKey = ["U_LEADID"];
+    //   if(numKey.includes(keys)){
+    //     f.value[keys] = 0;
 
-      }else if(!!!f.value[keys]){
-        f.value[keys] = "";
+    //   }else if(!!!f.value[keys]){
+    //     f.value[keys] = "";
 
-      }
-    }
+    //   }
+    // }
 
     //  this.editcustomer=this.formid;
     if(f.valid && this.commonObj.companyName==false  && this.commonObj.mobile==false && this.commonObj.email==false){
@@ -587,6 +589,11 @@ export class CustomerEditComponent implements OnInit {
     this.editcustomer.ContactEmployees[0].Name = this.editcustomer.U_CONTOWNR;
     this.isLoading = true;
 //console.log(this.editcustomer);
+
+this.editcustomer.CreateDate= this.HeadingServices.getDate(),
+this.editcustomer.CreateTime= this.HeadingServices.getDateTime(),
+this.editcustomer.UpdateDate= this.HeadingServices.getDate(),
+this.editcustomer.UpdateTime= this.HeadingServices.getDateTime(),
 
     this.bridgeService2.EditCustomer(this.editcustomer).subscribe(
       (res: any) => {
@@ -676,7 +683,7 @@ getCustomerTypeList(): void {
   );
 }
 
-// isModulefieldview(module_id: number, key: string): boolean {  
+// isModulefieldview(module_id: number, key: string): boolean {
 //   const selectedModule = this.savedModules?.find((module: any) => module.module_id === module_id);
 //   if (selectedModule) {
 //       const hasViewPermission = selectedModule.data.some((item: any) => item.key === key && item.view);
@@ -685,13 +692,13 @@ getCustomerTypeList(): void {
 //   return false;
 // }
 
-// isModulefieldedit(module_id: number, key: string): boolean {  
+// isModulefieldedit(module_id: number, key: string): boolean {
 // // debugger
 // const selectedModule = this.savedModules?.find((module: any) => module.module_id === module_id);
 // if (selectedModule) {
 //   // debugger
 //     const hasEditPermission = selectedModule.data.some((item: any) => item.key === key && item.edit);
-//     //  
+//     //
 //  // console.log(key,hasEditPermission)
 //     return hasEditPermission;
 // }

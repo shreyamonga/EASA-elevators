@@ -226,29 +226,29 @@
 
         <div class="col-md-6">
           <label>{{Headingss[0].heading6}} </label>
-          <input type="text" class="input-fld required-fld" name="Email" [(ngModel)]="bridge.Email"
+          <input type="text" email="true" class="input-fld required-fld" name="Email" [(ngModel)]="bridge.Email"
             #Email="ngModel" placeholder="Enter {{Headingss[0].heading6}}"
             required>
           <span class="help-block danger"
             *ngIf="(Email.errors?.required && f.submitted)||(Email.errors?.required && Email.touched)">
             The {{Headingss[0].heading6}} is required
           </span>
-          <!-- <span class="help-block danger" *ngIf="Email.errors?.email && Email.touched">
+          <span class="help-block danger" *ngIf="Email.errors?.email">
             Invalid {{Headingss[0].heading6}}
-          </span> -->
+          </span>
         </div>
 
 
 
         <div class="col-md-6">
           <label>{{Headingss[0].heading7}} </label>
-          <input type="text" class="input-fld required-fld" maxlength="15" name="Mobile" [(ngModel)]="bridge.Mobile"
+          <input type="number" class="input-fld required-fld" maxlength="15" name="Mobile" [(ngModel)]="bridge.Mobile"
             #Mobile="ngModel" placeholder="Enter {{Headingss[0].heading7}}" pattern="^((\\+91-?)|0)?[0-9]{7,15}$" required>
           <span class="help-block danger"
             *ngIf="(Mobile.errors?.required && f.submitted)||(Mobile.errors?.required && Mobile.touched)">
             The {{Headingss[0].heading7}} is required
           </span>
-          <span class="help-block danger" *ngIf="Mobile.errors?.pattern && Mobile.touched">
+          <span class="help-block danger" *ngIf="Mobile.errors?.pattern">
             Invalid {{Headingss[0].heading7}}
           </span>
         </div>
@@ -346,7 +346,7 @@
           <input type="text" class="input-fld required-fld" name="firstName" [(ngModel)]="bridge2.firstName"
             #firstName="ngModel" placeholder="Enter {{Headingss[0].heading1}}" [readonly]="isView" required>
           <span class="help-block danger"
-            *ngIf="(firstName.errors?.required && f.submitted)||(firstName.errors?.required && firstName.touched)">
+            *ngIf="(firstName.errors?.required && f.submitted)||(firstName.errors?.required)">
             The {{Headingss[0].heading1}} is required
           </span>
         </div>
@@ -362,7 +362,7 @@
           <input type="text" class="input-fld required-fld" name="lastName" [readonly]="isView" [(ngModel)]="bridge2.lastName"
             #lastName="ngModel" placeholder="Enter {{Headingss[0].heading2}}" required>
           <span class="help-block danger"
-            *ngIf="(lastName.errors?.required && f.submitted)||(lastName.errors?.required && lastName.touched)">
+            *ngIf="(lastName.errors?.required && f.submitted)||(lastName.errors?.required)">
             The {{Headingss[0].heading2}} is required
           </span>
         </div>
@@ -382,7 +382,7 @@
           </select>
 
           <span class="help-block danger"
-            *ngIf="(role.errors?.required && f.submitted)||(role.errors?.required && role.touched)">
+            *ngIf="(role.errors?.required && f.submitted)||(role.errors?.required)">
             The {{Headingss[0].heading4}} is required
           </span>
         </div>
@@ -395,7 +395,7 @@
             <ng-option [value]="role.id" *ngFor="let role of UserZone">{{role.Name}}</ng-option>
           </ng-select>
           <span class="help-block danger"
-          *ngIf="(zone.errors?.required && f.submitted)||(zone.errors?.required && zone.touched)">
+          *ngIf="(zone.errors?.required && f.submitted)||(zone.errors?.required)">
           The {{Headingss[0].heading5}} is required
         </span>
         </div>
@@ -426,7 +426,7 @@
             <ng-option value="{{status.value}}" *ngFor="let status of UserStatus">{{status.name}}</ng-option>
           </ng-select>
           <span class="help-block danger"
-            *ngIf="(Active.errors?.required && f.submitted)||(Active.errors?.required && Active.touched)">
+            *ngIf="(Active.errors?.required && f.submitted)||(Active.errors?.required)">
             {{Headingss[0].heading11}} is required
           </span>
           <!-- <select class="input-fld required-fld" name="Active" required [(ngModel)]="bridge2.Active">
@@ -436,10 +436,10 @@
         </div>
         <div class="col-md-6">
           <label>{{Headingss[0].heading7}}</label>
-          <input type="text" class="input-fld required-fld" [readonly]="isView" name="Mobile" [(ngModel)]="bridge2.Mobile" #Mobile="ngModel"
+          <input type="number" class="input-fld required-fld" [readonly]="isView" name="Mobile" [(ngModel)]="bridge2.Mobile" #Mobile="ngModel"
             placeholder="Enter {{Headingss[0].heading7}}" maxlength="15" pattern="^((\\+91-?)|0)?[0-9]{7,15}$" required>
           <span class="help-block danger"
-            *ngIf="(Mobile.errors?.required && f.submitted)||(Mobile.errors?.required && Mobile.touched)">
+            *ngIf="(Mobile.errors?.required && f.submitted)||(Mobile.errors?.required)">
             The {{Headingss[0].heading7}} is required
           </span>
           <span class="help-block danger" *ngIf="Mobile.errors?.pattern">
@@ -460,7 +460,7 @@
             <ng-option *ngFor="let item of rolefilter" value="{{item.SalesEmployeeCode}}">{{item.firstName}} {{item.lastName}}</ng-option>
           </ng-select>
           <span class="help-block danger"
-            *ngIf="(reportingTo.errors?.required && f.submitted)||(reportingTo.errors?.required && reportingTo.touched)">
+            *ngIf="(reportingTo.errors?.required && f.submitted)||(reportingTo.errors?.required)">
             {{Headingss[0].heading8}}  is required
           </span>
           <!-- <select class="input-fld required-fld" name="reportingTo" required [(ngModel)]="bridge2.reportingTo">
@@ -473,7 +473,7 @@
           <input type="text" class="input-fld required-fld" [readonly]="isView" name="position" [(ngModel)]="bridge2.position"
             #position="ngModel" placeholder="Enter {{Headingss[0].heading9}}" required>
           <span class="help-block danger"
-            *ngIf="(position.errors?.required && f.submitted)||(position.errors?.required && position.touched)">
+            *ngIf="(position.errors?.required && f.submitted)||(position.errors?.required)">
             The {{Headingss[0].heading9}} is required
           </span>
         </div>
@@ -494,7 +494,7 @@
 
 
         <div class="col-md-12 text-center mt-3" *ngIf="!isLoading3 && !isView">
-          <button class="add-invent1" [disabled]="f.invalid">{{Headingss[0].heading105}}</button>
+          <button class="add-invent1">{{Headingss[0].heading105}}</button>
         </div>
 
       </div>

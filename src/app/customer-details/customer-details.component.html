@@ -298,7 +298,7 @@
                     <th>Action</th>
                     </tr>
                   </thead>
-                      <tr *ngFor="let item3 of item.ContactEmployees">
+                      <tr *ngFor="let item3 of contactPersoneList">
                       <td>{{item3.FirstName}}</td>
                       <td>{{item3.Position || 'NA'}}</td>
                       <td>{{item3.MobilePhone}}</td>
@@ -552,10 +552,13 @@
         </div>
         <div class="col-md-6">
           <label>{{Headingss[2].heading5}}</label>
-          <input type="text" placeholder="Enter {{Headingss[2].heading5}}" class="input-fld required-fld" name="ZipCode"
+          <input type="number" placeholder="Enter {{Headingss[2].heading5}}" class="input-fld required-fld" name="ZipCode" pattern="^[0-9]*$"
             [(ngModel)]="branch.ZipCode" #ZipCode="ngModel" required>
           <span class="help-block danger" *ngIf="ZipCode.errors?.required && ZipCode.touched">
             The {{Headingss[2].heading5}} is required
+          </span>
+          <span class="help-block danger" *ngIf="ZipCode.errors?.pattern">
+            take numeric value
           </span>
         </div>
         <div class="col-md-6">
@@ -667,16 +670,22 @@
         </div>
         <div class="col-md-6">
           <label>{{Headingss[1].heading1}}</label>
-          <input type="text" placeholder="Enter {{Headingss[1].heading1}}" class="input-fld required-fld" name="MobilePhone"
+          <input type="number" placeholder="Enter {{Headingss[1].heading1}}" class="input-fld required-fld" name="MobilePhone" pattern="^((\\+91-?)|0)?[0-9]{7,15}$"
             [(ngModel)]="contactPersoneAdd.MobilePhone" #MobilePhone="ngModel" required>
           <span class="help-block danger" *ngIf="MobilePhone.errors?.required && MobilePhone.touched">
             The {{Headingss[1].heading1}} is required
           </span>
+          <span class="help-block danger" *ngIf="MobilePhone.errors?.pattern">
+            Invalid {{Headingss[1].heading1}}
+          </span>
         </div>
         <div class="col-md-6">
           <label>{{Headingss[1].heading2}}</label>
-          <input type="text" placeholder="Enter {{Headingss[1].heading2}}" class="input-fld required-fld" name="E_Mail"
+          <input type="text" email="true" placeholder="Enter {{Headingss[1].heading2}}" class="input-fld required-fld" name="E_Mail"
             [(ngModel)]="contactPersoneAdd.E_Mail" #E_Mail="ngModel" required>
+            <span class="help-block danger" *ngIf="E_Mail.errors?.email">
+              Invalid {{Headingss[1].heading2}}
+            </span>
           <span class="help-block danger" *ngIf="E_Mail.errors?.required && E_Mail.touched">
             The {{Headingss[1].heading2}} is required
           </span>
@@ -732,7 +741,7 @@
           <label style="font-size: 12px;">{{Headingss[1].heading0}}</label>
           <input type="text" placeholder="Enter {{Headingss[1].heading0}}" class="input-fld required-fld" name="FirstName"
             [(ngModel)]="contactPersoneUpdate.FirstName" #FirstName="ngModel" required>
-          <span class="help-block danger" *ngIf="FirstName.errors?.required && FirstName.touched">
+          <span class="help-block danger" *ngIf="FirstName.errors?.required">
             The {{Headingss[1].heading0}} is required
           </span>
         </div>
@@ -740,31 +749,39 @@
           <label style="font-size: 12px;">{{Headingss[1].heading02}}</label>
           <input type="text" placeholder="Enter {{Headingss[1].heading02}}" class="input-fld" name="LastName"
             [(ngModel)]="contactPersoneUpdate.LastName" #LastName="ngModel">
-          <span class="help-block danger" *ngIf="LastName.errors?.required && LastName.touched">
+          <span class="help-block danger" *ngIf="LastName.errors?.required">
             The {{Headingss[1].heading02}} is required
           </span>
         </div>
         <div class="col-md-6">
           <label style="font-size: 12px;">{{Headingss[1].heading1}}</label>
           <input type="text" placeholder="Enter {{Headingss[1].heading1}}" class="input-fld required-fld" name="MobilePhone"
-            [(ngModel)]="contactPersoneUpdate.MobilePhone" #MobilePhone="ngModel" required>
-          <span class="help-block danger" *ngIf="MobilePhone.errors?.required && MobilePhone.touched">
+            [(ngModel)]="contactPersoneUpdate.MobilePhone" maxlength="15" pattern="^((\\+91-?)|0)?[0-9]{7,15}$" #MobilePhone="ngModel" required>
+          <span class="help-block danger" *ngIf="MobilePhone.errors?.required">
             The {{Headingss[1].heading1}} is required
+          </span>
+
+          <span class="help-block danger" *ngIf="MobilePhone.errors?.pattern">
+            Invalid {{Headingss[1].heading1}}
           </span>
         </div>
         <div class="col-md-6">
           <label style="font-size: 12px;">{{Headingss[1].heading2}}</label>
-          <input type="text" placeholder="Enter {{Headingss[1].heading2}}" class="input-fld required-fld" name="E_Mail"
+          <input type="text" email="true" placeholder="Enter {{Headingss[1].heading2}}" class="input-fld required-fld" name="E_Mail"
             [(ngModel)]="contactPersoneUpdate.E_Mail" #E_Mail="ngModel" required>
-          <span class="help-block danger" *ngIf="E_Mail.errors?.required && E_Mail.touched">
+          <span class="help-block danger" *ngIf="E_Mail.errors?.required">
             The {{Headingss[1].heading2}} is required
+          </span>
+
+          <span class="help-block danger" *ngIf="E_Mail.errors?.email">
+            Invalid {{Headingss[1].heading2}}
           </span>
         </div>
         <div class="col-md-12">
           <label style="font-size: 12px;">{{Headingss[1].heading4}}</label>
           <input type="text" placeholder="Enter {{Headingss[1].heading4}}" class="input-fld" name="Position"
             [(ngModel)]="contactPersoneUpdate.Position" #Position="ngModel">
-            <span class="help-block danger" *ngIf="Position.errors?.required && Position.touched">
+            <span class="help-block danger" *ngIf="Position.errors?.required">
               {{Headingss[1].heading4}} is required
             </span>
         </div>
@@ -773,7 +790,7 @@
           <label style="font-size: 12px;">{{Headingss[1].heading3}}</label>
           <textarea type="text" placeholder="Enter {{Headingss[1].heading3}}" class="input-fld" name="Address"
             [(ngModel)]="contactPersoneUpdate.Address" #Address="ngModel"></textarea>
-          <span class="help-block danger" *ngIf="(Address.errors?.required && f.submitted)||(Address.errors?.required && Address.touched)">
+          <span class="help-block danger" *ngIf="(Address.errors?.required && f.submitted)||(Address.errors?.required)">
             The {{Headingss[1].heading3}} is required
           </span>
         </div>
@@ -812,16 +829,19 @@
           <label>{{Headingss[2].heading0}}</label>
           <input type="text" placeholder="Enter {{Headingss[2].heading0}}" class="input-fld required-fld" name="AddressName"
             [(ngModel)]="editbranch.AddressName" #AddressName="ngModel" required>
-          <span class="help-block danger" *ngIf="AddressName.errors?.required && AddressName.touched">
+          <span class="help-block danger" *ngIf="AddressName.errors?.required">
             The {{Headingss[2].heading0}} is required
           </span>
         </div>
         <div class="col-md-6">
           <label>{{Headingss[2].heading5}}</label>
-          <input type="text" placeholder="Enter {{Headingss[2].heading5}}" class="input-fld required-fld" name="ZipCode" [(ngModel)]="editbranch.ZipCode"
+          <input type="number" placeholder="Enter {{Headingss[2].heading5}}" class="input-fld required-fld" name="ZipCode" pattern="^[0-9]*$" [(ngModel)]="editbranch.ZipCode"
             #ZipCode="ngModel" required>
-          <span class="help-block danger" *ngIf="ZipCode.errors?.required && ZipCode.touched">
+          <span class="help-block danger" *ngIf="ZipCode.errors?.required">
             The {{Headingss[2].heading5}} is required
+          </span>
+          <span class="help-block danger" *ngIf="ZipCode.errors?.pattern">
+            take numeric value
           </span>
         </div>
         <div class="col-md-6">
@@ -861,7 +881,7 @@
           <label>{{Headingss[2].heading2}}</label>
           <input type="text" placeholder="Enter {{Headingss[2].heading2}}" class="input-fld required-fld" name="City"
             [(ngModel)]="editbranch.City" #City="ngModel" required>
-          <span class="help-block danger" *ngIf="City.errors?.required && City.touched">
+          <span class="help-block danger" *ngIf="City.errors?.required">
             The {{Headingss[2].heading2}} is required
           </span>
         </div>
@@ -879,7 +899,7 @@
               <ng-option value="" disable selected>Select {{Headingss[2].heading6}}</ng-option>
               <ng-option value="{{type}}" *ngFor="let type of ShippingType">{{type}}</ng-option>
             </ng-select>
-            <span class="help-block danger" *ngIf="(U_SHPTYP.errors?.required && f.submitted)||(U_SHPTYP.errors?.required && U_SHPTYP.touched)">
+            <span class="help-block danger" *ngIf="(U_SHPTYP.errors?.required && f.submitted)||(U_SHPTYP.errors?.required)">
               Select {{Headingss[2].heading6}} is required
             </span>
           </div>
@@ -889,7 +909,7 @@
           <label>{{Headingss[2].heading1}}</label>
           <textarea type="text" placeholder="Enter {{Headingss[2].heading1}}" class="input-fld required-fld" name="Street" [(ngModel)]="editbranch.Street"
             #Street="ngModel" maxlength="1000" required></textarea>
-          <span class="help-block danger" *ngIf="(Street.errors?.required && f.submitted) ||(Street.errors?.required && Street.touched)">
+          <span class="help-block danger" *ngIf="(Street.errors?.required && f.submitted) ||(Street.errors?.required)">
             The {{Headingss[2].heading1}} is required
           </span>
         </div>
@@ -901,7 +921,7 @@
         </div>
 
         <div class="col-md-12 text-center" *ngIf="!isLoading2">
-          <button class="add-invent1" [disabled]="f.invalid">Save</button>
+          <button class="add-invent1" >Save</button>
         </div>
 
       </div>

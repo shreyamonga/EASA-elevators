@@ -289,6 +289,9 @@
               The {{Headingss[0].heading5}} is required
             </span>
           </ng-container>
+          <span class="help-block danger" *ngIf="email.errors?.email">
+            Invalid {{Headingss[0].heading6}}
+          </span>
         </div>
 
         <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'location')">
@@ -587,7 +590,7 @@
             [required]="HeadingServices.isModulefieldMendetory(1, 'companyName')">
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'companyName')">
             <span class="help-block danger"
-              *ngIf="(companyName.errors?.required && f.submitted)||(companyName.errors?.required && companyName.touched)">
+              *ngIf="(companyName.errors?.required && f.submitted)||(companyName.errors?.required)">
               The {{Headingss[0].heading1}} is required
             </span>
           </ng-container>
@@ -602,7 +605,7 @@
             [required]="HeadingServices.isModulefieldMendetory(1, 'contactPerson')">
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'contactPerson')">
             <span class="help-block danger"
-              *ngIf="(contactPerson.errors?.required && f.submitted)||(contactPerson.errors?.required && contactPerson.touched)">
+              *ngIf="(contactPerson.errors?.required && f.submitted)||(contactPerson.errors?.required)">
               The {{Headingss[0].heading2}} is required
             </span>
           </ng-container>
@@ -618,7 +621,7 @@
             [required]="HeadingServices.isModulefieldMendetory(1, 'designation')">
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'designation')">
             <span class="help-block danger"
-              *ngIf="(designation.errors?.required && f.submitted)||(designation.errors?.required && designation.touched)">
+              *ngIf="(designation.errors?.required && f.submitted)||(designation.errors?.required)">
               The {{Headingss[0].heading2}} is required
             </span>
           </ng-container>
@@ -635,7 +638,7 @@
             <span class="help-block danger" *ngIf="phoneNumber.errors?.required ">
               The {{Headingss[0].heading3}} is required
             </span>
-            <span class="help-block danger" *ngIf="phoneNumber.errors?.pattern && phoneNumber.touched">
+            <span class="help-block danger" *ngIf="phoneNumber.errors?.pattern">
               Invalid {{Headingss[0].heading3}}
             </span>
           </ng-container>
@@ -650,7 +653,7 @@
             [required]="HeadingServices.isModulefieldMendetory(1, 'email')">
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'email')">
             <span class="help-block danger"
-              *ngIf="(email.errors?.required && f.submitted)||(email.errors?.required && email.touched)">
+              *ngIf="(email.errors?.required && f.submitted)||(email.errors?.required)">
               The {{Headingss[0].heading3}} is required
             </span>
           </ng-container>
@@ -666,7 +669,7 @@
             [required]="HeadingServices.isModulefieldMendetory(1, 'location')">
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'location')">
             <span class="help-block danger"
-              *ngIf="(location.errors?.required && f.submitted)||(location.errors?.required && location.touched)">
+              *ngIf="(location.errors?.required && f.submitted)||(location.errors?.required)">
               The {{Headingss[0].heading3}} is required
             </span>
           </ng-container>
@@ -687,7 +690,7 @@
           </ng-select>
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'source')">
             <span class="help-block danger"
-              *ngIf="(source.errors?.required && f.submitted)||(source.errors?.required && source.touched)">
+              *ngIf="(source.errors?.required && f.submitted)||(source.errors?.required)">
               The {{Headingss[0].heading7}} is required
             </span>
           </ng-container>
@@ -704,7 +707,7 @@
             [required]="HeadingServices.isModulefieldMendetory(1, 'productInterest')">
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'productInterest')">
             <span class="help-block danger"
-              *ngIf="(productInterest.errors?.required && f.submitted)||(productInterest.errors?.required && productInterest.touched)">
+              *ngIf="(productInterest.errors?.required && f.submitted)||(productInterest.errors?.required)">
               The {{Headingss[0].heading7}} is required
             </span>
           </ng-container>
@@ -721,7 +724,7 @@
             [required]="HeadingServices.isModulefieldMendetory(1, 'numOfEmployee')">
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'numOfEmployee')">
             <span class="help-block danger"
-              *ngIf="(numOfEmployee.errors?.required && f.submitted)||(numOfEmployee.errors?.required && numOfEmployee.touched)">
+              *ngIf="(numOfEmployee.errors?.required && f.submitted)||(numOfEmployee.errors?.required)">
               The {{Headingss[0].heading7}} is required
             </span>
           </ng-container>
@@ -740,7 +743,7 @@
           </div>
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'turnover')">
             <span class="help-block danger"
-              *ngIf="(turnover.errors?.required && f.submitted)||(turnover.errors?.required && turnover.touched)">
+              *ngIf="(turnover.errors?.required && f.submitted)||(turnover.errors?.required)">
               The {{Headingss[0].heading7}} is required
             </span>
           </ng-container>
@@ -761,7 +764,7 @@
           </ng-select>
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'status')">
             <span class="help-block danger"
-              *ngIf="(status.errors?.required && f.submitted)||(status.errors?.required && status.touched)">
+              *ngIf="(status.errors?.required && f.submitted)||(status.errors?.required)">
               The {{Headingss[0].heading11}} is required
             </span>
           </ng-container>
@@ -783,7 +786,7 @@
           </ng-select>
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'leadType')">
             <span class="help-block danger"
-              *ngIf="(leadType.errors?.required && f.submitted)||(leadType.errors?.required && leadType.touched)">
+              *ngIf="(leadType.errors?.required && f.submitted)||(leadType.errors?.required)">
               The {{Headingss[0].heading11}} is required
             </span>
           </ng-container>
@@ -811,7 +814,7 @@
           </select> -->
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'assignedTo')">
             <span class="help-block danger"
-              *ngIf="(assignedTo.errors?.required && f.submitted)||(assignedTo.errors?.required && assignedTo.touched)">
+              *ngIf="(assignedTo.errors?.required && f.submitted)||(assignedTo.errors?.required)">
               The {{Headingss[0].heading11}} is required
             </span>
           </ng-container>
@@ -827,7 +830,7 @@
             [required]="HeadingServices.isModulefieldMendetory(1, 'message')">
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'message')">
             <span class="help-block danger"
-              *ngIf="(message.errors?.required && f.submitted)||(message.errors?.required && message.touched)">
+              *ngIf="(message.errors?.required && f.submitted)||(message.errors?.required)">
               The {{Headingss[0].heading11}} is required
             </span>
           </ng-container>
@@ -884,7 +887,7 @@
         </div>
 
         <div class="col-md-12 text-center mt-3" *ngIf="!isLoading && !isView">
-          <button class="add-invent1" [disabled]="f.invalid">{{Headingss[0].heading105}}</button>
+          <button class="add-invent1">{{Headingss[0].heading105}}</button>
         </div>
 
       </div>

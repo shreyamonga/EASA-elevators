@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width">
-  <title>Sales Invoice</title>
+  <title>Sales Quotation</title>
   <link rel="icon" type="image/png" href="../../assets/img/Ledure-logo.png" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
@@ -690,10 +690,10 @@
                   <tr>
                     <td colspan="11">
                       <div class="col-xs-2 col-md-2">
-                        <img src="../../assets/img/newBridgelogo.png" id="PDFlogo" style=" width:70px;" alt="Bridge Logo">
+                        <img src="../../assets/img/newBridgelogo.png" style=" width:70px;" alt="Bridge Logo">
                       </div>
                       <div class="col-xs-8 col-md-8 text-center">
-                        <span style="font-size: 18px;font-weight: 800;">Sales Invoice</span><br><br>
+                        <span style="font-size: 18px;font-weight: 800;">Sales Quotation</span><br><br>
                         <span style="font-weight: 600;">(For Supply from Factory/Warehouse on payment of GST Under
                           Rule-7,Section-31)</span>
                       </div>
@@ -725,9 +725,9 @@
                     <td colspan="11" style="font-size: 12px;">
 
                       <div class="col-xs-6 col-sm-6">
-                        <span class="col-xs-4 col-sm-4 pedig-left0">Sales Invoice No</span><span
+                        <span class="col-xs-4 col-sm-4 pedig-left0">Sales Quot No</span><span
                           class="col-xs-8 col-sm-8">: <span class="OrderId">... </span></span><br>
-                        <span class="col-xs-4 col-sm-4 pedig-left0">Sales Invoice Date</span><span
+                        <span class="col-xs-4 col-sm-4 pedig-left0">Sales Quot Date</span><span
                           class="col-xs-8 col-sm-8">: <span class="CreateDate">...</span></span><br>
 
                       </div>
@@ -901,9 +901,9 @@
                         <span>IFSC Code : HDFC0000485</span><br>
                       </div>
                       <div class="col-xs-5 col-sm-5 pedig-left0" style="text-align: right;">
-                        <p colspan="7" id="ComName" style="
+                        <p colspan="7" style="
                                 text-align: right;font-weight:800;
-                            "><b>...</b></p>
+                            "><b>For Esskay Beauty Resources Pvt Ltd.</b></p>
                         <p style="padding-top: 75px;">Authorized Signature</p>
                       </div>
                     </td>
@@ -934,7 +934,6 @@
         </div>
       </div>
       <script>
-        var mainbkurl = 'http://103.197.76.50:8018';
     function changedateformatt(nowdate) {
             date = new Date(nowdate);
             olddate = nowdate;
@@ -991,36 +990,8 @@
         let currentId = search_params.get('id');
       let access_token = search_params.get('token');
 
-      // login api
-
-      var settings22 = {
-          "url": mainbkurl+"/employee/get_user_info",
-          "method": "GET",
-          "timeout": 0,
-          "headers": {
-            "Content-Type": "application/json",
-          "Authorization": 'Token ' + access_token,
-          },
-          "data": JSON.stringify(),
-        };
-
-        $.ajax(settings22).done(function (response22) {
-
-if(response22.data[0].ProjectSetting[0].custom_field1 != null && response22.data[0].ProjectSetting[0].custom_field1 != ''){
-$('#PDFlogo').attr("src",mainbkurl+response22.data[0].ProjectSetting[0].custom_field1);
-}
-
-if(response22.data[0].ProjectSetting[0].custom_field2 != null && response22.data[0].ProjectSetting[0].custom_field2 != ''){
-  $("#ComName").html((response22.data[0].ProjectSetting[0].custom_field2));
-}
-
-
-        })
-
-        // quot api
-
         var settings = {
-          "url": mainbkurl+"/invoice/one",
+          "url": "http://103.197.76.50:8018/quotation/one",
           "method": "POST",
           "timeout": 0,
           "headers": {
@@ -1155,7 +1126,6 @@ if(response22.data[0].ProjectSetting[0].custom_field2 != null && response22.data
           $(".tax_Value").html((Number(tax_Value).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
           $(".total_Amount").html((Number(total_Amount).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
 
-
           function numberToWords(num) {
             const units = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
             const teens = ["", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
@@ -1198,7 +1168,7 @@ if(response22.data[0].ProjectSetting[0].custom_field2 != null && response22.data
 
           const amountInWords = numberToWords(Math.floor(total_Amount));
           $(".amount_in_words").text(amountInWords);
-
+          
       //     var d = new Date(response.data[0].CreateDate);
 
       //     var fianllindtotal = 0;

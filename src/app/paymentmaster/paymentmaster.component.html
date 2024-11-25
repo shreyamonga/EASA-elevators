@@ -40,7 +40,7 @@
               <th class="CheckBoxWidthFix"><input id="selectAll1" type="checkbox" (click)="selectAll1()"></th>
               <th (click)="togglesortType('id')">ID <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th>
               <th (click)="togglesortType('PaymentTermsGroupName')">	Group Name <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th>
-              <th (click)="togglesortType('GroupNumber')">	Group Number <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th>
+              <!-- <th (click)="togglesortType('GroupNumber')">	Group Number <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th> -->
               <th class="text-center">Action</th>
             </tr>
             </thead>
@@ -50,7 +50,7 @@
                     (click)="checkboxclick(item.id)"></td>
                 <td>{{item.id}}</td>
                 <td>{{item.PaymentTermsGroupName || 'NA'}}</td>
-                <td>{{item.GroupNumber || 'NA'}}</td>
+                <!-- <td>{{item.GroupNumber || 'NA'}}</td> -->
                 <td class="text-center">
                   <i class="fa fa-pencil" (click)="open(mymodal,true,item)"></i>
                   <!-- <i class="fa fa-trash" (click)="deletePay(item.id)"></i> -->
@@ -100,14 +100,14 @@
   <form #f="ngForm" name="theForm" (submit)="addPaymentTerms(f)">
     <div class="modal-body">
       <div class="row">
-        <div class="col-md-12">
+        <!-- <div class="col-md-12">
           <label>Group Number </label>
           <input type="text" class="input-fld required-fld" name="GroupNumber" [(ngModel)]="pyaddterms.GroupNumber" #GroupNumber="ngModel" placeholder="Group Number" required>
           <span class="help-block danger" *ngIf="GroupNumber.errors?.required && GroupNumber.touched">
             The Group Number is required
           </span>
           <br>
-        </div>
+        </div> -->
 
         <div class="col-md-12">
           <label>Payment Term Group Name </label>

@@ -173,15 +173,17 @@ export class SplitComponent implements OnInit {
       }
     });
 
+   
+
     $(document).mouseup(function (e: { target: any; }) {
       var popup = $(".sidepanel");
-      if((document.getElementById("mySidepanel") as HTMLInputElement) != null){
-      if (!$('.openbtn').is(e.target) && !popup.is(e.target) && popup.has(e.target).length == 0) {
-        (document.getElementById("mySidepanel") as HTMLInputElement).style.width = "340";
-        $('#mySidepanel').removeClass('sidepanel2');
-        $('#mySidepanel').addClass('mySidepanelGo');
+      if ((document.getElementById("mySidepanel") as HTMLInputElement) != null) {
+        if (!$('.openbtn').is(e.target) && !popup.is(e.target) && popup.has(e.target).length == 0) {
+          (document.getElementById("mySidepanel") as HTMLInputElement).style.width = "340";
+          $('#mySidepanel').removeClass('sidepanel2');
+          $('#mySidepanel').addClass('mySidepanelGo');
+        }
       }
-    }
     });
     this.getLeadAll();
 
@@ -201,13 +203,15 @@ export class SplitComponent implements OnInit {
 
   }
 
+
   /* Set the width of the sidebar to 0 (hide it) */
   closeNav() {
     (document.getElementById("mySidepanel") as HTMLInputElement).style.width = "340";
     $('#mySidepanel').removeClass('sidepanel2');
     $('#mySidepanel').addClass('mySidepanelGo');
+    $('.sidepanel').hide();
   }
-
+    
   resetfilter() {
     this.filterLead = {}
     this.RowPerPage();

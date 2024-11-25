@@ -100,6 +100,9 @@ export interface Expense {
   Attach:any;
 }
 
+export interface Inventoryfile {
+  file : any;
+}
 
 
 export interface EditExpense {

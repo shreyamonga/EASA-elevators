@@ -1315,6 +1315,7 @@ textarea {
 }
 
 .showNoti {
+  font-size: 12px;
   display: none;
   position: absolute;
   color: #000;
@@ -2069,6 +2070,10 @@ td.fc-day-past {
   font-weight: 700;
   line-height: 1;
   color: #fff;
+  position: absolute;
+  right: 200px;
+  border-radius: 50%;
+  background: #f53b3b;
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;

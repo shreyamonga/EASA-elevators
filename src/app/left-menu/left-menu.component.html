@@ -284,20 +284,6 @@
     </li>
   </ul>
 </div>
-<!--
-<div class="showNoti">
-  <div class="shohiclass">
-    <div class="notifyArea" [ngClass]="{'bg-green-bg': item.notification.Read == '1' }" *ngFor="let item of notify">
-      <div (click)="deleteNotification(item.notification)">
-        <strong><i class="fa fa-bell-o"></i> {{item.notification.Title}} !</strong>
-        <br> {{item.notification.Description}}
-      </div>
-    </div>
-    <div class="notifyArea showall" routerLink="/notification" (click)="hidenotification()">
-      <span>Show All Notification</span>
-    </div>
-  </div>
-</div> -->
 
 <div class="notification notification_{{i}}" id="notification" *ngFor="let item of SocektMessage;let i = index" style="bottom:{{(i*120)+20}}px">
   <!-- <div class="notification show" id="notification"> -->

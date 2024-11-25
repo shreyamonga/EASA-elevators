@@ -14,7 +14,11 @@
       </li>
     </ul> -->
   </ng-container>
+  <div class="notification-icon" (click)="shownot()" style="cursor: pointer;">
     <span class="figma-user-bell-ico" [innerHTML]="'figma-user-bell-ico' | svgIcons:''"></span>
+    <span class="badge">{{ unreadCount }}</span>
+    </div>
+    <!-- <span class="figma-user-bell-ico" [innerHTML]="'figma-user-bell-ico' | svgIcons:''"></span> -->
     <div class="figma-user-detail" (click)="openNav()" style="cursor: pointer;">
       <img src="../../assets/img/figma-ellipse-1.png">
       <div class="figma-user">
@@ -61,6 +65,9 @@
 </div>
 
 
+
+
+
 <ng-template #contentchangepassword let-modal>
   <div class="modal-header">
     <h4 class="modal-title modal-heading" id="modal-basic-title">Reset Password</h4>
@@ -101,3 +108,22 @@
     </form>
   </div>
 </ng-template>
+
+
+
+
+<div class="showNoti">
+  <div class="shohiclass">
+    <div class="notifyArea" *ngFor="let item of notify">
+      <!-- <div class="notifyArea" [ngClass]="{'bg-green-bg': item.notification.Read == '1' }" *ngFor="let item of notify"> -->
+      <div (click)="deleteNotification([item.id])">
+        <strong><i class="fa fa-bell-o"></i> {{item.Heading}} !</strong>
+        <br> {{item.Message}}
+      </div>
+    </div>
+    <div class="notifyArea showall" (click)="deleteNotificationall()">
+      <!-- <div class="notifyArea showall" routerLink="/notification" (click)="deleteNotificationall()"> -->
+      <span>Show All Notification</span>
+    </div>
+  </div>
+</div>

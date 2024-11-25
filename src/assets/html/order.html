@@ -690,7 +690,7 @@
                   <tr>
                     <td colspan="11">
                       <div class="col-xs-2 col-md-2">
-                        <img src="../../assets/img/newBridgelogo.png" style=" width:70px;" alt="Bridge Logo">
+                        <img src="../../assets/img/newBridgelogo.png" id="PDFlogo" style=" width:70px;" alt="Bridge Logo">
                       </div>
                       <div class="col-xs-8 col-md-8 text-center">
                         <span style="font-size: 18px;font-weight: 800;">Sales Order</span><br><br>
@@ -852,7 +852,8 @@
  <tr>
                     <th colspan="4">
                       <span style="font-weight: 800;  font-size: 13px;">Amount In Words : </span>
-                      <sapn style="font-size: 13px;text-transform: capitalize;">India Rupee Three Hundred And Thirty Four Only.</sapn>
+                      <sapn style="font-size: 13px;text-transform: capitalize;">India Rupee <span
+                        class="amount_in_words"></span>.</sapn>
                       <br><br>
                       <!-- <span class="col-xs-3 col-sm-3 pedig-left0">IRN No: </span><span class="col-xs-9 col-sm-9">:
                         <span>9215598806</span></span><br><br>
@@ -900,9 +901,9 @@
                         <span>IFSC Code : HDFC0000485</span><br>
                       </div>
                       <div class="col-xs-5 col-sm-5 pedig-left0" style="text-align: right;">
-                        <p colspan="7" style="
+                        <p colspan="7" id="ComName" style="
                                 text-align: right;font-weight:800;
-                            "><b>For Esskay Beauty Resources Pvt Ltd.</b></p>
+                            "><b>...</b></p>
                         <p style="padding-top: 75px;">Authorized Signature</p>
                       </div>
                     </td>
@@ -933,6 +934,7 @@
         </div>
       </div>
       <script>
+        var mainbkurl = 'http://103.197.76.50:8018';
     function changedateformatt(nowdate) {
             date = new Date(nowdate);
             olddate = nowdate;
@@ -989,8 +991,36 @@
         let currentId = search_params.get('id');
       let access_token = search_params.get('token');
 
+      // login api
+
+      var settings22 = {
+          "url": mainbkurl+"/employee/get_user_info",
+          "method": "GET",
+          "timeout": 0,
+          "headers": {
+            "Content-Type": "application/json",
+          "Authorization": 'Token ' + access_token,
+          },
+          "data": JSON.stringify(),
+        };
+
+        $.ajax(settings22).done(function (response22) {
+
+if(response22.data[0].ProjectSetting[0].custom_field1 != null && response22.data[0].ProjectSetting[0].custom_field1 != ''){
+$('#PDFlogo').attr("src",mainbkurl+response22.data[0].ProjectSetting[0].custom_field1);
+}
+
+if(response22.data[0].ProjectSetting[0].custom_field2 != null && response22.data[0].ProjectSetting[0].custom_field2 != ''){
+  $("#ComName").html((response22.data[0].ProjectSetting[0].custom_field2));
+}
+
+
+        })
+
+        // quot api
+
         var settings = {
-          "url": "http://103.197.76.50:8018/order/one",
+          "url": mainbkurl+"/order/one",
           "method": "POST",
           "timeout": 0,
           "headers": {
@@ -1128,6 +1158,48 @@
           $(".total_Amount").html((Number(total_Amount).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
 
 
+          function numberToWords(num) {
+            const units = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+            const teens = ["", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+            const tens = ["", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+            const thousands = ["", "Thousand", "Lakh", "Crore"];
+
+            if (num === 0) return "Zero";
+
+            function getBelowThousand(n) {
+              let str = "";
+              if (n > 99) {
+                str += units[Math.floor(n / 100)] + " Hundred ";
+                n %= 100;
+              }
+              if (n > 10 && n < 20) {
+                str += teens[n - 10] + " ";
+              } else {
+                str += tens[Math.floor(n / 10)] + " ";
+                str += units[n % 10] + " ";
+              }
+              return str.trim();
+            }
+
+            let result = "";
+            let thousandCounter = 0;
+
+            while (num > 0) {
+              const chunk = num % 1000;
+              if (chunk !== 0) {
+                result = getBelowThousand(chunk) + " " + thousands[thousandCounter] + " " + result;
+              }
+              num = Math.floor(num / 1000);
+              thousandCounter++;
+            }
+
+            return result.trim();
+          }
+
+          total_Amount = parseFloat(total_Amount); // Convert to a number
+
+          const amountInWords = numberToWords(Math.floor(total_Amount));
+          $(".amount_in_words").text(amountInWords);
       //     var d = new Date(response.data[0].CreateDate);
 
       //     var fianllindtotal = 0;

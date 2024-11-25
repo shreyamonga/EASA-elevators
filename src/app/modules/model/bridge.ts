@@ -86,3 +86,12 @@ export interface sourceGet {
     CreatedDate: string;
     CreatedTime: string;
   }
+
+  export interface LocalSetting {
+    id?: any;
+    currency_value: any;
+    currency_type: any;
+    export_status: any;
+    custom_field1: any;
+    custom_field2: any;
+  }

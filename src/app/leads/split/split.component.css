@@ -367,14 +367,14 @@ margin-top:1px;
 }
 .filtersize{font-size: 12px;}
 
-/* .sidepanel-left {
+.sidepanel-right {
   min-height: 200px;
   max-height: 100%;
   width: 0;
   position: absolute;
   z-index: 333;
   top: 60px;
-  left: -500px;
+  right: -500px;
   background-color: #fff;
   box-shadow: 0px 0px 30px 0px rgb(0 0 0 / 23%);
   padding: 10px 30px 0 20px;
@@ -383,11 +383,11 @@ margin-top:1px;
   transition: left 1s;
 }
 .sidepanel2{
-  left:0px !important;
+  right:0px !important;
   transition: left 1s;
   transition: width 2s;
-  width:400px !important;
-} */
+  width:350px !important;
+}
 
 /* Assign To css Start */
 
@@ -516,7 +516,8 @@ width:150px;
     background: #fff;
 }
 #mySidepanel {
-  border-radius: 18px 0px 0px 18px;
+  /* border-radius: 18px 0px 0px 18px; */
+  z-index: 444444;  
 }
 .attachget{
   display: grid;

@@ -497,17 +497,29 @@ export class QuotationComponent implements OnInit {
   // Default excel file name when download
   fileName ="quotation_export.xlsx";
 
-  Exportexcel(){
-    // passing table-id
-    let data = document.getElementById("table-data");
-    const ws:XLSX.WorkSheet = XLSX.utils.table_to_sheet(data)
-
-    // Generete workbook and add the worksheet
-    const wb:XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb,ws, 'Sheet1')
-
-    // Save to file
-    XLSX.writeFile(wb, this.fileName)
+  Exportexcel() {
+    // Get the table element
+    const data = document.getElementById("table-data");
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);
+ 
+    // Convert the worksheet to JSON (2D array format)
+    let jsonData: any[][] = XLSX.utils.sheet_to_json(ws, { header: 1 }) as any[][];
+ 
+    // Remove the first column from each row
+    jsonData = jsonData.map(row => row.slice(1));
+ 
+    // Remove the last column from each row
+  jsonData = jsonData.map(row => row.slice(0, row.length - 1));
+ 
+    // Convert the modified JSON data back to a worksheet
+    const modifiedWs: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(jsonData);
+ 
+    // Create a new workbook and append the modified worksheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, modifiedWs, 'Sheet1');
+ 
+    // Save the file
+    XLSX.writeFile(wb, this.fileName);
 
   }
 

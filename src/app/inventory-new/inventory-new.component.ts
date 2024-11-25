@@ -9,6 +9,7 @@ import * as XLSX from 'xlsx';
 import { Location } from '@angular/common';
 import { NotiferService } from '../modules/service/helpers/notifer.service';
 import { HeadingServicesService } from '../modules/service/heading-services.service';
+import { Inventoryfile } from '../bridge2';
 declare var $: any;
 
 @Component({
@@ -17,7 +18,9 @@ declare var $: any;
   styleUrls: ['./inventory-new.component.scss']
 })
 export class InventoryNewComponent implements OnInit {
-
+  Payload:Inventoryfile = {
+    file:''
+  }
     closeResult = '';
     p: number = 1;
     sortedColumn: string = '';
@@ -863,17 +866,63 @@ export class InventoryNewComponent implements OnInit {
     // Default excel file name when download
     fileName ="inventory-new_export.xlsx";
 
-    Exportexcel(){
-      // passing table-id
-      let data = document.getElementById("yourTableId");
-      const ws:XLSX.WorkSheet = XLSX.utils.table_to_sheet(data)
+    Exportexcel() {
+      // Get the table element
+      const data = document.getElementById("table-data");
+      const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);
+   
+      // Convert the worksheet to JSON (2D array format)
+      let jsonData: any[][] = XLSX.utils.sheet_to_json(ws, { header: 1 }) as any[][];
+   
+      // Remove the first column from each row
+      jsonData = jsonData.map(row => row.slice(1));
+   
+      // Remove the last column from each row
+    jsonData = jsonData.map(row => row.slice(0, row.length - 1));
+   
+      // Convert the modified JSON data back to a worksheet
+      const modifiedWs: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(jsonData);
+   
+      // Create a new workbook and append the modified worksheet
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, modifiedWs, 'Sheet1');
+   
+      // Save the file
+      XLSX.writeFile(wb, this.fileName);
+    }
 
-      // Generete workbook and add the worksheet
-      const wb:XLSX.WorkBook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb,ws, 'Sheet1')
-
-      // Save to file
-      XLSX.writeFile(wb, this.fileName)
-
+    fl22: any = '';
+    onFileChange(event: any) {
+      console.log('hyy');
+      
+      this.fl22 = event.target.files[0];
+      // for (var i = 0; i < event.target.files.length; i++) {
+      //   this.fl22.push(event.target.files[i]);
+      // }      
+      if (this.fl22) {
+        this.Payload.file = this.fl22;
+      }
+      else {
+        this.Payload.file = '';
+      }
+        if (confirm("Are You Sure Do You Want To Import Data ?")) {         
+          this.bridgeService2.adduploadinventary(this.Payload).subscribe(
+            (res: any) => {
+              // console.log("rslt", data);
+              if (Object(res)['message'] == "successful") {
+                this.fl22 = '';
+                this._NotifierService.showSuccess('Data Imported Successfully');
+                
+              }
+              else {
+                //  this.isLoading = false;
+                // this._NotifierService.showError(Object(res)['message']);
+              }
+            });
+  
+    
+        // }
+      }
+  
     }
   }

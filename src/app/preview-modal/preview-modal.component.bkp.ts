@@ -11,11 +11,6 @@ export class PreviewModalComponent implements OnInit {
   isEdit:boolean=false;
   TypeOfPop:any;
   childData:any;
-
-  PDFLgog:any = '../../assets/img/newBridgelogo.png';
-  PDFComName:any = '...';
-
-  ProjectSetting: any;
   replaceNone(val:any) {
     var valData = ''
     if (val == 'None') {
@@ -62,16 +57,6 @@ export class PreviewModalComponent implements OnInit {
     this.TypeOfPop = this.GetPopupData[2];
     // console.log(this.childData)
     this.populateData(this.childData);
-    this.ProjectSetting = sessionStorage.getItem('ProjectSetting');
-    this.ProjectSetting = JSON.parse(this.ProjectSetting);
-    if(this.ProjectSetting[0].custom_field1 != null && this.ProjectSetting[0].custom_field1 != ''){
-      this.PDFLgog = this.bridgeService.baseUrl2 + this.ProjectSetting[0].custom_field1
-    }
-    if(this.ProjectSetting[0].custom_field2 != null && this.ProjectSetting[0].custom_field2 != ''){
-      this.PDFComName = this.ProjectSetting[0].custom_field2
-    }
-
-    console.log(this.ProjectSetting )
   }
 
   convertNumberToWords(num: any): string {

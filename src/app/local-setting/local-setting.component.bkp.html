@@ -29,29 +29,13 @@
                   </div>
                 </div>
 
-                <!-- Waiting for backend export -->
-                <div class="lead-update-wrapper">
+                <!-- <div class="lead-update-wrapper"> Waiting for backend export
                   <label>Export Status </label>
                   <div>
                     <input type="checkbox" name="export_status" [(ngModel)]="addSmtp1.export_status">
                   </div>
-                </div>
+                </div> -->
 
-                <div class="lead-update-wrapper">
-                  <label>Company Name </label>
-                  <div>
-                    <input class="input-fld" type="text" name="custom_field2" placeholder="Enter Company Name" [(ngModel)]="addSmtp1.custom_field2">
-                  </div>
-                </div>
-
-                <div class="lead-update-wrapper">
-                  <label>Company Logo (2198 X 1984) </label>
-                  <div>
-                    <input class="input-fld" type="file" (change)="onFileChanged($event)" style="float: left;width:80%">
-
-                    <a *ngIf="addSmtp1.custom_field1 != null && addSmtp1.custom_field1 != ''"  href="{{ this.baseUrl2 }}{{ this.addSmtp1.custom_field1 }}" target="_blank" style="float: left;width: 10%;margin-left: 10%;margin-top: 5px;font-size: 20px;color: #0d6efd;cursor: pointer;"><i class="fa fa-file"></i></a>
-                  </div>
-                </div>
                 <!-- <div class="lead-update-wrapper">
                   <label>Module Name </label>
                   <div>

@@ -1243,7 +1243,7 @@
   <div class="row ">
     <div class="row">
       <div class="col-12 mb-1 px-3 border-bottom" id="FilterTopSide">
-        <strong style="color: #4a79e4 !important;">{{Headingss[0].heading117}}</strong>
+        <strong style="color: #4a79e4 !important;">Filters</strong>
         <a class="closebtn" (click)="closeNav()">&times;</a>
       </div>
     </div>
@@ -1251,35 +1251,41 @@
       <div class="row">
         <div class="col-md-6 pe-3" id="MainPlaceholderFilter">
           <label class="MainFilterLabel filtersize">{{'From Date'}}</label>
-          <input class="input-fld" type="date" name="CreateDate__gte" [(ngModel)]="filterLead.CreateDate__gte"
-            [ngModelOptions]="{standalone: true}">
+          <input class="input-fld" type="date" name="CreateDate__gte" [(ngModel)]="filterLead.CreateDate__gte" [ngModelOptions]="{standalone: true}">
         </div>
         <div class="col-md-6 pe-3" id="MainPlaceholderFilter">
           <label class="MainFilterLabel filtersize">{{'To Date'}}</label>
-          <input class="input-fld" type="date" name="CreateDate__lte" [(ngModel)]="filterLead.CreateDate__lte"
-            [ngModelOptions]="{standalone: true}">
+          <input class="input-fld" type="date" name="CreateDate__lte" [(ngModel)]="filterLead.CreateDate__lte" [ngModelOptions]="{standalone: true}">
         </div>
         <div class="col-md-12 pe-3" id="MainPlaceholderFilter">
-          <label class="MainFilterLabel filtersize">{{Headingss[0].heading13}}</label>
-          <ng-select id="CustomDesignInput" [items]="bridgess" [multiple]="true" bindValue="id" bindLabel="firstName"
-            placeholder="Select Employee" [(ngModel)]="filterLead.assignedTo" [ngModelOptions]="{standalone: true}">
+          <label class="MainFilterLabel filtersize">Assigned To</label>
+          <ng-select id="CustomDesignInput" [items]="bridgess" [multiple]="true" bindValue="id"
+            bindLabel="firstName" placeholder="Select Employee" [(ngModel)]="filterLead.assignedTo"
+            [ngModelOptions]="{standalone: true}">
           </ng-select>
         </div>
 
         <div class="col-md-12 mb-3 pe-3" id="MainPlaceholderFilter">
-          <label class="MainFilterLabel filtersize">{{Headingss[0].heading7}}</label>
+          <label class="MainFilterLabel filtersize">Source</label>
           <ng-select id="CustomDesignInput" [items]="source1" [multiple]="true" bindValue="Name" bindLabel="Name"
             placeholder="Select Source" [(ngModel)]="filterLead.source" [ngModelOptions]="{standalone: true}">
           </ng-select>
         </div>
-      </div>
+
+        <div class="col-md-12 mb-3 pe-3" id="MainPlaceholderFilter">
+          <label class="MainFilterLabel filtersize">{{Headingss[0].heading19}}</label>
+          <ng-select [items]="leadStatus" bindLabel="Name" bindValue="Name"
+            placeholder="Select {{Headingss[0].heading19}}" [(ngModel)]="filterLead.status" [ngModelOptions]="{standalone: true}">
+          </ng-select>
+        </div>
+        </div>
 
       <div class="FilterBtnHere">
         <div class="ResetBTN">
-          <a (click)="resetfilter()">{{Headingss[0].heading114}}</a>
+          <a (click)="resetfilter()">Reset</a>
         </div>
         <div class="ApplyBTN">
-          <button (click)="RowPerPage()">{{Headingss[0].heading113}}</button>
+          <button (click)="RowPerPage()">Apply</button>
         </div>
       </div>
     </form>

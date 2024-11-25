@@ -250,18 +250,41 @@ export class CampaignComponent implements OnInit {
 
   fileName ="campaign_export.xlsx";
 
-  Exportexcel(){
-    // passing table-id
-    let data = document.getElementById("table-data");
-    const ws:XLSX.WorkSheet = XLSX.utils.table_to_sheet(data)
-
-    // Generete workbook and add the worksheet
-    const wb:XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb,ws, 'Sheet1')
-
-    // Save to file
-    XLSX.writeFile(wb, this.fileName)
-  }
+  Exportexcel() {
+    // Get the table element
+    const data = document.getElementById("table-data");
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);
+ 
+    // Convert the worksheet to JSON (2D array format)
+    let jsonData: any[][] = XLSX.utils.sheet_to_json(ws, { header: 1 }) as any[][];
+ 
+    // Remove the first column and last column, and process the "Status" column
+    jsonData = jsonData.map(row => {
+        // Remove the first and last columns
+        const modifiedRow = row.slice(1, row.length - 1);
+ 
+        // Modify the "Status" column (assuming it's the last column after slicing)
+        let status = modifiedRow[modifiedRow.length - 1];
+        if (typeof status === 'string') {
+            // Remove up to two occurrences of "Active" or "Inactive" at the end
+            status = status.replace(/(Active|Inactive)$/, ''); // Remove the last occurrence
+            status = status.replace(/(Active|Inactive)$/, ''); // Remove one more if present
+            modifiedRow[modifiedRow.length - 1] = status.trim(); // Trim any extra spaces
+        }
+ 
+        return modifiedRow;
+    });
+ 
+    // Convert the modified JSON data back to a worksheet
+    const modifiedWs: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(jsonData);
+ 
+    // Create a new workbook and append the modified worksheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, modifiedWs, 'Sheet1');
+ 
+    // Save the file
+    XLSX.writeFile(wb, this.fileName);
+}
 
   isModuleViewadd(module_id: number): boolean {
     const selectedModule = this.savedModules?.filter((module: any) => module.module_id === module_id);

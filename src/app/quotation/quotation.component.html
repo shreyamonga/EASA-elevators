@@ -132,13 +132,14 @@
                 </div>
                 <div class="hover-show hover-show{{item.id}} hover-show-inactive"
                   *ngIf="item.CancelStatus == 'csNo' && item.is_draft == 1">
-                  <a (click)="GoToPdf(item.id)" target="_blank" style="text-decoration: none;"><i class="fa fa-file"
-                      aria-hidden="true"></i> {{Headingss[0].heading15}}</a><br>
+                  <a (click)="GoToPdf(item.id)" target="_blank" style="text-decoration: none;" *ngIf="item.is_draft == 0"><i class="fa fa-file"
+                      aria-hidden="true"></i> {{Headingss[0].heading15}}</a><br *ngIf="item.is_draft == 0">
                   <a routerLink="/quotation/edit-quotation/{{item.id}}" style="text-decoration: none; color:#4E4E56;"
                     *ngIf="item.DocumentStatus != 'bost_Close'"><span><i class="fa fa-pencil" aria-hidden="true"></i>
                       {{Headingss[0].heading101}} {{Headingss[0].leftheading}}</span></a><br
                     *ngIf="item.DocumentStatus != 'bost_Close'">
                 </div>
+                <div style="margin:-13px;">&nbsp;</div>
               </td>
             </tr>
 

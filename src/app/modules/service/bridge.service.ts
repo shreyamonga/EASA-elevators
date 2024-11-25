@@ -3,7 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 import { addSmtp, Bridge, EditBridge, Industry, PaymentTerms } from '../../bridge';
-import { AddFollow2, Bridge2, EditBridge2, EditExpense, EditPayment, Expense, Follow, Payment } from '../../bridge2';
+import { AddFollow2, Bridge2, EditBridge2, EditExpense, EditPayment, Expense, Follow, Inventoryfile, Payment } from '../../bridge2';
 import { Employee } from '../../employee';
 
 import { Editopportunity, opportunity } from '../../opportunity';
@@ -23,6 +23,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { AddLog, EditAddress } from 'src/app/delivery';
 import { MAP } from '../model/customer';
 import { DomSanitizer } from '@angular/platform-browser';
+import { LocalSetting } from '../model/bridge';
 @Injectable({
   providedIn: 'root'
 })
@@ -2344,15 +2345,22 @@ storeApplication(customer: any,appEdit:boolean) {
 
   //start notification
   getNotification() {
-    return this.http.post(`${this.baseUrl2}/notification/all`, { Emp: this.UserId }, { 'headers': this.getHeader() }).pipe(
+    return this.http.get(`${this.baseUrl2}/activity/activity-status/?PageNo=1&maxItem=10&order_by_field=id&order_by_value=desc&SearchText=Lead&start_date=2024-11-24&end_date=2024-11-25&is_read=true`, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
-        return res['data'];
+        return res;
       })
     );
   }
 
-  readNotification(id: any) {
-    return this.http.post(`${this.baseUrl2}/notification/read`, { id: id }, { 'headers': this.getHeader() }).pipe(
+  readNotification(ids: any) {
+    let Payload22:any = [];
+    for(let i=0;i<ids.length;i++){
+      Payload22.push({
+        "activity": ids[i],
+        "is_read": true
+    })
+    }
+    return this.http.post(`${this.baseUrl2}/activity/activity-status/ `, Payload22, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
         // //console.log(res)
       })
@@ -2435,7 +2443,7 @@ storeApplication(customer: any,appEdit:boolean) {
   getEmployeeByPagination(pagination: any, searchValue: any, filteruser: any, filteruserposition: any, order_by_field: any, order_by_value: any, filteruserreporting?: any) {
     filteruser = this.checkKeyEpty(filteruser);
     filteruserposition = this.checkKeyEpty(filteruserposition);
-    console.log(filteruserreporting)
+    // console.log(filteruserreporting)
     filteruserreporting = this.checkKeyEpty(filteruserreporting);
     filteruserreporting = filteruserreporting==undefined?undefined:[filteruserreporting]
     return this.http.post(`${this.baseUrl2}/employee/all_filter_page`, {
@@ -2486,6 +2494,7 @@ storeApplication(customer: any,appEdit:boolean) {
     // filter = this.findRemovedOrEmptyKeys(filter,filter)
     filter.assignedTo = this.checkKeyEpty(filter.assignedTo);
     filter.source = this.checkKeyEpty(filter.source);
+    filter.status = this.checkKeyEpty(filter.status);
     filter.CreateDate__gte = this.checkKeyEpty(filter.CreateDate__gte);
     filter.CreateDate__lte = this.checkKeyEpty(filter.CreateDate__lte);
     return this.http.post(`${this.baseUrl2}/lead/all_filter_page`, {
@@ -2499,8 +2508,9 @@ storeApplication(customer: any,appEdit:boolean) {
       "field": {
         assignedTo_id__in: filter.assignedTo,
         source__in: filter.source,
+        status: filter.status,
         CreateDate__gte: filter.CreateDate__gte,
-        CreateDate__lte: filter.CreateDate__lte
+        CreateDate__lte: filter.CreateDate__lte,
       }
     }, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
@@ -3469,8 +3479,27 @@ replaceKeyInArray(arr: any[], oldKey: string, newKey: string): any[] {
   }
 
 
-  SettingUpdate(indusadd: any) {
-    return this.http.post(`${this.baseUrl2}/projectsetting/update`, indusadd, { 'headers': this.getHeader() }).pipe(
+  // SettingUpdate(indusadd: any) {
+  //   return this.http.post(`${this.baseUrl2}/projectsetting/update`, indusadd, { 'headers': this.getHeader() }).pipe(
+  //     map((res: any) => {
+  //       //console.log("ap", res)
+  //       return res;
+  //     })
+  //   );
+  // }
+
+  SettingUpdate(Quotation: LocalSetting) {
+    const uploadData = new FormData();
+    for (let i = 0; i < Object.keys(Quotation).length; i++) {
+      uploadData.append(Object.keys(Quotation)[i], Object.values(Quotation)[i]);
+    }
+    if (Quotation.custom_field1 != '') {
+      uploadData.delete('custom_field1');
+      for (var i = 0; i < Quotation.custom_field1.length; i++) {
+        uploadData.append("custom_field1", Quotation.custom_field1[i]);
+      }
+    }
+    return this.http.post(`${this.baseUrl2}/projectsetting/update`, uploadData, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
         //console.log("ap", res)
         return res;
@@ -3819,5 +3848,21 @@ replaceKeyInArray(arr: any[], oldKey: string, newKey: string): any[] {
       })
     );
   }
+
+  adduploadinventary(bridge2: Inventoryfile) {
+    console.log(bridge2)
+    const uploadData = new FormData();
+    for (let i = 0; i < Object.keys(bridge2).length; i++) {
+
+      uploadData.append(Object.keys(bridge2)[i], Object.values(bridge2)[i]);
+    }
+    return this.http.post(`${this.baseUrl2}/item/category_import`, uploadData, { 'headers': this.getHeader() }).pipe(
+      map((res: any) => {
+        return res;
+      })
+    );
+  }
+
+
 
 }

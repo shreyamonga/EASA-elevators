@@ -12,8 +12,11 @@ declare var $: any;
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+
+  unreadCount:any = 0
   hiddingLeftNav: any = { match: ["#/", "", "#/login"] };
   leftNavbar: any;
+  error: any;
   constructor(private route: Router,public bridgeService2: BridgeService,private _NotifierService: NotiferService, private modalService: NgbModal) { }
   toogleList:boolean = false;
   toogleListfun(dat:boolean){
@@ -42,6 +45,8 @@ export class HeaderComponent implements OnInit {
     "subscription": "1",
     "customer": ''
 }
+
+notify: any[] = [];
 Bridge2: any;
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent) {
@@ -61,7 +66,55 @@ Bridge2: any;
     }
     this.getAppListAll();
     this.getEmpOne();
+    this.getNotificationData();
+
+    $(document).mouseup(function (e: { target: any; }) {
+      var popup = $(".showNoti");
+      if (!$('.bellclass').is(e.target) && !popup.is(e.target) && popup.has(e.target).length == 0) {
+        popup.hide();
+      }
+    });
   }
+
+
+  getNotificationData(): void {
+    this.bridgeService2.getNotification().subscribe(
+      (res: any) => {
+        this.notify = res.data;
+        this.unreadCount = res.meta.unread_count;
+
+      },
+      (err: any) => {
+        this.error = err;
+      }
+    );
+  }
+
+  deleteNotificationall(){
+    var Paylod:any = []
+    for(let i =0;i<this.notify.length;i++){
+      Paylod.push(this.notify[i].id);
+    }
+
+    this.deleteNotification(Paylod);
+  }
+  deleteNotification(id: any) {
+    // this.resetAlerts();
+    this.bridgeService2.readNotification(id).subscribe(
+      (res) => {
+        this.hidenotification();
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
+
+  }
+
+  hidenotification() {
+    $(".shohiclass").hide();
+  }
+
 
   getEmpOne(): void {
     // this.isLoading2 = true;
@@ -227,6 +280,10 @@ for (let i = 0; i < this.appList.length; i++) {
   }
 
 
+  shownot() {
+    $(".showNoti").show();
+    $(".shohiclass").show();
+  }
 
   resetPass:any = {
     id:'',

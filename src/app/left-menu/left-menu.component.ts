@@ -22,7 +22,6 @@ export class LeftMenuComponent implements OnInit {
   UserName = sessionStorage.getItem('UserName');
   UserId = sessionStorage.getItem('UserId');
   role = sessionStorage.getItem('role');
-  notify: any;
   currentURL: string = "";
   SessionId: any;
   hiddingLeftNav: any = { match: ["#/", "", "#/login"] };
@@ -57,6 +56,7 @@ export class LeftMenuComponent implements OnInit {
       this.savedModules = $loginHit?.AccessManagement;
       this.AccessSuperModules = JSON.parse($loginHit?.module_data);
     })
+
 
     this.HeadingServices.getLoginData().subscribe(($loginHit2: any) => {
       // console.log($loginHit2);
@@ -371,40 +371,12 @@ export class LeftMenuComponent implements OnInit {
   error = '';
   success = '';
 
-  getNotificationData(): void {
-    this.bridgeService2.getNotification().subscribe(
-      (data: any) => {
-        this.notify = data;
-      },
-      (err: any) => {
-        this.error = err;
-      }
-    );
-  }
 
   resetAlerts() {
     this.error = '';
     this.success = '';
   }
 
-
-  deleteNotification(id: any) {
-    this.resetAlerts();
-    this.bridgeService2.readNotification(id).subscribe(
-      (res) => {
-        this.ngOnInit();
-        this.getNotificationData();
-      },
-      (err) => {
-        this.error = err;
-      }
-    );
-
-  }
-
-  hidenotification() {
-    $(".shohiclass").hide();
-  }
 
   isModuleView(module_id: number): boolean {
     const selectedModule = this.savedModules?.filter((module: any) => module.module_id === module_id);

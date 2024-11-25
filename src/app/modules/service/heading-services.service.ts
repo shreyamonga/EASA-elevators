@@ -114,6 +114,7 @@ export class HeadingServicesService {
     {
       leftheading: 'Lead', SubHeading1: 'General', SubHeading2: 'Junk', SubHeading3: 'Split', SubHeading4: 'Kanban', heading0: 'ID', Date: 'Company Name', heading2: 'Person Name', heading3: this.Module1[0].heading7, heading4: 'Person Designation', heading5: this.Module1[0].heading6, heading6: 'Location',
       heading7: 'Source', heading8: 'Product Interest', heading9: 'Num Of Employee', heading10: 'Turnover', heading11: this.Module1[0].heading11, heading12: 'Lead Priority', heading13: 'Assigned To', heading14: 'Remarks', heading15: 'Created By', heading16: 'Created Date', heading17: 'BP', heading100: this.Module1[0].heading100,
+      heading19: this.Module1[0].heading11,
 
       heading101: this.MainWord.heading101, heading102: this.MainWord.heading102, heading103: this.MainWord.heading103, heading104: this.MainWord.heading104, heading105: this.MainWord.heading105,
       heading106: this.MainWord.heading106, heading107: this.MainWord.heading107, heading108: this.MainWord.heading108, heading109: this.MainWord.heading109, heading110: this.MainWord.heading110,

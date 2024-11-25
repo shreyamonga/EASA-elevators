@@ -40,7 +40,7 @@
               <th class="CheckBoxWidthFix"><input id="selectAll1" type="checkbox" (click)="selectAll1()"></th>
               <th (click)="togglesortType('id')">ID <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th>
               <th (click)="togglesortType('IndustryName')">Industry Name <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th>
-              <th (click)="togglesortType('IndustryCode')">Industry Code <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th>
+              <!-- <th (click)="togglesortType('IndustryCode')">Industry Code <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th> -->
               <th (click)="togglesortType('IndustryDescription')">Industry Description <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th>
               <th class="text-center">Action</th>
             </tr>
@@ -51,7 +51,7 @@
                     (click)="checkboxclick(item.id)"></td>
                 <td>{{item.id}}</td>
                 <td>{{item.IndustryName || 'NA'}}</td>
-                <td>{{item.IndustryCode || 'NA'}}</td>
+                <!-- <td>{{item.IndustryCode || 'NA'}}</td> -->
                 <td>{{item.IndustryDescription || 'NA'}}</td>
                 <td class="text-center"><i class="fa fa-pencil" (click)="open(mymodal,true,item)"></i></td>
               </tr>

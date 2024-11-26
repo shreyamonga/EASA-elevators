@@ -114,16 +114,26 @@
 
 <div class="showNoti">
   <div class="shohiclass">
+    <ng-container *ngIf="!isLoading2">
     <div class="notifyArea" *ngFor="let item of notify">
       <!-- <div class="notifyArea" [ngClass]="{'bg-green-bg': item.notification.Read == '1' }" *ngFor="let item of notify"> -->
-      <div (click)="deleteNotification([item.id])">
+      <div (click)="deleteNotification([item.id],item)" class="singdiv">
         <strong><i class="fa fa-bell-o"></i> {{item.Heading}} !</strong>
         <br> {{item.Message}}
       </div>
     </div>
-    <div class="notifyArea showall" (click)="deleteNotificationall()">
-      <!-- <div class="notifyArea showall" routerLink="/notification" (click)="deleteNotificationall()"> -->
-      <span>Show All Notification</span>
+  </ng-container>
+    <div *ngIf="isLoading2" style="
+    height: 150px;
+    text-align: center;
+">
+      <img src="../../assets/img/loder.gif" style="
+      width: 50%;
+  ">
     </div>
+  </div>
+  <div class="notifyArea showall" (click)="deleteNotificationall()">
+    <!-- <div class="notifyArea showall" routerLink="/notification" (click)="deleteNotificationall()"> -->
+    <span>Show All Notification</span>
   </div>
 </div>

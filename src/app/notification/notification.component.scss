@@ -10,3 +10,95 @@
     background-color: #d0ddf833;
 }
 .notificationCard{border-left:4px solid #4a79e4;}
+
+.notification-list {
+    margin: 20px 0;
+    padding: 0 15px;
+  }
+  
+  .notificationCard {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f0f0f0;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .notificationCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 15px;
+  }
+  
+  .card-body div {
+    flex: 1;
+  }
+  
+  .card-body span {
+    display: block;
+    margin-bottom: 5px;
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .card-body span:first-child {
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  .card-body .ms-5 span:first-child {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  
+  .card-body .ms-5 span:last-child {
+    color: #555;
+    font-size: 14px;
+  }
+  
+  .row {
+    margin-bottom: 15px;
+  }
+  
+  @media (max-width: 768px) {
+    .notificationCard {
+      margin-bottom: 15px;
+    }
+    .card-body {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .card-body .ms-5 {
+      margin-top: 10px;
+    }
+  }
+
+  .rounded-pill2 {
+    border-radius: 50rem !important;
+  }
+  
+
+  .ActiveBTNN {
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+  }
+  td.ActiveBTNN{
+    font-weight: 600 !important;
+    color: #000 !important;
+    margin-top: 7px !important;
+  }
+  

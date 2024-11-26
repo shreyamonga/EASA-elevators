@@ -61,8 +61,6 @@ export class LoginComponent implements OnInit {
     f = this.bridgeService.GlobaleTrimFunc(f);
     if (f.valid) {
     this.resetAlerts();
-
-
     this.bridgeService.MainSessionloginFunction(this.login).subscribe(
       (ressession: any) => {
         if (ressession.status == 200) {
@@ -88,6 +86,7 @@ export class LoginComponent implements OnInit {
               sessionStorage.setItem('exportStatus', res.data[0]['ProjectSetting'][0].export_status);
               sessionStorage.setItem('UserId', this.empId);
               sessionStorage.setItem('SuperAdminModuleAccess', JSON.stringify(ressession.module_data));
+              sessionStorage.setItem('SuperAdminReportAccess', JSON.stringify(ressession.report_data));
               sessionStorage.setItem('AddDynamicFields', JSON.stringify(ressession.can_add_dynamic_fields));
               sessionStorage.setItem('Mobile', this.mobile);
               sessionStorage.setItem('role', this.role.toLowerCase());

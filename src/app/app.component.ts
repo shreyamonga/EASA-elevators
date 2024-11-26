@@ -20,7 +20,7 @@ export class AppComponent {
 
   constructor() {
     this.createOnline$().subscribe((isOnline) => {
-      console.log(isOnline);
+      // console.log(isOnline);
       if (isOnline) {
         this.checkinternet=false;
         // this.onlineMessageshow = 'You are connected to internet';

@@ -19,7 +19,7 @@ export class ReportsComponent implements OnInit {
   p: number = 1;
   sortedColumn: string = '';
   sortsend: boolean | undefined;
-  industry: Industry[] = [];
+  industry: any[] = [];
   indus: Industry = {
     IndustryDescription: "",
     IndustryName: "",
@@ -73,6 +73,8 @@ export class ReportsComponent implements OnInit {
   Headingss: any[] = [];
   reportsData: any[] = [];
   isNavVisible = false;
+  role = sessionStorage.getItem('role');
+  AccessSuperReports: any[] = [];
   commonPayload = new CommonModulesPayloadReport().payload;
   getValues(obj: {}) {
     return Object.values(obj)
@@ -83,10 +85,16 @@ export class ReportsComponent implements OnInit {
 
 
   ngOnInit(): void {
+    const AccessModulesString = sessionStorage.getItem('SuperAdminReportAccess');
+    if (AccessModulesString) {
+      this.AccessSuperReports = JSON.parse(AccessModulesString);
+    }
     this.bridgeService2.autoCall();
     this.getIndustryList();
     this.getReportCategory();
     this.UserName = sessionStorage.getItem('UserName');
+
+
     this.Headingss = this.HeadingServices.getModule10();
     if (this.UserName == undefined) {
       this.route.navigate(['/login']);
@@ -116,6 +124,7 @@ export class ReportsComponent implements OnInit {
 
     this.getReports();
     this.getRole();
+
   }
 
   getRole(){
@@ -199,7 +208,7 @@ export class ReportsComponent implements OnInit {
 
   getReports(): void {
     // console.log(item)
-    this.bridgeService2.getReportList(this.pagination3,this.searchValue,this.order_by_field,this.order_by_value,this.filter_customer).subscribe(
+    this.bridgeService2.getReportList(this.pagination3,this.searchValue,this.order_by_field,this.order_by_value,this.filter_customer,this.AccessSuperReports).subscribe(
       (response: any) => {
         this.reportsData = response.data;
 
@@ -495,7 +504,7 @@ export class ReportsComponent implements OnInit {
 
 
   getReportCategory(): void {
-    this.bridgeService2.getReportCatrogydata().subscribe(
+    this.bridgeService2.getReportCatrogydata(this.AccessSuperReports).subscribe(
       (data: any[]) => {
         this.ReportModule = data;
 
@@ -544,7 +553,7 @@ export class ReportsComponent implements OnInit {
   }
   getIndustryList(): void {
     this.isLoading2 = true;
-    this.bridgeService2.getReportsByPagination(this.pagination,this.searchValue,this.order_by_field,this.order_by_value,this.filteruser).subscribe(
+    this.bridgeService2.getReportsByPagination(this.pagination,this.searchValue,this.order_by_field,this.order_by_value,this.filteruser,this.AccessSuperReports).subscribe(
       (data: any) => {
         this.industry = data.data;
         this.totalCount = data.meta.count;

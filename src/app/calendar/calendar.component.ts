@@ -224,7 +224,6 @@ allEventsActivity:any[]=[];
     this.bridgeService.getLeadTypedata().subscribe(
       (data: Type[]) => {
         this.Types = data;
-        console.log('get lead type data',data)
 
       },
       (err) => {

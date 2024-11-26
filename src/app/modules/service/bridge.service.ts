@@ -78,6 +78,10 @@ export class BridgeService {
   getLicenaceExpireSocket(){
     return  new WebSocket('ws://103.197.76.50:8019/ws/licence_expiry_notifications/');
   }
+
+  getNotifcationCounter(){
+    return  new WebSocket(`ws://103.197.76.50:8019/ws/activity_count_notifications/`);
+  }
 // Super Admin Api
 
   MainSessionloginFunction(login: any) {
@@ -2345,7 +2349,17 @@ storeApplication(customer: any,appEdit:boolean) {
 
   //start notification
   getNotification() {
-    return this.http.get(`${this.baseUrl2}/activity/activity-status/?PageNo=1&maxItem=10&order_by_field=id&order_by_value=desc&SearchText=Lead&start_date=2024-11-24&end_date=2024-11-25&is_read=true`, { 'headers': this.getHeader() }).pipe(
+    return this.http.get(`${this.baseUrl2}/activity/activity-status/?is_read=false`, { 'headers': this.getHeader() }).pipe(
+    // return this.http.get(`${this.baseUrl2}/activity/activity-status/?PageNo=1&maxItem=10&order_by_field=id&order_by_value=desc&SearchText=Lead&start_date=2024-11-24&end_date=2024-11-25&is_read=true`, { 'headers': this.getHeader() }).pipe(
+      map((res: any) => {
+        return res;
+      })
+    );
+  }
+
+  getNotification2(pagination: any, order_by_field: any, order_by_value: any, searchValue: any,filterLead: any) {
+    // return this.http.get(`${this.baseUrl2}/activity/activity-status/?is_read=false`, { 'headers': this.getHeader() }).pipe(
+    return this.http.get(`${this.baseUrl2}/activity/activity-status/?PageNo=${pagination.PageNo}&maxItem=${pagination.maxItem}&order_by_field=${order_by_field}&order_by_value=${order_by_value}&SearchText=${searchValue}&start_date=${filterLead.CreateDate__gte}&end_date=${filterLead.CreateDate__lte}`, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
         return res;
       })
@@ -2532,9 +2546,10 @@ storeApplication(customer: any,appEdit:boolean) {
   }
 
   FilterTabs:any[] = [];
-  getReportsByPagination(pagination: any, searchValue: any, order_by_field: any, order_by_value: any,filteruser: any) {
+  getReportsByPagination(pagination: any, searchValue: any, order_by_field: any, order_by_value: any,filteruser: any,report_data:any) {
     filteruser.report_category = this.checkKeyEpty(filteruser.report_category);
     return this.http.post(`${this.baseUrl2}/mis_reports/item/all_filter_item`, {
+      "report_data":report_data,
       "PageNo": pagination.PageNo,
       "maxItem": pagination.maxItem,
       "order_by_field": order_by_field,
@@ -2549,8 +2564,8 @@ storeApplication(customer: any,appEdit:boolean) {
       })
     );
   }
-  getReportCatrogydata() {
-    return this.http.get(`${this.baseUrl2}/mis_reports/category/all`, { 'headers': this.getHeader() }).pipe(
+  getReportCatrogydata(report_data:any) {
+    return this.http.post(`${this.baseUrl2}/mis_reports/category/all`,{report_data:report_data}, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
         return res['data'];
       })
@@ -3758,12 +3773,13 @@ replaceKeyInArray(arr: any[], oldKey: string, newKey: string): any[] {
   // }
 
 
-  getReportList(pagination: any, searchValue: any, order_by_field: any, order_by_value: any,filter:any) {
+  getReportList(pagination: any, searchValue: any, order_by_field: any, order_by_value: any,filter:any,report_data:any) {
 
     filter.CreateDate__gte = this.checkKeyEpty(filter.CreateDate__gte);
     filter.CreateDate__lte = this.checkKeyEpty(filter.CreateDate__lte);
     return this.http.post(`${this.baseUrl2}/mis_reports/filter_report_history`, {
       "SalesPersonCode": this.SalesEmployeeCode,
+      "report_data":report_data,
       "PageNo": pagination.PageNo,
       "maxItem": pagination.maxItem,
       "order_by_field": order_by_field,

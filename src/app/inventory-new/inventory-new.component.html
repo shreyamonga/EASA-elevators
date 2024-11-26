@@ -19,36 +19,34 @@
             <li *ngFor="let item of ReportModule" [ngClass]="{'active':item.title==ModuleItem }" (click)="setModule(item)">{{item.title}}</li>
           </ul>
         </nav>
+        <!-- (click)="isNavVisible = false" -->
+      <div class="custom-search-wrapper">
 
-        <div ngbDropdown class="d-inline-block">
-          <button class="btn btn-outline-primary custom-action-btn" id="dropdownBasic1"
-            ngbDropdownToggle>{{Headingss[0].heading111}}</button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button ngbDropdownItem>
-              <input type="file" ngbDropdownItem (change)="onFileChange($event)" multiple="false"
-                class="custom-file-input1" style="float: left;" />
-              <i title="Download Excel" class="fa-solid fa-download download-icon cursor-pointer importfileicon"
-                onclick="window.location.href = '../../assets/inven_import2.xlsx'"></i>
-            </button>
-          </div>
-        </div>
-      <div class="custom-search-wrapper" (click)="isNavVisible = false">
-        <!-- <div ngbDropdown class="d-inline-block">
-          <button class="btn btn-outline-primary custom-action-btn" id="dropdownBasic1"
-            ngbDropdownToggle>{{Headingss[0].heading111}}</button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button ngbDropdownItem>
-              <input type="file" ngbDropdownItem (change)="onFileChange($event)" multiple="false"
-                class="custom-file-input1" style="float: left;" />
-              <i title="Download Excel" class="fa-solid fa-download download-icon cursor-pointer importfileicon"
-                onclick="window.location.href = '../../assets/lead_import.xlsx'"></i>
-            </button>
-          </div>
-        </div> -->
         <div ngbDropdown class="custom-common-search-container">
           <button *ngIf="exportStatus" type="button" class="custom-action-btn openbtn" (click)="Exportexcel()" ><i >Export &nbsp;</i>
             <i title="Download Excel" class="fa-solid fa-file-export download-icon cursor-pointer exportfileicon"></i>
           </button>
+
+          <div class="row">
+            <div class="col">
+              <div ngbDropdown class="d-inline-block">
+                <button class="btn btn-outline-primary custom-action-btn" id="dropdownBasic1"
+                  ngbDropdownToggle>{{Headingss[0].heading111}}</button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" style="width: 110px;">
+                  <button ngbDropdownItem>
+                    <input type="file" ngbDropdownItem (change)="onFileChange($event)" multiple="false"
+                      class="custom-file-input1" style="float: left;" />
+                    <i title="Download Excel" class="fa-solid fa-download download-icon cursor-pointer importfileicon"
+                    onclick="window.location.href = '../../assets/Inventory_import.xlsx'"></i>
+                  </button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
           <div class="custom-search-ico-input-container">
             <!-- <span [innerHTML]="'search-icon' | svgIcons:''" class="custom-search"></span> -->
             <input type="text" name="" id="" placeholder="Search" [(ngModel)]="searchValue" (keyup.enter)="RowPerPage()">

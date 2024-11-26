@@ -224,7 +224,7 @@ export class LeftMenuComponent implements OnInit {
       if(item.module_name == "Business Partner"){
         this.route.navigate(['/customer/customer-details/C'+ item.module_id]);
       }
-      if(item.module_name == "Opportunity"){
+      if(item.module_name == "Opportunity"){  
         this.route.navigate(['/opportunity/opportunity-details/'+ item.module_id]);
       }
       if(item.module_name == "Quotation"){

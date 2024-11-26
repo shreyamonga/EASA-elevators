@@ -12,11 +12,12 @@ declare var $: any;
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
-  unreadCount:any = 0
+  private socket!: WebSocket;
+  unreadCount:any = 0;
   hiddingLeftNav: any = { match: ["#/", "", "#/login"] };
   leftNavbar: any;
   error: any;
+  isLoading2:boolean = false;
   constructor(private route: Router,public bridgeService2: BridgeService,private _NotifierService: NotiferService, private modalService: NgbModal) { }
   toogleList:boolean = false;
   toogleListfun(dat:boolean){
@@ -66,7 +67,10 @@ Bridge2: any;
     }
     this.getAppListAll();
     this.getEmpOne();
-    this.getNotificationData();
+    this.unreadCount = sessionStorage.getItem('unreadCount');
+    this.bridgeService2.getLoginData().subscribe(($loginHit: any) => {
+      this.getNotificationData();
+    })
 
     $(document).mouseup(function (e: { target: any; }) {
       var popup = $(".showNoti");
@@ -74,17 +78,55 @@ Bridge2: any;
         popup.hide();
       }
     });
+
+    // Socekt Connection
+    this.socket = this.bridgeService2.getNotifcationCounter();
+
+    this.socket.addEventListener('open', (event) => {
+      // console.log('WebSocket connection opened:', event);
+      this.sendMessage('Hello Server!'); // Use socket here
+    });
+
+    this.socket.addEventListener('message', (event) => {
+      if(JSON.parse(event.data).message.client_id == sessionStorage.getItem('client_id')){
+
+        for(let i=0;i<JSON.parse(event.data).message.user_list.length;i++){
+          if(JSON.parse(event.data).message.user_list[i].emp_id == sessionStorage.getItem('UserId')){
+            this.getNotificationData();
+      }
+        }
+
   }
 
+    });
+
+    this.socket.addEventListener('close', (event) => {
+      // console.log('WebSocket connection closed:', event);
+    });
+
+    this.socket.addEventListener('error', (event) => {
+      console.error('WebSocket error:', event);
+    });
+  }
+  sendMessage(message: string): void {
+    if (this.socket.readyState === WebSocket.OPEN) {
+      this.socket.send(message);
+    } else {
+      console.error('WebSocket is not open.');
+    }
+  }
 
   getNotificationData(): void {
+    this.isLoading2 = true;
     this.bridgeService2.getNotification().subscribe(
       (res: any) => {
+        this.isLoading2 = false;
         this.notify = res.data;
         this.unreadCount = res.meta.unread_count;
-
+        sessionStorage.setItem('unreadCount', this.unreadCount);
       },
       (err: any) => {
+        this.isLoading2 = false;
         this.error = err;
       }
     );
@@ -96,13 +138,52 @@ Bridge2: any;
       Paylod.push(this.notify[i].id);
     }
 
-    this.deleteNotification(Paylod);
+    this.deleteNotification(Paylod,'');
   }
-  deleteNotification(id: any) {
+  deleteNotification(id: any,item:any) {
     // this.resetAlerts();
     this.bridgeService2.readNotification(id).subscribe(
       (res) => {
-        this.hidenotification();
+        this.bridgeService2.getNotification().subscribe(
+          (res: any) => {
+            this.unreadCount = res.meta.unread_count;
+            sessionStorage.setItem('unreadCount', this.unreadCount);
+        if(item != ''){
+        if(item.ModuleName == "Lead"){
+          this.route.navigate(['leads/table/lead-details/'+item.ModuleID]);
+        }
+        if(item.ModuleName == "Campaign"){
+          this.route.navigate(['campaign/details/'+item.ModuleID]);
+
+        }
+        if(item.ModuleName == "Business Partner"){
+          this.route.navigate(['/customer/customer-details/C'+ item.ModuleID]);
+        }
+        if(item.ModuleName == "Opportunity"){
+          this.route.navigate(['/opportunity/opportunity-details/'+ item.ModuleID]);
+        }
+        if(item.ModuleName == "Quotation"){
+          this.route.navigate(['/quotation/quotation-details/'+ item.ModuleID]);
+        }
+        if(item.ModuleName == "Order"){
+          this.route.navigate(['/order/order-details/'+ item.ModuleID]);
+        }
+        if(item.ModuleName == "Delivery"){
+          this.route.navigate(['/delivery/delivery-details/'+ item.ModuleID]);
+        }
+        if(item.ModuleName == "Invoice"){
+          this.route.navigate(['/invoice/invoice-details/'+ item.ModuleID]);
+        }
+      }
+      else{
+      this.route.navigate(['/notification']);
+      }
+    },
+    (err: any) => {
+      this.isLoading2 = false;
+      this.error = err;
+    }
+  );
       },
       (err) => {
         this.error = err;
@@ -111,9 +192,10 @@ Bridge2: any;
 
   }
 
-  hidenotification() {
-    $(".shohiclass").hide();
-  }
+    hidenotification() {
+      $(".showNoti").hide();
+      $(".shohiclass").hide();
+    }
 
 
   getEmpOne(): void {
@@ -281,8 +363,14 @@ for (let i = 0; i < this.appList.length; i++) {
 
 
   shownot() {
+    if(this.unreadCount == 0){
+      this.route.navigate(['/notification']);
+    }
+    else{
+      this.getNotificationData();
     $(".showNoti").show();
     $(".shohiclass").show();
+  }
   }
 
   resetPass:any = {
@@ -357,4 +445,8 @@ for (let i = 0; i < this.appList.length; i++) {
       }
     );
   }
+
+
+
+
 }

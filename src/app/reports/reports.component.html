@@ -90,17 +90,15 @@
                   [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th>
               <th (click)="togglesortType('last_access')">{{Headingss[0].Extra2}} <span
                   [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th>
-              <th (click)="togglesortType('title')">{{Headingss[0].Extra4}} <span
-                  [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th>
-              <th class="text-center">{{Headingss[0].heading111}}</th>
+              <th *ngIf="role == 'admin'">{{Headingss[0].Extra4}} </th>
+              <th class="text-center" *ngIf="role == 'admin'">{{Headingss[0].heading111}}</th>
             </tr>
           </thead>
-
-          <tr class="hover" *ngFor="let item of industry; let j = index ">
+          <tr class="hover" *ngFor="let item of industry; let j = index">
             <td (click)="goDetail(item)">{{item.title}}</td>
             <td (click)="goDetail(item)" style="width:600px">{{item.description}}</td>
             <td (click)="goDetail(item)">{{item.UpdateDate || 'NA' | customDate}} {{item.UpdateTime.substring(0, 5) }}</td>
-            <td>
+            <td *ngIf="role == 'admin'">
               <span *ngIf="isEditIndex != j" (click)="goDetail(item)">{{item.role_access_names}}</span>
               <span *ngIf="isEditIndex == j">
                 <ng-select style="width: 150px;" class="input-fld" placeholder="Select Role" [multiple]="true"  name="SelectedRole" [(ngModel)]="SelectedRole">
@@ -111,7 +109,7 @@
               </span>
             </td>
 
-            <td>
+            <td *ngIf="role == 'admin'">
               <i class="fa fa-pencil" style="color: #4a79e4;font-size: 14px;cursor: pointer;padding: 6px;" (click)="handleAction(item,j)" *ngIf="isEditIndex != j"></i>
               <i class="fa fa-check" style="color: #67e44a;font-size: 16px;cursor: pointer;padding: 6px;" (click)="SaveAction(item,j)" *ngIf="isEditIndex == j"></i>
             </td>

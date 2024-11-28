@@ -14,9 +14,9 @@
       </li>
     </ul> -->
   </ng-container>
-  <div class="notification-icon" (click)="shownot()" style="cursor: pointer;">
+  <div class="notification-icon" (click)="shownot()" style="cursor: pointer; position: relative;">
     <span class="figma-user-bell-ico" [innerHTML]="'figma-user-bell-ico' | svgIcons:''"></span>
-    <span class="badge">{{ unreadCount }}</span>
+    <span class="badge" style="right: 30px;">{{ unreadCount }}</span>
     </div>
     <!-- <span class="figma-user-bell-ico" [innerHTML]="'figma-user-bell-ico' | svgIcons:''"></span> -->
     <div class="figma-user-detail" (click)="openNav()" style="cursor: pointer;">

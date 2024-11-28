@@ -7,6 +7,7 @@ import { NgForm } from '@angular/forms';
 import { Bridge } from '../bridge';
 import { TargeYear, TargeEmployeGet, TargeQuoter } from '../login';
 import { HeadingServicesService } from '../modules/service/heading-services.service';
+import { NotiferService } from '../modules/service/helpers/notifer.service';
 
 declare var $: any;
 
@@ -17,14 +18,6 @@ declare var $: any;
 })
 export class TargetAssignedDetailsComponent implements OnInit {
 
-  dateObj = new Date();
-  time = this.dateObj.toLocaleTimeString();
-  month2 = this.dateObj.getMonth() + 1;
-  month = (this.month2 < 10 ? '0' : '') + this.month2;
-  day = (this.dateObj.getDate() < 10 ? '0' : '') + this.dateObj.getDate();
-  year = this.dateObj.getUTCFullYear();
-  months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  newdate = this.day + "-" + this.month + "-" + this.year;
   isLoading: boolean = false;
   closeResult = '';
   UserName: any;
@@ -40,8 +33,8 @@ export class TargetAssignedDetailsComponent implements OnInit {
     SalesPersonCode: '',
     reportingTo: '',
     YearTarget: '',
-    CreatedDate: this.newdate,
-    UpdatedDate: this.newdate,
+    CreatedDate: this.HeadingServices.getDate(),
+    UpdatedDate: this.HeadingServices.getDate(),
 
   };
 
@@ -65,14 +58,14 @@ export class TargetAssignedDetailsComponent implements OnInit {
     q2: 0,
     q3: 0,
     q4: 0,
-    CreatedDate: this.newdate,
-    UpdatedDate: this.newdate,
+    CreatedDate: this.HeadingServices.getDate(),
+    UpdatedDate: this.HeadingServices.getDate(),
     monthly: [
       {
         "amount": 0,
         "monthYear": "2022-04",
         "qtr": 1,
-        "CreatedDate": this.newdate,
+        "CreatedDate": this.HeadingServices.getDate(),
         "YearTarget": '',
         "id": '',
       },
@@ -80,7 +73,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
         "amount": 0,
         "monthYear": "2022-05",
         "qtr": 1,
-        "CreatedDate": this.newdate,
+        "CreatedDate": this.HeadingServices.getDate(),
         "YearTarget": '',
         "id": '',
       },
@@ -88,7 +81,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
         "amount": 0,
         "monthYear": "2022-06",
         "qtr": 1,
-        "CreatedDate": this.newdate,
+        "CreatedDate": this.HeadingServices.getDate(),
         "YearTarget": '',
         "id": '',
       },
@@ -96,7 +89,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
         "amount": 0,
         "monthYear": "2022-07",
         "qtr": 2,
-        "CreatedDate": this.newdate,
+        "CreatedDate": this.HeadingServices.getDate(),
         "YearTarget": '',
         "id": '',
       },
@@ -104,7 +97,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
         "amount": 0,
         "monthYear": "2022-08",
         "qtr": 2,
-        "CreatedDate": this.newdate,
+        "CreatedDate": this.HeadingServices.getDate(),
         "YearTarget": '',
         "id": '',
       },
@@ -112,7 +105,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
         "amount": 0,
         "monthYear": "2022-09",
         "qtr": 2,
-        "CreatedDate": this.newdate,
+        "CreatedDate": this.HeadingServices.getDate(),
         "YearTarget": '',
         "id": '',
       },
@@ -120,7 +113,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
         "amount": 0,
         "monthYear": "2022-10",
         "qtr": 3,
-        "CreatedDate": this.newdate,
+        "CreatedDate": this.HeadingServices.getDate(),
         "YearTarget": '',
         "id": '',
       },
@@ -128,7 +121,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
         "amount": 0,
         "monthYear": "2022-11",
         "qtr": 3,
-        "CreatedDate": this.newdate,
+        "CreatedDate": this.HeadingServices.getDate(),
         "YearTarget": '',
         "id": '',
       },
@@ -136,7 +129,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
         "amount": 0,
         "monthYear": "2022-12",
         "qtr": 3,
-        "CreatedDate": this.newdate,
+        "CreatedDate": this.HeadingServices.getDate(),
         "YearTarget": '',
         "id": '',
       },
@@ -144,7 +137,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
         "amount": 0,
         "monthYear": "2023-01",
         "qtr": 4,
-        "CreatedDate": this.newdate,
+        "CreatedDate": this.HeadingServices.getDate(),
         "YearTarget": '',
         "id": '',
       },
@@ -152,7 +145,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
         "amount": 0,
         "monthYear": "2023-02",
         "qtr": 4,
-        "CreatedDate": this.newdate,
+        "CreatedDate": this.HeadingServices.getDate(),
         "YearTarget": '',
         "id": '',
       },
@@ -160,7 +153,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
         "amount": 0,
         "monthYear": "2023-03",
         "qtr": 4,
-        "CreatedDate": this.newdate,
+        "CreatedDate": this.HeadingServices.getDate(),
         "YearTarget": '',
         "id": '',
       }
@@ -173,7 +166,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
       "amount": 0,
       "monthYear": "2022-04",
       "qtr": 1,
-      "CreatedDate": this.newdate,
+      "CreatedDate": this.HeadingServices.getDate(),
       "YearTarget": '',
       "id": '',
     },
@@ -181,7 +174,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
       "amount": 0,
       "monthYear": "2022-05",
       "qtr": 1,
-      "CreatedDate": this.newdate,
+      "CreatedDate": this.HeadingServices.getDate(),
       "YearTarget": '',
       "id": '',
     },
@@ -189,7 +182,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
       "amount": 0,
       "monthYear": "2022-06",
       "qtr": 1,
-      "CreatedDate": this.newdate,
+      "CreatedDate": this.HeadingServices.getDate(),
       "YearTarget": '',
       "id": '',
     },
@@ -197,7 +190,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
       "amount": 0,
       "monthYear": "2022-07",
       "qtr": 2,
-      "CreatedDate": this.newdate,
+      "CreatedDate": this.HeadingServices.getDate(),
       "YearTarget": '',
       "id": '',
     },
@@ -205,7 +198,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
       "amount": 0,
       "monthYear": "2022-08",
       "qtr": 2,
-      "CreatedDate": this.newdate,
+      "CreatedDate": this.HeadingServices.getDate(),
       "YearTarget": '',
       "id": '',
     },
@@ -213,7 +206,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
       "amount": 0,
       "monthYear": "2022-09",
       "qtr": 2,
-      "CreatedDate": this.newdate,
+      "CreatedDate": this.HeadingServices.getDate(),
       "YearTarget": '',
       "id": '',
     },
@@ -221,7 +214,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
       "amount": 0,
       "monthYear": "2022-10",
       "qtr": 3,
-      "CreatedDate": this.newdate,
+      "CreatedDate": this.HeadingServices.getDate(),
       "YearTarget": '',
       "id": '',
     },
@@ -229,7 +222,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
       "amount": 0,
       "monthYear": "2022-11",
       "qtr": 3,
-      "CreatedDate": this.newdate,
+      "CreatedDate": this.HeadingServices.getDate(),
       "YearTarget": '',
       "id": '',
     },
@@ -237,7 +230,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
       "amount": 0,
       "monthYear": "2022-12",
       "qtr": 3,
-      "CreatedDate": this.newdate,
+      "CreatedDate": this.HeadingServices.getDate(),
       "YearTarget": '',
       "id": '',
     },
@@ -245,7 +238,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
       "amount": 0,
       "monthYear": "2023-01",
       "qtr": 4,
-      "CreatedDate": this.newdate,
+      "CreatedDate": this.HeadingServices.getDate(),
       "YearTarget": '',
       "id": '',
     },
@@ -253,7 +246,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
       "amount": 0,
       "monthYear": "2023-02",
       "qtr": 4,
-      "CreatedDate": this.newdate,
+      "CreatedDate": this.HeadingServices.getDate(),
       "YearTarget": '',
       "id": '',
     },
@@ -261,7 +254,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
       "amount": 0,
       "monthYear": "2023-03",
       "qtr": 4,
-      "CreatedDate": this.newdate,
+      "CreatedDate": this.HeadingServices.getDate(),
       "YearTarget": '',
       "id": '',
     }
@@ -274,7 +267,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
   targetGes: boolean = false;
   commonObj: any = { isvalid: false, leftAmount: 0, Qua1: 0, Qua2: 0, Qua3: 0, Qua4: 0 };
   Headingss: any[]=[];
-  constructor(private modalService: NgbModal, private route: Router, private bridgeService2: BridgeService, private router: ActivatedRoute, private _location: Location,private HeadingServices: HeadingServicesService) { }
+  constructor(private modalService: NgbModal,private _NotifierService: NotiferService, private route: Router, private bridgeService2: BridgeService, private router: ActivatedRoute, private _location: Location,private HeadingServices: HeadingServicesService) { }
 
   @HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {
     let result = confirm("Please don't reload the page the data will be lost");
@@ -334,12 +327,13 @@ export class TargetAssignedDetailsComponent implements OnInit {
       (data: TargeYear[]) => {
         this.isLoading2 = false;
         this.TargeYear = data;
+        if(this.TargeYear.length != 0){
         this.TargeEmployeGet.Department = this.TargeYear[0].Department;
         this.TargeEmployeGet.StartYear = this.TargeYear[0].StartYear;
         this.TargeEmployeGet.EndYear = this.TargeYear[0].EndYear;
         this.TargeEmployeGet.reportingTo = this.TargeYear[0].SalesPersonCode.SalesEmployeeCode;
         this.NewSalesEmpCode = this.TargeYear[0].SalesPersonCode.SalesEmployeeCode;
-
+        }
         this.getBridge(this.NewSalesEmpCode);
         this.getTargetQuoterData();
         this.bridgeService2.getTargetEmployeeFill(this.TargeEmployeGet).subscribe(
@@ -437,8 +431,8 @@ export class TargetAssignedDetailsComponent implements OnInit {
       this.addTar.YearTarget = this.router.snapshot.params.id;
       this.addTar.SalesPersonCode = this.NewSalesEmpCode;
       this.addTar.reportingTo = this.NewreportingTo;
-      this.addTar.CreatedDate = this.newdate;
-      this.addTar.UpdatedDate = this.newdate;
+      this.addTar.CreatedDate = this.HeadingServices.getDate();
+      this.addTar.UpdatedDate = this.HeadingServices.getDate();
       for (let i = 0; i < this.addTar.monthly.length; i++) {
         this.addTar.monthly[i].YearTarget = this.router.snapshot.params.id;
         this.addTar.monthly[i].amount = Number(this.addTar.monthly[i].amount);
@@ -454,14 +448,14 @@ export class TargetAssignedDetailsComponent implements OnInit {
       this.bridgeService2.tenderStoreQuoter(this.addTar).subscribe((res: TargeQuoter) => {
         if (Object(res)['status'] == "200") {
           this.commonObj.isValid = false;
-          alert('Target Assign Succesfully');
+          this._NotifierService.showSuccess('Target Assign Succesfully');
           //console.log(res);
           setTimeout(() => {
             this.ngOnInit();
           }, 2000);
         }
         else {
-          alert(Object(res)['message']);
+          this._NotifierService.showError(Object(res)['message']);
          // console.log(res);
           // this.ngOnInit();
         }
@@ -471,7 +465,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
           const delim = ":"
           const name = err.message
           const result = name.split(delim).slice(3).join(delim)
-          alert(result);
+          this._NotifierService.showError(result);
         }
       );
     } else {
@@ -513,8 +507,8 @@ export class TargetAssignedDetailsComponent implements OnInit {
         SalesPersonCode: '',
         reportingTo: '',
         YearTarget: '',
-        CreatedDate: this.newdate,
-        UpdatedDate: this.newdate,
+        CreatedDate: this.HeadingServices.getDate(),
+        UpdatedDate: this.HeadingServices.getDate(),
 
       }
 
@@ -531,12 +525,12 @@ export class TargetAssignedDetailsComponent implements OnInit {
     this.bridgeService2.storeTargetAssignmentMulti(this.storeMultipleTarget).subscribe(
       (res: TargeYear) => {
         if (Object(res)['status'] == "200") {
-          alert('Target Assign Succesfully');
+          this._NotifierService.showSuccess('Target Assign Succesfully');
           // this.route.navigate(['/target-assigned']);
           this.ngOnInit();
         }
         else {
-          alert(Object(res)['message']);
+          this._NotifierService.showError(Object(res)['message']);
           this.ngOnInit();
           this.storeMultipleTarget = [];
         }
@@ -546,7 +540,7 @@ export class TargetAssignedDetailsComponent implements OnInit {
         const delim = ":"
         const name = err.message
         const result = name.split(delim).slice(3).join(delim)
-        alert(result);
+        this._NotifierService.showError(result);
       }
     );
 

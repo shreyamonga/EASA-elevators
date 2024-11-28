@@ -5,6 +5,7 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ZoneMaster } from '../bridge';
 import { BridgeService } from '../modules/service/bridge.service';
 import { Country, States } from '../customer';
+import { NotiferService } from '../modules/service/helpers/notifer.service';
 declare var $: any;
 @Component({
   selector: 'app-com-branch',
@@ -50,7 +51,7 @@ export class ComBranchComponent implements OnInit {
       order_by_value:any = 'desc';
       statess: States[] = [];
       countrys: Country[] = [];
-      constructor(private modalService: NgbModal, private route: Router, private bridgeService2: BridgeService) { }
+      constructor(private modalService: NgbModal, private route: Router, private bridgeService2: BridgeService,private _NotifierService: NotiferService) { }
 
       ngOnInit(): void {
         this.bridgeService2.autoCall();
@@ -266,9 +267,11 @@ export class ComBranchComponent implements OnInit {
                 this.route.onSameUrlNavigation = 'reload';
                 this.route.navigate([currentUrl]);
               }, 2000);
+
+              this._NotifierService.showSuccess(this.isEdit ? 'Branch Updated Successfully !' : 'Branch Added Successfully !')
             }
             else{
-              alert(Object(res)['message']);
+              this._NotifierService.showError(Object(res)['message']);
               this.isLoading = false;
             }
 

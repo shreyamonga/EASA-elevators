@@ -260,9 +260,10 @@ export class SplitComponent implements OnInit {
               this.router.onSameUrlNavigation = 'reload';
               this.router.navigate([currentUrl]);
             }, 2000);
+            this._NotifierService.showSuccess("Lead Add Successfully !")
           }
           else {
-            alert(Object(res)['message']);
+            this._NotifierService.showError(Object(res)['message']); 
           }
           // Reset the form
         },
@@ -539,6 +540,8 @@ export class SplitComponent implements OnInit {
       }
       this.editbridges[this.DynamicFiledPositionDetials[i].field_name] = item[this.DynamicFiledPositionDetials[i].field_name];
     }
+    
+            
   }
 
   editLeads(fb: NgForm) {
@@ -562,9 +565,10 @@ export class SplitComponent implements OnInit {
               $(".edit-success-box").fadeOut(1000);
               this.getBridge2();
             }, 2000);
+            this._NotifierService.showSuccess("Lead Updated Successfully !")
           }
           else {
-            alert(Object(res)['message']);
+            this._NotifierService.showError(Object(res)['message']); 
             this.isLoading = false;
           }
 

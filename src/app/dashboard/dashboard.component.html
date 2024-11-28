@@ -3,7 +3,7 @@
 
 <div class="MainWrapperDashboard">
   <h5 class="dashheadingmain">{{Headingss[0].heading0}}</h5>
-  
+
   <div *ngIf="role == 'admin'" class="me-3 headsec">
     <ng-select #selectRole [clearOnBackspace]="false" [searchable]="false" [ngModel]="selectedDevice" (ngModelChange)="ChartJs($event)" name="sel2" placeholder="Select Employee" class="ngsearch-dropdown filter-select-width">
       <ng-template ng-header-tmp>
@@ -27,10 +27,10 @@
             <div>
             <h2>{{revanue}}</h2>
           </div>
-          <div class="upDwn">
+          <!-- <div class="upDwn">
             <span>vs Last Year</span>
             <li><img src="../../assets/img/growth-icon.png" alt="">+32.40%</li>
-          </div>
+          </div> -->
           </div>
         </div>
 
@@ -41,54 +41,42 @@
             <div>
             <h2>{{sales}}</h2>
           </div>
-          <div class="upDwn">
-            <span>vs Last Year</span>
-            <li><img src="../../assets/img/growth-icon.png" alt="">+32.40%</li>
-          </div>
+
           </div>
         </div>
 
 
-        <div class="MainContentBox">
+        <div class="MainContentBox" routerLink="/customer" style="cursor: pointer;">
           <li class="iconBg"><i class="fa-solid fa-user-tie"></i></li>
           <li class="TotalRevenue">{{Headingss[0].heading3}}</li>
           <div class="TwoliHere">
             <div>
             <h2>{{Customer}}</h2>
           </div>
-          <div class="upDwn">
-            <span>vs Last Year</span>
-            <li style="color:#BA1A1A;"><img src="../../assets/img/decrease-down-icon.png" alt="">+32.40%</li>
-          </div>
+
           </div>
         </div>
 
 
-        <div class="MainContentBox">
+        <div class="MainContentBox" routerLink="/leads/table" style="cursor: pointer;">
           <li class="iconBg"><i class="fa-solid fa-users"></i></li>
           <li class="TotalRevenue">{{Headingss[0].heading4}}</li>
           <div class="TwoliHere">
             <div>
             <h2>{{Leads}}</h2>
           </div>
-          <div class="upDwn">
-            <span>vs Last Year</span>
-            <li style="color:#BA1A1A;"><img src="../../assets/img/decrease-down-icon.png" alt="">+32.40%</li>
-          </div>
+
           </div>
         </div>
 
-        <div class="MainContentBox">
+        <div class="MainContentBox" routerLink="/order" style="cursor: pointer;">
           <li class="iconBg"><i class="fa-solid fa-cart-shopping"></i></li>
           <li class="TotalRevenue">{{Headingss[0].heading5}}</li>
           <div class="TwoliHere">
             <div>
             <h2>{{allOrder}}</h2>
           </div>
-          <div class="upDwn">
-            <span>vs Last Year</span>
-            <li style="color:#BA1A1A;"><img src="../../assets/img/decrease-down-icon.png" alt="">+32.40%</li>
-          </div>
+
           </div>
         </div>
   </div>
@@ -107,8 +95,10 @@
   </div>
 </div>
 <div class="DashboardAllChartHere">
-  <div class="AllGraphChart">
-    <div class="Chartone" style="background-color:#fff;">
+  <div class="AllGraphChart" style="
+  grid-template-columns: 59% 39%;
+">
+    <!-- <div class="Chartone" style="background-color:#fff;">
       <h3>{{Headingss[0].heading7}}</h3>
       <canvas id="barChart3" height="200"></canvas>
       <ul class="delievery-ul delievery-grid-ul d-flex justify-content-between">
@@ -118,24 +108,24 @@
         <li class="d-inline-block"><span class="size1 yellow d-inline-block me-2" style="
         background-color: #FFA63D;"></span>Closed</li>
       </ul>
-    </div>
+    </div> -->
 <div class="Chartone" style="background-color:#fff;">
   <h3>{{Headingss[0].heading8}}</h3>
-  <canvas id="BarBestSell" height="200"></canvas>
+  <canvas id="BarBestSell" height="200" style="padding: 10px;"></canvas>
 </div>
   <div class="Chartone" style="background-color:#fff;">
     <div class="row">
-      <div class="col-lg-8">
+      <div class="col-lg-12">
     <h3>{{Headingss[0].heading9}}</h3>
     <canvas class="Chartone WidthDown" id="doughnut" height="100"></canvas>
   </div>
-  <div class="col-lg-4">
+  <div class="col-lg-12">
     <div class="ChartoneLiHere">
       <ul>
         <li class="d-inline-block"><span class="size1 yellow d-inline-block me-2" style="
-          background-color: #4A79E4;"></span>Non Moving</li>
+          background-color: #4A79E4;"></span>Non Moving</li> &nbsp;&nbsp;&nbsp;&nbsp;
           <li class="d-inline-block"><span class="size1 yellow d-inline-block me-2" style="
-            background-color: #1EF2FF;"></span>Slow Moving</li>
+            background-color: #1EF2FF;"></span>Slow Moving</li>&nbsp;&nbsp;&nbsp;&nbsp;
             <li class="d-inline-block"><span class="size1 yellow d-inline-block me-2" style="
               background-color: #FFA63D;"></span>Fast Moving</li>
       </ul>
@@ -157,27 +147,13 @@
         <div class="d-flex"><a style="padding: 6px 0px;">Name</a></div>
         <div><span>Leads</span></div>
       </div>
-      <div class="LeadSourseSocialIcon">
-        <div class="d-flex"><li><img src="../../assets/img/cinntraLogo.png" alt=""></li><a>Website</a></div>
-        <div><span>38</span></div>
+      <div style="max-height: 250px; overflow: auto;">
+      <div class="LeadSourseSocialIcon" *ngFor="let itm of leadsource">
+        <div class="d-flex"><li>{{itm.name[0]}}</li><a>{{itm.name}}</a></div>
+        <div><span>{{itm.value}}</span></div>
       </div>
-      <div class="LeadSourseSocialIcon">
-        <div class="d-flex"><li><img src="../../assets/img/facebookIcon.png" alt=""></li><a>Facebook</a></div>
-        <div><span>133</span></div>
-      </div>
-      <div class="LeadSourseSocialIcon">
-        <div class="d-flex"><li><img src="../../assets/img/instagram-icon.png" alt=""></li><a>Instagram</a></div>
-        <div><span>156</span></div>
-      </div>
-      <div class="LeadSourseSocialIcon">
-        <div class="d-flex"><li><img src="../../assets/img/linkedinIcon.png" alt=""></li><a>Linkedin</a></div>
-        <div><span>200</span></div>
-      </div>
-      <div class="LeadSourseSocialIcon">
-        <div class="d-flex"><li><img src="../../assets/img/IndiaMart.png" alt=""></li><a>India Mart</a></div>
-        <div><span>433</span></div>
-      </div>
-      
+    </div>
+
     </div>
   </div>
 </div>

@@ -10,6 +10,7 @@ import { BusinessPartners } from '../businesspartners';
 import { opportunity } from '../opportunity';
 import {Location} from '@angular/common';
 import { Bridge2 } from '../bridge2';
+import { NotiferService } from '../modules/service/helpers/notifer.service';
 declare var $: any;
 @Component({
   selector: 'app-smtp-setting',
@@ -51,7 +52,7 @@ export class SmtpSettingComponent implements OnInit {
     this.success = '';
   }
   constructor(private bridgeService2: BridgeService,private router: Router, private modalService: NgbModal,private http: HttpClient,
-    private _location: Location) {
+    private _location: Location,private _NotifierService: NotiferService) {
     this.baseUrl2 = this.bridgeService2.baseUrl2;
 
   }
@@ -112,9 +113,10 @@ export class SmtpSettingComponent implements OnInit {
         window.location.reload();
         }, 2000);
 
+        this._NotifierService.showSuccess(' Update Successfully');
       }
       else{
-      alert(Object(res)['message']);
+        this._NotifierService.showError(Object(res)['message']);
       this.isLoading = false;
 
       }

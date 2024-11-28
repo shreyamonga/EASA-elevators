@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ZoneMaster } from '../bridge';
 import { BridgeService } from '../modules/service/bridge.service';
+import { NotiferService } from '../modules/service/helpers/notifer.service';
 declare var $: any;
 
 @Component({
@@ -42,7 +43,7 @@ export class DepartmentmasterComponent implements OnInit {
       commonObj : any={exportLoading:false}
       order_by_field:any = 'id';
       order_by_value:any = 'desc';
-      constructor(private modalService: NgbModal, private route: Router, private bridgeService2: BridgeService) { }
+      constructor(private modalService: NgbModal, private route: Router, private bridgeService2: BridgeService,private _NotifierService: NotiferService) { }
 
       ngOnInit(): void {
         this.bridgeService2.autoCall();
@@ -224,9 +225,11 @@ export class DepartmentmasterComponent implements OnInit {
                 this.route.onSameUrlNavigation = 'reload';
                 this.route.navigate([currentUrl]);
               }, 2000);
+
+              this._NotifierService.showSuccess(this.isEdit ? 'Department Updated Successfully !' : 'Department Added Successfully !')
             }
             else{
-              alert(Object(res)['message']);
+              this._NotifierService.showError(Object(res)['message']); 
               this.isLoading = false;
             }
 

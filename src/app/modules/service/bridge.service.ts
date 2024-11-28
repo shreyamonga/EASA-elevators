@@ -24,6 +24,7 @@ import { AddLog, EditAddress } from 'src/app/delivery';
 import { MAP } from '../model/customer';
 import { DomSanitizer } from '@angular/platform-browser';
 import { LocalSetting } from '../model/bridge';
+import { Config } from 'src/config';
 @Injectable({
   providedIn: 'root'
 })
@@ -37,21 +38,19 @@ export class BridgeService {
   UserId = sessionStorage.getItem('UserId');
   role = sessionStorage.getItem('role');
   SalesEmployeeCode = sessionStorage.getItem('SalesEmployeeCode');
-  // baseUrl2 = 'http://103.234.187.197:8111';
-  // SuperbaseUrl = 'http://103.234.187.197:8084/api';
-  baseUrl2 = 'http://103.197.76.50:8018';
-  SuperbaseUrl = 'http://103.197.76.50:8017/api';
-  // baseUrl2 = 'http://192.168.29.103:8002';
-  // SuperbaseUrl = 'http://192.168.29.103:8000/api';
-  // baseUrl2 = 'http://192.168.77.231:8002';
-  // SuperbaseUrl = 'http://192.168.77.231:8000/api';
+  // baseUrl2 = 'http://103.197.76.50:8018';
+  // SuperbaseUrl = 'http://103.197.76.50:8017/api';
+  baseUrl2 = this._Config.Links[0].Api;
+  SuperbaseUrl = this._Config.Links[0].SuprAdminApi;
+  SocektApi = this._Config.Links[0].SocektApi;
+
   UserFilter: any = { pageNumber: 1, ShowRows: '10', searchValue: '',short:{order_by_field:'',order_by_value:''}, Filter: { filterusersrole: '', filteruserposition: '', filteruserreporting: '' } };
   AllFilter:any;
   private previousUrl: any;
   private currentUrl: any;
   accessToken: any;
   sessionheaders: any;
-  constructor(private http: HttpClient, private router: Router, private sanitizer: DomSanitizer) {
+  constructor(private http: HttpClient, private router: Router, private sanitizer: DomSanitizer, private _Config: Config) {
     this.currentUrl = this.router.url;
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -66,21 +65,21 @@ export class BridgeService {
 
 
   getNotificationSocket(){
-    return  new WebSocket('ws://103.197.76.50:8019/ws/notifications/');
+    return  new WebSocket(this.SocektApi+'/notifications/');
   }
 
 
   getPaymentAlertSocket(){
-    return  new WebSocket('ws://103.197.76.50:8019/ws/licence_notifications/');
+    return  new WebSocket(this.SocektApi+'/licence_notifications/');
   }
 
 
   getLicenaceExpireSocket(){
-    return  new WebSocket('ws://103.197.76.50:8019/ws/licence_expiry_notifications/');
+    return  new WebSocket(this.SocektApi+'/licence_expiry_notifications/');
   }
 
   getNotifcationCounter(){
-    return  new WebSocket(`ws://103.197.76.50:8019/ws/activity_count_notifications/`);
+    return  new WebSocket(this.SocektApi+'/activity_count_notifications/');
   }
 // Super Admin Api
 
@@ -768,13 +767,15 @@ storeApplication(customer: any,appEdit:boolean) {
     );
   }
 
-  collectionProjection(evt: any) {
-    return this.http.post(`${this.baseUrl2}/employee/employee_target`, { "SalesPersonCode": evt }, { 'headers': this.getHeader() }).pipe(
+
+  collectionProjection(evt: any,year:any) {
+    return this.http.post(`${this.baseUrl2}/employee/collection_and_projection`, { "SalesPersonCode": evt,"financial_year":year }, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
         return res;
       })
     );
   }
+
   topFivecustomers(evt: any, NoOfBP: number) {
     return this.http.post(`${this.baseUrl2}/employee/top_bp_by_order`, { "SalesPersonCode": evt, "NoOfBP": NoOfBP }, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
@@ -1969,7 +1970,7 @@ storeApplication(customer: any,appEdit:boolean) {
   insertCustomerType(indusadd: any, isEdit: boolean) {
     return this.http.post(`${this.baseUrl2}/businesspartner/${isEdit ? 'updatetype' : 'createtype'}`, indusadd, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
-        return res['data'];
+        return res;
       })
     );
   }
@@ -2868,14 +2869,19 @@ storeApplication(customer: any,appEdit:boolean) {
   getActivityByPagination(pagination: any, searchValue: any, filteruser: any, order_by_field: any, order_by_value: any,Emp:any) {
     filteruser.SourceID = this.checkKeyEpty(filteruser.SourceID);
     filteruser.SourceType = this.checkKeyEpty(filteruser.SourceType);
+    filteruser.From__lte = this.checkKeyEpty(filteruser.From__lte);
+    filteruser.To__gte = this.checkKeyEpty(filteruser.To__gte);
     return this.http.post(`${this.baseUrl2}/activity/all_filter`, {
       "Emp":Emp,
       "PageNo": pagination.PageNo,
-      "maxItem": pagination.maxItem,
+      "maxItem": 'all',
+      // "maxItem": pagination.maxItem,
       "order_by_field": order_by_field,
       "order_by_value": order_by_value,
       "SearchText": searchValue,
       "field": {
+        "From__gte": filteruser.From__lte,
+        "From__lte": filteruser.To__gte,
         "SourceID": filteruser.SourceID,
         "SourceType": filteruser.SourceType,
       }
@@ -3696,6 +3702,16 @@ replaceKeyInArray(arr: any[], oldKey: string, newKey: string): any[] {
     );
   }
 
+  LeadCountPerSource(Payload: any) {
+    //console.log(camp)
+    return this.http.post(`${this.baseUrl2}/dashboard/lead_count_per_source`, Payload, { 'headers': this.getHeader() }).pipe(
+      map((res: any) => {
+        // //console.log(res)
+        return res;
+      })
+    );
+  }
+
   // UpdateAccessModule(payload: any) {
   //   return this.http.patch(`${this.baseUrl2}/accessmanagement`, payload, { headers: this.getHeader() }).pipe(
   //     map((res: any) => {
@@ -3879,6 +3895,16 @@ replaceKeyInArray(arr: any[], oldKey: string, newKey: string): any[] {
     );
   }
 
-
+  getleadsourcedashboard(code:any,month:any,year:any) {
+    return this.http.post(`${this.baseUrl2}/dashboard/lead_count_per_source`,{
+      "SalesEmployeeCode": code,
+      "financial_year": year,
+      "selectedMonths":month
+  }, { 'headers': this.getHeader() }).pipe(
+      map((res: any) => {
+        return res['data'];
+      })
+    );
+  }
 
 }

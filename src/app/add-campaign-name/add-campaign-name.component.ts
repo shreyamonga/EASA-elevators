@@ -6,6 +6,7 @@ import { CampaignNameCreate, CampaignName } from '../campaign';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NotiferService } from '../modules/service/helpers/notifer.service';
 declare var $: any;
 @Component({
   selector: 'app-add-campaign-name',
@@ -72,7 +73,7 @@ export class AddCampaignNameComponent implements OnInit {
   CampaignDate:any;
   CampaignDateData=new Array;
 
-  constructor(private _location: Location, private router: Router, private route: ActivatedRoute, private bridgeService: BridgeService, private modalService: NgbModal,) { }
+  constructor(private _location: Location, private router: Router, private route: ActivatedRoute, private bridgeService: BridgeService, private modalService: NgbModal,private _NotifierService: NotiferService) { }
 
   ngOnInit(): void {
     this.bridgeService.autoCall();
@@ -310,14 +311,14 @@ export class AddCampaignNameComponent implements OnInit {
 
     // console.log(this.TestWeekDay.length)
     if(this.CampaignNameCreate1.Frequency=="Weekly" && this.TestWeekDay.length == 0){
-      alert("Please Select Day")
+      this._NotifierService.showError('Please Select Day');
       $("#dyselect").hasClass('required-fld')
       $("#dyselect").addClass("red-line-border");
       $("#dyselect").focus();
     }
 
     else if(this.CampaignNameCreate1.Frequency=="Monthly" && this.TestMonthlyDate.length== 0){
-      alert("Please Select Monthly Date")
+      this._NotifierService.showError('Please Select Monthly Date');
 
     }
     else{
@@ -336,9 +337,10 @@ export class AddCampaignNameComponent implements OnInit {
               this.router.navigate(['/campaign/details/' + this.route.snapshot.params.id]);
               this.isLoading = false;
             }, 2000);
+            this._NotifierService.showSuccess('Campaign Added Successfully !');
           }
           else {
-            alert(Object(res)['message']);
+            this._NotifierService.showError(Object(res)['message']);
             this.isLoading = false;
           }
           // console.log(res);
@@ -353,7 +355,7 @@ export class AddCampaignNameComponent implements OnInit {
         }
       );
     } else {
-      alert('Please Filed All required field');
+      this._NotifierService.showError('Please Filed All required field');
       this.isLoading = false;
       for (let i = 0; i < Object.keys(f.value).length; i++) {
         var keyys = Object.keys(f.value)[i];
@@ -448,7 +450,7 @@ export class AddCampaignNameComponent implements OnInit {
   onFileChanged(event: any) {
     var file_size=event.target.files[0]['size']
     if(file_size>1055736*5){
-      alert("please select less than 5MB of size")
+      this._NotifierService.showError('please select less than 5MB of size');
       this.CampaignNameCreate1.Attachments = "";
 
     }

@@ -174,6 +174,9 @@ Bridge2: any;
         if(item.ModuleName == "Invoice"){
           this.route.navigate(['/invoice/invoice-details/'+ item.ModuleID]);
         }
+        if(item.ModuleName == "Target Assignment"){
+          this.route.navigate(['/target-assisment/target-assisment-details/'+ item.ModuleID]);
+        }
       }
       else{
       this.route.navigate(['/notification']);

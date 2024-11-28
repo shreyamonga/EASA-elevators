@@ -8,6 +8,7 @@ import { CampaignNameCreate, CampaignName, editCampaignNameCreate } from '../cam
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NotiferService } from '../modules/service/helpers/notifer.service';
 declare var $: any;
 @Component({
   selector: 'app-edit-campaign-name',
@@ -78,7 +79,7 @@ export class EditCampaignNameComponent implements OnInit {
   CamapignDays=new Array;
   CampaignDate:any;
   CampaignDateData=new Array;
-  constructor(private _location: Location, private router: Router, private route: ActivatedRoute, private bridgeService: BridgeService, private modalService: NgbModal,) {
+  constructor(private _location: Location, private router: Router, private route: ActivatedRoute, private bridgeService: BridgeService, private modalService: NgbModal,private _NotifierService: NotiferService) {
     this.baseUrl2 = this.bridgeService.baseUrl2;
   }
 
@@ -502,7 +503,7 @@ this.isdataLoading=true;
     // console.log(this.TestMonthlyDate,"m")
     if(this.CampaignNameCreate1.Frequency=="Weekly" && this.selectedItems.length == 0){
       this.CampaignNameCreate1.MonthlyDate = "";
-      alert("Please Select Day")
+      this._NotifierService.showError('Please Select Day');
       $("#dyselect").hasClass('required-fld')
       $("#dyselect").addClass("red-line-border");
       $("#dyselect").focus();
@@ -511,7 +512,7 @@ this.isdataLoading=true;
 
     else if(this.CampaignNameCreate1.Frequency=="Monthly" && this.selectedItems1.length== 0){
       this.CampaignNameCreate1.WeekDay = "";
-      alert("Please Select Monthly Date")
+      this._NotifierService.showError('Please Select Monthly Date');
 
     }
     else{
@@ -542,9 +543,10 @@ this.isdataLoading=true;
 
               this.router.navigate(['/campaign/details/' + this.CampaignNameCreate1.CampaignSetId]);
             }, 2000);
+            this._NotifierService.showSuccess('Campaign Updated Successfully !');
           }
           else {
-            alert(Object(res)['message']);
+            this._NotifierService.showError(Object(res)['message']);
             this.isLoading = false;
           }
           // console.log(res);
@@ -559,7 +561,7 @@ this.isdataLoading=true;
         }
       );
     } else {
-      alert('Please Filed All required field');
+      this._NotifierService.showError('Please Filed All required field');
       this.isLoading = false;
       for (let i = 0; i < Object.keys(f.value).length; i++) {
         var keyys = Object.keys(f.value)[i];
@@ -641,7 +643,7 @@ this.isdataLoading=true;
   onFileChanged(event: any) {
     var file_size=event.target.files[0]['size']
     if(file_size>1055736*5){
-      alert("please select less than 5MB of size")
+      this._NotifierService.showError('please select less than 5MB of size');
       this.CampaignNameCreate1.Attachments = "";
     }
     else{

@@ -36,7 +36,8 @@ export class CalendarComponent implements OnInit {
 
   Events: any[] = [];
   closeResult = '';
-
+  From__lte:any = '';
+  To__gte:any = '';
   leadtype = 'All';
   followupdate = this.HeadingServices.getDate();
 
@@ -96,19 +97,37 @@ export class CalendarComponent implements OnInit {
   }
   onDateClick(res: any) {
     this.followupdate = res.dateStr;
-   // this.getAllEventTask();
     this.getEventTask();
     this.changeDate = new Date(this.followupdate);
-    // console.log(this.followupdate)
     this.changeDate = this.changeDate.toDateString();
 
   }
 
+  onDatesSet(args: any) {
+    const start = new Date(args.startStr);
+    const end = new Date(args.endStr);
+    // Fetch events for this exact month
+    this.fetchEventsForRange(this.formatDate(start), this.formatDate(end));
+  }
 
+  formatDate(dateObj: Date): any {
+    dateObj.setDate(dateObj.getDate());
+    var month2 = dateObj.getMonth() + 1;
+    var month = (month2 < 10 ? '0' : '') + month2;
+    var day = (dateObj.getDate() < 10 ? '0' : '') + dateObj.getDate();
+    var year = dateObj.getUTCFullYear();
+    var newdate = year + '-' + month + '-' + day;
+    return newdate
+  }
+
+  fetchEventsForRange(start: string, end: string) {
+    this.From__lte = start;
+    this.To__gte = end;
+    this.getAllEventTask(this.From__lte,this.To__gte);
+  }
 
   ngOnInit(): void {
-    // var TODAY_STR = new Date().toISOString().replace(/T.*$/, '');
-    // console.log(TODAY_STR);
+
     this.bridgeService.autoCall();
     this.ActivityType=this.bridgeService.ActivityType;
     this.UserId = sessionStorage.getItem('UserId');
@@ -123,7 +142,20 @@ export class CalendarComponent implements OnInit {
 
     this.getEventTask();
     this.getLeadType();
-    this.getAllEventTask();
+    const today = new Date();
+
+    // Calculate the first visible date (Sunday of the first week in the grid)
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const firstVisibleDate = new Date(firstDayOfMonth);
+    firstVisibleDate.setDate(firstVisibleDate.getDate() - firstVisibleDate.getDay()); // Adjust to the previous Sunday
+
+    // Calculate the last visible date (Saturday of the last week in the grid)
+    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    const lastVisibleDate = new Date(lastDayOfMonth);
+    lastVisibleDate.setDate(lastVisibleDate.getDate() + (6 - lastVisibleDate.getDay())); // Adjust to the next Saturday
+    this.From__lte = this.formatDate(firstVisibleDate);
+    this.To__gte = this.formatDate(lastVisibleDate);
+    this.getAllEventTask(this.From__lte,this.To__gte);
     this.getOpportunity();
 
   }
@@ -143,7 +175,7 @@ export class CalendarComponent implements OnInit {
   calenderArray:any[]=[];
   CalendarOptions:any;
 allEventsActivity:any[]=[];
-  getAllEventTask() {
+  getAllEventTask(From__lte:any,To__gte:any) {
     this.calenderArray=[];
     this.CalendarOptions;
     this.allEventsActivity=[];
@@ -151,7 +183,7 @@ allEventsActivity:any[]=[];
       PageNo: 1,
       maxItem: '10',
       PageShow:10
-    },'',{},'id','desc',this.UserId).subscribe((data: any) => {
+    },'',{From__lte:From__lte,To__gte:To__gte},'id','desc',this.UserId).subscribe((data: any) => {
 
         this.allEventsActivity = data.data;
         if(this.allEventsActivity.length){
@@ -168,7 +200,8 @@ allEventsActivity:any[]=[];
           dateClick: this.onDateClick.bind(this),
           events: this.calenderArray,
           initialView: 'dayGridMonth',
-           dayMaxEvents: true
+          dayMaxEvents: true,
+          datesSet: this.onDatesSet.bind(this)
         };
 
         if (this.allEventsActivity.length <= 0) {
@@ -189,14 +222,13 @@ allEventsActivity:any[]=[];
 
   model2: any;
   getEventTask() {
-    this.Activitys.From = this.HeadingServices.getTime2();
     this.Activitys.From = this.HeadingServices.getTime();
     this.Activitys.CreateDate = this.HeadingServices.getDate();
     this.bridgeService.getAllEventTaskdata2(this.followupdate).subscribe((data: Activity[]) => {
 
         this.activity = data;
 
-        this.getAllEventTask();
+        this.getAllEventTask(this.From__lte,this.To__gte);
 
         if (this.activity.length <= 0) {
           this.nodata = true;

@@ -105,7 +105,7 @@ export class LocalSettingComponent implements OnInit {
             this.ngOnInit();
           }
           else {
-            alert(Object(res)['message']);
+            this._NotifierService.showError(Object(res)['message']);
             this.isLoading = false;
 
           }

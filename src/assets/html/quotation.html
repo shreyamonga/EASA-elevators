@@ -934,7 +934,13 @@
         </div>
       </div>
       <script>
-        var mainbkurl = 'http://103.197.76.50:8018';
+
+
+fetch('/assets/config.json')
+      .then(response => response.json())
+      .then(config => {
+
+        var mainbkurl = config[0].Api;
 
     function changedateformatt(nowdate) {
             date = new Date(nowdate);
@@ -1182,9 +1188,26 @@ if(response22.data[0].ProjectSetting[0].custom_field2 != null && response22.data
             return result.trim();
           }
 
+          function numberToWordsWithDecimals(amount) {
+    const integerPart = Math.floor(amount);
+    const decimalPart = Math.round((amount - integerPart) * 100); // Get two decimal places
+
+    let result = numberToWords(integerPart);
+
+    if (decimalPart > 0) {
+        result += " Point";
+        const decimalDigits = decimalPart.toString().split('');
+        for (const digit of decimalDigits) {
+            result += " " + numberToWords(parseInt(digit));
+        }
+    }
+
+    return result;
+}
+
           total_Amount = parseFloat(total_Amount); // Convert to a number
 
-          const amountInWords = numberToWords(Math.floor(total_Amount));
+          const amountInWords = numberToWordsWithDecimals(total_Amount);
           $(".amount_in_words").text(amountInWords);
 
         });
@@ -1193,6 +1216,8 @@ if(response22.data[0].ProjectSetting[0].custom_field2 != null && response22.data
    function generatePDF() {
           window.print();
         }
+
+      });
       </script>
 
 

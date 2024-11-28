@@ -274,6 +274,10 @@
               The {{Headingss[0].heading3}} is required
             </span>
           </ng-container>
+
+          <span class="help-block danger" *ngIf="phoneNumber.errors?.pattern">
+            Invalid {{Headingss[0].heading3}}
+          </span>
         </div>
 
         <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'email')">
@@ -1105,7 +1109,7 @@
             placeholder="Select {{Headingss[0].heading19}}" [(ngModel)]="filterLead.status" [ngModelOptions]="{standalone: true}">
           </ng-select>
         </div>
-        
+
       </div>
 
       <div class="FilterBtnHere">

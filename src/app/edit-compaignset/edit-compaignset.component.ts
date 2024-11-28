@@ -631,6 +631,7 @@ export class EditCompaignsetComponent implements OnInit {
               // this.router.navigate([priviousUrl]);
               // alert("CampaignSet Added Successfully Your Member List Will be Update after 24 hours")
             }, 2000);
+            this._NotifierService.showSuccess('Campaign Set Updated Successfully !');
           }
           else {
             this._NotifierService.showError(Object(res)['message']);

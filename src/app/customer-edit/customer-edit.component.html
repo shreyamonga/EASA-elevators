@@ -257,7 +257,7 @@
                     <ng-select #selecttype [clearOnBackspace]="false" [searchable]="false" [items]="cstmrtype"
                       bindLabel="Type" bindValue="id" placeholder="Select {{Headingss[0].heading9}}" [(ngModel)]="editcustomer.U_TYPE"
                       name="U_TYPE" #U_TYPE="ngModel" class="ngsearch-dropdown input-fld "
-                      [class.disable-fld]="!HeadingServices.isModulefieldedit(3, 'U_TYPE')" [disabled]="!HeadingServices.isModulefieldedit(7, 'U_TYPE')">
+                      [class.disable-fld]="!HeadingServices.isModulefieldedit(3, 'U_TYPE')" [disabled]="!HeadingServices.isModulefieldedit(3, 'U_TYPE')">
                       <ng-template ng-header-tmp>
                         <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
                           type="text" (input)="selecttype.filter($event.target.value)" />

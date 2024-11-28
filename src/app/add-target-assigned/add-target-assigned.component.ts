@@ -6,6 +6,7 @@ import { BridgeService } from '../modules/service/bridge.service';
 import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { HeadingServicesService } from '../modules/service/heading-services.service';
+import { NotiferService } from '../modules/service/helpers/notifer.service';
 declare var $: any;
 
 @Component({
@@ -52,7 +53,7 @@ YearTarget:'',
 //  target: Target =  {amount:'',monthYear:'',SalesPersonCode:'',CreatedDate:this.newdate};
 // targets: Target[] = [];
 // target: Target =  {Department:'',YearTarget:'',StartYear:'', EndYear:'',SalesPersonCode:0, reportingTo: 0,CreatedDate:this.newdate};
-  constructor(private modalService: NgbModal,private route:Router, private bridgeService2: BridgeService,private _location: Location,private HeadingServices: HeadingServicesService) { }
+  constructor(private modalService: NgbModal,private route:Router, private bridgeService2: BridgeService,private _location: Location,private HeadingServices: HeadingServicesService,private _NotifierService: NotiferService) { }
 
 
 ngOnInit(): void {
@@ -153,11 +154,11 @@ addTarget(f:NgForm){
       (res: TargeYear) => {
         if (Object(res)['status'] == "200") {
           this.isLoading = false;
-        alert('Target Assign Succesfully');
+          this._NotifierService.showSuccess("Target Assigned Successfully");
         this.route.navigate(['/target-assisment']);
       }
       else{
-      alert(Object(res)['message']);
+        this._NotifierService.showError(Object(res)['message']);
       this.isLoading = false;
       }
       },

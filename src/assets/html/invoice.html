@@ -934,7 +934,12 @@
         </div>
       </div>
       <script>
-        var mainbkurl = 'http://103.197.76.50:8018';
+
+fetch('/assets/config.json')
+      .then(response => response.json())
+      .then(config => {
+
+        var mainbkurl = config[0].Api;
     function changedateformatt(nowdate) {
             date = new Date(nowdate);
             olddate = nowdate;
@@ -1087,18 +1092,7 @@ if(response22.data[0].ProjectSetting[0].custom_field2 != null && response22.data
           $(".PaymentTermsGroupName").html((response.data[0].PaymentGroupCodeDetails[0].PaymentTermsGroupName));
           }
 
-        //   if(response2.data[0].BPAddresses.length != 0){
-        //     $(".AddressName").html(replaceNone(response2.data[0].BPAddresses[0].AddressName))
-        //  $(".BillToStreet").html(
-        //     replaceNoneWithComma(response2.data[0].BPAddresses[0].Street) +
-        //     replaceNone(response2.data[0].BPAddresses[0].City) +
-        //     checkBillingCity(response2.data[0].BPAddresses[0].U_STATE) + replaceNone(response2.data[0].BPAddresses[0].U_COUNTRY) +
-        //     replaceNone(response2.data[0].BPAddresses[0].ZipCode));
 
-        //   $(".U_STATE").html((response2.data[0].BPAddresses[0].U_STATE));
-        //   $(".State").html((response2.data[0].BPAddresses[0].State));
-
-        //   }
           var fianllindtotal = 0;
           var total_after = 0;
           var total_after_tax = 0;
@@ -1193,388 +1187,35 @@ if(response22.data[0].ProjectSetting[0].custom_field2 != null && response22.data
 
             return result.trim();
           }
+          function numberToWordsWithDecimals(amount) {
+    const integerPart = Math.floor(amount);
+    const decimalPart = Math.round((amount - integerPart) * 100); // Get two decimal places
+
+    let result = numberToWords(integerPart);
+
+    if (decimalPart > 0) {
+        result += " Point";
+        const decimalDigits = decimalPart.toString().split('');
+        for (const digit of decimalDigits) {
+            result += " " + numberToWords(parseInt(digit));
+        }
+    }
+
+    return result;
+}
 
           total_Amount = parseFloat(total_Amount); // Convert to a number
 
-          const amountInWords = numberToWords(Math.floor(total_Amount));
+          const amountInWords = numberToWordsWithDecimals(total_Amount);
           $(".amount_in_words").text(amountInWords);
 
-      //     var d = new Date(response.data[0].CreateDate);
-
-      //     var fianllindtotal = 0;
-      //     var fianllindqty = 0;
-      //     var dateObj = new Date(response.data[0].CreateDate);
-      //     var month2 = dateObj.getMonth() + 1;
-      //     var month = (month2 < 10 ? '0' : '') + month2;
-      //     var day = (dateObj.getDate() < 10 ? '0' : '') + dateObj.getDate();
-      //     var year = dateObj.getUTCFullYear();
-      //     var year = String(d.getFullYear());
-      //     var newdate = day + "-" + month + "-" + year;
-      //     $("#disp_date").html(newdate);
-      //     year = year.slice(2, 4);
-      //     var year1 = Number(year) + 1;
-      //     $('.js-table-row-loader').hide();
-      //     total = response.TotalSales
-      //     $(".branchAddress").html(decodeURI(response.data[0].Address).replaceAll('&apos;', ''));
-
-      //     $("#U_UNE_IRN").html((response.data[0].U_UNE_IRN == 'None' ? '' : response.data[0].U_UNE_IRN == '0' ? '' : response.data[0].U_UNE_IRN));
-      //     $("#U_EWayBill").html((response.data[0].U_EWayBill == 'None' ? '' : response.data[0].U_EWayBill == '0' ? '' : response.data[0].U_EWayBill));
-      //     $("#U_TransporterName").html((response.data[0].U_TransporterName == 'None' ? '' : response.data[0].U_TransporterName == '0' ? '' : response.data[0].U_TransporterName));
-      //     $("#U_VehicalNo").html((response.data[0].U_VehicalNo == 'None' ? '' : response.data[0].U_VehicalNo == '0' ? '' : response.data[0].U_VehicalNo));
-      //     $("#U_UNE_LRNo").html((response.data[0].U_UNE_LRNo == 'None' ? '' : response.data[0].U_UNE_LRNo == '0' ? '' : response.data[0].U_UNE_LRNo));
-      //     $("#U_UNE_LRDate").html((response.data[0].U_UNE_LRDate == 'None' ? '' : response.data[0].U_UNE_LRDate == '0' ? '' : response.data[0].U_UNE_LRDate));
-      //     $("#NumAtCard").html((response.data[0].NumAtCard == 'None' ? '' : response.data[0].NumAtCard == '0' ? '' : response.data[0].NumAtCard));
-      //     $("#U_EWayBill").html((response.data[0].U_EWayBill == 'None' ? '' : response.data[0].U_EWayBill == '0' ? '' : response.data[0].U_EWayBill));
-
-      //     function changedateformatt(nowdate) {
-      //       date = new Date(nowdate);
-      //       olddate = nowdate;
-      //       monthss = date.getMonth() + 1;
-      //       month = (monthss < 10 ? '0' : '') + monthss;
-      //       dayss = (date.getDate() < 10 ? '0' : '') + date.getDate();
-      //       date2 = dayss + "/" + month + "/" + date.getFullYear();
-      //       return date2
-      //     }
-
-      //     $("#U_E_INV_NO").html(response.data[0].U_E_INV_NO == 'None' ? '' : response.data[0].U_E_INV_NO);
-      //     $("#U_E_INV_Date").html(response.data[0].U_E_INV_Date == 'None' ? '' : response.data[0].U_E_INV_Date);
-      //    $("#State").html(response.data[0].State);
-      //     if (response.data[0].BPAddresses.length != 0) {
-      //       $(".Statecode").html(response.data[0].BPAddresses[0].GSTIN.slice(0, 2));
-      //     }
-      //     else {
-      //       $(".Statecode").html('NA');
-      //     }
-      //     $("#PlaceOfSupply").html(response.data[0].AddressExtension[0].PlaceOfSupply);
-
-      //     function replaceNone(val) {
-      //       var valData = ''
-      //       if (val == 'None') {
-      //         valData = '';
-      //       }
-      //       else {
-      //         valData = val + ", ";
-      //       }
-      //       return valData
-      //     }
-
-      //     function replaceNoneWithComma(val) {
-      //       var valData = ''
-      //       if (val == 'None') {
-      //         valData = '';
-      //       }
-      //       else {
-      //         valData = val + " ";
-      //       }
-      //       return valData
-
-      //     }
-
-      //     function checkBillingCity(val, val2) {
-      //       var valData = ''
-      //       if (val != 'None') {
-      //         valData = val + " ";
-      //       }
-      //       else if (val2 != 'None') {
-      //         valData = val2 + " ";
-      //       }
-      //       else {
-      //         valData = '';
-      //       }
-
-      //       return valData
-      //     }
-
-      //     var billcout = response.data[0].AddressExtension[0].BillToCountry == 'IN' ? "India" : '';
-      //     var shipcout = response.data[0].AddressExtension[0].ShipToCountry == 'IN' ? "India" : '';
-      //    $("#BillToStreet").html(replaceNone(response.data[0].AddressExtension[0].BillToBlock) +
-      //       replaceNoneWithComma(response.data[0].AddressExtension[0].BillToBuilding) +
-      //       replaceNone(response.data[0].AddressExtension[0].BillToStreet) +
-      //       checkBillingCity(response.data[0].AddressExtension[0].BillToCity, response.data[0].AddressExtension[0].BillToCounty) + " - " +
-      //       replaceNone(response.data[0].AddressExtension[0].BillToZipCode) +
-      //       replaceNone(response.data[0].AddressExtension[0].BillToState) + billcout);
-
-
-      //     var headings = response.data[0].DocType == 'dDocument_Service' ? 'TAX INVOICE - SERVICE' : 'TAX INVOICE';
-      //     var hsnheadin = response.data[0].DocType == 'dDocument_Service' ? 'SAC Code' : 'HSN/SAC Code';
-      //     var headinghsncode = response.data[0].DocType == 'dDocument_Service' ? response.data[0].DocumentLines[0].SAC : response.data[0].DocumentLines[0].HSN
-      //     $("#headings").html(headings);
-      //     $("#headinghsncode").html(headinghsncode);
-      //     $("#hsnheadin").html(hsnheadin);
-      //     $(".Branch_GSTIN").html(response.data[0].Branch_GSTIN.slice(0, 2));
-      //     $("#ShipToStreet").html(replaceNone(response.data[0].AddressExtension[0].ShipToBlock) +
-      //       replaceNoneWithComma(response.data[0].AddressExtension[0].ShipToBuilding) +
-      //       replaceNone(response.data[0].AddressExtension[0].ShipToStreet) +
-      //       checkBillingCity(response.data[0].AddressExtension[0].ShipToCity, response.data[0].AddressExtension[0].ShipToCounty) + " - " +
-      //       replaceNone(response.data[0].AddressExtension[0].ShipToZipCode) +
-      //       replaceNone(response.data[0].AddressExtension[0].ShipToState) + shipcout);
-      //     if (response.data[0].ContactPersonCode.length != 0) {
-      //       $("#ContactPersonCodeFirstName").html(response.data[0].ContactPersonCode[0].FirstName == 'None' ? '' : response.data[0].ContactPersonCode[0].FirstName);
-      //       $("#ContactPersonCodeMobilePhone").html(response.data[0].ContactPersonCode[0].MobilePhone);
-      //     }
-      //     $("#BillToState").html(response.data[0].AddressExtension[0].BillToState);
-      //     $("#ShipToState").html(response.data[0].AddressExtension[0].ShipToState);
-      //     $("#DiscountPercent").html(response.data[0].DiscountPercent);
-
-      //     $("#state").html((response.data[0].State));
-      //     $("#supply").html((response.data[0].AddressExtension[0].ShipToCity))
-      //     $("#disp_qut").html(('Inv/' + year + '-' + year1 + '/1000' + response.data[0].id));
-      //     $(".kind_atn").html((response.data[0].CardName));
-      //     $(".disc").html((response.data[0].DiscountPercent));
-      //     $(".comment").html((response.data[0].Comments));
-      //     $(".bill").html((response.data[0].AddressExtension[0].BillToStreet));
-      //     $(".billstate").html((response.data[0].AddressExtension[0].BillToCity));
-      //     $(".billcountry").html((response.data[0].AddressExtension[0].BillToCountry));
-      //     if (response.data[0].ContactPersonCode.length != 0) {
-      //       $(".contactmobile").html((response.data[0].ContactPersonCode[0].MobilePhone));
-      //       $(".contactname").html((response.data[0].ContactPersonCode[0].FirstName));
-      //     }
-      //     if (response.data[0].PayTermsGrpCode.length != 0) {
-      //       $(".paymt").html((response.data[0].PayTermsGrpCode[0].PaymentTermsGroupName));
-      //     }
-      //     else {
-      //       $(".paymt").html(('NA'));
-      //     }
-      //     if (response.data[0].BPAddresses.length != 0) {
-      //       $(".gstnoo").html((response.data[0].BPAddresses[0].GSTIN));
-      //     }
-      //     else {
-      //       $(".gstnoo").html(('NA'));
-      //     }
-      //     $(".ship").html((response.data[0].AddressExtension[0].ShipToStreet));
-      //     $(".shipstate").html((response.data[0].AddressExtension[0].ShipToCity));
-      //     $(".shipcountry").html((response.data[0].AddressExtension[0].ShipToCountry));
-      //     $(".gst").html((Number(response.data[0].VatSum).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
-      //     $.each(response.data[0].DocumentLines, function (key, val) {
-      //       Name = val.ItemDescription == 'None' ? '' : val.ItemDescription;
-      //       textcode = val.ItemCode == 'None' ? '' : val.ItemCode + '-';
-      //       qunt = val.Quantity;
-      //       UomNo = val.MeasureUnit == 'None' ? '' : val.MeasureUnit;
-      //       if (val.U_RateType == 'LP') {
-      //         TaxRate = val.U_UTL_MRPI == 'None' ? '' : val.U_UTL_MRPI == '0.0' ? '' : val.U_UTL_MRPI;
-      //       }
-      //       else {
-      //         TaxRate = val.U_UTL_SP == 'None' ? '' : val.U_UTL_SP == '0.0' ? '' : val.U_UTL_SP;
-      //       }
-      //       Dis = val.U_UTL_DD == 'None' ? '' : val.U_UTL_DD == '0.0' ? '' : val.U_UTL_DD;
-      //       addDis = val.U_UTL_TD == 'None' ? '' : val.U_UTL_TD == '0.0' ? '' : val.U_UTL_TD;
-      //       LineTotal = val.LineTotal;
-      //       tot_amount = val.TotalSales
-      //       spedis = val.U_UTL_SD == 'None' ? '' : val.U_UTL_SD == '0.0' ? '' : val.U_UTL_SD;
-      //       iddd = parseInt(key) + 1
-
-      //       var hsncode = response.data[0].DocType == 'dDocument_Service' ? val.SAC : val.HSN
-      //       text += '<tr>'
-      //       text += '<td>' + iddd + '</td>'
-      //       text += '<td>' + textcode + '-' + Name + '</td>';
-      //       text += '<td>' + hsncode + '</td>';
-      //       text += '<td class="text-right">' + Number(qunt).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }) + '</td>';
-      //       text += '<td>' + UomNo + '</td>';
-      //       text += '<td class="text-right">' + Number(TaxRate).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }) + '</td>';
-      //       text += '<td>' + val.U_RateType + '</td>';
-      //       text += '<td class="text-right">' + Dis + '</td>';
-      //       text += '<td class="text-right">' + addDis + '</td>';
-      //       text += '<td class="text-right">' + spedis + '</td>';
-      //       text += '<td class="text-right">' + Number(LineTotal).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }) + '</td>';
-
-      //       text += '</tr>'
-      //       fianllindtotal += Number(LineTotal);
-      //     fianllindqty += Number(qunt);
-      //     })
-
-      //     var Radediff = ''
-      //     if (response.data[0].AdditionalCharges != 'None') {
-      //       Radediff = Number(response.data[0].AdditionalCharges);
-      //     }
-      //     else {
-      //       Radediff = 0
-      //     }
-      //     $("#Radediff").html((Number(Radediff).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
-
-      //     fianllindtotal = ((fianllindtotal + Radediff));
-
-      //     text1 += '<td>' + '' + '</td>';
-      //     text1 += '<td style="width:40%;"> Total </td>';
-      //     text1 += '<td>' + '' + '</td>';
-      //     text1 += '<td class="text-right">' + Number(fianllindqty).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }) + '</td>';
-      //     text1 += '<td>' + '' + '</td>';
-      //     text1 += '<td>' + '' + '</td>';
-      //     text1 += '<td>' + '' + '</td>';
-      //     text1 += '<td>' + '' + '</td>';
-      //     text1 += '<td>' + '' + '</td>';
-      //     text1 += '<td>' + '' + '</td>';
-      //     text1 += '<td class="text-right">' + Number(fianllindtotal - Radediff).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }) + '</td>';
-
-
-
-      //     document.getElementById("data").innerHTML += text;
-      //     document.getElementById("total").innerHTML += text1;
-
-      //     var headerdis = (Number(fianllindtotal - Radediff) * response.data[0].DiscountPercent) / 100;
-      //     var totalbefortax = fianllindtotal - headerdis
-      //     var totalbefortaxnew = fianllindtotal - headerdis - Radediff
-
-      //     $("#DiscountPercentValue").html(headerdis.toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }));
-      //     $("#totalbefortax").html(totalbefortaxnew.toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }));
-
-
-      //     if (response.data[0].CGST != "0.0") {
-
-      //       $(".CGST").html(Number(response.data[0].VatSum / 2).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }));
-      //       $(".SGST").html(Number(response.data[0].VatSum / 2).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }));
-      //       $("#CGST2").html(Number(response.data[0].VatSum / 2).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }));
-      //       $("#SGST2").html(Number(response.data[0].VatSum / 2).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }));
-
-      //       var totalgst = Number(response.data[0].VatSum);
-      //       $(".GSTRate").html(response.data[0].GSTRate);
-      //       $('#IGSTyes').hide();
-      //       $('#IGSTno').show();
-      //     }
-      //     else {
-      //       $(".IGST").html(Number(response.data[0].VatSum).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }));
-      //       $("#IGST2").html(Number(response.data[0].VatSum).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }));
-      //       var totalgst = Number(response.data[0].VatSum);
-
-      //       $(".GSTRate2").html(response.data[0].GSTRate);
-      //       $('#IGSTyes').show();
-      //       $('#IGSTno').hide();
-      //     }
-
-
-      //     $("#totalgst").html(Number(totalgst).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }));
-
-      //     var totalaftertax = totalbefortax + totalgst;
-      //     var totalaftertaxnew = totalbefortax + totalgst - Radediff;
-
-      //     $("#totalaftertax").html(Number(totalaftertaxnew).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }));
-
-      //     var WTAmount = Math.abs(Number(response.data[0].WTAmount));
-      //     var RoundingDiffAmount = Number(response.data[0].RoundingDiffAmount);
-
-      //     $("#WTAmount").html(WTAmount.toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }));
-      //     $("#RoundingDiffAmount").html(RoundingDiffAmount.toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }));
-
-      //     var TotalFinalAmount = totalaftertax + WTAmount + RoundingDiffAmount;
-
-      //     $("#TotalFinalAmount").html(TotalFinalAmount.toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }));
-      //     $("#Branch_GSTIN").html((response.data[0].Branch_GSTIN));
-
-      //     function inWords(num) {
-      //       const single = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
-      //       const double = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
-      //       const tens = ["", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
-      //       const formatTenth = (digit, prev) => {
-      //         return 0 == digit ? "" : " " + (1 == digit ? double[prev] : tens[digit])
-      //       };
-      //       const formatOther = (digit, next, denom) => {
-      //         return (0 != digit && 1 != next ? " " + single[digit] : "") + (0 != next || digit > 0 ? " " + denom : "")
-      //       };
-      //       let res = "";
-      //       let index = 0;
-      //       let digit = 0;
-      //       let next = 0;
-      //       let words = [];
-      //       if (num += "", isNaN(parseInt(num))) {
-      //         res = "";
-      //       }
-      //       else if (parseInt(num) > 0 && num.length <= 10) {
-      //         for (index = num.length - 1; index >= 0; index--) switch (digit = num[index] - 0, next = index > 0 ? num[index - 1] - 0 : 0, num.length - index - 1) {
-      //           case 0:
-      //             words.push(formatOther(digit, next, ""));
-      //             break;
-      //           case 1:
-      //             words.push(formatTenth(digit, num[index + 1]));
-      //             break;
-      //           case 2:
-      //             words.push(0 != digit ? " " + single[digit] + " Hundred" + (0 != num[index + 1] && 0 != num[index + 2] ? " and" : "") : "");
-      //             break;
-      //           case 3:
-      //             words.push(formatOther(digit, next, "Thousand"));
-      //             break;
-      //           case 4:
-      //             words.push(formatTenth(digit, num[index + 1]));
-      //             break;
-      //           case 5:
-      //             words.push(formatOther(digit, next, "Lakh"));
-      //             break;
-      //           case 6:
-      //             words.push(formatTenth(digit, num[index + 1]));
-      //             break;
-      //           case 7:
-      //             words.push(formatOther(digit, next, "Crore"));
-      //             break;
-      //           case 8:
-      //             words.push(formatTenth(digit, num[index + 1]));
-      //             break;
-      //           case 9:
-      //             words.push(0 != digit ? " " + single[digit] + " Hundred" + (0 != num[index + 1] || 0 != num[index + 2] ? " and" : " Crore") : "")
-      //         };
-      //         res = words.reverse().join("")
-      //       } else res = "";
-      //       return res
-      //     }
-
-      //     var inwro = inWords(parseInt(Math.round(TotalFinalAmount)));
-      //     var finword = inwro.substring(0, inwro.length - 1);
-      //     $("#TotalFinalAmountinword").html("India Rupee " + finword + ' Only.');
-
-
-
-      //     $(".totalbefortax2").html(totalbefortax.toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }));
-
-      //     $(".totalaftertax2").html(Number(totalgst).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }));
-
-      //     if (response.data[0].U_SignedQRCode != 'None') {
-      //       $('#qrimg').attr("src", `https://chart.googleapis.com/chart?chs=350x350&cht=qr&chl=%22+` + response.data[0].U_SignedQRCode + `+%22&choe=UTF-8%22`);
-      //     }
         });
-      // });
-
-
-
-      //   function exportexcel() {
-      //     var tab_text = "<table border='2px'>";
-      //     var textRange; var j = 0;
-      //     tab = document.getElementById('api1');
-
-      //     for (j = 1; j < tab.rows.length; j++) {
-      //       if (j != 8) {
-      //         tab_text = tab_text + "<tr>" + tab.rows[j].innerHTML + "</tr>";
-      //       }
-      //     }
-
-      //     tab_text = tab_text + "</table>";
-      //     tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");
-      //     tab_text = tab_text.replace(/<img[^>]*>/gi, "");
-      //     tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
-
-      //     var ua = window.navigator.userAgent;
-      //     var msie = ua.indexOf("MSIE ");
-
-      //     if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))
-      //     {
-      //       txtArea1.document.open("txt/html", "replace");
-      //       txtArea1.document.write(tab_text);
-      //       txtArea1.document.close();
-      //       txtArea1.focus();
-      //       sa = txtArea1.document.execCommand("SaveAs", true, "Say Thanks to Sumit.xls");
-      //     }
-      //     var filename = 'Tax_Invoice.xls';
-      //     var uri = 'data:application/vnd.ms-excel,' + encodeURIComponent(tab_text);
-
-      //     var downloadLink = document.createElement("a");
-      //     downloadLink.href = uri;
-      //     downloadLink.download = filename;
-
-      //     document.body.appendChild(downloadLink);
-      //     downloadLink.click();
-      //     document.body.removeChild(downloadLink);
-      //   }
-
 
    function generatePDF() {
           window.print();
         }
+
+      });
       </script>
 
 

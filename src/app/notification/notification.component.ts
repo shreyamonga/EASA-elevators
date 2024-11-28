@@ -64,6 +64,7 @@ export class NotificationComponent implements OnInit {
       CreateDate__gte: "",
       CreateDate__lte: ""
   };
+  sortsend: boolean = false;
   constructor(private modalService: NgbModal, private router: ActivatedRoute, private bridgeService: BridgeService, private route: Router, private http: HttpClient) {
 
   }
@@ -97,7 +98,7 @@ export class NotificationComponent implements OnInit {
   reload() {
       this.getNotificationData();
   }
-  
+
   pageChanged(event:any){
     this.pagination.PageNo = event;
     this.reload();
@@ -108,8 +109,20 @@ export class NotificationComponent implements OnInit {
     this.RowPerPage();
   }
 
+  togglesortType(key: any) {
+    this.sortsend = !this.sortsend;
+    this.order_by_field = key;
+    if(this.sortsend == true){
+      this.order_by_value = 'asc';
+    }
+    else{
+      this.order_by_value = 'desc';
+    }
+    this.RowPerPage();
+  }
+
   getNotificationData(): void {
-    this.isLoading = true;
+    this.isLoading2 = true;
     this.bridgeService.getNotification2(this.pagination,this.order_by_field,this.order_by_value,this.searchValue,this.filterLead).subscribe(
 
       (data: any) => {
@@ -151,7 +164,7 @@ export class NotificationComponent implements OnInit {
         }
         if(item.ModuleName == "Campaign"){
           this.route.navigate(['campaign/details/'+item.ModuleID]);
-  
+
         }
         if(item.ModuleName == "Business Partner"){
           this.route.navigate(['/customer/customer-details/C'+ item.ModuleID]);
@@ -170,6 +183,9 @@ export class NotificationComponent implements OnInit {
         }
         if(item.ModuleName == "Invoice"){
           this.route.navigate(['/invoice/invoice-details/'+ item.ModuleID]);
+        }
+        if(item.ModuleName == "Target Assignment"){
+          this.route.navigate(['/target-assisment/target-assisment-details/'+ item.ModuleID]);
         }
       }
 

@@ -250,9 +250,10 @@ else{
                 this.route.onSameUrlNavigation = 'reload';
                 this.route.navigate([currentUrl]);
               }, 2000);
+              this._NotifierService.showSuccess(this.isEdit ? 'Role Updated Successfully !' : 'Role Added Successfully !')
             }
             else{
-              alert(Object(res)['message']);
+              this._NotifierService.showError(Object(res)['message']);
               this.isLoading = false;
             }
 

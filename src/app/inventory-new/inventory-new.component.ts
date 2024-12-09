@@ -18,6 +18,7 @@ declare var $: any;
   styleUrls: ['./inventory-new.component.scss']
 })
 export class InventoryNewComponent implements OnInit {
+  @ViewChild('confirmModal44') confirmModal44!: ElementRef;
   Payload:Inventoryfile = {
     file:''
   }
@@ -185,6 +186,10 @@ export class InventoryNewComponent implements OnInit {
 
     }
 
+    changeisnave(val:boolean){
+      this.isNavVisible = val;
+    }
+    
     loadData(): void {
       var filterVal = this.ReportModule.filter((option: any) => {
         return option.id == this.idd
@@ -326,18 +331,18 @@ export class InventoryNewComponent implements OnInit {
         this.commonObj.tbCheckM_1 = false;
         this.commonObj.tbCheckM_2 = false;
       }
-
+  
     }
 
     checkboxclick(id: any) {
-      if (this.count.includes(id)) {
+      if(this.count.includes(id)){
         const index = this.count.indexOf(id);
         if (index > -1) { // only splice array when item is found
           this.count.splice(index, 1); // 2nd parameter means remove one item only
         }
       }
-      else {
-        this.count.push(id);
+      else{
+      this.count.push(id);
       }
       if (this.count.length == 1) {
         this.commonObj.tbCheckM_1 = true;
@@ -352,14 +357,14 @@ export class InventoryNewComponent implements OnInit {
       if (this.count.length == 0) {
         $('#selectAll1').prop('checked', false);
       }
-
+  
       if (this.endind == this.count.length) {
         $('#selectAll1').prop('checked', true);
       }
       else {
         $('#selectAll1').prop('checked', false);
       }
-
+  
     }
     reload() {
       this.count = [];
@@ -433,7 +438,7 @@ export class InventoryNewComponent implements OnInit {
     }
 
     suplier(item: any) {
-      // this.route.navigate(['/inventory/details/' + item]);
+      this.route.navigate(['/inventory/details/' + item]);
     }
 
     resetAlerts() {
@@ -894,42 +899,40 @@ export class InventoryNewComponent implements OnInit {
     fl22: any = '';
     onFileChange(event: any) {
       this.fl22 = event.target.files[0];
-      // for (var i = 0; i < event.target.files.length; i++) {
-      //   this.fl22.push(event.target.files[i]);
-      // }
       if (this.fl22) {
         this.Payload.file = this.fl22;
       }
       else {
         this.Payload.file = '';
       }
-        if (confirm("Are You Sure Do You Want To Import Data ?")) {
-          this.bridgeService2.adduploadinventary(this.Payload).subscribe(
-            (res: any) => {
-              // console.log("rslt", data);
-              if (Object(res)['status'] == "200") {
-                this.fl22 = '';
-                this._NotifierService.showSuccess('Data Imported Successfully');
-                this.RowPerPage();
 
-              }
-              else {
-                //  this.isLoading = false;
-                this._NotifierService.showError(Object(res)['message']);
-              }
-            },
-            (err) => {
-              this.isLoading2 = false;
-              const delim = ":"
-              const name = err.message
-              const result = name.split(delim).slice(3).join(delim)
-              this._NotifierService.showError(result);
+
+      this.confirmModal(this.confirmModal44,'');
+    }
+
+    CallImport(Payload:any){
+        this.bridgeService2.adduploadinventary(Payload).subscribe(
+          (res: any) => {
+            // console.log("rslt", data);
+            if (Object(res)['status'] == "200") {
+              this.fl22 = '';
+              this._NotifierService.showSuccess('Data Imported Successfully');
+              this.modalService.dismissAll();
+              this.RowPerPage();
+
             }
-          );
-
-
-        // }
-      }
-
+            else {
+              //  this.isLoading = false;
+              this._NotifierService.showError(Object(res)['message']);
+            }
+          },
+          (err) => {
+            this.isLoading2 = false;
+            const delim = ":"
+            const name = err.message
+            const result = name.split(delim).slice(3).join(delim)
+            this._NotifierService.showError(result);
+          }
+        );
     }
   }

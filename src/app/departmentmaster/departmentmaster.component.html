@@ -48,7 +48,7 @@
               <tr class="hover" *ngFor="let item of customertype; let i = index ">
                 <td><input type="checkbox" id="checkbox{{item.id}}" value="{{item.id}}" class="checkbox"
                     (click)="checkboxclick(item.id)"></td>
-                <td>{{item.id}}</td>
+                <td>{{i+1}}</td>
                 <td>{{item.Name || 'NA'}}</td>
                 <ng-container [ngSwitch]="true">
                   <td *ngSwitchCase="item.Status == '1'" class="ActiveBTN rounded-pill badge-success">Active</td>

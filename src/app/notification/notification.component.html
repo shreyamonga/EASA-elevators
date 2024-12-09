@@ -43,7 +43,8 @@
 
             <ng-container *ngFor="let item of notify; let i = index">
               <tr class="hover" (click)="redirectonpage(item)">
-                <td class="text-nowrap">{{item.id}}</td>
+                <td class="text-nowrap">{{i+1}}</td>
+                <!-- <td class="text-nowrap">{{item.id}}</td> -->
                 <td >{{item.Heading == ''? 'NA' : item.Heading}}</td>
                 <td >{{item.CreatedDate | date:'MM-dd-YYYY'}}</td>
                 <td >{{item.Message}}</td>
@@ -110,9 +111,9 @@
       </div>
 
       <!-- <div class="col-md-12 pe-3" id="MainPlaceholderFilter">
-        <label class="MainFilterLabel filtersize">{{Headingss[0].heading13}}</label>
-        <ng-select id="CustomDesignInput" [items]="bridgess" [multiple]="true" bindValue="id" bindLabel="firstName"
-          placeholder="Select {{Headingss[0].heading13}}" [(ngModel)]="filterLead.assignedTo"
+        <label class="MainFilterLabel filtersize">Select Modules</label>
+        <ng-select id="CustomDesignInput" [multiple]="true"
+          placeholder="Select Modules" [(ngModel)]="filterLead.modules"
           [ngModelOptions]="{standalone: true}">
         </ng-select>
       </div> -->

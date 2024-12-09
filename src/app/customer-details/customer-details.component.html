@@ -27,7 +27,12 @@
                   <div class="figma-info-name">{{item.CardName}}</div>
                   <!-- <div class="figma-info-address">Quotation Name</div> -->
                 </div>
-                <span class="figma-info-role2" *ngFor="let sperson of item.ContactEmployees">{{Headingss[1].heading}} : {{sperson.FirstName || 'NA'}}</span>
+                <!-- <span class="figma-info-role2" *ngFor="let sperson of item.ContactEmployees">{{Headingss[1].heading}} : {{sperson.FirstName || 'NA'}}</span> -->
+                <span class="figma-info-role2">{{Headingss[1].heading}} :
+                  <ng-container *ngFor="let sperson of item.ContactEmployees; let i = index">
+                    {{sperson.FirstName || 'NA'}}<span *ngIf="i < item.ContactEmployees.length - 1">, </span>
+                  </ng-container>
+                </span>
                 <div class="figma-info-num-email" *ngFor="let item2 of customers">
 
                   <span class="figma-info-email">
@@ -334,12 +339,12 @@
                     <th>Action</th>
                     </tr>
                   </thead>
-                      <tr *ngFor="let item3 of branchs">
+                      <tr *ngFor="let item3 of branchs;let index=index">
                       <td>{{item3.AddressName}}</td>
                       <td>{{item3.City}}</td>
                       <td>{{item3.U_STATE}}</td>
                       <td>{{item3.U_COUNTRY}}</td>
-                      <td><i class="fa fa-pencil" (click)="openEdit(contentEdit, item3)"></i>&nbsp;&nbsp;&nbsp;
+                      <td><i class="fa fa-pencil" (click)="openEdit(contentEdit, item3,index)"></i>&nbsp;&nbsp;&nbsp;
                         <i class="fa fa-trash" (click)="deleteBranchContact(confirmModal2,item3.id,'Branch')"></i></td>
                       </tr>
 
@@ -543,11 +548,11 @@
     <form #f="ngForm" name="theForm" (submit)="addBranch(f)">
       <div class="row">
         <div class="col-md-6">
-          <label>{{Headingss[2].heading0}}</label>
-          <input type="text" placeholder="Enter {{Headingss[2].heading0}}" class="input-fld required-fld" name="AddressName"
+          <label>{{Headingss[2].heading7}}</label>
+          <input type="text" placeholder="Enter {{Headingss[2].heading7}}" class="input-fld required-fld" name="AddressName"
             [(ngModel)]="branch.AddressName" #AddressName="ngModel" required>
           <span class="help-block danger" *ngIf="AddressName.errors?.required && AddressName.touched">
-            The {{Headingss[2].heading0}} is required
+            The {{Headingss[2].heading7}} is required
           </span>
         </div>
         <div class="col-md-6">
@@ -619,11 +624,11 @@
         </div>
 
         <div class="col-md-12">
-          <label>{{Headingss[2].heading1}}</label>
-          <textarea type="text" placeholder="Enter {{Headingss[2].heading1}}" class="input-fld required-fld" name="Street"
+          <label>{{Headingss[2].SubHeading2}}</label>
+          <textarea type="text" placeholder="Enter {{Headingss[2].SubHeading2}}" class="input-fld required-fld" name="Street"
             [(ngModel)]="branch.Street" #Street="ngModel" maxlength="1000" required></textarea>
           <span class="help-block danger" *ngIf="(Street.errors?.required && f.submitted)||(Street.errors?.required && Street.touched)">
-            The {{Headingss[2].heading1}} is required
+            The {{Headingss[2].SubHeading2}} is required
           </span>
         </div>
 
@@ -826,11 +831,12 @@
     <form #f="ngForm" name="theForm" (submit)="EditBranch(f)">
       <div class="row">
         <div class="col-md-6">
-          <label>{{Headingss[2].heading0}}</label>
-          <input type="text" placeholder="Enter {{Headingss[2].heading0}}" class="input-fld required-fld" name="AddressName"
+          <label *ngIf="selectedIndex == 0">{{Headingss[2].heading0}}</label>
+          <label *ngIf="selectedIndex !== 0">{{Headingss[2].heading7}}</label>
+          <input type="text" placeholder="Enter {{ selectedIndex === 0 ? Headingss[2].heading0 : Headingss[2].heading7 }}" class="input-fld required-fld" name="AddressName"
             [(ngModel)]="editbranch.AddressName" #AddressName="ngModel" required>
           <span class="help-block danger" *ngIf="AddressName.errors?.required">
-            The {{Headingss[2].heading0}} is required
+            The {{ selectedIndex === 0 ? Headingss[2].heading0 : Headingss[2].heading7 }} is required
           </span>
         </div>
         <div class="col-md-6">
@@ -906,11 +912,12 @@
         </div>
 
         <div class="col-md-12">
-          <label>{{Headingss[2].heading1}}</label>
-          <textarea type="text" placeholder="Enter {{Headingss[2].heading1}}" class="input-fld required-fld" name="Street" [(ngModel)]="editbranch.Street"
+          <label *ngIf="selectedIndex == 0">{{Headingss[2].heading1}}</label>
+          <label *ngIf="selectedIndex !== 0">{{Headingss[2].SubHeading2}}</label>
+          <textarea type="text" placeholder="Enter {{ selectedIndex === 0 ? Headingss[2].heading1 : Headingss[2].SubHeading2 }}" class="input-fld required-fld" name="Street" [(ngModel)]="editbranch.Street"
             #Street="ngModel" maxlength="1000" required></textarea>
           <span class="help-block danger" *ngIf="(Street.errors?.required && f.submitted) ||(Street.errors?.required)">
-            The {{Headingss[2].heading1}} is required
+            The {{ selectedIndex === 0 ? Headingss[2].heading1 : Headingss[2].SubHeading2 }} is required
           </span>
         </div>
 

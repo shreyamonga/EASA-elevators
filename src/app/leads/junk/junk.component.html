@@ -26,7 +26,7 @@
         <div class="sales-details">
           <div class="custom-outter-body-lead-list-c9">
             <div class="custom-table-select-icons">
-                <i *ngIf="commonObj.tbCheckM_1" class="fa-solid fa-exclamation-circle figma-template-central"
+                <i *ngIf="commonObj.tbCheckM_1" class="fa-solid fa fa-rotate-left figma-template-central"
                  (click)="confirmModal(confirmModal2,false,count)"></i>
                 <span *ngIf="commonObj.tbCheckM_1" [innerHTML]="'figma-delete' | svgIcons:'figma-template-central'"
                  (click)="confirmModal(confirmModal2,true,count)"></span>
@@ -60,7 +60,8 @@
                     <td><input type="checkbox" id="checkbox{{item.id}}"
                         value="{{item.id}}" class="checkbox" (click)="checkboxclick(item.id)">
                    </td>
-                   <td (click)="suplier(item.id)">{{item.id}}</td>
+                   <td (click)="suplier(item.id)">{{i+1}}</td>
+                   <!-- <td (click)="suplier(item.id)">{{item.id}}</td> -->
                     <td (click)="suplier(item.id)">{{item.companyName}}</td>
                     <td (click)="suplier(item.id)">{{item.contactPerson}}</td>
                     <td class="blue-color" (click)="suplier(item.id)">{{item.phoneNumber}}</td>
@@ -80,7 +81,7 @@
                       <span class="edit-delete edit-delete{{item.id}}" (click)="editdeletepop(item)"
                         [innerHTML]="'table-v-dots' | svgIcons:''" class="table-v-dots"></span>
                       <div class="hover-show hover-show{{item.id}} hover-show-inactive" style="transform: translate(-30px, -24px);">
-                        <span (click)="confirmModal(confirmModal2,false,[item.id])"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                        <span (click)="confirmModal(confirmModal2,false,[item.id])"><i class="fa fa-rotate-left" aria-hidden="true"></i>
                           Restore {{Headingss[0].leftheading}}</span>
 
                       </div>

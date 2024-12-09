@@ -22,6 +22,7 @@ export class ExcelsheetComponent implements OnInit {
   @ViewChild(PhoneComponent) childComponent!: PhoneComponent;
   @ViewChild('contentEdit') contentEdit!: ElementRef;
   @ViewChild('followup') followup!: ElementRef;
+  @ViewChild('confirmModal44') confirmModal44!: ElementRef;
 
 
   DynamicFiledPositionDetials: any[] = [];
@@ -78,8 +79,8 @@ export class ExcelsheetComponent implements OnInit {
   exeturnover: any;
   ischeckbox: boolean = false;
   AddFollow2s: AddFollow2[] = [];
-  AddFollow2: AddFollow2 = { "Subject": "", "Mode": "", "Comment": "", 
-    "CreateDate": this.HeadingServices.getDate(), 
+  AddFollow2: AddFollow2 = { "Subject": "", "Mode": "", "Comment": "",
+    "CreateDate": this.HeadingServices.getDate(),
     "CreateTime": this.HeadingServices.getTime(), "Emp": '', "Emp_Name": "", "From": this.HeadingServices.getDate(), "SourceID": "82", "SourceType": "", "Time": this.HeadingServices.getTime(), "Type": "Followup", "leadType": '' };
 
   data: [][] | undefined;
@@ -185,6 +186,13 @@ export class ExcelsheetComponent implements OnInit {
     if (this.HeadingServices.isModuleView(1) == false) {
       this.router.navigate(['/dashboard']);
     }
+    if(this.bridgeService2.getSalepercode() != undefined){
+      if (!Array.isArray(this.filterLead.assignedTo)) {
+        this.filterLead.assignedTo = [];
+      }
+      const codes = String(this.bridgeService2.getSalepercode());
+    this.filterLead.assignedTo.push(codes);
+    }
     // console.log(this.commonPayload.payload)
     this.bridgeService2.autoCall();
     this.leadStatus = this.bridgeService2.leadStatus;
@@ -194,6 +202,7 @@ export class ExcelsheetComponent implements OnInit {
     this.getBridge2();
     this.getBridge();
     this.getcampaign1List();
+    
     this.Headingss = this.HeadingServices.getModule2();
     $(document).mouseup(function (e: { target: any; }) {
       var popup = $(".hover-show");
@@ -307,6 +316,7 @@ export class ExcelsheetComponent implements OnInit {
     this.bridgeService2.getAll().subscribe(
       (data: Bridge[]) => {
         this.bridgess = data;
+        // console.log(this.bridges)
       },
       (err) => {
         console.log(err);
@@ -498,156 +508,160 @@ export class ExcelsheetComponent implements OnInit {
       this.data = (XLSX.utils.sheet_to_json(ws, { header: 1 }));
       // console.log("this.data", this.data)
 
-      if (confirm("Are You Sure Do You Want To Import Data ?")) {
-        var x: number[][] = this.data.slice(1);
-        var excelupload = new Array();
-        // console.log("excelupload", excelupload)
-        let leng = x.length;
-        for (let i = 0; i < leng; i++) {
+      this.confirmModal(this.confirmModal44,'');
 
-          let y = x[i];
-          let assto = '';
-          if (y[0] == undefined) {
-            // console.log("ifpart")
-            this.exedate = ' ';
-          }
-          else {
-            // console.log("elsepart")
-            this.exedate = new Date((y[0] - (25567 + 2)) * 86400 * 1000);
-
-
-            let m2 = this.exedate.getMonth() + 1;
-            let month = (m2 < 10 ? '0' : '') + m2;
-            let day = (this.exedate.getDate() < 10 ? '0' : '') + this.exedate.getDate();
-
-            let year2 = this.exedate.getUTCFullYear();
-            let newdate2 = year2 + "-" + month + "-" + day;
-            if (newdate2 == "NaN-NaN-NaN") {
-              this.exedate = y[0];
-            }
-            else {
-              this.exedate = newdate2;
-            }
-            // console.log("newdate2",newdate2)
-            y[0] = this.exedate;
-          }
-
-
-          if (y[2] == undefined) {
-            this.execname = '';
-          }
-          else {
-            this.execname = y[2];
-          }
-
-          // if (y[3] == undefined) {
-          //   this.exesource = '';
-          // }
-          // else {
-          //   this.exesource = y[3];
-          // }
-
-          if (y[5] == undefined) {
-            this.exeremarks = '';
-          }
-          else {
-            this.exeremarks = y[5];
-          }
-
-          if (y[7] == undefined) {
-            this.exeproductinterest = '';
-          }
-          else {
-            this.exeproductinterest = y[7];
-          }
-
-          if (y[8] == undefined) {
-            this.exedesignation = '';
-          }
-          else {
-            this.exedesignation = y[8];
-          }
-          if (y[9] == undefined) {
-            this.exenoofemp = 0;
-          }
-          else {
-            this.exenoofemp = y[9];
-          }
-
-          if (y[10] == undefined) {
-            this.exeturnover = '';
-          }
-          else {
-            this.exeturnover = y[10];
-          }
-          if (y[1] == undefined) {
-            this.exelocation = '';
-          }
-          else {
-            this.exelocation = y[1];
-          }
-
-          if (y[6] == undefined) {
-            this.exeEemail = '';
-          }
-          else {
-            this.exeEemail = y[6];
-          }
-          if (y[4] != undefined) {
-            var empArray = {
-              "date": this.exedate,
-              "location": this.exelocation,
-              "companyName": this.execname,
-              "source": 'Others',
-              "contactPerson": y[3],
-              "phoneNumber": y[4],
-              "message": this.exeremarks,
-              "email": this.exeEemail,
-              "productInterest": this.exeproductinterest,
-              "assignedTo": this.UserId,
-              "employeeId": this.UserId,
-              "timestamp": this.HeadingServices.getDateTime(),
-              "designation": this.exedesignation,
-              "numOfEmployee": this.exenoofemp,
-              "turnover": this.exeturnover,
-              "status": 'New',
-              "leadType": '',
-              "Attach": '',
-              "Caption": ''
-
-            };
-            excelupload.push(empArray);
-          }
-        }
-        // console.log("exceluploadfinal", excelupload)
-        // this.isLoading = true;
-        this.bridgeService2.adduploadlead(excelupload).subscribe(
-          (res: any) => {
-            // console.log("rslt", data);
-            if (Object(res)['message'] == "successful") {
-              this._NotifierService.showSuccess('Data Imported Successfully');
-              // this.isLoading = false;
-
-              setTimeout(() => {
-                let currentUrl = this.router.url;
-                this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-                this.router.onSameUrlNavigation = 'reload';
-                this.router.navigate([currentUrl]);
-              }, 2000);
-            }
-            else {
-              //  this.isLoading = false;
-              this._NotifierService.showError(Object(res)['message']);
-            }
-          });
-
-
-      }
     };
 
     // this.isLoading = false;
     reader.readAsBinaryString(target.files[0]);
   }
+
+
+CallImport(data:any){
+    var x: number[][] = data.slice(1);
+    var excelupload = new Array();
+    // console.log("excelupload", excelupload)
+    let leng = x.length;
+    for (let i = 0; i < leng; i++) {
+
+      let y = x[i];
+      let assto = '';
+      if (y[0] == undefined) {
+        // console.log("ifpart")
+        this.exedate = ' ';
+      }
+      else {
+        // console.log("elsepart")
+        this.exedate = new Date((y[0] - (25567 + 2)) * 86400 * 1000);
+
+
+        let m2 = this.exedate.getMonth() + 1;
+        let month = (m2 < 10 ? '0' : '') + m2;
+        let day = (this.exedate.getDate() < 10 ? '0' : '') + this.exedate.getDate();
+
+        let year2 = this.exedate.getUTCFullYear();
+        let newdate2 = year2 + "-" + month + "-" + day;
+        if (newdate2 == "NaN-NaN-NaN") {
+          this.exedate = y[0];
+        }
+        else {
+          this.exedate = newdate2;
+        }
+        // console.log("newdate2",newdate2)
+        y[0] = this.exedate;
+      }
+
+
+      if (y[2] == undefined) {
+        this.execname = '';
+      }
+      else {
+        this.execname = y[2];
+      }
+
+      // if (y[3] == undefined) {
+      //   this.exesource = '';
+      // }
+      // else {
+      //   this.exesource = y[3];
+      // }
+
+      if (y[5] == undefined) {
+        this.exeremarks = '';
+      }
+      else {
+        this.exeremarks = y[5];
+      }
+
+      if (y[7] == undefined) {
+        this.exeproductinterest = '';
+      }
+      else {
+        this.exeproductinterest = y[7];
+      }
+
+      if (y[8] == undefined) {
+        this.exedesignation = '';
+      }
+      else {
+        this.exedesignation = y[8];
+      }
+      if (y[9] == undefined) {
+        this.exenoofemp = 0;
+      }
+      else {
+        this.exenoofemp = y[9];
+      }
+
+      if (y[10] == undefined) {
+        this.exeturnover = '';
+      }
+      else {
+        this.exeturnover = y[10];
+      }
+      if (y[1] == undefined) {
+        this.exelocation = '';
+      }
+      else {
+        this.exelocation = y[1];
+      }
+
+      if (y[6] == undefined) {
+        this.exeEemail = '';
+      }
+      else {
+        this.exeEemail = y[6];
+      }
+      if (y[4] != undefined) {
+        var empArray = {
+          "date": this.exedate,
+          "location": this.exelocation,
+          "companyName": this.execname,
+          "source": 'Others',
+          "contactPerson": y[3],
+          "phoneNumber": y[4],
+          "message": this.exeremarks,
+          "email": this.exeEemail,
+          "productInterest": this.exeproductinterest,
+          "assignedTo": this.UserId,
+          "employeeId": this.UserId,
+          "timestamp": this.HeadingServices.getDateTime(),
+          "designation": this.exedesignation,
+          "numOfEmployee": this.exenoofemp,
+          "turnover": this.exeturnover,
+          "status": 'New',
+          "leadType": '',
+          "Attach": '',
+          "Caption": ''
+
+        };
+        excelupload.push(empArray);
+      }
+    }
+    // console.log("exceluploadfinal", excelupload)
+    // this.isLoading = true;
+    this.bridgeService2.adduploadlead(excelupload).subscribe(
+      (res: any) => {
+        // console.log("rslt", data);
+        if (Object(res)['message'] == "successful") {
+          this._NotifierService.showSuccess('Data Imported Successfully');
+
+          this.modalService.dismissAll();
+          setTimeout(() => {
+            let currentUrl = this.router.url;
+            this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+            this.router.onSameUrlNavigation = 'reload';
+            this.router.navigate([currentUrl]);
+          }, 1000);
+        }
+        else {
+          //  this.isLoading = false;
+          this._NotifierService.showError(Object(res)['message']);
+        }
+      });
+
+
+}
 
   resetAlerts() {
     this.error = '';
@@ -876,10 +890,7 @@ export class ExcelsheetComponent implements OnInit {
             this.modalService.dismissAll();
 
             setTimeout(() => {
-              let currentUrl = this.router.url;
-              this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-              this.router.onSameUrlNavigation = 'reload';
-              this.router.navigate([currentUrl]);
+           this.reload();
             }, 2000);
           }
           else {
@@ -962,7 +973,7 @@ export class ExcelsheetComponent implements OnInit {
       (res: any) => {
         if (Object(res)['status'] == "200") {
           this.modalService.dismissAll();
-          this.RowPerPage();
+          this.reload();
         }
         else {
           this._NotifierService.showError(Object(res)['message']);
@@ -1015,7 +1026,7 @@ export class ExcelsheetComponent implements OnInit {
           if (Object(res)['status'] == "200") {
             this.modalService.dismissAll();
             this.searchAssignValue = null;
-            this.RowPerPage();
+            this.reload();
 
           }
           else {
@@ -1078,7 +1089,7 @@ export class ExcelsheetComponent implements OnInit {
       this.isLoading = true;
       this.AddFollow2.Emp = Number(this.AddFollow2.Emp);
       this.AddFollow2.To = this.AddFollow2.From;
-      this.AddFollow2.CreateDate= this.HeadingServices.getDate(), 
+      this.AddFollow2.CreateDate= this.HeadingServices.getDate(),
       this.AddFollow2.CreateTime= this.HeadingServices.getTime(),
       this.AddFollow2.CreateTime= this.HeadingServices.getTime2(),
 
@@ -1091,10 +1102,7 @@ export class ExcelsheetComponent implements OnInit {
             this._NotifierService.showSuccess(this.Headingss[1].heading + " " + this.Headingss[0].heading103 + " " + this.Headingss[0].heading106);
             this.modalService.dismissAll();
             setTimeout(() => {
-              let currentUrl = this.router.url;
-              this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-              this.router.onSameUrlNavigation = 'reload';
-              this.router.navigate([currentUrl]);
+              this.reload();
             }, 2000);
           }
           else {
@@ -1226,23 +1234,23 @@ export class ExcelsheetComponent implements OnInit {
     // Get the table element
     const data = document.getElementById("table-data");
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);
- 
+
     // Convert the worksheet to JSON (2D array format)
     let jsonData: any[][] = XLSX.utils.sheet_to_json(ws, { header: 1 }) as any[][];
- 
+
     // Remove the first column from each row
     jsonData = jsonData.map(row => row.slice(1));
- 
+
     // Remove the last column from each row
   jsonData = jsonData.map(row => row.slice(0, row.length - 1));
- 
+
     // Convert the modified JSON data back to a worksheet
     const modifiedWs: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(jsonData);
- 
+
     // Create a new workbook and append the modified worksheet
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, modifiedWs, 'Sheet1');
- 
+
     // Save the file
     XLSX.writeFile(wb, this.fileName);
   }

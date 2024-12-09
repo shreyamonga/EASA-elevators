@@ -26,12 +26,13 @@ export class LoginComponent implements OnInit {
   role: any;
   reportingTo: any;
   SalesEmployeeCode: any;
+  user_id:any;
   fieldTextType: boolean = false;
   forgotPasswordClicked = '1';
   rememberMe: boolean = false;
   roleid: any;
-  constructor(private bridgeService: BridgeService,
-    public HeadingServices: HeadingServicesService,private _NotifierService: NotiferService, private route: Router, private http: HttpClient) {
+  constructor(public bridgeService: BridgeService,
+    public HeadingServices: HeadingServicesService,private _NotifierService: NotiferService, private route: Router, private http: HttpClient,) {
   }
 
   ngAfterViewInit() {
@@ -47,6 +48,8 @@ export class LoginComponent implements OnInit {
       this.login.password = localStorage.getItem('currentUserPassword');
       this.rememberMe = true;
     }
+
+
     // this.getCars();
   }
   showForgotPasswordForm(pos:any) {
@@ -77,6 +80,8 @@ export class LoginComponent implements OnInit {
               this.reportingTo = res.data[0]['reportingTo'];
               this.roleid= res.data[0]['role'];
               this.SalesEmployeeCode = res.data[0]['SalesEmployeeCode'];
+              this.user_id = res.data[0]['user_id'];
+              sessionStorage.setItem('roleid', this.roleid);
               sessionStorage.setItem('UserName', this.empName);
               sessionStorage.setItem('client_id', res.data[0]['client_id']);
               sessionStorage.setItem('ProjectSetting', JSON.stringify(res.data[0]['ProjectSetting']));
@@ -85,6 +90,7 @@ export class LoginComponent implements OnInit {
               sessionStorage.setItem('currencyCode', res.data[0]['ProjectSetting'][0].currency_type);
               sessionStorage.setItem('exportStatus', res.data[0]['ProjectSetting'][0].export_status);
               sessionStorage.setItem('UserId', this.empId);
+              sessionStorage.setItem('user_id', this.user_id);
               sessionStorage.setItem('SuperAdminModuleAccess', JSON.stringify(ressession.module_data));
               sessionStorage.setItem('SuperAdminReportAccess', JSON.stringify(ressession.report_data));
               sessionStorage.setItem('AddDynamicFields', JSON.stringify(ressession.can_add_dynamic_fields));

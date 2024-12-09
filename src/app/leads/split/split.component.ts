@@ -21,6 +21,7 @@ declare var $: any;
 })
 export class SplitComponent implements OnInit {
 
+  @ViewChild('confirmModal44') confirmModal44!: ElementRef;
   @ViewChild('ExcelsheetComponent', { static: false }) ExcelsheetComponent!: ElementRef | any;
   data: [][] | undefined;
   DynamicFiledPositionDetials: any[] = [];
@@ -149,6 +150,13 @@ export class SplitComponent implements OnInit {
     if (!this.HeadingServices.isModuleView(1)) {
       this.router.navigate(['/dashboard']);
     }
+    if(this.bridgeService2.getSalepercode() != undefined){
+      if (!Array.isArray(this.filterLead.assignedTo)) {
+        this.filterLead.assignedTo = [];
+      }
+      const codes = String(this.bridgeService2.getSalepercode());
+    this.filterLead.assignedTo.push(codes);
+    }
     this.ModeOfCommunication = this.bridgeService2.ModeOfCommunication;
     this.leadStatus = this.bridgeService2.leadStatus;
     this.UserName = sessionStorage.getItem('UserName');
@@ -173,15 +181,16 @@ export class SplitComponent implements OnInit {
       }
     });
 
-   
+
 
     $(document).mouseup(function (e: { target: any; }) {
-      var popup = $(".sidepanel");
+      var popup = $(".sidepanel2");
       if ((document.getElementById("mySidepanel") as HTMLInputElement) != null) {
         if (!$('.openbtn').is(e.target) && !popup.is(e.target) && popup.has(e.target).length == 0) {
           (document.getElementById("mySidepanel") as HTMLInputElement).style.width = "340";
           $('#mySidepanel').removeClass('sidepanel2');
           $('#mySidepanel').addClass('mySidepanelGo');
+          $('.sidepanel').hide();
         }
       }
     });
@@ -211,7 +220,7 @@ export class SplitComponent implements OnInit {
     $('#mySidepanel').addClass('mySidepanelGo');
     $('.sidepanel').hide();
   }
-    
+
   resetfilter() {
     this.filterLead = {}
     this.RowPerPage();
@@ -251,19 +260,10 @@ export class SplitComponent implements OnInit {
             // this.bridges2.push(res)
             // Inform the user
             this.isLoading = false;
-            $(".success-box").show();
-            this.modalService.dismissAll();
-            setTimeout(() => {
-              $(".success-box").fadeOut(1000);
-              let currentUrl = this.router.url;
-              this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-              this.router.onSameUrlNavigation = 'reload';
-              this.router.navigate([currentUrl]);
-            }, 2000);
             this._NotifierService.showSuccess("Lead Add Successfully !")
           }
           else {
-            this._NotifierService.showError(Object(res)['message']); 
+            this._NotifierService.showError(Object(res)['message']);
           }
           // Reset the form
         },
@@ -271,7 +271,7 @@ export class SplitComponent implements OnInit {
           const delim = ":"
           const name = err.message
           const result = name.split(delim).slice(3).join(delim)
-          alert(result);
+          this._NotifierService.showError(result);
           //  this.ngOnInit();
         }
       );
@@ -393,6 +393,7 @@ export class SplitComponent implements OnInit {
           this.bridgesdetails = Array(data.data[0]);
           this.nodetaildata = false;
         }
+        this.leaddetailsopen(this.commonObj.activeUserId);
         this.bridgeService2.leadgetlist(this.commonObj.activeUserId).subscribe((data: any) => {
           this.fileattachList = data;
           // console.log(this.fileattachList);
@@ -438,7 +439,7 @@ export class SplitComponent implements OnInit {
     }
 
     else {
-      alert(data.message);
+      this._NotifierService.showError(data.message);
       this.totalCount = 0;
       this.isLoading = false;
     }
@@ -449,7 +450,7 @@ export class SplitComponent implements OnInit {
         const delim = ':';
         const name = err.message;
         const result = name.split(delim).slice(3).join(delim);
-        alert(result);
+        this._NotifierService.showError(result);
       }
     );
 
@@ -459,10 +460,13 @@ export class SplitComponent implements OnInit {
   onFileDropped($event: any) {
     this.prepareFilesList($event);
   }
-  fileBrowseHandler(files: any) {
-    this.prepareFilesList(files.target.files);
+  fileBrowseHandler(event: any) {
+    const files = event.target.files;
+    this.prepareFilesList(files);
+  
+    // Reset the input field value to allow re-upload of the same file
+    event.target.value = null;
   }
-
   /**
    * Delete file from files list
    * @param index (File index)
@@ -485,14 +489,14 @@ export class SplitComponent implements OnInit {
    this.bridgeService2.leadAttach(this.commonObj.activeUserId, attachmentUserID, this.newdate, this.time, files).subscribe((data: any) => {
      if (Object(data)['status'] == "200") {
 
-       alert(Object(data)['message'])
+       this._NotifierService.showSuccess('Attachment Added Successfully');
        this.ngOnInit();
        // $(".success-box2").show();
 
 
      }
      else {
-       alert(Object(data)['message']);
+       this._NotifierService.showError(Object(data)['message']);
      }
    });
 
@@ -540,8 +544,8 @@ export class SplitComponent implements OnInit {
       }
       this.editbridges[this.DynamicFiledPositionDetials[i].field_name] = item[this.DynamicFiledPositionDetials[i].field_name];
     }
-    
-            
+
+
   }
 
   editLeads(fb: NgForm) {
@@ -557,18 +561,14 @@ export class SplitComponent implements OnInit {
       this.bridgeService2.editleads(this.editbridges).subscribe(
         (res: EditBridge2) => {
           if (Object(res)['status'] == "200") {
-            // this.bridges22.push(res)
-            $(".edit-success-box").show();
+
             this.isLoading = false;
+            this._NotifierService.showSuccess("Lead Updated Successfully !");
             this.modalService.dismissAll();
-            setTimeout(() => {
-              $(".edit-success-box").fadeOut(1000);
-              this.getBridge2();
-            }, 2000);
-            this._NotifierService.showSuccess("Lead Updated Successfully !")
+            this.getBridge2();
           }
           else {
-            this._NotifierService.showError(Object(res)['message']); 
+            this._NotifierService.showError(Object(res)['message']);
             this.isLoading = false;
           }
 
@@ -580,7 +580,7 @@ export class SplitComponent implements OnInit {
           const delim = ":"
           const name = err.message
           const result = name.split(delim).slice(3).join(delim)
-          alert(result);
+          this._NotifierService.showError(result);
           this.getBridge2();
           this.isLoading = false;
         }
@@ -641,44 +641,43 @@ export class SplitComponent implements OnInit {
   }
 
 
-  deleteid: number = 0;
-  deleteLeads(id: number) {
-
-    $('.delete-success-box').show();
-    $('.hover-show').hide();
-    this.deleteid = id;
-
-    setTimeout(() => {
-      $('.delete-success-box').fadeOut();
-    }, 50000);
-
-
-  }
-
-
-
-  yesdeleteUser(status: number) {
-    if (status == 1) {
-      let id = [this.deleteid];
-      this.resetAlerts();
-      // this.isLoading2 = true;
-      this.bridgeService2.junkleads(id, 1).subscribe(
-        (res) => {
-          this.bridges2 = this.bridges2.filter(function (item) {
-            return item['id'] && +item['id'] !== +id;
-          });
-          this.ngOnInit();
+  JunkId: any;
+  confirmModal(confirmModal2: any, JunkId: any) {
+    this.JunkId = JunkId;
+    this.modalService
+      .open(confirmModal2, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static', modalDialogClass: 'confirm-modal modal-dialog-centered' })
+      .result.then(
+        (result) => {
+          this.closeResult = `Closed with: ${result}`;
         },
-        (err) => (this.error = err)
+        (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
       );
-      this.ngOnInit();
-      $('.delete-success-box').hide();
-    } else {
-      // this.modalService.dismissAll();
-      this.ngOnInit();
-      $('.delete-success-box').hide();
-    }
   }
+
+
+  multipleDelete1(count: any) {
+    this.bridgeService2.junkleads(count, 1).subscribe(
+      (res: any) => {
+        if (Object(res)['status'] == "200") {
+          this.modalService.dismissAll();
+          this.ngOnInit();
+        }
+        else {
+          this._NotifierService.showError(Object(res)['message']);
+        }
+      },
+      (err) => {
+        // this.isLoading3 = false;
+        const delim = ":"
+        const name = err.message
+        const result = name.split(delim).slice(3).join(delim);
+        this._NotifierService.showError(result);
+      }
+    );
+  }
+
   // delete lead close
 
   leaddetailsopen(id: number | any) {
@@ -811,7 +810,7 @@ export class SplitComponent implements OnInit {
             this.modalService.dismissAll();
           }
           else {
-            alert(Object(res)['message']);
+            this._NotifierService.showError(Object(res)['message']);
           }
           // Reset the form
         },
@@ -819,7 +818,7 @@ export class SplitComponent implements OnInit {
           const delim = ":"
           const name = err.message
           const result = name.split(delim).slice(3).join(delim)
-          alert(result);
+          this._NotifierService.showError(result);
           //  this.ngOnInit();
         }
       );
@@ -877,155 +876,164 @@ export class SplitComponent implements OnInit {
       this.data = (XLSX.utils.sheet_to_json(ws, { header: 1 }));
       // console.log("this.data", this.data)
 
-      if (confirm("Are You Sure Do You Want To Import Data ?")) {
-        var x: number[][] = this.data.slice(1);
-        var excelupload = new Array();
-        // console.log("excelupload", excelupload)
-        let leng = x.length;
-        for (let i = 0; i < leng; i++) {
+      this.confirmModal(this.confirmModal44,'')
 
-          let y = x[i];
-          let assto = '';
-          if (y[0] == undefined) {
-            // console.log("ifpart")
-            this.exedate = ' ';
-          }
-          else {
-            // console.log("elsepart")
-            this.exedate = new Date((y[0] - (25567 + 2)) * 86400 * 1000);
-
-
-            let m2 = this.exedate.getMonth() + 1;
-            let month = (m2 < 10 ? '0' : '') + m2;
-            let day = (this.exedate.getDate() < 10 ? '0' : '') + this.exedate.getDate();
-
-            let year2 = this.exedate.getUTCFullYear();
-            let newdate2 = year2 + "-" + month + "-" + day;
-            if (newdate2 == "NaN-NaN-NaN") {
-              this.exedate = y[0];
-            }
-            else {
-              this.exedate = newdate2;
-            }
-            // console.log("newdate2",newdate2)
-            y[0] = this.exedate;
-          }
-
-
-          if (y[2] == undefined) {
-            this.execname = '';
-          }
-          else {
-            this.execname = y[2];
-          }
-
-          // if (y[3] == undefined) {
-          //   this.exesource = '';
-          // }
-          // else {
-          //   this.exesource = y[3];
-          // }
-
-          if (y[5] == undefined) {
-            this.exeremarks = '';
-          }
-          else {
-            this.exeremarks = y[5];
-          }
-
-          if (y[7] == undefined) {
-            this.exeproductinterest = '';
-          }
-          else {
-            this.exeproductinterest = y[7];
-          }
-
-          if (y[8] == undefined) {
-            this.exedesignation = '';
-          }
-          else {
-            this.exedesignation = y[8];
-          }
-          if (y[9] == undefined) {
-            this.exenoofemp = 0;
-          }
-          else {
-            this.exenoofemp = y[9];
-          }
-
-          if (y[10] == undefined) {
-            this.exeturnover = '';
-          }
-          else {
-            this.exeturnover = y[10];
-          }
-          if (y[1] == undefined) {
-            this.exelocation = '';
-          }
-          else {
-            this.exelocation = y[1];
-          }
-
-          if (y[6] == undefined) {
-            this.exeEemail = '';
-          }
-          else {
-            this.exeEemail = y[6];
-          }
-          if (y[4] != undefined) {
-            var empArray = {
-              "date": this.exedate,
-              "location": this.exelocation,
-              "companyName": this.execname,
-              "source": 'Others',
-              "contactPerson": y[3],
-              "phoneNumber": y[4],
-              "message": this.exeremarks,
-              "email": this.exeEemail,
-              "productInterest": this.exeproductinterest,
-              "assignedTo": this.UserId,
-              "employeeId": this.UserId,
-              "timestamp": this.newdatetime,
-              "designation": this.exedesignation,
-              "numOfEmployee": this.exenoofemp,
-              "turnover": this.exeturnover,
-              "status": 'New',
-              "leadType": '',
-              "Attach": '',
-              "Caption": ''
-
-            };
-            excelupload.push(empArray);
-          }
-        }
-        // console.log("exceluploadfinal", excelupload)
-        // this.isLoading = true;
-        this.bridgeService2.adduploadlead(excelupload).subscribe(
-          (res: any) => {
-            // console.log("rslt", data);
-          if (Object(res)['message'] == "successful") {
-            alert('Data Imported Successfully');
-            // this.isLoading = false;
-            this.ngOnInit();
-          }
-          else {
-            //  this.isLoading = false;
-            alert(Object(res)['message']);
-          }
-          });
-
-
-      }
     };
 
     // this.isLoading = false;
     reader.readAsBinaryString(target.files[0]);
   }
 
+
+CallImport(data:any){
+    var x: number[][] = data.slice(1);
+    var excelupload = new Array();
+    // console.log("excelupload", excelupload)
+    let leng = x.length;
+    for (let i = 0; i < leng; i++) {
+
+      let y = x[i];
+      let assto = '';
+      if (y[0] == undefined) {
+        // console.log("ifpart")
+        this.exedate = ' ';
+      }
+      else {
+        // console.log("elsepart")
+        this.exedate = new Date((y[0] - (25567 + 2)) * 86400 * 1000);
+
+
+        let m2 = this.exedate.getMonth() + 1;
+        let month = (m2 < 10 ? '0' : '') + m2;
+        let day = (this.exedate.getDate() < 10 ? '0' : '') + this.exedate.getDate();
+
+        let year2 = this.exedate.getUTCFullYear();
+        let newdate2 = year2 + "-" + month + "-" + day;
+        if (newdate2 == "NaN-NaN-NaN") {
+          this.exedate = y[0];
+        }
+        else {
+          this.exedate = newdate2;
+        }
+        // console.log("newdate2",newdate2)
+        y[0] = this.exedate;
+      }
+
+
+      if (y[2] == undefined) {
+        this.execname = '';
+      }
+      else {
+        this.execname = y[2];
+      }
+
+      // if (y[3] == undefined) {
+      //   this.exesource = '';
+      // }
+      // else {
+      //   this.exesource = y[3];
+      // }
+
+      if (y[5] == undefined) {
+        this.exeremarks = '';
+      }
+      else {
+        this.exeremarks = y[5];
+      }
+
+      if (y[7] == undefined) {
+        this.exeproductinterest = '';
+      }
+      else {
+        this.exeproductinterest = y[7];
+      }
+
+      if (y[8] == undefined) {
+        this.exedesignation = '';
+      }
+      else {
+        this.exedesignation = y[8];
+      }
+      if (y[9] == undefined) {
+        this.exenoofemp = 0;
+      }
+      else {
+        this.exenoofemp = y[9];
+      }
+
+      if (y[10] == undefined) {
+        this.exeturnover = '';
+      }
+      else {
+        this.exeturnover = y[10];
+      }
+      if (y[1] == undefined) {
+        this.exelocation = '';
+      }
+      else {
+        this.exelocation = y[1];
+      }
+
+      if (y[6] == undefined) {
+        this.exeEemail = '';
+      }
+      else {
+        this.exeEemail = y[6];
+      }
+      if (y[4] != undefined) {
+        var empArray = {
+          "date": this.exedate,
+          "location": this.exelocation,
+          "companyName": this.execname,
+          "source": 'Others',
+          "contactPerson": y[3],
+          "phoneNumber": y[4],
+          "message": this.exeremarks,
+          "email": this.exeEemail,
+          "productInterest": this.exeproductinterest,
+          "assignedTo": this.UserId,
+          "employeeId": this.UserId,
+          "timestamp": this.HeadingServices.getDateTime(),
+          "designation": this.exedesignation,
+          "numOfEmployee": this.exenoofemp,
+          "turnover": this.exeturnover,
+          "status": 'New',
+          "leadType": '',
+          "Attach": '',
+          "Caption": ''
+
+        };
+        excelupload.push(empArray);
+      }
+    }
+    // console.log("exceluploadfinal", excelupload)
+    // this.isLoading = true;
+    this.bridgeService2.adduploadlead(excelupload).subscribe(
+      (res: any) => {
+        // console.log("rslt", data);
+        if (Object(res)['message'] == "successful") {
+          this._NotifierService.showSuccess('Data Imported Successfully');
+
+          this.modalService.dismissAll();
+          setTimeout(() => {
+            let currentUrl = this.router.url;
+            this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+            this.router.onSameUrlNavigation = 'reload';
+            this.router.navigate([currentUrl]);
+          }, 1000);
+        }
+        else {
+          //  this.isLoading = false;
+          this._NotifierService.showError(Object(res)['message']);
+        }
+      });
+
+
+}
   togglesortType(key: any) {
     this.sortsend = !this.sortsend;
     this.sortedColumn = key + String(this.sortsend);
-    // alert(this.sortedColumn);
+    // this._NotifierService.showError(this.sortedColumn);
   }
 
   mouseEnterMessage(item: Bridge2) {
@@ -1081,11 +1089,11 @@ export class SplitComponent implements OnInit {
 
         if (Object(data)['status'] == "200") {
 
-          alert(Object(data)['message'])
+          this._NotifierService.showSuccess('Attachment deleted Successfully')
           this.ngOnInit();
         }
         else {
-          alert(Object(data)['message']);
+          this._NotifierService.showError(Object(data)['message']);
         }
       });
     }

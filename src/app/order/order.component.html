@@ -71,7 +71,7 @@
                     <input type="checkbox" id="checkbox{{item.id}}" value="{{item.id}}" class="checkbox"
                     (click)="checkboxclick(item.id)">
                 </td>
-                <td>{{item.id}}</td>
+                <td>{{i+1}}</td>
                 <td (click)="suplier(item.id)">
                   {{item.CreateDate | customDate}}
                 </td>
@@ -171,7 +171,7 @@
         <label class="MainFilterLabel filtersize">{{'To Date'}}</label>
         <input class="input-fld" type="date" name="CreateDate__lte" [(ngModel)]="filter_customer.CreateDate__lte" [ngModelOptions]="{standalone: true}">
       </div>
-      <div class="col-12 pb-3">
+      <div class="col-12">
         <label class="MainLabelNames">{{'Order/Draft'}}</label>
         <ng-select #selectcustomername [clearOnBackspace]="false" [searchable]="false"  [virtualScroll]="true" name="is_draft" placeholder="Select Type" [(ngModel)]="filter_customer.is_draft" class="ngsearch-dropdown input-fld">
           <ng-template ng-header-tmp>
@@ -183,7 +183,7 @@
           <ng-option value="0">{{Headingss[0].leftheading}}</ng-option>
         </ng-select>
         </div>
-      <div class="col-12 mb-1">
+      <div class="col-12">
         <label class="MainLabelNames">{{Headingss[1].heading3}}</label>
         <ng-select #selectcustomername [clearOnBackspace]="false" [searchable]="false"  [virtualScroll]="true" name="CardCode" placeholder="Select {{Headingss[1].heading3}}" [(ngModel)]="filter_customer.CardCode" class="ngsearch-dropdown input-fld">
           <ng-template ng-header-tmp>
@@ -192,6 +192,16 @@
           </ng-template>
           <ng-option value="" disable selected>All {{Headingss[1].heading3}}</ng-option>
           <ng-option *ngFor="let item of businesspartners" value="{{item.CardCode}}">{{item.CardName}}</ng-option>
+        </ng-select>
+      </div>
+
+      <div class="col-12 mb-1">
+        <label class="MainLabelNames">Sales Person</label>
+        <ng-select id="CustomDesignInput" [multiple]="true"
+        placeholder="Select Sales Person"
+        class="ngsearch-dropdown input-fld"
+        [(ngModel)]="filter_customer.assignedTo" [ngModelOptions]="{standalone: true}">
+        <ng-option *ngFor="let ite of bridgess" value="{{ite.id}}">{{ite.firstName}} {{ite.lastName}}</ng-option>
         </ng-select>
       </div>
     </div>

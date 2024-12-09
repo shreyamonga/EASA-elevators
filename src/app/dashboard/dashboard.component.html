@@ -5,7 +5,7 @@
   <h5 class="dashheadingmain">{{Headingss[0].heading0}}</h5>
 
   <div *ngIf="role == 'admin'" class="me-3 headsec">
-    <ng-select #selectRole [clearOnBackspace]="false" [searchable]="false" [ngModel]="selectedDevice" (ngModelChange)="ChartJs($event)" name="sel2" placeholder="Select Employee" class="ngsearch-dropdown filter-select-width">
+    <ng-select #selectRole [clearOnBackspace]="false" [searchable]="false" [(ngModel)]="SelectedPerson" (ngModelChange)="ChartJs($event)" name="sel2" placeholder="Select Employee" class="ngsearch-dropdown filter-select-width">
       <ng-template ng-header-tmp>
         <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search" type="text" (input)="selectRole.filter($event.target.value)" />
       </ng-template>
@@ -20,12 +20,12 @@
   </div>
   <div class="clearfix"></div>
   <div class="MainSalesBox">
-        <div class="MainContentBox">
+        <div class="MainContentBox" (click)="redirectwithsale(this.SelectedPerson,'/invoice')" style="cursor: pointer;">
           <li class="iconBg"><i class="fa-solid fa-indian-rupee-sign"></i></li>
           <li class="TotalRevenue">{{Headingss[0].heading1}}</li>
           <div class="TwoliHere">
             <div>
-            <h2>{{revanue}}</h2>
+            <h2>{{revanue | priceFormat}}</h2>
           </div>
           <!-- <div class="upDwn">
             <span>vs Last Year</span>
@@ -34,19 +34,19 @@
           </div>
         </div>
 
-        <div class="MainContentBox">
+        <div class="MainContentBox" (click)="redirectwithsale(this.SelectedPerson,'/order')" style="cursor: pointer;">
           <li class="iconBg"><i class="fa-regular fa-money-bill"></i></li>
           <li class="TotalRevenue">{{Headingss[0].heading2}}</li>
           <div class="TwoliHere">
             <div>
-            <h2>{{sales}}</h2>
+            <h2>{{sales | priceFormat}}</h2>
           </div>
 
           </div>
         </div>
 
 
-        <div class="MainContentBox" routerLink="/customer" style="cursor: pointer;">
+        <div class="MainContentBox" (click)="redirectwithsale(this.SelectedPerson,'/customer')" style="cursor: pointer;">
           <li class="iconBg"><i class="fa-solid fa-user-tie"></i></li>
           <li class="TotalRevenue">{{Headingss[0].heading3}}</li>
           <div class="TwoliHere">
@@ -58,7 +58,7 @@
         </div>
 
 
-        <div class="MainContentBox" routerLink="/leads/table" style="cursor: pointer;">
+        <div class="MainContentBox" (click)="redirectwithsale(this.SelectedPerson,'/leads/table')" style="cursor: pointer;">
           <li class="iconBg"><i class="fa-solid fa-users"></i></li>
           <li class="TotalRevenue">{{Headingss[0].heading4}}</li>
           <div class="TwoliHere">
@@ -69,7 +69,7 @@
           </div>
         </div>
 
-        <div class="MainContentBox" routerLink="/order" style="cursor: pointer;">
+        <div class="MainContentBox" (click)="redirectwithsale(this.SelectedPerson,'/order')" style="cursor: pointer;">
           <li class="iconBg"><i class="fa-solid fa-cart-shopping"></i></li>
           <li class="TotalRevenue">{{Headingss[0].heading5}}</li>
           <div class="TwoliHere">
@@ -89,7 +89,7 @@
       </div>
       <div class="Chartone" style="background-color:#fff;">
         <h3>{{Headingss[0].heading60}}</h3>
-        <canvas id="toFiveCustomer" height="170"></canvas>
+        <canvas id="toFiveCustomer" height="170" style="margin-top:60px;"></canvas>
       </div>
     </div>
   </div>
@@ -117,7 +117,7 @@
     <div class="row">
       <div class="col-lg-12">
     <h3>{{Headingss[0].heading9}}</h3>
-    <canvas class="Chartone WidthDown" id="doughnut" height="100"></canvas>
+    <canvas class="Chartone WidthDown" id="doughnut" height="100" style="margin-top: 40px;"></canvas>
   </div>
   <div class="col-lg-12">
     <div class="ChartoneLiHere">

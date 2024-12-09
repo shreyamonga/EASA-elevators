@@ -372,8 +372,8 @@
                     <th>Email</th>
                     </tr>
                   </thead>
-                      <tr *ngFor="let item3 of compaign1">
-                        <td>{{item3.id}}</td>
+                      <tr *ngFor="let item3 of compaign1;let i = index">
+                        <td>{{i+1}}</td>
                         <td>{{item3.Name || 'NA'}}</td>
                         <td>{{item3.Phone || 'NA'}}</td>
                         <td>{{item3.Email || 'NA'}}</td>
@@ -448,8 +448,8 @@
                     <th>Action</th>
                     </tr>
                   </thead>
-                      <tr *ngFor="let item3 of compaignname" style="cursor: pointer;">
-                        <td (click)="suplier(item3.id)">{{item3.id}}</td>
+                      <tr *ngFor="let item3 of compaignname;let i = index" style="cursor: pointer;">
+                        <td (click)="suplier(item3.id)">{{i+1}}</td>
                         <td (click)="suplier(item3.id)">{{item3.CampaignName}}</td>
                           <!-- <td (click)="suplier(item.id)">{{item.Industry}}</td> -->
                           <td (click)="suplier(item3.id)">{{item3.CreateDate | customDate}}</td>

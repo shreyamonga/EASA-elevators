@@ -399,7 +399,10 @@ export class CustomerDetailsComponent implements OnInit {
                   this.modalService.dismissAll();
 
           this._NotifierService.showSuccess(this.Headingss[1].SubHeading+" "+this.Headingss[0].heading103+" "+this.Headingss[0].heading106);
-                  this.getCustomer();
+                  // this.getCustomer();
+                  this.bridgeService.getContactPersone(data[0]['CardCode']).subscribe((data: ContactPerson[]) => {
+                    this.contactPersoneList = data;
+                  })
                   f.reset();
                 }
                 else {
@@ -660,6 +663,7 @@ export class CustomerDetailsComponent implements OnInit {
             this.branchs = data;
 
           })
+          f.reset();
           }
           else {
             this._NotifierService.showError(Object(res)['message']);
@@ -710,7 +714,10 @@ export class CustomerDetailsComponent implements OnInit {
     $('.hover-show' + item.id).show();
   }
 
-  openEdit(contentEdit: any, item: Branch) {
+  selectedIndex: number = 0;
+  openEdit(contentEdit: any, item: Branch,index: number) {
+    this.selectedIndex = index;
+    console.log(this.selectedIndex)
     this.modalService
       .open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' })
       .result.then(

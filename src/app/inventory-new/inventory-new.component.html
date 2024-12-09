@@ -19,8 +19,8 @@
             <li *ngFor="let item of ReportModule" [ngClass]="{'active':item.title==ModuleItem }" (click)="setModule(item)">{{item.title}}</li>
           </ul>
         </nav>
-        <!-- (click)="isNavVisible = false" -->
-      <div class="custom-search-wrapper">
+        <!-- -->
+      <div class="custom-search-wrapper"  (click)="changeisnave(false)">
 
         <div ngbDropdown class="custom-common-search-container">
           <button *ngIf="exportStatus" type="button" class="custom-action-btn openbtn" (click)="Exportexcel()" ><i >Export &nbsp;</i>
@@ -60,7 +60,7 @@
         </div>
       </div>
     </div>
-    <div class="sales-boxes" (click)="isNavVisible = false">
+    <div class="sales-boxes"  (click)="changeisnave(false)">
       <div class="recent-sales UserManagement">
         <div class="sales-details">
           <div class="custom-outter-body-lead-list-c9">
@@ -95,14 +95,15 @@
             <ng-container>
               <tr class="hover" *ngFor="let item of items;  let i = index">
                   <td>
-                  <input type="checkbox" id="checkbox{{item.id}}" value="{{item.id}}" class="checkbox">
+                    <input type="checkbox" id="checkbox{{item.id}}" value="{{item.id}}" class="checkbox"
+                    (click)="checkboxclick(item.id)">
                 </td>
-                <td >{{item.id}}</td>
-                <td>{{item.ItemName}}</td>
-                <td>{{item.SKU}}</td>
-                <td>{{item.ROP}}</td>
-                <td>{{item.Inventory}}</td>
-                <td>{{item.UnitPrice}}</td>
+                <td (click)="suplier(item.id)">{{i+1}}</td>
+                <!-- <td (click)="suplier(item.id)">{{item.id}}</td> -->
+                <td (click)="suplier(item.id)">{{item.ItemName}}</td>
+                <td (click)="suplier(item.id)">{{item.SKU}}</td>
+                <td (click)="suplier(item.id)">{{item.ROP}}</td>
+                <td (click)="suplier(item.id)">{{item.Inventory}}</td>
 
                 <td class="EditBoxForm text-center" style="padding: 0 0px; width: 150px;">
                   <span class="edit-delete edit-delete{{item.id}}" (click)="editdeletepop(item)"
@@ -143,7 +144,8 @@
                   <td>
                   <input type="checkbox" id="checkbox{{item.id}}" value="{{item.id}}" class="checkbox">
                 </td>
-                <td (click)="SetID(item)">{{item.id}}</td>
+                <td (click)="SetID(item)">{{i+1}}</td>
+                <!-- <td (click)="SetID(item)">{{item.id}}</td> -->
                 <td (click)="SetID(item)" class="figma-inventory-product-img-container">
                   <img *ngIf="item.CategoryImageURL == ''" src="../../assets/img/iner-box1.png" alt="" class="figma-inventory-product-img">
                   <img *ngIf="item.CategoryImageURL != ''" src="{{bridgeService2.baseUrl2}}{{item.CategoryImageURL}}" alt="" class="figma-inventory-product-img">
@@ -577,6 +579,16 @@
     <p>Are You Sure Do You Want To Delete ?</p>
     <div class="confirm-btn">
       <button class="btn custom-btn-blue" (click)="multipleDelete12(JunkId2)">OK</button>
+      <button class="btn custom-btn-outline-blue" (click)="modal.dismiss('Cross click')">Cancel</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #confirmModal44 let-modal>
+  <div class="modal-body">
+    <p>Are You Sure Do You Want To Import Data ?</p>
+    <div class="confirm-btn">
+      <button class="btn custom-btn-blue" (click)="CallImport(Payload)">OK</button>
       <button class="btn custom-btn-outline-blue" (click)="modal.dismiss('Cross click')">Cancel</button>
     </div>
   </div>

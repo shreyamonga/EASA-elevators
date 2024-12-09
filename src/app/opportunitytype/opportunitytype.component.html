@@ -47,7 +47,7 @@
               <tr class="hover" *ngFor="let item of optype; let i = index ">
                 <td><input type="checkbox" id="checkbox{{item.id}}" value="{{item.id}}" class="checkbox"
                     (click)="checkboxclick(item.id)"></td>
-                <td>{{item.id}}</td>
+                <td>{{i+1}}</td>
                 <td>{{item.Type || 'NA'}}</td>
                 <!-- <td class="text-center"><i class="fa fa-pencil" (click)="open(mymodal,true,item)"></i></td> -->
               </tr>

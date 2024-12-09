@@ -623,7 +623,7 @@ scrollToBottom(): void {
     this.resetAlerts();
     this.Activitys.SourceID = this.idd;
     this.Activitys.Emp = this.UserId;
-    this.Activitys.From = this.Activitys.To;
+    this.Activitys.From = this.Activitys.From;
     if(this.ActivitysParticipants.length == 0 && this.Activitys.Type == 'Task'){
       this._NotifierService.showError('Select Participants');
     }
@@ -1091,5 +1091,18 @@ scrollToBottom(): void {
   //   }
   //   return false;
   // }
+
+  deletefileapi(imageid: any) {
+    let ordId = this.router.snapshot.params.id;
+    this.bridgeService2.deleteoppoAttachment(ordId, imageid).subscribe(
+      (res) => {
+        this.modalService.dismissAll();
+        this.getOpportunity(this.idd);
+
+      },
+      (err) => (this.error = err)
+    );
+  }
+
 }
 

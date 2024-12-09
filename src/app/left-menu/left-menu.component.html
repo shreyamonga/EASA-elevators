@@ -184,6 +184,14 @@
       <i class='fa fa-truck'></i>
       <span class="links_name" title="{{Headingss[11].leftheading}}">{{Headingss[11].leftheading}} </span>
     </li>
+   <li routerLink="/notification" (click)="falseDropdown()" [routerLinkActive]="['active']">
+      <i class='fa fa-bell'></i>
+      <span class="links_name" title="Notification">Notification </span>
+    </li>
+   <li (click)="open(mymodal)">
+      <i class="fa fa-comment-dots"></i>
+      <span class="links_name" title="Feedback">Feedback Form </span>
+    </li>
     <!-- <li (click)="querysParam('isList',true)" [routerLinkActive]="['active']" [ngClass]="isLocation?'active':''">
       <i class='fa fa-map-marker'></i>
       <span class="links_name">Location Tracking</span>
@@ -247,10 +255,12 @@
           <i class='fa fa-shopping-bag'></i>
           <span class="links_name" title="Branch Master">Branch Master</span>
         </li>
-        <li routerLink='/smtp-setting' [routerLinkActive]="['active']">
+
+
+        <!-- <li routerLink='/smtp-setting' [routerLinkActive]="['active']">
           <i class="fa fa-cogs" aria-hidden="true"></i>
           <span class="links_name" title="Smtp Setting">Smtp Setting</span>
-        </li>
+        </li> -->
 
         <li routerLink='/local-setting' [routerLinkActive]="['active']">
           <i class="fa fa-cogs" aria-hidden="true"></i>
@@ -348,3 +358,60 @@
   </div>
 </div>
 
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title modal-heading" id="modal-basic-title">Give us your Feedback</h4>
+    <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')" style="outline: none;">
+      <span aria-hidden="true" style="outline: none;">×</span>
+    </button>
+  </div>
+  <form #f="ngForm" name="theForm" (submit)="addFeedback(f)">
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12">
+          <label>Title </label>
+          <input type="text" class="input-fld required-fld" name="Title" [(ngModel)]="indus.title" #Title="ngModel" placeholder="Enter Title" required>
+          <span class="help-block danger" *ngIf="Title.errors?.required && Title.touched">
+            The Title is required
+          </span>
+          <br>
+        </div>
+
+        <div class="col-md-12">
+          <label>Description </label>
+          <input type="text" class="input-fld required-fld" name="Description" [(ngModel)]="indus.description" #Description="ngModel" placeholder="Enter Description" required>
+          <span class="help-block danger" *ngIf="(Description.errors?.required && f.submitted)||(Description.errors?.required && Description.touched)">
+            The Description is required
+          </span>
+        </div>
+        <div class="col-md-12">
+          <label for="type">Type</label>
+          <select class="input-fld required-fld" name="Type" id="type" [(ngModel)]="indus.feedbacktype" #Type="ngModel" required>
+            <option value="" disabled>Select Type</option>
+            <option *ngFor="let option of typeOptions" [value]="option">{{ option }}</option>
+          </select>
+          <span class="help-block danger" *ngIf="(Type.errors?.required && f.submitted) || (Type.errors?.required && Type.touched)">
+            The Type is required
+          </span>
+        </div>
+        
+        <div class="col-md-12" >
+          <label>Attachment </label>
+          <div class="figma-form-wrapper-file-upload">
+          <input type="file" class="input-fld" name="attach" (change)="onFileChanged($event)" multiple>
+          <p class="figma-form-wrapper-file-upload-text"><span [innerHTML]="'figma-drop-upload-file-ico' | svgIcons:''"></span> {{flAttach == ''? 'Choose a file or drag it here':getspit(flAttach)}} </p>
+          </div>
+          <!-- <br> -->
+        </div>
+        <div style="text-align: center;" *ngIf="isLoading2">
+          <img src="../../assets/img/loder.gif" style="height: 100%;width: 10%;">
+        </div>
+        <!-- <div class="col-md-6"></div> -->
+        <div class="col-md-12 text-center mt-2" >
+          <button class="add-invent1">Save</button>
+        </div>
+
+      </div>
+    </div>
+  </form>
+</ng-template>

@@ -2,6 +2,7 @@
   {
     "Api": "http://103.197.76.50:8018",
     "SuprAdminApi": "http://103.197.76.50:8017/api",
-    "SocektApi": "ws://103.197.76.50:8019/ws"
+    "SuprAdminFrontApi": "http://103.197.76.50:4217",
+    "SocektApi": "ws://103.197.76.50:8034/ws"
   }
 ]

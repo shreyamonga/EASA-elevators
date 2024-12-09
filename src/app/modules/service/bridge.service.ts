@@ -38,10 +38,9 @@ export class BridgeService {
   UserId = sessionStorage.getItem('UserId');
   role = sessionStorage.getItem('role');
   SalesEmployeeCode = sessionStorage.getItem('SalesEmployeeCode');
-  // baseUrl2 = 'http://103.197.76.50:8018';
-  // SuperbaseUrl = 'http://103.197.76.50:8017/api';
   baseUrl2 = this._Config.Links[0].Api;
   SuperbaseUrl = this._Config.Links[0].SuprAdminApi;
+  SuperbaseFrontUrl = this._Config.Links[0].SuprAdminFrontApi;
   SocektApi = this._Config.Links[0].SocektApi;
 
   UserFilter: any = { pageNumber: 1, ShowRows: '10', searchValue: '',short:{order_by_field:'',order_by_value:''}, Filter: { filterusersrole: '', filteruserposition: '', filteruserreporting: '' } };
@@ -382,6 +381,8 @@ storeApplication(customer: any,appEdit:boolean) {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('currentUserEmail');
     localStorage.removeItem('currentUserPassword');
+    sessionStorage.setItem('currentUserEmail', data.email);
+    sessionStorage.setItem('currentUserPassword', data.password);
         }
         return res;
       })
@@ -1522,35 +1523,6 @@ storeApplication(customer: any,appEdit:boolean) {
 
 
 
-  // logininsap(){
-
-
-  //   const httpOptions = {
-  //     headers: new HttpHeaders({
-  //       'Content-Type': 'application/json',
-  //       'Access-Control-Allow-Origin': '*',
-  //       'Access-Control-Allow-Headers': 'Content-Type',
-  //       'Access-Control-Allow-Methods': 'POST'
-  //     }),
-  //   };
-
-
-  //   return this.http.post(`http://103.234.187.86:8001/inventory/getinventory`, {CompanyDB:"INTERNAL_APP",Password:"manager",UserName:"manager"}, httpOptions).pipe(
-  //     map((res: any) => {
-  //       return res['data'];
-  //     })
-  //   );
-  // }
-
-  // storeTarget(Quotation: Target) {
-  //   //console.log(Quotation);
-  //   return this.http.post(`${this.baseUrl2}/employee/targetyr_create`, [Quotation]).pipe(
-  //     map((res: any) => {
-  //       return res['data'];
-  //     })
-  //   );
-  // }
-
   /* store target assignment added by millan on 03-May-2022 */
   storeTargetAssignment(insTar: TargeYear) {
     return this.http.post(`${this.baseUrl2}/employee/targetyr_create`, [insTar], { 'headers': this.getHeader() }).pipe(
@@ -1692,7 +1664,6 @@ storeApplication(customer: any,appEdit:boolean) {
     const params = new HttpParams()
       .set('id', id.toString());
     return this.http.post(`${this.baseUrl2}/invoice/create`, { oid: id }, { 'headers': this.getHeader() }).pipe(
-      // return this.http.post(`http://103.107.67.186:8000/static/html/quotation.html`, { oid: id }).pipe(
       map((res: any) => {
       })
     );
@@ -2707,6 +2678,7 @@ storeApplication(customer: any,appEdit:boolean) {
     filteruser.CreateDate__gte = this.checkKeyEpty(filteruser.CreateDate__gte);
     filteruser.CreateDate__lte = this.checkKeyEpty(filteruser.CreateDate__lte);
     filteruser.is_draft = this.checkKeyEpty(filteruser.is_draft);
+    filteruser.assignedTo = this.checkKeyEpty(filteruser.assignedTo);
     return this.http.post(`${this.baseUrl2}/quotation/all_filter_page`, {
       "SalesPersonCode": this.SalesEmployeeCode,
       "PageNo": pagination.PageNo,
@@ -2723,7 +2695,8 @@ storeApplication(customer: any,appEdit:boolean) {
         "departement": '2',
         is_draft:filteruser.is_draft,
         CreateDate__gte: filteruser.CreateDate__gte,
-        CreateDate__lte: filteruser.CreateDate__lte
+        CreateDate__lte: filteruser.CreateDate__lte,
+        SalesPersonCode__in: filteruser.assignedTo,
       }
     }, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
@@ -2743,6 +2716,7 @@ storeApplication(customer: any,appEdit:boolean) {
     filteruser.CreateDate__gte = this.checkKeyEpty(filteruser.CreateDate__gte);
     filteruser.CreateDate__lte = this.checkKeyEpty(filteruser.CreateDate__lte);
     filteruser.is_draft = this.checkKeyEpty(filteruser.is_draft);
+    filteruser.assignedTo = this.checkKeyEpty(filteruser.assignedTo);
     return this.http.post(`${this.baseUrl2}/order/all_filter_page`, {
       "SalesPersonCode": this.SalesEmployeeCode,
       "PageNo": pagination.PageNo,
@@ -2759,7 +2733,8 @@ storeApplication(customer: any,appEdit:boolean) {
         "departement": '2',
         is_draft:filteruser.is_draft,
         CreateDate__gte: filteruser.CreateDate__gte,
-        CreateDate__lte: filteruser.CreateDate__lte
+        CreateDate__lte: filteruser.CreateDate__lte,
+        SalesPersonCode__in: filteruser.assignedTo,
       }
     }, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
@@ -2790,7 +2765,8 @@ storeApplication(customer: any,appEdit:boolean) {
         "DocumentStatus":filteruser.DocumentStatus,
         "CancelStatus":filteruser.CancelStatus,
         CreateDate__gte: filteruser.CreateDate__gte,
-        CreateDate__lte: filteruser.CreateDate__lte
+        CreateDate__lte: filteruser.CreateDate__lte,
+        SalesPersonCode__in: filteruser.assignedTo
       }
     }, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
@@ -3153,6 +3129,31 @@ storeApplication(customer: any,appEdit:boolean) {
     }
   }
 
+  insertFeedback(feedbackData: any) {
+    const uploadData = new FormData();
+  
+    // Append each key-value pair from feedbackData to the FormData object
+    for (const [key, value] of Object.entries(feedbackData)) {
+      // Handle files if the `Attach` field is an array
+      if (key === 'Attach' && Array.isArray(value)) {
+        value.forEach((file: File) => {
+          uploadData.append('Attach', file);
+        });
+      } else {
+        uploadData.append(key, value as string);
+      }
+    }
+  
+    // Make the HTTP POST request
+    return this.http.post(`${this.SuperbaseUrl}/enquiry/feedback`, uploadData, { headers: this.getHeader() }).pipe(
+      map((res: any) => {
+        console.log(res);
+        return res;
+      })
+    );
+  }
+  
+
   deletePaymentTerms(id: any) {
     return this.http.post(`${this.baseUrl2}/paymenttermstypes/delete`, { id: id }, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
@@ -3241,6 +3242,14 @@ storeApplication(customer: any,appEdit:boolean) {
     return this._quotationitem;
   }
 
+  salepercode: any;
+  setSalepercode(id: any) {
+    this.salepercode = id;
+  }
+
+  getSalepercode() {
+    return this.salepercode;
+  }
 
   cardcode: any;
   setBpCardcode(id: any) {

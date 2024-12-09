@@ -44,7 +44,7 @@
             <tr>
               <th class="CheckBoxWidthFix"><input id="selectAll1" type="checkbox" (click)="selectAll1()"></th>
               <!-- <th (click)="togglesortType('id')">ID <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th> -->
-              <th>S. NO </th>
+              <th>ID </th>
               <th>Department </th>
               <th>Financial Year </th>
               <th>Target Sale </th>
@@ -56,7 +56,8 @@
               <tr class="hover" *ngFor="let item of pyterms; let i = index ">
                 <td><input type="checkbox" id="checkbox{{item.id}}" value="{{item.id}}" class="checkbox"
                     (click)="checkboxclick(item.id)"></td>
-                <td (click)="suplier(item.id)">{{item.id}}</td>
+                <td (click)="suplier(item.id)">{{i+1}}</td>
+                <!-- <td (click)="suplier(item.id)">{{item.id}}</td> -->
                 <td (click)="suplier(item.id)">{{item.Department}}</td>
                 <td (click)="suplier(item.id)">{{item.StartYear}} - {{item.EndYear}}</td>
                 <td (click)="suplier(item.id)">{{item.YearTarget | priceFormat}}</td>

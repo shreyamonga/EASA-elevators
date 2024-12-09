@@ -37,6 +37,16 @@ export class LeftMenuComponent implements OnInit {
   LicenceMEssage: boolean = false;
   PaymentMessage:any = '';
   headingline:any = '';
+  fl: any = [];
+  flAttach:any='';
+  isLoading2: boolean = false;
+  indus:any = {
+    title: "",
+    description: "",
+    feedbacktype: "",
+    Attach: ""
+  };
+  typeOptions: string[] = ['Frontend', 'Backend', 'Others'];
   constructor(private route: Router, private router: ActivatedRoute,
     private _NotifierService: NotiferService,
     private modalService: NgbModal, private bridgeService2: BridgeService,
@@ -224,7 +234,7 @@ export class LeftMenuComponent implements OnInit {
       if(item.module_name == "Business Partner"){
         this.route.navigate(['/customer/customer-details/C'+ item.module_id]);
       }
-      if(item.module_name == "Opportunity"){  
+      if(item.module_name == "Opportunity"){
         this.route.navigate(['/opportunity/opportunity-details/'+ item.module_id]);
       }
       if(item.module_name == "Quotation"){
@@ -238,6 +248,9 @@ export class LeftMenuComponent implements OnInit {
       }
       if(item.module_name == "Invoice"){
         this.route.navigate(['/invoice/invoice-details/'+ item.module_id]);
+      }
+      if(item.module_name == "Target Assignment"){
+        this.route.navigate(['/target-assisment/target-assisment-details/'+ item.module_id]);
       }
   }
   reloadMenu() {
@@ -306,6 +319,7 @@ export class LeftMenuComponent implements OnInit {
   }
 
   CardcodeRemoveFilter() {
+    this.bridgeService2.setSalepercode(undefined);
     this.bridgeService2.setBpCardcode(undefined);
     this.bridgeService2.setLeadID(undefined);
     this.bridgeService2.setOpportunityID(undefined);
@@ -387,5 +401,128 @@ export class LeftMenuComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  open(content: any) {
+    this.modalService
+      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered userList-cards-modal' })
+      .result.then(
+        (result) => {
+          this.closeResult = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
+  }
+
+  
+  addFeedback(f: NgForm) {
+    f = this.bridgeService2.GlobaleTrimFunc(f);
+    for(let [keys,value] of Object.entries(f.value)){
+      if(!!!f.value[keys]){
+        f.value[keys] = "";
+      }
+    }
+    const indus = {
+      title: this.indus.title || "",
+      description: this.indus.description || "",
+      feedbacktype: this.indus.feedbacktype || "",
+      customer_id: sessionStorage.getItem('client_id'),
+      user_id: sessionStorage.getItem('user_id'),
+      Attach: this.fl
+    };
+
+    this.isLoading2 = true;
+    if (f.valid) {
+
+      this.bridgeService2.insertFeedback(indus).subscribe(
+        (res: any) => {
+          if (Object(res)['status'] == "200") {
+            this.isLoading2 = false;
+            this._NotifierService.showSuccess('Feedback Form Saved');
+            this.reseForm();
+            this.modalService.dismissAll();
+          }
+          else {
+        this._NotifierService.showError(Object(res)['message']);
+            this.isLoading2 = false;
+          }
+        },
+        (err) => {
+          this.isLoading2 = false;
+          const delim = ':';
+          const name = err.message;
+          const result = name.split(delim).slice(3).join(delim);
+
+        this._NotifierService.showError(result);
+          
+        }
+      );
+    } else {
+      for (let i = 0; i < Object.keys(f.value).length; i++) {
+        var keyys = Object.keys(f.value)[i];
+        if (f.value[keyys].length == 0) {
+
+          if ($("input[name=" + keyys + "]").hasClass('required-fld')) {
+            $("input[name=" + keyys + "]").addClass("red-line-border");
+            $("input[name=" + keyys + "]").focus();
+          }
+          else if ($("ng-select[name=" + keyys + "]").hasClass('required-fld')) {
+            $("ng-select[name=" + keyys + "]").addClass("red-line-border");
+            $("ng-select[name=" + keyys + "]").focus();
+          }
+          else if ($("select[name=" + keyys + "]").hasClass('required-fld')) {
+            $("select[name=" + keyys + "]").addClass("red-line-border");
+            $("select[name=" + keyys + "]").focus();
+          }
+          else if ($("password[name=" + keyys + "]").hasClass('required-fld')) {
+            $("password[name=" + keyys + "]").addClass("red-line-border");
+            $("password[name=" + keyys + "]").focus();
+          }
+          else if ($("textarea[name=" + keyys + "]").hasClass('required-fld')) {
+            $("textarea[name=" + keyys + "]").addClass("red-line-border");
+            $("textarea[name=" + keyys + "]").focus();
+          }
+        }
+        else {
+          $("input[name=" + keyys + "]").removeClass("red-line-border");
+          $("ng-select[name=" + keyys + "]").removeClass("red-line-border");
+          $("select[name=" + keyys + "]").removeClass("red-line-border");
+          $("password[name=" + keyys + "]").removeClass("red-line-border");
+          $("textarea[name=" + keyys + "]").removeClass("red-line-border");
+        }
+      }
+    }
+  }
+
+  reseForm(){
+    this.indus = {
+      title: "",
+      description: "",
+      feedbacktype: "",
+      Attach: ""
+    };
+  }
+
+  getspit(dat:any){
+    // var ret = dat.split("\\");
+    // return ret[ret.length-1]
+    return dat;
+  }
+
+  onFileChanged(event: any) {
+    this.fl = [];
+    if(event.target.files.length > 1){
+      this.flAttach = event.target.files.length+ ' Files';
+    }
+    else{
+    this.flAttach = event.target.files[0].name;
+    }
+    for (var i = 0; i < event.target.files.length; i++) {
+      this.fl.push(event.target.files[i]);
+    }
+
+    event.target.value = '';
   }
 }

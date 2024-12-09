@@ -115,7 +115,8 @@
                   (click)="checkboxclick(item.id)">
                 <!-- <i *ngIf="item.status ==='Qualified'" class="fa fa-check right-check" aria-hidden="true"></i> -->
               </td>
-              <td (click)="suplier(item.id)">{{item.id}}</td>
+              <td (click)="suplier(item.id)">{{i+1}}</td>
+              <!-- <td (click)="suplier(item.id)">{{item.id}}</td> -->
               <td (click)="suplier(item.id)">{{item.companyName}}</td>
               <td (click)="suplier(item.id)">{{item.contactPerson}}</td>
               <td class="blue-color"><span style="color:#4A79E4;text-decoration: underline;"
@@ -294,7 +295,7 @@
             </span>
           </ng-container>
           <span class="help-block danger" *ngIf="email.errors?.email">
-            Invalid {{Headingss[0].heading6}}
+            Invalid {{Headingss[0].heading5}}
           </span>
         </div>
 
@@ -658,9 +659,12 @@
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'email')">
             <span class="help-block danger"
               *ngIf="(email.errors?.required && f.submitted)||(email.errors?.required)">
-              The {{Headingss[0].heading3}} is required
+              The {{Headingss[0].heading5}} is required
             </span>
           </ng-container>
+          <span class="help-block danger" *ngIf="email.errors?.email">
+            Invalid {{Headingss[0].heading5}}
+          </span>
         </div>
 
         <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'location')">
@@ -1089,13 +1093,14 @@
 
         <div class="col-md-12 pe-3" id="MainPlaceholderFilter">
           <label class="MainFilterLabel filtersize">{{Headingss[0].heading13}}</label>
-          <ng-select id="CustomDesignInput" [items]="bridgess" [multiple]="true" bindValue="id" bindLabel="firstName"
+          <ng-select id="CustomDesignInput" [multiple]="true"
             placeholder="Select {{Headingss[0].heading13}}" [(ngModel)]="filterLead.assignedTo"
             [ngModelOptions]="{standalone: true}">
+            <ng-option *ngFor="let ite of bridgess" value="{{ite.id}}">{{ite.firstName}} {{ite.lastName}}</ng-option>
           </ng-select>
         </div>
 
-        <div class="col-md-12 mb-3 pe-3" id="MainPlaceholderFilter">
+        <div class="col-md-12 pe-3" id="MainPlaceholderFilter">
           <label class="MainFilterLabel filtersize">{{Headingss[0].heading7}}</label>
           <ng-select id="CustomDesignInput" [items]="source1" [multiple]="true" bindValue="Name" bindLabel="Name"
             placeholder="Select {{Headingss[0].heading7}}" [(ngModel)]="filterLead.source"
@@ -1129,6 +1134,17 @@
     <p>Are You Sure Do You Want To Move This Data in Junk ?</p>
     <div class="confirm-btn">
       <button class="btn custom-btn-blue" (click)="multipleDelete1(JunkId)">OK</button>
+      <button class="btn custom-btn-outline-blue" (click)="modal.dismiss('Cross click')">Cancel</button>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #confirmModal44 let-modal>
+  <div class="modal-body">
+    <p>Are You Sure Do You Want To Import Data ?</p>
+    <div class="confirm-btn">
+      <button class="btn custom-btn-blue" (click)="CallImport(data)">OK</button>
       <button class="btn custom-btn-outline-blue" (click)="modal.dismiss('Cross click')">Cancel</button>
     </div>
   </div>

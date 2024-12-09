@@ -2992,6 +2992,7 @@ div#mySidepanel {
         .figma-user-name {
           color: var(--left-main-list-txt-color);
           font-size: 14px;
+          text-transform: capitalize;
           font-weight: 500;
           letter-spacing: 0.014px;
         }
@@ -2999,6 +3000,7 @@ div#mySidepanel {
         .figma-user-role {
           color: var(--left-main-list-txt-color);
           font-size: 12px;
+          text-transform: capitalize;
           letter-spacing: 0.048px;
         }
       }
@@ -5025,7 +5027,7 @@ canvas#doughnut {
   margin: auto;
 }
 .ChartoneLiHere{
-  margin-top:88px;
+  margin-top:50px;
 }
 .ChartoneLiHere ul{
   display: contents;
@@ -6377,6 +6379,7 @@ margin-bottom: 10px;
   font-weight: 800;
   text-align: center;
   position: relative;
+  border-radius: 4px;
 }
 
 .fileuploadref{

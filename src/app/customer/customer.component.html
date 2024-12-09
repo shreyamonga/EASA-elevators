@@ -49,6 +49,7 @@
             <thead class="MainUserList">
             <tr>
               <th><input id="selectAll1" type="checkbox" (click)="selectAll1()"></th>
+              <th (click)="togglesortType('id')">ID <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th>
               <th (click)="togglesortType('CardCode')">{{Headingss[0].heading0}} <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th>
               <th (click)="togglesortType('CardName')">{{Headingss[0].heading2}} <span
                   [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th>
@@ -74,6 +75,7 @@
                   <input type="checkbox" id="checkbox{{item.id}}" value="{{item.id}}" class="checkbox"
                     (click)="checkboxclick(item.id)">
                 </td>
+                <td>{{i+1}}</td>
                 <td>{{item.CardCode}}</td>
                 <td (click)="suplier(item.CardCode)">{{item.CardName}}</td>
                 <!-- <td (click)="suplier(item.id)">{{item.Industry}}</td> -->
@@ -203,7 +205,7 @@
             type="text" (input)="selectindustry.filter($event.target.value)" />
         </ng-template>
         <ng-option value="" disable selected>Select {{Headingss[0].heading8}}</ng-option>
-        <ng-option *ngFor="let item of bridgess" value="{{item.SalesEmployeeCode}}">{{item.firstName}}</ng-option>
+        <ng-option *ngFor="let item of bridgess" value="{{item.SalesEmployeeCode}}">{{item.firstName}} {{item.lastName}}</ng-option>
       </ng-select>
 
     </div>
@@ -262,14 +264,14 @@
         <div class="col-md-12">
           <label>Fields Name</label>
           <ng-select #selectsource [clearOnBackspace]="false" [searchable]="false" [multiple]="true" name="FieldName" [(ngModel)]="commonPayload.fields" #FieldName="ngModel" required class="input-fld required-fld" [placeholder]="'Select Fields'">
-                     
+
             <ng-template ng-header-tmp>
               <input class="ng-dropdown-search" style="width: 100%; line-height: 24px;"placeholder="search" type="text"(input)="selectsource.filter($event.target.value)" />
             </ng-template>
-            
+
             <ng-option disabled selected>Select Fields</ng-option><ng-option *ngFor="let item of fieldsArray" [value]="item.value">{{item.label}}</ng-option>
           </ng-select>
-          <span class="help-block danger" 
+          <span class="help-block danger"
                 *ngIf="(FieldName.errors?.required && f.submitted) || (FieldName.errors?.required && FieldName.touched)">
             The Fields is required
           </span>
@@ -278,13 +280,13 @@
           <div class="col-md-6 pe-3" id="MainPlaceholderFilter">
             <label class="MainFilterLabel filtersize">{{'From Date'}}</label>
             <input class="input-fld" type="date" name="CreateDate__gte" [(ngModel)]="commonPayload.filter.field.CreateDate__gte" [ngModelOptions]="{standalone: true}" #CreateDate__gte="ngModel" >
-          
+
           </div>
           <div class="col-md-6 pe-3" id="MainPlaceholderFilter">
             <label class="MainFilterLabel filtersize">{{'To Date'}}</label>
             <input class="input-fld" type="date" name="CreateDate__lte" [(ngModel)]="commonPayload.filter.field.CreateDate__lte" [ngModelOptions]="{standalone: true}" #CreateDate__lte="ngModel" >
           </div>
-  
+
           <div class="col-12 mb-1">
             <label class="MainLabelNames">{{Headingss[0].heading9}} </label>
             <ng-select #selecttypeofcustomer [clearOnBackspace]="false" [searchable]="false" name="ctype" placeholder="Select {{Headingss[0].heading9}}" [(ngModel)]="filter_customer.ctype" class="ngsearch-dropdown input-fld">
@@ -308,11 +310,11 @@
               <ng-option value="" disable selected>Select {{Headingss[0].heading7}}</ng-option>
               <ng-option *ngFor="let item of industorys" value="{{item.IndustryCode}}">{{item.IndustryName}}</ng-option>
             </ng-select>
-      
-      
+
+
           </div>
-      
-      
+
+
           <!-- <div class="col-5 mb-3">
           </div> -->
           <div class="col-12 mb-1">
@@ -325,9 +327,9 @@
               <ng-option value="" disable selected>Select {{Headingss[0].heading8}}</ng-option>
               <ng-option *ngFor="let item of bridgess" value="{{item.SalesEmployeeCode}}">{{item.firstName}}</ng-option>
             </ng-select>
-      
+
           </div>
-      
+
           <!-- <div class="col-5 mb-3">
           </div> -->
           <div class="col-12 mb-1 pb-3">
@@ -343,7 +345,7 @@
           </div>
         </div>
         </div>
-        
+
         <div style="text-align: center;" *ngIf="isLoading">
           <img src="../../assets/img/loder.gif" style="height: 100%;width: 10%;">
         </div>
@@ -352,7 +354,7 @@
         </div>
 
       </div>
-  
+
   </form>
 
 </ng-template>

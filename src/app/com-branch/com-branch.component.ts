@@ -269,6 +269,7 @@ export class ComBranchComponent implements OnInit {
               }, 2000);
 
               this._NotifierService.showSuccess(this.isEdit ? 'Branch Updated Successfully !' : 'Branch Added Successfully !')
+              f.reset();
             }
             else{
               this._NotifierService.showError(Object(res)['message']);

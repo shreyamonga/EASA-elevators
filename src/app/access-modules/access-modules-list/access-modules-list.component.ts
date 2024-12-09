@@ -16,6 +16,7 @@ import { NotiferService } from 'src/app/modules/service/helpers/notifer.service'
   styleUrls: ['./access-modules-list.component.scss']
 })
 export class AccessModulesListComponent implements OnInit {
+  
   isLoading: boolean = false;
   Module: any[] = [];
   UserRole: any = [];
@@ -286,14 +287,13 @@ mainarray.forEach((mainItem: { module_name: any; is_accessible: boolean; id: any
         modules_name: this.Module
       };
 //my code 2:23
-
-
+        // const currentRoleId = sessionStorage.getItem('roleid');
       this.bridgeService.ViewAddEdit(payload).subscribe(
         (res: any) => {
           this.modalService.dismissAll();
           this.isLoading = false;
-          if (res.status === 200) {
-            if (id === "1") {
+          if (res.status == 200) {
+            if (id == "1") {
               this.route.navigate(['/login']);
             } else {
               this.route.navigate(['/access-modules']);

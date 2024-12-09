@@ -77,7 +77,8 @@
                   <input type="checkbox" id="checkbox{{item.id}}" value="{{item.id}}" class="checkbox"
                     (click)="checkboxclick(item.id)">
                 </td>
-                <td class="text-nowrap">{{item.id}}</td>
+                <td class="text-nowrap">{{i+1}}</td>
+                <!-- <td class="text-nowrap">{{item.id}}</td> -->
                 <!-- <td (click)="suplier(item.id)">{{item.userName}}</td> -->
                 <td (click)="suplier(item.id)">{{item.firstName}} {{item.lastName}}</td>
                 <td (click)="suplier(item.id)">{{item.Email}}</td>
@@ -93,8 +94,8 @@
                   <span class="edit-delete edit-delete{{item.id}}" [innerHTML]="'table-v-dots' | svgIcons:''"
                     class="table-v-dots"></span>
                   <div class="hover-show hover-show{{item.id}} hover-show-inactive">
-                    <span (click)="openEdit(contentEdit, [item.id],false)"><i class="fa fa-pencil" aria-hidden="true"></i> {{Headingss[0].heading102}}
-                      {{Headingss[0].leftheading}}</span><br>
+                    <span (click)="openEdit(contentEdit, [item.id],false)" *ngIf="item.Active == 'tYES'"><i class="fa fa-pencil" aria-hidden="true"></i> {{Headingss[0].heading102}}
+                      {{Headingss[0].leftheading}}</span><br *ngIf="item.Active == 'tYES'">
                     <!-- <span (click)="openPass(contentchangepassword, item.id)"><i class="fa fa-key"
                         aria-hidden="true"></i> Reset Password</span> -->
                     <span *ngIf="item.Active == 'tYES'" (click)="suspendUser(confirmModal,item,'tNO')"> <i class="fa fa-trash"
@@ -199,11 +200,11 @@
 
         <div class="col-md-6">
           <label>{{Headingss[0].heading4}} </label>
-          <select #role="ngModel" required class="ngsearch-dropdown input-fld required-fld" [(ngModel)]="bridge.role"
+          <ng-select #role="ngModel" required class="ngsearch-dropdown input-fld required-fld" [(ngModel)]="bridge.role"
             placeholder="Select Role" name="role" (change)="changeRole($event)">
-            <option value="" disable selected>Select {{Headingss[0].heading4}}</option>
-            <option value="{{role.id}}" *ngFor="let role of UserRole">{{role.Name}}</option>
-          </select>
+            <ng-option value="" disable selected>Select {{Headingss[0].heading4}}</ng-option>
+            <ng-option value="{{role.id}}" *ngFor="let role of UserRole">{{role.Name}}</ng-option>
+          </ng-select>
 
           <span class="help-block danger"
             *ngIf="(role.errors?.required && f.submitted)||(role.errors?.required && role.touched)">
@@ -557,25 +558,25 @@
       <div class="FiltertwoInputs">
         <label class="st">{{Headingss[0].heading4}}</label>
       <div class="col-12">
-        <select class="input-fld text-capitalize" id="CustomDesignInput" name="filterusersrole" [(ngModel)]="filterusersrole"
+        <ng-select  id="CustomDesignInput" name="filterusersrole" [(ngModel)]="filterusersrole"
           required>
-          <option value="">Select {{Headingss[0].heading4}}</option>
-          <option value="{{role.id}}" *ngFor="let role of UserRole">{{role.Name}}</option>
-        </select>
+          <ng-option value="">Select {{Headingss[0].heading4}}</ng-option>
+          <ng-option value="{{role.id}}" *ngFor="let role of UserRole">{{role.Name}}</ng-option>
+        </ng-select>
       </div>
       <label class="st">{{Headingss[0].heading11}}</label>
       <div class="col-12">
-        <select class="input-fld text-capitalize" id="CustomDesignInput" name="filteruserposition" [(ngModel)]="filteruserposition">
-          <option value="" selected>Select {{Headingss[0].heading11}} </option>
-          <option value="{{status.value}}" *ngFor="let status of UserStatus">{{status.name}}</option>
-        </select>
+        <ng-select  id="CustomDesignInput" name="filteruserposition" [(ngModel)]="filteruserposition">
+          <ng-option value="" selected>Select {{Headingss[0].heading11}} </ng-option>
+          <ng-option value="{{status.value}}" *ngFor="let status of UserStatus">{{status.name}}</ng-option>
+        </ng-select>
       </div>
       <label class="st">{{Headingss[0].heading8}}</label>
       <div class="col-12">
-        <select class="input-fld text-capitalize" id="CustomDesignInput" name="filteruserposition" [(ngModel)]="filteruserreporting">
-          <option value="" selected>Select {{Headingss[0].heading8}} </option>
-          <option *ngFor="let item of rolefilter" value="{{item.SalesEmployeeCode}}">{{item.firstName}} {{item.lastName}}</option>
-        </select>
+        <ng-select id="CustomDesignInput" name="filteruserposition" [(ngModel)]="filteruserreporting">
+          <ng-option value="" disable selected>Select {{Headingss[0].heading8}} </ng-option>
+          <ng-option *ngFor="let item of rolefilter" value="{{item.SalesEmployeeCode}}">{{item.firstName}} {{item.lastName}}</ng-option>
+        </ng-select>
       </div>
     </div>
 

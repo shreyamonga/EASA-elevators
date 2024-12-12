@@ -189,7 +189,7 @@ export class InventoryNewComponent implements OnInit {
     changeisnave(val:boolean){
       this.isNavVisible = val;
     }
-    
+
     loadData(): void {
       var filterVal = this.ReportModule.filter((option: any) => {
         return option.id == this.idd
@@ -331,7 +331,7 @@ export class InventoryNewComponent implements OnInit {
         this.commonObj.tbCheckM_1 = false;
         this.commonObj.tbCheckM_2 = false;
       }
-  
+
     }
 
     checkboxclick(id: any) {
@@ -357,14 +357,14 @@ export class InventoryNewComponent implements OnInit {
       if (this.count.length == 0) {
         $('#selectAll1').prop('checked', false);
       }
-  
+
       if (this.endind == this.count.length) {
         $('#selectAll1').prop('checked', true);
       }
       else {
         $('#selectAll1').prop('checked', false);
       }
-  
+
     }
     reload() {
       this.count = [];
@@ -438,7 +438,7 @@ export class InventoryNewComponent implements OnInit {
     }
 
     suplier(item: any) {
-      this.route.navigate(['/inventory/details/' + item]);
+      // this.route.navigate(['/inventory/details/' + item]);
     }
 
     resetAlerts() {
@@ -471,7 +471,7 @@ export class InventoryNewComponent implements OnInit {
     }
     ClickConticu(){
       if(this.AddCAteId != ''){
-      this.openmaximize(this.mymodal2,false,'');
+      this.openmaximize(this.mymodal2,false,'',false);
       }
       else{
         this._NotifierService.showError('Please Select Category First');
@@ -664,7 +664,9 @@ export class InventoryNewComponent implements OnInit {
 
     @ViewChild('mymodal2')mymodal2!:ElementRef;
     isEdit2:boolean = false;
-    openmaximize(content: any,isEdit:boolean,item:any) {
+    isItemView:boolean = false;
+    openmaximize(content: any,isEdit:boolean,item:any,isItemView:boolean) {
+      this.isItemView = isItemView;
       this.isEdit2 = isEdit;
       if(this.isEdit2){
       this.item = JSON.parse(JSON.stringify(item));
@@ -896,6 +898,33 @@ export class InventoryNewComponent implements OnInit {
       XLSX.writeFile(wb, this.fileName);
     }
 
+
+    // Default excel file name when download
+    fileName2 ="inventory-category-new_export.xlsx";
+    Exportexcel2() {
+      // Get the table element
+      const data = document.getElementById("yourTableId");
+      const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);
+
+      // Convert the worksheet to JSON (2D array format)
+      let jsonData: any[][] = XLSX.utils.sheet_to_json(ws, { header: 1 }) as any[][];
+
+      // Remove the first column from each row
+      jsonData = jsonData.map(row => row.slice(1));
+
+      // Remove the last column from each row
+    jsonData = jsonData.map(row => row.slice(0, row.length - 1));
+
+      // Convert the modified JSON data back to a worksheet
+      const modifiedWs: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(jsonData);
+
+      // Create a new workbook and append the modified worksheet
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, modifiedWs, 'Sheet1');
+
+      // Save the file
+      XLSX.writeFile(wb, this.fileName2);
+    }
     fl22: any = '';
     onFileChange(event: any) {
       this.fl22 = event.target.files[0];

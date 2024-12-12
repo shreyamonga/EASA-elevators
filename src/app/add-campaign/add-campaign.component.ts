@@ -305,7 +305,7 @@ export class AddCampaignComponent implements OnInit {
       }
     }
 
-    if (this.selectleadsource == undefined) {
+    if (this.selectleadsource == undefined || this.selectleadsource.length != 0) {
       this.compaigns.LeadSource = "";
     }
     else {
@@ -313,7 +313,7 @@ export class AddCampaignComponent implements OnInit {
     }
 
     //status
-    if (this.selectleadstatus == undefined) {
+    if (this.selectleadstatus == undefined || this.selectleadstatus.length != 0) {
       this.compaigns.LeadStatus = ""
     }
     else {
@@ -321,7 +321,7 @@ export class AddCampaignComponent implements OnInit {
     }
 
     //for Employee
-    if (this.selectOppEmployeee == undefined) {
+    if (this.selectOppEmployeee == undefined || this.selectOppEmployeee.length != 0) {
       this.compaigns.OppSalePerson = ""
     }
     else {
@@ -329,7 +329,7 @@ export class AddCampaignComponent implements OnInit {
     }
 
     //for Bp Employee
-    if (this.selectBPEmployeee == undefined) {
+    if (this.selectBPEmployeee == undefined || this.selectBPEmployeee.length != 0) {
       this.compaigns.BPSalePerson = ""
     }
     else {
@@ -337,7 +337,7 @@ export class AddCampaignComponent implements OnInit {
     }
 
     //for industory
-    if (this.selectIndustory == undefined) {
+    if (this.selectIndustory == undefined || this.selectIndustory.length != 0) {
       this.compaigns.BPIndustry = ""
     }
     else {

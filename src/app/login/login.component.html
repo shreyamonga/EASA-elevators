@@ -32,6 +32,11 @@
           <input type="text" placeholder="Email" [(ngModel)]="login.email" name="email" #email="ngModel" autocomplete="new-email" required>
         </div>
       </div>
+      <!-- Minimum 8 characters.
+      At least one uppercase letter.
+      At least one lowercase letter.
+      At least one number.
+      At least one special character. -->
       <div class="figma-login-form-wrapper">
         <label for="Email">Password</label>
         <div class="figma-login-input-container">
@@ -41,7 +46,7 @@
           <i class="input-group-addon fa" [ngClass]="{ 'fa-eye-slash': !fieldTextType, 'fa-eye': fieldTextType }"
           (click)="toggleFieldTextType()"></i>
         </div>
-      </div>
+        </div>
       <div class="figma-login-form-reminder-forget">
         <div class="figma-login-form-reminder">
           <div class="form-check">
@@ -53,6 +58,7 @@
       </div>
       <button class="figma-login-submit-btn" (click)="addLogin(f)" [disabled]="loginLoder">Sign in <i *ngIf="loginLoder" class="fa-solid fa-spinner fa-spin-pulse"></i></button>
       <div class="figma-register-wrap">Don’t have an account? <span class="figma-register"><a class="resend" href="{{bridgeService.SuperbaseFrontUrl}}/assets/html/free-trial.html?id=2" target="_blank">Register Now</a></span></div>
+
     </form>
     <div *ngSwitchCase="2" class="figma-login-logo-frame">
       <img src="../../assets/img/newBridgelogo.png" class="figma-main-logo">

@@ -288,7 +288,9 @@
           <label>{{Headingss[0].heading10}} </label>
           <div class="password-eye">
             <input class="input-fld required-fld" name="password" id="password" [(ngModel)]="bridge.password" autocomplete="new-password"
-              #password="ngModel" [type]="fieldTextType ? 'text' : 'password'" placeholder="Enter {{Headingss[0].heading10}}" required>
+              #password="ngModel" [type]="fieldTextType ? 'text' : 'password'" placeholder="Enter {{Headingss[0].heading10}}" required (input)="validatePasswordStrength(bridge.password)"
+              (focus)="showCriteria()" 
+              (blur)="hideCriteria()">
             <i class="input-group-addon fa" [ngClass]="{ 'fa-eye-slash': !fieldTextType, 'fa-eye': fieldTextType }"
               (click)="toggleFieldTextType()"></i>
           </div>
@@ -296,6 +298,16 @@
             *ngIf="(password.errors?.required && f.submitted)||(password.errors?.required && password.touched)">
             The {{Headingss[0].heading10}} is required
           </span>
+          <div class="password-strength-wrapper" [class.show]="shouldShowCriteria">
+            <p>Password Strength: <span [ngClass]="passwordStrength.toLowerCase()">{{ passwordStrength }}</span></p>
+            <ul *ngIf="shouldShowCriteria">
+              <div id="minLength" [class.valid]="passwordCriteria.minLength">Minimum 8 characters</div>
+              <div id="hasUppercase" [class.valid]="passwordCriteria.hasUppercase">At least one uppercase letter</div>
+              <div id="hasLowercase" [class.valid]="passwordCriteria.hasLowercase">At least one lowercase letter</div>
+              <div id="hasNumber" [class.valid]="passwordCriteria.hasNumber">At least one number</div>
+              <div id="hasSpecialChar" [class.valid]="passwordCriteria.hasSpecialChar">At least one special character</div>
+            </ul>
+          </div>
         </div>
 
 

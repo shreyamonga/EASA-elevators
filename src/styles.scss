@@ -1319,9 +1319,9 @@ textarea {
   display: none;
   position: absolute;
   color: #000;
-  width: 300px;
-  left: 72%;
-  max-height: 250px;
+  width: 400px;
+  left: 60%;
+  max-height: 350px;
   border-radius: 8px;
   z-index: 99;
   top: 50px;
@@ -1329,7 +1329,7 @@ textarea {
   box-shadow: 0px 0px 30px 0px rgb(0 0 0 / 23%);
 
   .shohiclass{
-  max-height: 220px;
+  max-height: 300px;
   overflow: auto;
   overflow-x: hidden;
   }
@@ -1343,18 +1343,27 @@ textarea {
 }
 
 .showNoti .notifyArea {
-
+  display: grid;
+  grid-template-columns: 20% 80%;
   padding: 10px 20px;
   border-bottom: 1px solid #eee;
 }
 
 .showNoti .notifyArea:hover {
-  border-radius: 8px 8px 0 0;
+  // border-radius: 8px 8px 0 0;
   cursor: pointer;
-background: #f7f7f7;
+// background: #f7f7f7;
 }
-.showNoti .notifyArea strong {
-  color: #28c76f;
+
+
+.newbell-ico {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 37px;
+  border-radius: 50%;
+  text-align: center;
+  background-color: var(--svg-bg-color);
 }
 
 .showNoti::-webkit-scrollbar {

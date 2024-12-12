@@ -1,11 +1,12 @@
 <header class="figma-header">
   <!-- (click)="burgerToggle()" -->
-  <div class="figma-menu-bar" [innerHTML]="'figma-menu-bars-ico' | svgIcons:''" (click)="burgerToggle(leftNavbar)" title="Hide/unhide Side bar"></div>
+  <div class="figma-menu-bar" [innerHTML]="'figma-menu-bars-ico' | svgIcons:''" (click)="burgerToggle(leftNavbar)"
+    title="Hide/unhide Side bar"></div>
   <div class=" figma-user-info">
     <ng-container>
       <!-- <ng-container *ngIf="isButn"> -->
-    <!-- <span [innerHTML]="'figma-hr-trip-dots' | svgIcons:''" class="iconbtn" (click)="toogleListfun(true)"></span> -->
-    <!-- <ul class="ulcss" *ngIf="toogleList">
+      <!-- <span [innerHTML]="'figma-hr-trip-dots' | svgIcons:''" class="iconbtn" (click)="toogleListfun(true)"></span> -->
+      <!-- <ul class="ulcss" *ngIf="toogleList">
       <li *ngFor="let itme of appList" (click)="redirect(itme.application_name,itme.isExist)">
         <i class="fa fa-circle" style="color:#08aa21;" *ngIf="itme.isExist"></i>
         <i class="fa fa-circle" *ngIf="!itme.isExist"></i>
@@ -13,10 +14,10 @@
       <span *ngIf="!itme.isExist"> {{itme.application_name}}</span>
       </li>
     </ul> -->
-  </ng-container>
-  <div class="notification-icon" (click)="shownot()" style="cursor: pointer; position: relative;">
-    <span class="figma-user-bell-ico" [innerHTML]="'figma-user-bell-ico' | svgIcons:''"></span>
-    <span class="badge" style="right: 30px;">{{ unreadCount }}</span>
+    </ng-container>
+    <div class="notification-icon" (click)="shownot()" style="cursor: pointer; position: relative;">
+      <span class="figma-user-bell-ico" [innerHTML]="'figma-user-bell-ico' | svgIcons:''"></span>
+      <span class="badge" style="right: 30px;">{{ unreadCount }}</span>
     </div>
     <!-- <span class="figma-user-bell-ico" [innerHTML]="'figma-user-bell-ico' | svgIcons:''"></span> -->
     <div class="figma-user-detail" (click)="openNav()" style="cursor: pointer;">
@@ -39,29 +40,31 @@
       <div class="UserProfile">
         <!-- <a class="closebtn" (click)="closeNav()">&times;</a> -->
         <div class="Pro-Img">
-        <img src="https://www.translitescaffolding.com/wp-content/uploads/2013/06/user-avatar.png" alt="">
-      </div>
-      <div class="AllContent" *ngFor="let item of Bridge2">
-        <li>{{bridgeService2.UserName}}</li>
-        <li>{{item.Email}}</li>
-        <li>{{item.Mobile}}</li>
-        <li style="color:#4a79e4;text-decoration:underline;cursor: pointer;" (click)="openPass(contentchangepassword, item.user_id)"><i class="fa fa-key"
-          aria-hidden="true"></i> Reset Password</li>
-      </div>
+          <img src="https://www.translitescaffolding.com/wp-content/uploads/2013/06/user-avatar.png" alt="">
+        </div>
+        <div class="AllContent" *ngFor="let item of Bridge2">
+          <li>{{bridgeService2.UserName}}</li>
+          <li>{{item.Email}}</li>
+          <li>{{item.Mobile}}</li>
+          <li style="color:#4a79e4;text-decoration:underline;cursor: pointer;"
+            (click)="openPass(contentchangepassword, item.user_id)"><i class="fa fa-key" aria-hidden="true"></i> Reset
+            Password</li>
+        </div>
       </div>
     </div>
 
     <div class="col-lg-12">
       <div class="AllProduct_img">
-       <div class="col-lg-4" *ngFor="let itme of appList" (click)="redirect(itme.id,itme.isExist)" style="cursor: pointer;">
-        <div class="Box-1" [ngClass]="itme.isExist?'active':''">
-          <li class="profile-icon">A</li>
-          <li>{{itme.application_name}}</li>
+        <div class="col-lg-4" *ngFor="let itme of appList" (click)="redirect(itme.id,itme.isExist)"
+          style="cursor: pointer;">
+          <div class="Box-1" [ngClass]="itme.isExist?'active':''">
+            <li class="profile-icon">A</li>
+            <li>{{itme.application_name}}</li>
+          </div>
         </div>
-       </div>
       </div>
     </div>
-   </div>
+  </div>
 </div>
 
 
@@ -90,9 +93,21 @@
           </div>
           <div class="password-eye">
             <input class="input-fld" name="password" id="password" [(ngModel)]="resetPass.password" #password="ngModel"
-              [type]="fieldTextType ? 'text' : 'password'" maxlength="20" placeholder="Re Enter password" required>
+              [type]="fieldTextType ? 'text' : 'password'" maxlength="20" placeholder="Re Enter password" required (input)="validateResetPasswordStrength(resetPass.password)" (focus)="showResetCriteria()" 
+              (blur)="hideResetCriteria()">
             <i class="fa input-group-addon" [ngClass]="{ 'fa-eye-slash': !fieldTextType,'fa-eye': fieldTextType}"
               (click)="toggleFieldTextType()"></i>
+          </div>
+          <div class="password-strength-wrapper" [class.show]="shouldShowResetCriteria">
+            <p>Password Strength: <span [ngClass]="resetPasswordStrength.toLowerCase()">{{ resetPasswordStrength }}</span></p>
+            <ul *ngIf="shouldShowResetCriteria">
+              <small style="font-weight: bold;">Instruction: </small>
+              <div [class.valid]="resetPasswordCriteria.minLength">Minimum 8 characters,</div>
+              <div [class.valid]="resetPasswordCriteria.hasUppercase">At least one uppercase letter,</div>
+              <div [class.valid]="resetPasswordCriteria.hasLowercase">At least one lowercase letter,</div>
+              <div [class.valid]="resetPasswordCriteria.hasNumber">At least one number,</div>
+              <div [class.valid]="resetPasswordCriteria.hasSpecialChar">At least one special character,</div>
+            </ul>
           </div>
           <span class="help-block danger" *ngIf="password.errors?.required && password.touched">The password is
             required</span>
@@ -113,16 +128,28 @@
 
 
 <div class="showNoti">
+  <div class="notifyArea showall">
+    <!-- <div class="notifyArea showall" routerLink="/notification" (click)="deleteNotificationall()"> -->
+    <span style="
+    font-size: 18px;
+    font-weight: 600;
+">Notification</span>
+    <span style="float: right; font-size: 14px; color: blue; margin-left: 244px; margin-right: -2px;"
+      (click)="deleteNotificationall()">See All</span>
+  </div>
   <div class="shohiclass">
     <ng-container *ngIf="!isLoading2">
-    <div class="notifyArea" *ngFor="let item of notify">
-      <!-- <div class="notifyArea" [ngClass]="{'bg-green-bg': item.notification.Read == '1' }" *ngFor="let item of notify"> -->
-      <div (click)="deleteNotification([item.id],item)" class="singdiv">
-        <strong><i class="fa fa-bell-o"></i> {{item.Heading}} !</strong>
-        <br> {{item.Message}}
+      <div class="notifyArea " *ngFor="let item of notify">
+        <div> <span class="figma-user-bell-ico newbell-ico" [innerHTML]="'figma-user-bell-ico' | svgIcons:''"></span>
+          <span class="notification-dot"></span>
+        </div>
+        <div (click)="deleteNotification([item.id],item)" class="singdiv">
+          <strong> {{item.Heading}}</strong>
+          <br>{{ item.Message.split(' at ')[0] }} <!-- Trims and shows only the main message part -->
+          <br><small style="float: right; color: rgb(144 144 146)">{{ item.Message.split(' at ')[1] }}</small>
+        </div>
       </div>
-    </div>
-  </ng-container>
+    </ng-container>
     <div *ngIf="isLoading2" style="
     height: 150px;
     text-align: center;
@@ -132,8 +159,5 @@
   ">
     </div>
   </div>
-  <div class="notifyArea showall" (click)="deleteNotificationall()">
-    <!-- <div class="notifyArea showall" routerLink="/notification" (click)="deleteNotificationall()"> -->
-    <span>Show All Notification</span>
-  </div>
+
 </div>

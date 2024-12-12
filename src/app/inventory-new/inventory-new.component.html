@@ -23,9 +23,17 @@
       <div class="custom-search-wrapper"  (click)="changeisnave(false)">
 
         <div ngbDropdown class="custom-common-search-container">
-          <button *ngIf="exportStatus" type="button" class="custom-action-btn openbtn" (click)="Exportexcel()" ><i >Export &nbsp;</i>
+          <ng-container *ngIf="idd != 2 || CAteId != 0">
+          <button *ngIf="exportStatus" type="button" class="custom-action-btn openbtn" (click)="Exportexcel()"><i >Export &nbsp;</i>
             <i title="Download Excel" class="fa-solid fa-file-export download-icon cursor-pointer exportfileicon"></i>
           </button>
+        </ng-container>
+
+        <ng-container *ngIf="idd == 2 && CAteId == 0">
+          <button *ngIf="exportStatus" type="button" class="custom-action-btn openbtn" (click)="Exportexcel2()"><i >Export &nbsp;</i>
+            <i title="Download Excel" class="fa-solid fa-file-export download-icon cursor-pointer exportfileicon"></i>
+          </button>
+          </ng-container>
 
           <div class="row">
             <div class="col">
@@ -82,10 +90,10 @@
               <th (click)="togglesortType('id')">{{Headingss[0].heading0}} <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span> <i class="fa fa-sort"></i> </th>
               <th>{{Headingss[0].Extra2}} </th>
               <th (click)="togglesortType('ItemName')">{{Headingss[0].Extra3}} <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span> <i class="fa fa-sort"></i> </th>
-              <th (click)="togglesortType('ItemName')">{{Headingss[0].Extra4}} <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span> <i class="fa fa-sort"></i> </th>
+              <th (click)="togglesortType('SKU')">{{Headingss[0].Extra4}} <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span> <i class="fa fa-sort"></i> </th>
 
-              <th (click)="togglesortType('Tax')">{{Headingss[0].Extra5}} <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span> <i class="fa fa-sort"></i> </th>
-              <th (click)="togglesortType('Discount')">{{Headingss[0].Extra6}} <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span> <i class="fa fa-sort"></i> </th>
+              <th (click)="togglesortType('Inventory')">{{Headingss[0].Extra5}} <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span> <i class="fa fa-sort"></i> </th>
+              <th (click)="togglesortType('UnitPrice')">{{Headingss[0].Extra6}} <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span> <i class="fa fa-sort"></i> </th>
                  <th class="text-center">{{Headingss[0].heading111}} </th>
               <!-- <th>Action</th> -->
 
@@ -98,18 +106,19 @@
                     <input type="checkbox" id="checkbox{{item.id}}" value="{{item.id}}" class="checkbox"
                     (click)="checkboxclick(item.id)">
                 </td>
-                <td (click)="suplier(item.id)">{{i+1}}</td>
-                <!-- <td (click)="suplier(item.id)">{{item.id}}</td> -->
-                <td (click)="suplier(item.id)">{{item.ItemName}}</td>
-                <td (click)="suplier(item.id)">{{item.SKU}}</td>
-                <td (click)="suplier(item.id)">{{item.ROP}}</td>
-                <td (click)="suplier(item.id)">{{item.Inventory}}</td>
+                <td (click)="openmaximize(mymodal2,true,item,true)">{{i+1}}</td>
+                <!-- <td (click)="openmaximize(mymodal2,true,item,true)">{{item.id}}</td> -->
+                <td (click)="openmaximize(mymodal2,true,item,true)">{{item.ItemName}}</td>
+                <td (click)="openmaximize(mymodal2,true,item,true)">{{item.SKU}}</td>
+                <td (click)="openmaximize(mymodal2,true,item,true)">{{item.ROP}}</td>
+                <td (click)="openmaximize(mymodal2,true,item,true)">{{item.Inventory}}</td>
+                <td (click)="openmaximize(mymodal2,true,item,true)">{{item.UnitPrice}}</td>
 
                 <td class="EditBoxForm text-center" style="padding: 0 0px; width: 150px;">
                   <span class="edit-delete edit-delete{{item.id}}" (click)="editdeletepop(item)"
                     [innerHTML]="'table-v-dots' | svgIcons:''" class="table-v-dots"></span>
                   <div class="hover-show hover-show{{item.id}} hover-show-inactive">
-                    <a style="text-decoration: none;" (click)="openmaximize(mymodal2,true,item)"><i class="fa fa-pencil"
+                    <a style="text-decoration: none;" (click)="openmaximize(mymodal2,true,item,false)"><i class="fa fa-pencil"
                         aria-hidden="true"></i> Edit {{Headingss[0].heading118}}</a><br>
                         <!-- <a style="text-decoration: none;" (click)="confirmModal2(confirmModal22,item.id)"><i class="fa fa-trash"
                           aria-hidden="true"></i> Delete Item</a><br> -->
@@ -239,7 +248,8 @@
 
 <ng-template #mymodal2 let-modal>
   <div class="modal-header">
-    <h4 class="modal-title modal-heading" id="modal-basic-title">{{Headingss[0].heading1}}</h4>
+    <h4 class="modal-title modal-heading" id="modal-basic-title" *ngIf="isItemView == false">{{isEdit2 ? 'Edit':'Add'}} Item</h4>
+    <h4 class="modal-title modal-heading" id="modal-basic-title" *ngIf="isItemView == true">View Item</h4>
     <span class="figma-screen-ico" [innerHTML]="(commonObj.bigScreenMode ? 'figma-modal-big-screen-ico' : 'figma-modal-mid-screen-ico') | svgIcons:''" (click)="bigScreenOrMid()"></span>
     <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
   </div>
@@ -264,7 +274,7 @@
     <div class="figma-modal-body" style="margin-bottom: 0;padding-block: 0px;padding-top: 10px;">
     <div class="figma-form-wrapper figma-form-wrapper-full">
       <label>{{Headingss[0].Extra2}}</label>
-      <input type="text" class="input-fld required-fld" name="ItemName" [(ngModel)]="item.ItemName" #ItemName="ngModel" placeholder="Item Name" required>
+      <input type="text" class="input-fld required-fld" [disabled]="isItemView" name="ItemName" [(ngModel)]="item.ItemName" #ItemName="ngModel" placeholder="Item Name" required>
       <span class="help-block danger"
               *ngIf="(ItemName.errors?.required && f.submitted)||(ItemName.errors?.required && ItemName.touched)">
               The {{Headingss[0].Extra2}} is required
@@ -273,13 +283,13 @@
 
     <div class="figma-form-wrapper">
       <label>{{Headingss[1].header1}}</label>
-      <input type="file" class="input-fld"  (change)="onFileChanged2($event)" name="ItemImageURL" >
+      <input type="file" class="input-fld" [disabled]="isItemView"  (change)="onFileChanged2($event)" name="ItemImageURL" >
 
     </div>
 
     <div class="figma-form-wrapper">
       <label>Item ID</label>
-      <input type="text"  class="input-fld required-fld" name="ItemCode" [(ngModel)]="item.ItemCode" #ItemCode="ngModel" autocomplete="off" placeholder="Item ID" required>
+      <input type="text"  class="input-fld required-fld" [disabled]="isItemView" name="ItemCode" [(ngModel)]="item.ItemCode" #ItemCode="ngModel" autocomplete="off" placeholder="Item ID" required>
       <span class="help-block danger"
               *ngIf="(ItemCode.errors?.required && f.submitted)||(ItemCode.errors?.required && ItemCode.touched)">
               The Item ID is required
@@ -289,7 +299,7 @@
 
     <div class="figma-form-wrapper">
       <label>Tax (%)</label>
-      <input type="number" class="input-fld required-fld" name="Tax" [(ngModel)]="item.Tax" pattern="^[0-9,.]*$" #TaxCode="ngModel" placeholder="Enter Tax" min="0" max="100" required>
+      <input type="number" class="input-fld required-fld" [disabled]="isItemView" name="Tax" [(ngModel)]="item.Tax" pattern="^[0-9,.]*$" #TaxCode="ngModel" placeholder="Enter Tax" min="0" max="100" required>
       <span class="help-block danger" *ngIf="TaxCode.errors?.required && TaxCode.touched">
         The Tax is required
       </span>
@@ -303,7 +313,7 @@
 
     <div class="figma-form-wrapper">
       <label>Discount (%)</label>
-      <input type="number" class="input-fld required-fld" name="Discount" [(ngModel)]="item.Discount" pattern="^[0-9,.]*$" #Discount="ngModel" placeholder="10" min="0" max="100" required>
+      <input type="number" class="input-fld required-fld" [disabled]="isItemView" name="Discount" [(ngModel)]="item.Discount" pattern="^[0-9,.]*$" #Discount="ngModel" placeholder="10" min="0" max="100" required>
       <span class="help-block danger" *ngIf="Discount.errors?.required && Discount.touched">
         The Discount is required
       </span>
@@ -320,7 +330,7 @@
 
         <div class="figma-form-wrapper">
           <label>SKU</label>
-          <input type="text" class="input-fld required-fld" name="SKU" [(ngModel)]="item.SKU" #SKU="ngModel" autocomplete="off" placeholder="SKU" required>
+          <input type="text" class="input-fld required-fld" [disabled]="isItemView" name="SKU" [(ngModel)]="item.SKU" #SKU="ngModel" autocomplete="off" placeholder="SKU" required>
           <span class="help-block danger" *ngIf="SKU.errors?.required && SKU.touched">
             The SKU is required
           </span>
@@ -328,7 +338,7 @@
 
         <div class="figma-form-wrapper">
           <label>Reorder Point</label>
-          <input type="number" class="input-fld required-fld" name="ROP" [(ngModel)]="item.ROP" #ROP="ngModel" autocomplete="off" placeholder="Reorder Point" required>
+          <input type="number" class="input-fld required-fld" [disabled]="isItemView" name="ROP" [(ngModel)]="item.ROP" #ROP="ngModel" autocomplete="off" placeholder="Reorder Point" required>
           <span class="help-block danger" *ngIf="ROP.errors?.required && ROP.touched">
             The ROP is required
           </span>
@@ -338,7 +348,7 @@
           <label>Selling Unit Price</label>
           <div class="newrupe">
             <span style="top:14px;">{{'' | priceFormat:''}}</span>
-            <input type="number" min="0" class="input-fld required-fld" name="UnitPrice" [(ngModel)]="item.UnitPrice" #UnitPrice="ngModel" name="FreightCharge" required
+            <input type="number" min="0" class="input-fld required-fld" [disabled]="isItemView" name="UnitPrice" [(ngModel)]="item.UnitPrice" #UnitPrice="ngModel" name="FreightCharge" required
              placeholder="Selling Unit Price">
              <span class="help-block danger" *ngIf="UnitPrice.errors?.required && UnitPrice.touched">
               The Selling Unit Price is required
@@ -348,21 +358,21 @@
 
         <div class="figma-form-wrapper">
           <label>Quantity in Stock</label>
-          <input type="text" class="input-fld required-fld" name="Inventory" [(ngModel)]="item.Inventory" #Inventory="ngModel" autocomplete="off" placeholder="Quantity in Stock" required>
+          <input type="text" class="input-fld required-fld" [disabled]="isItemView" name="Inventory" [(ngModel)]="item.Inventory" #Inventory="ngModel" autocomplete="off" placeholder="Quantity in Stock" required>
           <span class="help-block danger" *ngIf="Inventory.errors?.required && Inventory.touched">
             The Quantity in Stock is required
           </span>
         </div>
 
         <div class="figma-form-wrapper figma-form-wrapper-full" style="display: none;">
-          <input type="checkbox" [(ngModel)]="isChecked" name="isChecked" (click)="getval()" class="input-fld required-fld" style="width: 50px;">
+          <input type="checkbox" [(ngModel)]="isChecked" [disabled]="isItemView" name="isChecked" (click)="getval()" class="input-fld required-fld" style="width: 50px;">
           <label>Choose this option only for recurring business</label>
         </div>
 
         <div class="figma-form-wrapper" *ngIf="isChecked">
           <label>Billing Frequency</label>
           <div>
-            <ng-select #selectshipstate [clearOnBackspace]="false" name="Billing_Frequency" [(ngModel)]="item.Billing_Frequency" #Billing_Frequency="ngModel" [searchable]="false" placeholder="Select Billing Frequency"  required
+            <ng-select #selectshipstate [clearOnBackspace]="false" [disabled]="isItemView" name="Billing_Frequency" [(ngModel)]="item.Billing_Frequency" #Billing_Frequency="ngModel" [searchable]="false" placeholder="Select Billing Frequency"  required
               class="ngsearch-dropdown input-fld required-fld">
               <ng-template ng-header-tmp>
                 <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
@@ -375,7 +385,7 @@
         </div>
 
         <div class="figma-form-wrapper figma-form-wrapper-full" style="display: none;">
-          <input type="checkbox" [(ngModel)]="isChecked2" name="isChecked2" (click)="getval2()" class="input-fld required-fld" style="width: 50px;">
+          <input type="checkbox" [(ngModel)]="isChecked2" [disabled]="isItemView" name="isChecked2" (click)="getval2()" class="input-fld required-fld" style="width: 50px;">
           <label>Product specifications</label>
         </div>
 
@@ -383,7 +393,7 @@
         <div class="figma-form-wrapper" *ngIf="isChecked2">
           <label>Unit</label>
           <div>
-            <ng-select #selectshipstate [clearOnBackspace]="false" [searchable]="false" placeholder="kg"  name="Unit" [(ngModel)]="item.Unit" #Unit="ngModel" required
+            <ng-select #selectshipstate [clearOnBackspace]="false" [disabled]="isItemView" [searchable]="false" placeholder="kg"  name="Unit" [(ngModel)]="item.Unit" #Unit="ngModel" required
               class="ngsearch-dropdown input-fld required-fld">
               <ng-template ng-header-tmp>
                 <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
@@ -398,7 +408,7 @@
           <div class="figma-form-wrapper" *ngIf="isChecked2">
             <label>Weight</label>
             <div>
-              <ng-select #selectshipstate [clearOnBackspace]="false" [searchable]="false" placeholder="kg"  name="Weight" [(ngModel)]="item.Weight" #Weight="ngModel" required
+              <ng-select #selectshipstate [clearOnBackspace]="false" [disabled]="isItemView" [searchable]="false" placeholder="kg"  name="Weight" [(ngModel)]="item.Weight" #Weight="ngModel" required
                 class="ngsearch-dropdown input-fld required-fld">
                 <ng-template ng-header-tmp>
                   <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
@@ -413,7 +423,7 @@
           <div class="figma-form-wrapper" *ngIf="isChecked2">
             <label>Dimension</label>
             <div>
-              <ng-select #selectshipstate [clearOnBackspace]="false" [searchable]="false" placeholder="cm"  name="Dimension" [(ngModel)]="item.Dimension" #Dimension="ngModel" required
+              <ng-select #selectshipstate [clearOnBackspace]="false" [disabled]="isItemView" [searchable]="false" placeholder="cm"  name="Dimension" [(ngModel)]="item.Dimension" #Dimension="ngModel" required
                 class="ngsearch-dropdown input-fld required-fld">
                 <ng-template ng-header-tmp>
                   <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
@@ -428,12 +438,12 @@
           <div class="figma-form-wrapper" *ngIf="isChecked2">
             <label>Description</label>
             <div>
-              <input type="text" class="input-fld required-fld" autocomplete="off"  name="Description" [(ngModel)]="item.Description" #Description="ngModel"  placeholder="Description" required>
+              <input type="text" class="input-fld required-fld" [disabled]="isItemView" autocomplete="off"  name="Description" [(ngModel)]="item.Description" #Description="ngModel"  placeholder="Description" required>
             </div>
           </div>
 
         <div class="figma-form-wrapper figma-form-wrapper-full" style="display: none;">
-          <input type="checkbox" [(ngModel)]="isChecked3" name="isChecked3" (click)="getval3()" class="input-fld required-fld" style="width: 50px;">
+          <input type="checkbox" [(ngModel)]="isChecked3" [disabled]="isItemView" name="isChecked3" (click)="getval3()" class="input-fld required-fld" style="width: 50px;">
           <label>Multiple Items ?</label>
         </div>
 
@@ -447,7 +457,7 @@
           <ng-container *ngFor="let item of multiitme;let i = index">
           <div class="figma-form-wrapper">
             <div>
-              <ng-select #selectshipstate [clearOnBackspace]="false" [searchable]="false" name="Attribute_{{i}}" [(ngModel)]="item.Attribute" placeholder="Eg Color"  required
+              <ng-select #selectshipstate [clearOnBackspace]="false" [disabled]="isItemView" [searchable]="false" name="Attribute_{{i}}" [(ngModel)]="item.Attribute" placeholder="Eg Color"  required
                 class="ngsearch-dropdown input-fld required-fld">
                 <ng-template ng-header-tmp>
                   <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
@@ -460,7 +470,7 @@
           </div>
           <div class="figma-form-wrapper">
             <div>
-              <ng-select style="width: 80%;float: left;" #selectshipstate [clearOnBackspace]="false" name="Option_{{i}}" [(ngModel)]="item.Option" [searchable]="false" placeholder="Green"  required
+              <ng-select style="width: 80%;float: left;" #selectshipstate [clearOnBackspace]="false" [disabled]="isItemView" name="Option_{{i}}" [(ngModel)]="item.Option" [searchable]="false" placeholder="Green"  required
                 class="ngsearch-dropdown input-fld required-fld">
                 <ng-template ng-header-tmp>
                   <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
@@ -490,33 +500,33 @@
           <label>Price</label>
           <div class="newrupe">
             <span style="top:14px;">{{'' | priceFormat:''}}</span>
-            <input type="number" min="0" class="input-fld"  name="UnitPrice" [(ngModel)]="item.UnitPrice" #UnitPrice="ngModel"
+            <input type="number" min="0" class="input-fld"  name="UnitPrice" [disabled]="isItemView" [(ngModel)]="item.UnitPrice" #UnitPrice="ngModel"
              placeholder="Price">
             </div>
         </div>
 
         <div class="figma-form-wrapper figma-form-wrapper-full">
-          <input type="checkbox" [(ngModel)]="isChecked2" name="isChecked2" (click)="getval2()" class="input-fld required-fld" style="width: 50px;">
+          <input type="checkbox" [(ngModel)]="isChecked2" name="isChecked2" [disabled]="isItemView" (click)="getval2()" class="input-fld required-fld" style="width: 50px;">
           <label>Service specifications</label>
         </div>
 
         <ng-container *ngIf="isChecked2">
           <div class="figma-form-wrapper">
             <label>Service Location</label>
-            <input type="text" class="input-fld required-fld"  name="Location" [(ngModel)]="item.Location" #Location="ngModel" autocomplete="off" placeholder="Service Location" required>
+            <input type="text" class="input-fld required-fld" [disabled]="isItemView"  name="Location" [(ngModel)]="item.Location" #Location="ngModel" autocomplete="off" placeholder="Service Location" required>
           </div>
           <div class="figma-form-wrapper">
             <label>Estimated Duration</label>
-            <input type="text" class="input-fld required-fld" name="Duration" [(ngModel)]="item.Duration" #Duration="ngModel" autocomplete="off" placeholder="Estimated Duration" required>
+            <input type="text" class="input-fld required-fld" [disabled]="isItemView" name="Duration" [(ngModel)]="item.Duration" #Duration="ngModel" autocomplete="off" placeholder="Estimated Duration" required>
           </div>
           <div class="figma-form-wrapper">
             <label>Description</label>
-            <input type="text" class="input-fld required-fld" name="Description" [(ngModel)]="item.Description" #Description="ngModel" autocomplete="off" placeholder="Description" required>
+            <input type="text" class="input-fld required-fld" [disabled]="isItemView" name="Description" [(ngModel)]="item.Description" #Description="ngModel" autocomplete="off" placeholder="Description" required>
           </div>
         </ng-container>
 </div>
 
-      <div class="figma-modal-fotter">
+      <div class="figma-modal-fotter" *ngIf="!isItemView">
         <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
         <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
         <button class="figma-prim-btn">Save</button>

@@ -85,5 +85,64 @@
   color:#fff;
 }
 
+.notification-dot {
+  position: absolute;
+  right: 342px;
+  width: 10px; /* Size of the dot */
+  height: 10px;
+  background-color: blue; /* Color of the dot */
+  border-radius: 50%; /* Makes it a circle */
+}
 
+
+.password-strength-wrapper span.weak {
+  color: red;
+}
+
+.password-strength-wrapper span.medium {
+  color: orange;
+}
+
+.password-strength-wrapper span.strong {
+  color: green;
+}
+
+.password-strength-wrapper ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: -17px;
+}
+
+.password-strength-wrapper div {
+  color: gray;
+  font-size: smaller;
+}
+
+.password-strength-wrapper div.valid {
+  color: green;
+  font-weight: bold;
+  font-size: x-small;
+}
+
+.password-eye {
+  position: relative;
+}
+
+.password-strength-wrapper {
+  position: absolute;
+  top: 50%; /* Positioned below the input field */
+  left: 40;
+  width: 300px;
+  padding: 10px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: none; /* Hidden by default */
+}
+
+.password-strength-wrapper.show {
+  display: block;
+}
 

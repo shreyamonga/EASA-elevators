@@ -532,7 +532,7 @@ export class EditCompaignsetComponent implements OnInit {
   IndustorySelect: any = [];
 
   addCampaignSet(f: NgForm) {
-    console.log(this.selectOppEmployeee);
+    // console.log(this.selectOppEmployeee);
     f = this.bridgeService.GlobaleTrimFunc(f);
     for(let [keys,value] of Object.entries(f.value)){
      if(!!!f.value[keys]){
@@ -540,8 +540,9 @@ export class EditCompaignsetComponent implements OnInit {
       }
     }
 
-
-    if (this.selectleadsource == undefined) {
+    // console.log(this.selectleadsource);
+    // return 1
+    if (this.selectleadsource == undefined || this.selectleadsource.length != 0) {
       this.compaigns.LeadSource = "";
     }
     else {
@@ -549,7 +550,7 @@ export class EditCompaignsetComponent implements OnInit {
     }
 
     //status
-    if (this.selectleadstatus == undefined) {
+    if (this.selectleadstatus == undefined || this.selectleadstatus.length != 0) {
       this.compaigns.LeadStatus = ""
     }
     else {
@@ -558,7 +559,7 @@ export class EditCompaignsetComponent implements OnInit {
 
 
     //for Employee
-    if (this.selectOppEmployeee == undefined) {
+    if (this.selectOppEmployeee == undefined || this.selectOppEmployeee.length != 0) {
       this.compaigns.OppSalePerson = ""
     }
     else {
@@ -567,7 +568,7 @@ export class EditCompaignsetComponent implements OnInit {
 
 
     //for Bp Employee
-    if (this.selectBPEmployeee == undefined) {
+    if (this.selectBPEmployeee == undefined || this.selectBPEmployeee.length != 0) {
       this.compaigns.BPSalePerson = ""
     }
     else {
@@ -575,7 +576,7 @@ export class EditCompaignsetComponent implements OnInit {
     }
 
     //for industory
-    if (this.selectIndustory == undefined) {
+    if (this.selectIndustory == undefined || this.selectIndustory.length != 0) {
       this.compaigns.BPIndustry = ""
     }
     else {

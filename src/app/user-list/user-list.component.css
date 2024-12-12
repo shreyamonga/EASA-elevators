@@ -1,0 +1,58 @@
+.password-eye {
+    position: relative;
+  }
+  
+  /* Popup default styling */
+  .password-strength-wrapper {
+    position: absolute;
+    top: 85%; /* Positioned below the input field */
+    left: 234px;
+    width: 218px;
+    padding: 10px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: none; /* Hidden by default */
+  }
+  
+  /* Show the popup when the class is added dynamically */
+  .password-strength-wrapper.show {
+    display: block;
+  }
+  
+  /* Criteria styling */
+  .password-strength-wrapper ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .password-strength-wrapper span.weak {
+    color: red;
+  }
+  
+  .password-strength-wrapper span.medium {
+    color: orange;
+  }
+  
+  .password-strength-wrapper span.strong {
+    color: green;
+  }
+  
+  .password-strength-wrapper div {
+    color: gray;
+    font-size: smaller;
+    margin: 5px 0;
+  }
+  
+  .password-strength-wrapper div.valid {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .password-strength-wrapper div.invalid {
+    color: red;
+  }
+  

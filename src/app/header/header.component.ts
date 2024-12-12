@@ -122,6 +122,8 @@ Bridge2: any;
       (res: any) => {
         this.isLoading2 = false;
         this.notify = res.data;
+        console.log(this.notify);
+        
         this.unreadCount = res.meta.unread_count;
         sessionStorage.setItem('unreadCount', this.unreadCount);
       },
@@ -450,7 +452,47 @@ for (let i = 0; i < this.appList.length; i++) {
     );
   }
 
+  resetPasswordCriteria = {
+    minLength: false,
+    hasUppercase: false,
+    hasLowercase: false,
+    hasNumber: false,
+    hasSpecialChar: false,
+  };
+  
+  resetPasswordStrength: string = '';
+  shouldShowResetCriteria: boolean = false;
 
+  showResetCriteria(): void {
+    this.shouldShowResetCriteria = true;
+  }
+
+  hideResetCriteria(): void {
+    this.shouldShowResetCriteria = false;
+  }
+  
+  
+  validateResetPasswordStrength(password: string): void {
+    this.resetPasswordCriteria.minLength = password.length >= 8;
+    this.resetPasswordCriteria.hasUppercase = /[A-Z]/.test(password);
+    this.resetPasswordCriteria.hasLowercase = /[a-z]/.test(password);
+    this.resetPasswordCriteria.hasNumber = /[0-9]/.test(password);
+    this.resetPasswordCriteria.hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    const criteriaMet = Object.values(this.resetPasswordCriteria).filter(Boolean).length;
+
+    if (criteriaMet <= 2) {
+      this.resetPasswordStrength = 'Weak'; // Red
+    } else if (criteriaMet === 3 || criteriaMet === 4) {
+      this.resetPasswordStrength = 'Medium'; // Orange/Yellow
+    } else if (criteriaMet === 5) {
+      this.resetPasswordStrength = 'Strong'; // Green
+    } else {
+      this.resetPasswordStrength = '';
+    }
+  }
+  
+  
 
 
 }

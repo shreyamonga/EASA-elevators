@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
   forgotPasswordClicked = '1';
   rememberMe: boolean = false;
   roleid: any;
+ 
   constructor(public bridgeService: BridgeService,
     public HeadingServices: HeadingServicesService,private _NotifierService: NotiferService, private route: Router, private http: HttpClient,) {
   }
@@ -173,6 +174,9 @@ export class LoginComponent implements OnInit {
 
 
   }
+
+  
+
 
   CheckEmail(f: NgForm) {
     this.loginLoder = true;

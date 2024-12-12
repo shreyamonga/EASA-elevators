@@ -37,24 +37,24 @@
             <th (click)="togglesortType('Heading')">Title <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span></th>
             <th (click)="togglesortType('CreatedDate')">Create Date <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span></th>
             <th (click)="togglesortType('Message')">Description <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span></th>
-            <th >Status</th>
+            <!-- <th >Status</th> -->
           </tr>
         </thead>
 
             <ng-container *ngFor="let item of notify; let i = index">
-              <tr class="hover" (click)="redirectonpage(item)">
+              <tr class="hover" (click)="redirectonpage(item)"  [ngClass]="{'unread': !item.is_read}" >
                 <td class="text-nowrap">{{i+1}}</td>
                 <!-- <td class="text-nowrap">{{item.id}}</td> -->
                 <td >{{item.Heading == ''? 'NA' : item.Heading}}</td>
                 <td >{{item.CreatedDate | date:'MM-dd-YYYY'}}</td>
                 <td >{{item.Message}}</td>
-                <td
+                <!-- <td #dae4fb
                 [ngClass]="{
                   'ActiveBTN rounded-pill badge-success': item.is_read,
                   'ActiveBTNN rounded-pill2 badge-warning': !item.is_read
                 }">
                 {{ item.is_read ? 'Read' : 'Unread' }}
-              </td>
+              </td> -->
 
               </tr>
             </ng-container>

@@ -855,4 +855,42 @@ export class UserListComponent implements OnInit {
     XLSX.writeFile(wb, this.fileName);
   }
 
+  shouldShowCriteria: boolean = false;
+  passwordCriteria = {
+    minLength: false,
+    hasUppercase: false,
+    hasLowercase: false,
+    hasNumber: false,
+    hasSpecialChar: false,
+  };
+  passwordStrength: string = '';
+
+  showCriteria(): void {
+    this.shouldShowCriteria = true;
+  }
+
+  hideCriteria(): void {
+    this.shouldShowCriteria = false;
+  }
+
+  validatePasswordStrength(password: string): void {
+    this.passwordCriteria.minLength = password.length >= 8;
+    this.passwordCriteria.hasUppercase = /[A-Z]/.test(password);
+    this.passwordCriteria.hasLowercase = /[a-z]/.test(password);
+    this.passwordCriteria.hasNumber = /[0-9]/.test(password);
+    this.passwordCriteria.hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    const criteriaMet = Object.values(this.passwordCriteria).filter(Boolean).length;
+
+    if (criteriaMet <= 2) {
+      this.passwordStrength = 'Weak'; // Red
+    } else if (criteriaMet === 3 || criteriaMet === 4) {
+      this.passwordStrength = 'Medium'; // Orange/Yellow
+    } else if (criteriaMet === 5) {
+      this.passwordStrength = 'Strong'; // Green
+    } else {
+      this.passwordStrength = '';
+    }
+  }
+
 }

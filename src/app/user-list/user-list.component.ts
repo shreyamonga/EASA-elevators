@@ -404,6 +404,10 @@ export class UserListComponent implements OnInit {
       }
     }
     if (f.valid) {
+      if (this.passwordStrength !== 'Strong') {
+        this._NotifierService.showError('Password must be strong to proceed.');
+        return; // Stop further execution
+    }
       this.bridge.SalesEmployeeName = this.bridge.firstName;
       this.bridge.userName = this.bridge.Email;
       this.isLoading = true;
@@ -479,14 +483,14 @@ export class UserListComponent implements OnInit {
 
 
   open(content: any) {
-    this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered userList-cards-modal' })
-      .result.then(
-        (result) => {
+    this.commonObj.bigScreenMode = false;
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg `,backdrop:'static' }).result.then((result) => {
+
           this.closeResult = `Closed with: ${result}`;
         },
         (reason) => {
           this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+          this.commonObj.bigScreenMode = false;
         }
       );
   }
@@ -505,22 +509,23 @@ export class UserListComponent implements OnInit {
     // console.log(typeof(item))
     // console.log(Number(item[0]))
       this.isView = isView;
+      this.commonObj.bigScreenMode = false;
     this.bridgeService.getoneemployee(item[0]).subscribe(
       (data: any) => {
         this.bridge2 = data[0];
+        this.bridge2.timestamp=this.HeadingServices.getDateTime();
          for (let i = 0; i < this.rolefilter.length; i++) {
           if (this.rolefilter[i]['SalesEmployeeCode'] == this.bridge2.SalesEmployeeCode) {
             this.rolefilter.splice(i, 1);
           }
         }
-        this.modalService
-        .open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' })
-        .result.then(
-          (result) => {
+        this.commonObj.bigScreenMode = false;
+        this.modalService.open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg `,backdrop:'static' }).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
           },
           (reason) => {
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+            this.commonObj.bigScreenMode = false;
           }
         );
       },
@@ -824,33 +829,52 @@ export class UserListComponent implements OnInit {
   }
 
   checkExportStatus() {
+    if(sessionStorage.getItem('role') == 'admin'){
+      this.exportStatus = true;
+    }
+    else{
     const status = sessionStorage.getItem('exportStatus');
     this.exportStatus = status === 'true'; // sessionStorage stores everything as strings
+    }
+  }
+  closeResultExport = '';
+  ExportFile(confirmModalForExport: any) {
+    this.modalService
+      .open(confirmModalForExport, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static', modalDialogClass: 'confirm-modal modal-dialog-centered' })
+      .result.then(
+        (result) => {
+          this.closeResultExport = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResultExport = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
   }
 
   fileName ="user_export.xlsx";
 
   Exportexcel() {
+    this.modalService.dismissAll();
     // Get the table element
     const data = document.getElementById("table-data");
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);
- 
+
     // Convert the worksheet to JSON (2D array format)
     let jsonData: any[][] = XLSX.utils.sheet_to_json(ws, { header: 1 }) as any[][];
- 
+
     // Remove the first column from each row
     jsonData = jsonData.map(row => row.slice(1));
- 
+
     // Remove the last column from each row
   jsonData = jsonData.map(row => row.slice(0, row.length - 1));
- 
+
     // Convert the modified JSON data back to a worksheet
     const modifiedWs: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(jsonData);
- 
+
     // Create a new workbook and append the modified worksheet
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, modifiedWs, 'Sheet1');
- 
+
     // Save the file
     XLSX.writeFile(wb, this.fileName);
   }
@@ -893,4 +917,18 @@ export class UserListComponent implements OnInit {
     }
   }
 
+  bigScreenOrMid() {
+    if ((document.querySelector('.figma-cards-modal') as any).classList.contains('figma-cards-modal-lg')) {
+      this.commonObj.bigScreenMode = true;
+      (document.querySelector('.figma-cards-modal') as any).classList.add('figma-cards-modal-full');
+      (document.querySelector('.figma-cards-modal') as any).classList.remove('figma-cards-modal-lg');
+    } else {
+      this.commonObj.bigScreenMode = false;
+      (document.querySelector('.figma-cards-modal') as any).classList.add('figma-cards-modal-lg');
+      (document.querySelector('.figma-cards-modal') as any).classList.remove('figma-cards-modal-full');
+    }
+
+
+  }
 }
+

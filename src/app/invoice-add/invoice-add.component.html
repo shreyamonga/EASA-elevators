@@ -34,7 +34,7 @@
                   <div>
                     <ng-select #selectquotation [disabled]="isEdit" [clearOnBackspace]="false" [searchable]="false" [items]="quotationsList" bindLabel="CardName"
                     bindValue="id" [(ngModel)]="order.BaseEntry" #BaseEntry="ngModel" name="BaseEntry"
-                      (change)="selectQuotationChangeHandlerItem($event)" placeholder="Select Order" class="ngsearch-dropdown input-fld">
+                      (ngModelChange)="selectQuotationChangeHandlerItem($event)" placeholder="Select Order" class="ngsearch-dropdown input-fld">
                       <ng-template ng-header-tmp>
                         <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
                           type="text" (input)="selectquotation.filter($event.target.value)" />
@@ -49,7 +49,7 @@
                   <div>
                     <ng-select #selectquotation [disabled]="isEdit" [clearOnBackspace]="false" [searchable]="false" [items]="DeliveryList" bindLabel="CardName"
                     bindValue="id" [(ngModel)]="order.BaseEntry" #BaseEntry="ngModel" name="BaseEntry"
-                      (change)="selectDelivery($event)" placeholder="Select Delivery" class="ngsearch-dropdown input-fld">
+                      (ngModelChange)="selectDelivery($event)" placeholder="Select Delivery" class="ngsearch-dropdown input-fld">
                       <ng-template ng-header-tmp>
                         <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
                           type="text" (input)="selectquotation.filter($event.target.value)" />
@@ -64,7 +64,7 @@
                   <div>
                     <ng-select #selectbusinesspartner [disabled]="isEdit" [clearOnBackspace]="false" [searchable]="false" id="BusinessPartner" name="BusinessPartner"
                       [(ngModel)]="order.CardCode" #BusinessPartner="ngModel" ngModel required
-                      (change)="selectChangeHandlerItem($event)" class="ngsearch-dropdown input-fld required-fld">
+                      (ngModelChange)="selectChangeHandlerItem($event)" class="ngsearch-dropdown input-fld required-fld">
                       <ng-template ng-header-tmp>
                         <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
                           type="text" (input)="selectbusinesspartner.filter($event.target.value)" />
@@ -345,7 +345,7 @@
                   <label>Select {{Headingss[0].heading19}}</label>
                   <div>
                     <ng-select #selectaddstate [clearOnBackspace]="false" [searchable]="false" name="BillToId"
-                      [(ngModel)]="order.AddressExtension.BillToId" (change)="setAddress($event,'billing')" ngModel #BillToId="ngModel" required
+                      [(ngModel)]="order.AddressExtension.BillToId" (ngModelChange)="setAddress($event,'billing')" ngModel #BillToId="ngModel" required
                       class="ngsearch-dropdown input-fld required-fld">
                       <ng-template ng-header-tmp>
                         <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
@@ -392,7 +392,7 @@
                   <label>{{Headingss[0].heading22}}  </label>
                   <div>
                     <ng-select #selectcountry [clearOnBackspace]="false" [searchable]="false" #BillToCountry="ngModel" name="BillToCountry"
-                      [(ngModel)]="order.AddressExtension.BillToCountry" (change)="selectChangeHandler($event)" required
+                      [(ngModel)]="order.AddressExtension.BillToCountry" (ngModelChange)="selectChangeHandler($event)" required
                       class="ngsearch-dropdown input-fld required-fld">
                       <ng-template ng-header-tmp>
                         <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
@@ -413,7 +413,7 @@
                   <div>
                     <ng-select #selectstate [clearOnBackspace]="false" [searchable]="false" name="BillToState" #BillToState="ngModel"
                       [(ngModel)]="order.AddressExtension.BillToState" required
-                      (change)="selectChangeHandlerState($event)" class="ngsearch-dropdown input-fld required-fld">
+                      (ngModelChange)="selectChangeHandlerState($event)" class="ngsearch-dropdown input-fld required-fld">
                       <ng-template ng-header-tmp>
                         <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
                           type="text" (input)="selectstate.filter($event.target.value)" />
@@ -497,7 +497,7 @@
                     <label>Select {{Headingss[0].heading27}}</label>
                     <div>
                       <ng-select #selectaddstate [clearOnBackspace]="false" [searchable]="false" name="ShipToId"
-                        [(ngModel)]="order.AddressExtension.ShipToId" (change)="setAddress($event,'shipping')" ngModel #ShipToId="ngModel" required
+                        [(ngModel)]="order.AddressExtension.ShipToId" (ngModelChange)="setAddress($event,'shipping')" ngModel #ShipToId="ngModel" required
                         class="ngsearch-dropdown input-fld required-fld">
                         <ng-template ng-header-tmp>
                           <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
@@ -543,7 +543,7 @@
                     <label>{{Headingss[0].heading30}}</label>
                     <div>
                       <ng-select #selectshipcountry [clearOnBackspace]="false" [searchable]="false" name="ShipToCountry" #ShipToCountry="ngModel"
-                        [(ngModel)]="order.AddressExtension.ShipToCountry" (change)="selectChangeHandler2($event)"
+                        [(ngModel)]="order.AddressExtension.ShipToCountry" (ngModelChange)="selectChangeHandler2($event)"
                         required class="ngsearch-dropdown input-fld required-fld">
                         <ng-template ng-header-tmp>
                           <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
@@ -569,7 +569,7 @@
                     <div>
                       <ng-select #selectshipstate [clearOnBackspace]="false" [searchable]="false" name="ShipToState" #ShipToState="ngModel"
                         [(ngModel)]="order.AddressExtension.ShipToState" required
-                        (change)="selectChangeHandlerState2($event)" class="ngsearch-dropdown input-fld required-fld">
+                        (ngModelChange)="selectChangeHandlerState2($event)" class="ngsearch-dropdown input-fld required-fld">
                         <ng-template ng-header-tmp>
                           <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
                             type="text" (input)="selectshipstate.filter($event.target.value)" />
@@ -687,7 +687,7 @@
         </div>
         <div class="sales-details-cateIms" style="display: block;">
 
-          <div
+          <!-- <div
           [ngClass]="(categorys | inventorysearchfilter: searchValue1)?.length < 4?'sales-details-cateCate sales-details-cateCate-limiting':'sales-details-cateCate'"
           *ngIf="!isLoading" id="CateCate">
           <ng-container *ngFor="let item of categorys | inventorysearchfilter: searchValue1">
@@ -697,7 +697,43 @@
               <p> {{item.CategoryName}}</p>
             </div>
           </ng-container>
-        </div>
+        </div> -->
+        <!-- <div class="sales-boxes">
+          <div class="recent-sales UserManagement" style="max-height: 410px;"> -->
+        <div style=" height: 62vh;"
+  [ngClass]="(categorys | inventorysearchfilter: searchValue1)?.length < 4 ? 'sales-details-cateCate sales-details-cateCate-limiting' : 'sales-details-cateCate'"
+  *ngIf="!isLoading"
+  id="CateCate" >
+  
+  
+  <ng-container *ngIf="(categorys | inventorysearchfilter: searchValue1)?.length > 0; else noData" >
+    <ng-container *ngFor="let item of categorys | inventorysearchfilter: searchValue1">
+      <div (click)="getQuotationItem2(item.id)">
+        <img *ngIf="item.CategoryImageURL == ''" src="../../assets/img/iner-box1.png" alt=""
+          class="figma-inventory-product-img">
+        <img *ngIf="item.CategoryImageURL != ''" src="{{bridgeService2.baseUrl2}}{{item.CategoryImageURL}}" alt=""
+          class="figma-inventory-product-img">
+        <p>{{item.CategoryName}}</p>
+      </div>
+    </ng-container>
+  </ng-container>
+
+   
+  <ng-template #noData  >
+   
+    <p class="" style="text-align: center;
+     font-size: 20px;
+     color: #4A79E4;
+     /* padding-top: 15% !important; */
+     height: 62vh;
+     grid-column: 1 / -1;
+     line-height: 400px;">No Data Found
+     </p>
+    
+  </ng-template>
+</div>
+<!-- </div>
+</div> -->
 
           <div class="sales-details-cateIms" id="cateITem">
             <!-- <div [ngClass]="(quotationsitem | invendata:searchValue).length < 4?'sales-details-cateIms-card sales-details-cateIms-card-limiting':'sales-details-cateIms-card'">
@@ -715,7 +751,8 @@
                 </div>
               </ng-container>
             </div> -->
-
+            <div class="sales-boxes">
+              <div class="recent-sales UserManagement" style="max-height: 410px;">
             <table class="new-tabl">
               <tr>
                 <th>ID <i class="fa fa-sort"></i> </th>
@@ -754,7 +791,8 @@
               </td>
               </tr>
             </table>
-
+    </div>
+    </div>
           </div>
         </div>
         <div class="figma-pagination-controls" *ngIf="!paginDisplay">
@@ -1114,18 +1152,16 @@
 
   <ng-template #mymodal let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title" style="width: 100%;text-align: center;color: #4A79E4;">{{ItemNAme}}
+      <h4 class="modal-title" id="modal-basic-title">{{ItemNAme}}
       </h4>
-      <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true" style="border: none;">×</span>
-      </button>
+      <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
     </div>
-    <div class="modal-body">
-      <form #f="ngForm" name="theForm" (submit)="UpdateQuotationItem(f)">
+    <form #f="ngForm" name="theForm" class="figma-modal-form" >
+    <div class="modal-body childBody">
         <div class="row">
           <input type="hidden" class="input-fld required-fld" name="id" [(ngModel)]="ItemId">
           <div class="col-md-12">
-            <label>Unit Price</label>
+            <label class="userLabel">Unit Price</label>
             <div class="newrupe">
               <span class="span9">{{'' | priceFormat:''}}</span>
             <input type="number" placeholder="Enter Price" class="input-fld required-fld" min="0" name="price" readonly [(ngModel)]="ItemPrice"  #price="ngModel" (change)="ITemDataUpdate($event)">
@@ -1136,7 +1172,7 @@
           </div>
 
           <div class="col-md-12">
-            <label>Enter Quantity</label>
+            <label class="userLabel">Enter Quantity</label>
             <input type="number" placeholder="Enter Quantity" class="input-fld required-fld" min="1" max="10000000"  name="quantity" [(ngModel)]="ItemQty" pattern="^[0-9,.]*$" #quantity="ngModel" required>
             <span class="help-block danger" *ngIf="quantity.errors?.pattern && quantity.touched">
               Take Numeric Value Only and Quantity is 1 to 10000000
@@ -1148,7 +1184,7 @@
 
 
           <div class="col-md-12">
-            <label>Enter Discount (%) on Item</label>
+            <label class="userLabel">Discount (%) </label>
             <input type="number" placeholder="Enter Discount (%) on Item" class="input-fld required-fld" min="0" max="100" [(ngModel)]="ItemDis" name="discount" pattern="^[0-9,.]*$" #discount="ngModel" (change)="ITemDataUpdate($event)" required>
           </div>
           <span class="help-block danger" *ngIf="discount.errors?.pattern && discount.touched">
@@ -1159,8 +1195,8 @@
           </span>
 
           <div class="col-md-12">
-            <label>Enter Tax(GST)</label>
-            <input type="number" placeholder="Enter Price" class="input-fld required-fld" min="0" max="100" name="tax" [(ngModel)]="TaxRate" pattern="^[0-9]*$" #tax="ngModel" (change)="ITemDataUpdate($event)" required>
+            <label class="userLabel">Tax(GST) %</label>
+            <input type="number" placeholder="Tax" class="input-fld required-fld" min="0" max="100" name="tax" [(ngModel)]="TaxRate" pattern="^[0-9]*$" #tax="ngModel" (change)="ITemDataUpdate($event)" required>
             <span class="help-block danger" *ngIf="tax.errors?.pattern && tax.touched">
               Take Numeric Value Only
             </span>
@@ -1171,18 +1207,23 @@
 
 
           <div class="col-md-12">
-            <label>Enter Delivery date</label>
+            <label class="userLabel">Enter Delivery date</label>
             <input type="date" placeholder="Enter Price" class="input-fld" name="ItemDueDate" [(ngModel)]="ItemDueDate">
 
           </div>
 
-          <div class="col-md-12" style="text-align: center;">
+          <!-- <div class="col-md-12" style="text-align: center;">
             <button class="add-invent" >Save</button>
-          </div>
+          </div> -->
 
         </div>
-      </form>
-    </div>
+      </div>
+      <div class="figma-modal-fotter">
+        <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+        <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
+        <button class="figma-prim-btn" (click)="UpdateQuotationItem(f)" >Save</button>
+      </div>
+    </form>
     <!-- <div class="modal-footer">
       <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
     </div> -->

@@ -413,14 +413,34 @@ checkboxclick(id: any) {
   }
 
   checkExportStatus() {
+    if(sessionStorage.getItem('role') == 'admin'){
+      this.exportStatus = true;
+    }
+    else{
     const status = sessionStorage.getItem('exportStatus');
     this.exportStatus = status === 'true'; // sessionStorage stores everything as strings
+    }
+  }
+
+  closeResultExport = '';
+  ExportFile(confirmModalForExport: any) {
+    this.modalService
+      .open(confirmModalForExport, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static', modalDialogClass: 'confirm-modal modal-dialog-centered' })
+      .result.then(
+        (result) => {
+          this.closeResultExport = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResultExport = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
   }
 
   // Default excel file name when download 
   fileName ="opportunity_export.xlsx";
 
   Exportexcel() {
+    this.modalService.dismissAll();
     // Get the table element
     const data = document.getElementById("table-data");
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);

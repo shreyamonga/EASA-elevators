@@ -209,7 +209,7 @@ open(template: any,sta:boolean,val:any) {
   if(val.Status == 0){
 
     this._NgbModal
-    .open(template, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered userList-cards-modal' })
+    .open(template, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal ' })
     .result.then(
       (result) => {
         this.closeResult = `Closed with: ${result}`;
@@ -227,7 +227,7 @@ open2(template2: any) {
   this.addLogs.DeliveryID = this.idd;
   this.addLogs.SalesPersonCode = sessionStorage.getItem('UserId');
     this._NgbModal
-    .open(template2, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered userList-cards-modal' })
+    .open(template2, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal' })
     .result.then(
       (result) => {
         this.closeResult = `Closed with: ${result}`;

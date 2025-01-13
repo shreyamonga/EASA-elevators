@@ -43,7 +43,7 @@
                 <div class="lead-update-wrapper">
                   <label>{{Headingss[0].heading3}}</label>
                   <div>
-                    <ng-select #selectbusinesspartner [clearOnBackspace]="false" [searchable]="false" name="CardCode" #CardCode="ngModel" [(ngModel)]="opportunity.CardCode" (change)="selectChangeHandler($event)" required class="ngsearch-dropdown input-fld required-fld">
+                    <ng-select #selectbusinesspartner [clearOnBackspace]="false" [searchable]="false" name="CardCode" #CardCode="ngModel" [(ngModel)]="opportunity.CardCode" (ngModelChange)="selectChangeHandler($event)" required class="ngsearch-dropdown input-fld required-fld">
                       <ng-template ng-header-tmp>
                         <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
                           type="text" (input)="selectbusinesspartner.filter($event.target.value)" />
@@ -67,7 +67,7 @@
                   <label>{{Headingss[0].heading4}}</label>
                   <div>
                     <ng-select #selectcontactperson [clearOnBackspace]="false" [searchable]="false" [items]="contactPersoneList" bindLabel="FirstName"
-                    bindValue="InternalCode" name="contactperson" #contactperson="ngModel" [(ngModel)]="opportunity.ContactPerson" (change)="selectChangeHandler2($event)" required class="ngsearch-dropdown input-fld required-fld">
+                    bindValue="InternalCode" name="contactperson" #contactperson="ngModel" [(ngModel)]="opportunity.ContactPerson" (ngModelChange)="selectChangeHandler2($event)" required class="ngsearch-dropdown input-fld required-fld">
                       <ng-template ng-header-tmp>
                         <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
                           type="text" (input)="selectcontactperson.filter($event.target.value)" />
@@ -99,7 +99,7 @@
                 <div class="lead-update-wrapper">
                   <label>{{Headingss[0].heading6}}</label>
                   <div>
-                    <ng-select #selectsalesemp [clearOnBackspace]="false" [searchable]="false" name="SalesPerson" #SalesPerson="ngModel"  [(ngModel)]="opportunity.SalesPerson" (change)="selectChangeHandler3($event)" required class="ngsearch-dropdown input-fld required-fld">
+                    <ng-select #selectsalesemp [clearOnBackspace]="false" [searchable]="false" name="SalesPerson" #SalesPerson="ngModel"  [(ngModel)]="opportunity.SalesPerson" (ngModelChange)="selectChangeHandler3($event)" required class="ngsearch-dropdown input-fld required-fld">
                       <ng-template ng-header-tmp>
                         <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
                           type="text" (input)="selectsalesemp.filter($event.target.value)" />
@@ -461,18 +461,16 @@
 </section>
 <ng-template #mymodal let-modal>
   <div class="modal-header">
-    <h6 class="modal-title" id="modal-basic-title" style="width: 100%; font-size:1.2rem; text-align: center;color: #4A79E4; margin-bottom: -10px;">{{ItemNAme}}</h6>
-    <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true" style="border: none;">×</span>
-    </button>
+    <h6 class="modal-title" id="modal-basic-title" >{{ItemNAme}}</h6>
+    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
   </div>
-  <div class="modal-body">
-    <form #f="ngForm" name="theForm" (submit)="UpdateQuotationItem(f)">
+  <form #f="ngForm" name="theForm" class="figma-modal-form chile-form" >
+  <div class="modal-body childBody">
       <div class="row">
         <input type="hidden" class="input-fld required-fld" name="id" [(ngModel)]="ItemId">
 
         <div class="col-md-12">
-          <label>{{Headingss[1].heading2}}</label>
+          <label class="userLabel">{{Headingss[1].heading2}}</label>
           <div class="newrupe">
             <span class="span9">{{'' | priceFormat:''}}</span>
           <input type="number" placeholder="Enter {{Headingss[1].heading2}}" class="input-fld required-fld" min="0" name="price" readonly [(ngModel)]="ItemPrice" pattern="^[0-9,.]*$" #price="ngModel" (change)="ITemDataUpdate($event)">
@@ -483,7 +481,7 @@
         </div>
 
         <div class="col-md-12">
-          <label>{{Headingss[1].heading6}}</label>
+          <label class="userLabel">{{Headingss[1].heading6}}</label>
           <input type="number" placeholder="Enter {{Headingss[1].heading6}}" class="input-fld required-fld" min="1" max="10000000"  name="quantity" [(ngModel)]="ItemQty" pattern="^[0-9,.]*$" #quantity="ngModel" (change)="ITemDataUpdate($event)" required>
           <span class="help-block danger" *ngIf="quantity.errors?.pattern">
             Take Numeric Value Only and {{Headingss[1].heading6}} is 1 to 10000000
@@ -495,7 +493,7 @@
 
 
         <div class="col-md-12">
-          <label>{{Headingss[1].heading8}}</label>
+          <label class="userLabel">{{Headingss[1].heading8}}</label>
           <input type="number" placeholder="Enter {{Headingss[1].heading8}}" class="input-fld required-fld" min="0" max="100" [(ngModel)]="ItemDis" name="discount" pattern="^[0-9,.]*$" #discount="ngModel" (change)="ITemDataUpdate($event)" required>
         </div>
         <span class="help-block danger" *ngIf="discount.errors?.pattern && discount.touched">
@@ -506,7 +504,7 @@
         </span>
 
         <div class="col-md-12">
-          <label>{{Headingss[1].heading7}}</label>
+          <label class="userLabel">{{Headingss[1].heading7}}</label>
           <input type="number" placeholder="Enter {{Headingss[1].heading7}}" class="input-fld required-fld" min="0" max="100" name="tax" [(ngModel)]="Tax" pattern="^[0-9]*$" #tax="ngModel" (change)="ITemDataUpdate($event)" required>
           <span class="help-block danger" *ngIf="tax.errors?.pattern && tax.touched">
             Take Numeric Value Only
@@ -516,14 +514,19 @@
           </span>
         </div>
 
-        <div class="col-md-12 text-center my-3">
+        <!-- <div class="col-md-12 text-center my-3">
           <button class="add-invent1" >{{Headingss[0].heading105}}</button>
-        </div>
+        </div> -->
 
       </div>
-    </form>
-
-  </div>
+      
+    </div>
+    <div class="figma-modal-fotter">
+      <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+      <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
+      <button class="figma-prim-btn"  (click)="UpdateQuotationItem(f)">Save</button>
+    </div>
+  </form>
   <!-- <div class="modal-footer">
 <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
 </div> -->

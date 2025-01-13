@@ -191,11 +191,11 @@
                     <br/>
                     <div></div>
                   </ng-container>
-                    <div class="grey1"> {{Headingss[2].heading0}}</div>
+                    <div class="grey1"> {{Headingss[2].heading7}}</div>
                     <div>
                       <p class="cstmr-size">{{item.BPAddresses[1].AddressName}}</p>
                     </div>
-                    <div class="grey1"> {{Headingss[2].heading1}} </div>
+                    <div class="grey1"> {{Headingss[2].SubHeading2}} </div>
                     <div>
                       <p class="cstmr-size">{{item.BPAddresses[1].Street}}</p>
                     </div>
@@ -291,6 +291,7 @@
                   <button class="figma-outline-btn" (click)="open2(mymodal2)">Add</button>
 
                 </div>
+                
               </div>
               <div class="figma-product-table-container" style="padding: 0;">
                 <table class="new-tabl">
@@ -534,21 +535,18 @@
 </section>
 
 
-
-
 <ng-template #mymodal let-modal>
   <div class="modal-header">
     <h4 class="modal-title modal-heading" id="modal-basic-title">Add {{Headingss[2].SubHeading}}
     </h4>
-    <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true" style="border: none;">×</span>
-    </button>
+    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
   </div>
-  <div class="modal-body">
-    <form #f="ngForm" name="theForm" (submit)="addBranch(f)">
+  
+    <form #f="ngForm" name="theForm" class="figma-modal-form"  >
+      <div class="modal-body childBody" >
       <div class="row">
         <div class="col-md-6">
-          <label>{{Headingss[2].heading7}}</label>
+          <label class="userLabel">{{Headingss[2].heading7}}</label>
           <input type="text" placeholder="Enter {{Headingss[2].heading7}}" class="input-fld required-fld" name="AddressName"
             [(ngModel)]="branch.AddressName" #AddressName="ngModel" required>
           <span class="help-block danger" *ngIf="AddressName.errors?.required && AddressName.touched">
@@ -556,7 +554,7 @@
           </span>
         </div>
         <div class="col-md-6">
-          <label>{{Headingss[2].heading5}}</label>
+          <label class="userLabel">{{Headingss[2].heading5}}</label>
           <input type="number" placeholder="Enter {{Headingss[2].heading5}}" class="input-fld required-fld" name="ZipCode" pattern="^[0-9]*$"
             [(ngModel)]="branch.ZipCode" #ZipCode="ngModel" required>
           <span class="help-block danger" *ngIf="ZipCode.errors?.required && ZipCode.touched">
@@ -567,9 +565,9 @@
           </span>
         </div>
         <div class="col-md-6">
-          <label>{{Headingss[2].heading4}}</label>
+          <label class="userLabel">{{Headingss[2].heading4}}</label>
           <ng-select #selectcountry [clearOnBackspace]="false" [searchable]="false" placeholder="Select {{Headingss[2].heading4}}" [items]="countrys" bindLabel="Name"
-          bindValue="Code" (change)="selectChangeHandler($event)" name="Country" #Country="ngModel" required
+          bindValue="Code" (ngModelChange)="selectChangeHandler($event)" name="Country" #Country="ngModel" required
             [(ngModel)]="branch.Country" class="ngsearch-dropdown input-fld required-fld">
             <ng-template ng-header-tmp>
               <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search" type="text"
@@ -581,9 +579,9 @@
           </span>
         </div>
         <div class="col-md-6">
-          <label> {{Headingss[2].heading3}}</label>
+          <label class="userLabel"> {{Headingss[2].heading3}}</label>
           <ng-select #selectstate [clearOnBackspace]="false" [searchable]="false" [items]="statess" placeholder="Select {{Headingss[2].heading3}}" bindLabel="Name"
-          bindValue="Code" name="State" #State="ngModel" (change)="selectChangeHandlerState($event)"
+          bindValue="Code" name="State" #State="ngModel" (ngModelChange)="selectChangeHandlerState($event)"
             [(ngModel)]="branch.State" class="ngsearch-dropdown input-fld required-fld" required>
             <ng-template ng-header-tmp>
               <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search" type="text"
@@ -596,7 +594,7 @@
         </div>
 
         <div class="col-md-6">
-          <label>{{Headingss[2].heading2}}</label>
+          <label class="userLabel">{{Headingss[2].heading2}}</label>
           <input type="text" placeholder="Enter {{Headingss[2].heading2}}" class="input-fld required-fld" name="City"
             [(ngModel)]="branch.City" #City="ngModel" required>
           <span class="help-block danger" *ngIf="City.errors?.required && City.touched">
@@ -605,7 +603,7 @@
         </div>
 
         <div class="col-md-6">
-          <label>{{Headingss[2].heading6}}</label>
+          <label class="userLabel">{{Headingss[2].heading6}}</label>
           <div>
             <ng-select #selectshiptype [clearOnBackspace]="false" [searchable]="false"
               [(ngModel)]="branch.U_SHPTYP" name="U_SHPTYP" #U_SHPTYP=ngModel
@@ -624,7 +622,7 @@
         </div>
 
         <div class="col-md-12">
-          <label>{{Headingss[2].SubHeading2}}</label>
+          <label class="userLabel">{{Headingss[2].SubHeading2}}</label>
           <textarea type="text" placeholder="Enter {{Headingss[2].SubHeading2}}" class="input-fld required-fld" name="Street"
             [(ngModel)]="branch.Street" #Street="ngModel" maxlength="1000" required></textarea>
           <span class="help-block danger" *ngIf="(Street.errors?.required && f.submitted)||(Street.errors?.required && Street.touched)">
@@ -634,31 +632,34 @@
 
 
 
-        <div style="text-align: center;" *ngIf="isLoading">
-          <img src="../../assets/img/loder.gif" style="height: 100%;width: 10%;">
-        </div>
-
-        <div class="col-md-12 text-center" *ngIf="!isLoading">
-          <button class="add-invent1" >Save</button>
-        </div>
+        
       </div>
+    </div>
+      <div class="figma-modal-fotter">
+        <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+        <button class="figma-prim-btn"  (click)="addBranch(f)">Save</button>
+      </div>
+      
     </form>
-  </div>
+
 
 </ng-template>
 
 <ng-template #mymodal2 let-modal>
   <div class="modal-header">
     <h4 class="modal-title modal-heading" id="modal-basic-title">Add {{Headingss[1].SubHeading}}</h4>
-    <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true" style="border: none;">×</span>
-    </button>
+    <!-- <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')"> -->
+      <!-- <span aria-hidden="true" style="border: none;">×</span> -->
+      <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
+    
+    <!-- </button> -->
   </div>
-  <div class="modal-body">
-    <form #f="ngForm" name="theForm" (submit)="addContactPersone(f)">
+ 
+    <form #f="ngForm" name="theForm" class="figma-modal-form" >
+      <div class="modal-body childBody">
       <div class="row">
         <div class="col-md-6">
-          <label>{{Headingss[1].heading0}}</label>
+          <label class="userLabel">{{Headingss[1].heading0}}</label>
           <input type="text" placeholder="Enter {{Headingss[1].heading0}}" class="input-fld required-fld" name="FirstName"
             [(ngModel)]="contactPersoneAdd.FirstName" #FirstName="ngModel" required>
           <span class="help-block danger" *ngIf="FirstName.errors?.required && FirstName.touched">
@@ -666,7 +667,7 @@
           </span>
         </div>
         <div class="col-md-6">
-          <label>{{Headingss[1].heading02}}</label>
+          <label class="userLabel">{{Headingss[1].heading02}}</label>
           <input type="text" placeholder="Enter {{Headingss[1].heading02}}" class="input-fld" name="LastName"
             [(ngModel)]="contactPersoneAdd.LastName" #LastName="ngModel">
           <span class="help-block danger" *ngIf="LastName.errors?.required && LastName.touched">
@@ -674,7 +675,7 @@
           </span>
         </div>
         <div class="col-md-6">
-          <label>{{Headingss[1].heading1}}</label>
+          <label class="userLabel">{{Headingss[1].heading1}}</label>
           <input type="number" placeholder="Enter {{Headingss[1].heading1}}" class="input-fld required-fld" name="MobilePhone" pattern="^((\\+91-?)|0)?[0-9]{7,15}$"
             [(ngModel)]="contactPersoneAdd.MobilePhone" #MobilePhone="ngModel" required>
           <span class="help-block danger" *ngIf="MobilePhone.errors?.required && MobilePhone.touched">
@@ -685,7 +686,7 @@
           </span>
         </div>
         <div class="col-md-6">
-          <label>{{Headingss[1].heading2}}</label>
+          <label class="userLabel">{{Headingss[1].heading2}}</label>
           <input type="text" email="true" placeholder="Enter {{Headingss[1].heading2}}" class="input-fld required-fld" name="E_Mail"
             [(ngModel)]="contactPersoneAdd.E_Mail" #E_Mail="ngModel" required>
             <span class="help-block danger" *ngIf="E_Mail.errors?.email">
@@ -696,7 +697,7 @@
           </span>
         </div>
         <div class="col-md-12">
-          <label>{{Headingss[1].heading4}}</label>
+          <label class="userLabel">{{Headingss[1].heading4}}</label>
           <input type="text" placeholder="Enter {{Headingss[1].heading4}}" class="input-fld" name="Position"
             [(ngModel)]="contactPersoneAdd.Position" #Position="ngModel">
           <span class="help-block danger" *ngIf="Position.errors?.required && Position.touched">
@@ -705,7 +706,7 @@
         </div>
 
         <div class="col-md-12">
-          <label>{{Headingss[1].heading3}}</label>
+          <label class="userLabel">{{Headingss[1].heading3}}</label>
           <textarea type="text" placeholder="Enter {{Headingss[1].heading3}}" class="input-fld" name="CustomerAddress"
             [(ngModel)]="contactPersoneAdd.Address" #CustomerAddress="ngModel"></textarea>
           <span class="help-block danger" *ngIf="(CustomerAddress.errors?.required && f.submitted)||(CustomerAddress.errors?.required && CustomerAddress.touched)">
@@ -719,13 +720,20 @@
           <img src="../../assets/img/loder.gif" style="height: 100%;width: 10%;">
         </div>
 
-        <div class="col-md-12 text-center" *ngIf="!isLoading">
-          <!-- <button class="add-invent1" [disabled]="f.invalid">Save</button> -->
+        <!-- <div class="col-md-12 text-center" *ngIf="!isLoading">
+          
           <button class="add-invent1">Save</button>
-        </div>
+        </div> -->
       </div>
+    </div>
+      <div class="figma-modal-fotter">
+        <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+        <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
+        <button class="figma-prim-btn" (click)="addContactPersone(f)" >Save</button>
+      </div>
+      
     </form>
-  </div>
+
   <!-- <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
   </div> -->
@@ -735,15 +743,14 @@
   <div class="modal-header">
     <h4 class="modal-title modal-heading" id="modal-basic-title">Edit {{Headingss[1].SubHeading}}
     </h4>
-    <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true" style="border: none;">×</span>
-    </button>
+    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
   </div>
-  <div class="modal-body">
-    <form #f="ngForm" name="theForm" (submit)="updateContactPersone(f)">
+  
+    <form #f="ngForm" name="theForm" class="figma-modal-form" >
+      <div class="modal-body childBody">
       <div class="row">
         <div class="col-md-6">
-          <label style="font-size: 12px;">{{Headingss[1].heading0}}</label>
+          <label class="userLabel">{{Headingss[1].heading0}}</label>
           <input type="text" placeholder="Enter {{Headingss[1].heading0}}" class="input-fld required-fld" name="FirstName"
             [(ngModel)]="contactPersoneUpdate.FirstName" #FirstName="ngModel" required>
           <span class="help-block danger" *ngIf="FirstName.errors?.required">
@@ -751,7 +758,7 @@
           </span>
         </div>
         <div class="col-md-6">
-          <label style="font-size: 12px;">{{Headingss[1].heading02}}</label>
+          <label class="userLabel">{{Headingss[1].heading02}}</label>
           <input type="text" placeholder="Enter {{Headingss[1].heading02}}" class="input-fld" name="LastName"
             [(ngModel)]="contactPersoneUpdate.LastName" #LastName="ngModel">
           <span class="help-block danger" *ngIf="LastName.errors?.required">
@@ -759,7 +766,7 @@
           </span>
         </div>
         <div class="col-md-6">
-          <label style="font-size: 12px;">{{Headingss[1].heading1}}</label>
+          <label class="userLabel">{{Headingss[1].heading1}}</label>
           <input type="text" placeholder="Enter {{Headingss[1].heading1}}" class="input-fld required-fld" name="MobilePhone"
             [(ngModel)]="contactPersoneUpdate.MobilePhone" maxlength="15" pattern="^((\\+91-?)|0)?[0-9]{7,15}$" #MobilePhone="ngModel" required>
           <span class="help-block danger" *ngIf="MobilePhone.errors?.required">
@@ -771,7 +778,7 @@
           </span>
         </div>
         <div class="col-md-6">
-          <label style="font-size: 12px;">{{Headingss[1].heading2}}</label>
+          <label class="userLabel">{{Headingss[1].heading2}}</label>
           <input type="text" email="true" placeholder="Enter {{Headingss[1].heading2}}" class="input-fld required-fld" name="E_Mail"
             [(ngModel)]="contactPersoneUpdate.E_Mail" #E_Mail="ngModel" required>
           <span class="help-block danger" *ngIf="E_Mail.errors?.required">
@@ -783,7 +790,7 @@
           </span>
         </div>
         <div class="col-md-12">
-          <label style="font-size: 12px;">{{Headingss[1].heading4}}</label>
+          <label class="userLabel">{{Headingss[1].heading4}}</label>
           <input type="text" placeholder="Enter {{Headingss[1].heading4}}" class="input-fld" name="Position"
             [(ngModel)]="contactPersoneUpdate.Position" #Position="ngModel">
             <span class="help-block danger" *ngIf="Position.errors?.required">
@@ -792,7 +799,7 @@
         </div>
 
         <div class="col-md-12">
-          <label style="font-size: 12px;">{{Headingss[1].heading3}}</label>
+          <label class="userLabel">{{Headingss[1].heading3}}</label>
           <textarea type="text" placeholder="Enter {{Headingss[1].heading3}}" class="input-fld" name="Address"
             [(ngModel)]="contactPersoneUpdate.Address" #Address="ngModel"></textarea>
           <span class="help-block danger" *ngIf="(Address.errors?.required && f.submitted)||(Address.errors?.required)">
@@ -806,13 +813,19 @@
           <img src="../../assets/img/loder.gif" style="height: 100%;width: 10%;">
         </div>
 
-        <div class="col-md-12"  style="text-align: center;" *ngIf="!isLoading2">
-          <!-- <button class="add-invent1" [disabled]="f.invalid">Save</button> -->
+        <!-- <div class="col-md-12"  style="text-align: center;" *ngIf="!isLoading2">
+      
           <button class="add-invent1">Save</button>
-        </div>
+        </div> -->
+      </div>
+</div>
+      <div class="figma-modal-fotter">
+        <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+        <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
+        <button class="figma-prim-btn"  (click)="updateContactPersone(f)" >Save</button>
       </div>
     </form>
-  </div>
+  
   <!-- <div class="modal-footer">
 <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
 </div> -->
@@ -823,16 +836,15 @@
   <div class="modal-header">
     <h4 class="modal-title modal-heading" id="modal-basic-title">Edit {{Headingss[2].SubHeading}}
     </h4>
-    <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true" style="border: none;">×</span>
-    </button>
+    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
   </div>
-  <div class="modal-body">
-    <form #f="ngForm" name="theForm" (submit)="EditBranch(f)">
+
+    <form #f="ngForm" name="theForm" class="figma-modal-form" >
+      <div class="modal-body childBody ">
       <div class="row">
         <div class="col-md-6">
-          <label *ngIf="selectedIndex == 0">{{Headingss[2].heading0}}</label>
-          <label *ngIf="selectedIndex !== 0">{{Headingss[2].heading7}}</label>
+          <label class="userLabel" *ngIf="selectedIndex == 0">{{Headingss[2].heading0}}</label>
+          <label class="userLabel" *ngIf="selectedIndex !== 0">{{Headingss[2].heading7}}</label>
           <input type="text" placeholder="Enter {{ selectedIndex === 0 ? Headingss[2].heading0 : Headingss[2].heading7 }}" class="input-fld required-fld" name="AddressName"
             [(ngModel)]="editbranch.AddressName" #AddressName="ngModel" required>
           <span class="help-block danger" *ngIf="AddressName.errors?.required">
@@ -840,7 +852,7 @@
           </span>
         </div>
         <div class="col-md-6">
-          <label>{{Headingss[2].heading5}}</label>
+          <label class="userLabel">{{Headingss[2].heading5}}</label>
           <input type="number" placeholder="Enter {{Headingss[2].heading5}}" class="input-fld required-fld" name="ZipCode" pattern="^[0-9]*$" [(ngModel)]="editbranch.ZipCode"
             #ZipCode="ngModel" required>
           <span class="help-block danger" *ngIf="ZipCode.errors?.required">
@@ -851,9 +863,9 @@
           </span>
         </div>
         <div class="col-md-6">
-          <label>{{Headingss[2].heading4}}</label>
+          <label class="userLabel">{{Headingss[2].heading4}}</label>
           <ng-select #selecteditcountry [clearOnBackspace]="false" [searchable]="false" [items]="countrys" bindLabel="Name" placeholder="Select {{Headingss[2].heading4}}"
-          bindValue="Code" name="Country" (change)="editselectChangeHandler($event)" name="Country"
+          bindValue="Code" name="Country" (ngModelChange)="editselectChangeHandler($event)" name="Country"
           [(ngModel)]="editbranch.Country" class="ngsearch-dropdown input-fld required-fld">
             <ng-template ng-header-tmp>
               <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search" type="text"
@@ -870,9 +882,9 @@
           </select> -->
         </div>
         <div class="col-md-6">
-          <label>{{Headingss[2].heading3}}</label>
+          <label class="userLabel">{{Headingss[2].heading3}}</label>
           <ng-select #selecteditstate [clearOnBackspace]="false" [searchable]="false" name="State" placeholder="Select {{Headingss[2].heading3}}" [items]="statess1" bindLabel="Name"
-          bindValue="Code" (change)="editselectChangeHandlerState($event)" name="State"
+          bindValue="Code" (ngModelChange)="editselectChangeHandlerState($event)" name="State"
           [(ngModel)]="editbranch.State" class="ngsearch-dropdown input-fld required-fld">
             <ng-template ng-header-tmp>
               <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search" type="text"
@@ -884,7 +896,7 @@
         </div>
 
         <div class="col-md-6">
-          <label>{{Headingss[2].heading2}}</label>
+          <label class="userLabel">{{Headingss[2].heading2}}</label>
           <input type="text" placeholder="Enter {{Headingss[2].heading2}}" class="input-fld required-fld" name="City"
             [(ngModel)]="editbranch.City" #City="ngModel" required>
           <span class="help-block danger" *ngIf="City.errors?.required">
@@ -893,7 +905,7 @@
         </div>
 
         <div class="col-md-6">
-          <label>{{Headingss[2].heading6}}</label>
+          <label class="userLabel">{{Headingss[2].heading6}}</label>
           <div>
             <ng-select #selectshiptype [clearOnBackspace]="false" [searchable]="false"
               [(ngModel)]="editbranch.U_SHPTYP" name="U_SHPTYP" #U_SHPTYP=ngModel
@@ -912,8 +924,8 @@
         </div>
 
         <div class="col-md-12">
-          <label *ngIf="selectedIndex == 0">{{Headingss[2].heading1}}</label>
-          <label *ngIf="selectedIndex !== 0">{{Headingss[2].SubHeading2}}</label>
+          <label class="userLabel" *ngIf="selectedIndex == 0">{{Headingss[2].heading1}}</label>
+          <label class="userLabel" *ngIf="selectedIndex !== 0">{{Headingss[2].SubHeading2}}</label>
           <textarea type="text" placeholder="Enter {{ selectedIndex === 0 ? Headingss[2].heading1 : Headingss[2].SubHeading2 }}" class="input-fld required-fld" name="Street" [(ngModel)]="editbranch.Street"
             #Street="ngModel" maxlength="1000" required></textarea>
           <span class="help-block danger" *ngIf="(Street.errors?.required && f.submitted) ||(Street.errors?.required)">
@@ -927,13 +939,18 @@
           <img src="../../assets/img/loder.gif" style="height: 100%;width: 10%;">
         </div>
 
-        <div class="col-md-12 text-center" *ngIf="!isLoading2">
+        <!-- <div class="col-md-12 text-center" *ngIf="!isLoading2">
           <button class="add-invent1" >Save</button>
-        </div>
-
+        </div> -->
+</div>
+      </div>
+      <div class="figma-modal-fotter">
+        <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+        <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
+        <button class="figma-prim-btn" (click)="EditBranch(f)" >Save</button>
       </div>
     </form>
-  </div>
+
   <!-- <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
   </div> -->
@@ -956,9 +973,11 @@
   <div class="modal-body">
     <p> Are You Sure Do You Want To Delete This {{DeleteBrachContactType}} ?</p>
     <div class="confirm-btn">
+
+      <button class="btn custom-btn-outline-blue" (click)="modal.dismiss('Cross click')">Cancel</button>
       <button class="btn custom-btn-blue" *ngIf="DeleteBrachContactType == 'Branch'" (click)="yesdeleteBranch(deletebranchContact)">OK</button>
       <button class="btn custom-btn-blue" *ngIf="DeleteBrachContactType != 'Branch'" (click)="yesdeleteUser(deletebranchContact)">OK</button>
-      <button class="btn custom-btn-outline-blue" (click)="modal.dismiss('Cross click')">Cancel</button>
+     
     </div>
   </div>
 </ng-template>

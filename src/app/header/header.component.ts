@@ -398,8 +398,8 @@ for (let i = 0; i < this.appList.length; i++) {
   }
   closeResult = '';
   openPass(contentchangepassword: any, id: any) {
-    this.modalService
-      .open(contentchangepassword, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' })
+   
+    this.modalService.open(contentchangepassword, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal' })
       .result.then(
         (result) => {
           this.closeResult = `Closed with: ${result}`;
@@ -429,6 +429,10 @@ for (let i = 0; i < this.appList.length; i++) {
 
   changepass(fb: NgForm) {
     fb = this.bridgeService2.GlobaleTrimFunc(fb);
+    if (this.resetPasswordStrength !== 'Strong') {
+      this._NotifierService.showError('Password must be strong to proceed.');
+      return; // Stop further execution
+  }
     this.isLoading = true;
     this.bridgeService2.resetEmplyeeUserPassword(this.resetPass).subscribe(
       (res: any) => {

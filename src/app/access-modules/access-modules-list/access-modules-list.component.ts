@@ -1,7 +1,7 @@
 
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit,Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { BridgeService } from 'src/app/modules/service/bridge.service';
+import { BridgeService, } from 'src/app/modules/service/bridge.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgFor } from '@angular/common';
 import { Location } from '@angular/common';
@@ -9,6 +9,9 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 //import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NotiferService } from 'src/app/modules/service/helpers/notifer.service';
+import { AuthService , } from 'src/app/modules/service/AuthService.service';
+
+
 
 @Component({
   selector: 'app-access-modules-list',
@@ -16,7 +19,6 @@ import { NotiferService } from 'src/app/modules/service/helpers/notifer.service'
   styleUrls: ['./access-modules-list.component.scss']
 })
 export class AccessModulesListComponent implements OnInit {
-  
   isLoading: boolean = false;
   Module: any[] = [];
   UserRole: any = [];
@@ -34,6 +36,7 @@ export class AccessModulesListComponent implements OnInit {
     private modalService: NgbModal,
     private route: Router,
     private _NotifierService: NotiferService,
+    private authService: AuthService
    // private dialog: MatDialog
   ) { }
 
@@ -294,7 +297,22 @@ mainarray.forEach((mainItem: { module_name: any; is_accessible: boolean; id: any
           this.isLoading = false;
           if (res.status == 200) {
             if (id == "1") {
-              this.route.navigate(['/login']);
+              // this.route.navigate(['/login']);
+              const email = localStorage.getItem('currentUserEmail') || sessionStorage.getItem('currentUserEmail');
+              const password = localStorage.getItem('currentUserPassword') || sessionStorage.getItem('currentUserPassword');
+  
+              if (email && password) {
+                const loginPayload = { email: email, password: password, FCM: '',"app_id": "2" };
+                this.authService.loginWithSession(loginPayload, false).subscribe(
+                  (userData) => {
+                    console.log('Login Success:', userData);
+                  },
+                  (error) => {
+                    console.error('Login Error:', error);
+                  }
+                );
+              }
+              
             } else {
               this.route.navigate(['/access-modules']);
               this._NotifierService.showSuccess("Modules Saved");

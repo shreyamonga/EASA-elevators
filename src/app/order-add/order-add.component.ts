@@ -280,6 +280,7 @@ isEdit:boolean=false;
         this.order.is_draft = this.quotations[0].is_draft;
 
         this.order.BPLID = this.quotations[0].BPLID;
+        this.order.Comments = this.quotations[0].Comments;
         this.order.PODate = this.quotations[0].PODate;
         this.order.U_OPPRNM = this.quotations[0].U_OPPRNM;
         this.order.U_QUOTID = Number(this.quotations[0].U_QUOTID);
@@ -815,14 +816,14 @@ isEdit:boolean=false;
   ItemDueDate:any;
   TaxCode: any;
   TaxRate: any;
-  open(content: any, item: QuotationItem,isItemEdit:boolean) {
+  open(content: any, item: any,isItemEdit:boolean) {
     if(this.QuatItems.map(($item:any) => $item.ItemCode).includes(item.ItemCode)){
       return;
     }
     else{
     this.isItemEdit = isItemEdit;
     this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' })
+      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css' })
       .result.then(
         (result) => {
           this.closeResult = `Closed with: ${result}`;
@@ -835,12 +836,12 @@ isEdit:boolean=false;
     this.ItemId = item.id;
     this.ItemNAme = item.ItemName;
     this.ItemQty = 1;
-    this.ItemDis =  0;
+    this.ItemDis =  item.Discount;
     this.ItemCode = item.ItemCode;
     this.ItemPrice = item.UnitPrice;
     this.ItemDueDate = '';
     this.TaxCode = item.TaxCode;
-    this.TaxRate = 0;
+    this.TaxRate = item.Tax;
   }
 }
   // addItemType: string = 'paid';
@@ -897,7 +898,7 @@ isEdit:boolean=false;
   editItemArray(content: any, item: any,isItemEdit:boolean) {
     this.isItemEdit = isItemEdit
     this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' })
+      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css' })
       .result.then(
         (result) => {
           this.closeResult = `Closed with: ${result}`;

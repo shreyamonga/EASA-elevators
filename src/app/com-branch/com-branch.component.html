@@ -92,15 +92,16 @@
 <ng-template #mymodal let-modal>
   <div class="modal-header">
     <h4 class="modal-title modal-heading" id="modal-basic-title">{{isEdit ? 'Update' : 'Create'}} Branch</h4>
-    <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')" style="outline: none;">
-      <span aria-hidden="true" style="outline: none;">×</span>
-    </button>
+    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
+     <span class="figma-screen-ico" [innerHTML]="(commonObj.bigScreenMode ? 'figma-modal-big-screen-ico' : 'figma-modal-mid-screen-ico') | svgIcons:''" (click)="bigScreenOrMid()"></span>
+
   </div>
-  <form #f="ngForm" name="theForm" (submit)="addCustomerType(f)">
-    <div class="modal-body">
-      <div class="row">
-        <div class="col-md-12">
-          <label>Name </label>
+  <ng-container >
+  <form #f="ngForm" name="theForm" class="figma-modal-form" >
+    <div class="figma-modal-body " >
+      
+        <div class="figma-form-wrapper">
+          <label class="userLabel">Name </label>
           <input type="text" class="input-fld required-fld" name="BPLName" [(ngModel)]="type.BPLName" #BPLName="ngModel" placeholder="Name" required>
           <span class="help-block danger" *ngIf="(BPLName.errors?.required && f.submitted)||(BPLName.errors?.required && BPLName.touched)">
             The Name is required
@@ -108,8 +109,8 @@
           <br>
         </div>
 
-        <div class="col-md-12">
-          <label>Address </label>
+        <div class="figma-form-wrapper">
+          <label class="userLabel">Address </label>
           <input type="text" class="input-fld required-fld" name="Address" [(ngModel)]="type.Address" #Address="ngModel" placeholder="Address" required>
           <span class="help-block danger" *ngIf="(Address.errors?.required && f.submitted)||(Address.errors?.required && Address.touched)">
             The Address is required
@@ -117,8 +118,8 @@
           <br>
         </div>
 
-        <div class="col-md-12">
-          <label>Street No </label>
+        <div class="figma-form-wrapper">
+          <label class="userLabel">Street No </label>
           <input type="text" class="input-fld required-fld" name="StreetNo" [(ngModel)]="type.StreetNo" #StreetNo="ngModel" placeholder="StreetNo" required>
           <span class="help-block danger" *ngIf="(StreetNo.errors?.required && f.submitted)||(StreetNo.errors?.required && StreetNo.touched)">
             The Street No is required
@@ -126,8 +127,8 @@
           <br>
         </div>
 
-        <div class="col-md-12">
-          <label>Building </label>
+        <div class="figma-form-wrapper">
+          <label class="userLabel">Building </label>
           <input type="text" class="input-fld required-fld" name="Building" [(ngModel)]="type.Building" #Building="ngModel" placeholder="Building" required>
           <span class="help-block danger" *ngIf="(Building.errors?.required && f.submitted)||(Building.errors?.required && Building.touched)">
             The Building is required
@@ -135,16 +136,29 @@
           <br>
         </div>
 
-        <div class="col-md-12">
-          <label>City </label>
+        <div class="figma-form-wrapper">
+          <label class="userLabel">City </label>
           <input type="text" class="input-fld required-fld" name="City" [(ngModel)]="type.City" #City="ngModel" placeholder="City" required>
           <span class="help-block danger" *ngIf="(City.errors?.required && f.submitted)||(City.errors?.required && City.touched)">
             The City is required
           </span>
           <br>
         </div>
-        <div class="col-md-12">
-          <label>State </label>
+
+        <div class="figma-form-wrapper">
+          <label class="userLabel">Country </label>
+          <select type="text"  class="input-fld required-fld" name="Country" [(ngModel)]="type.Country" #Country="ngModel" placeholder="Country" required>
+            <option value="" disable selected>{{countrys[103].Name}}</option>
+            <option *ngFor="let item of countrys" [value]="item.Name">{{item.Name}}</option>
+          </select>
+          <span class="help-block danger" *ngIf="(Country.errors?.required && f.submitted)||(Country.errors?.required && Country.touched)">
+            The Country is required
+          </span>
+          <br>
+        </div>
+
+        <div class="figma-form-wrapper">
+          <label class="userLabel">State </label>
           <select type="text" class="input-fld required-fld" name="State" [(ngModel)]="type.State" #State="ngModel" placeholder="State" required>
             <option value="" disable selected>Choose Select</option>
                       <option *ngFor="let item of statess" value="{{item.Name}}">{{item.Name}}</option>
@@ -154,28 +168,18 @@
           </span>
           <br>
         </div>
-        <div class="col-md-12">
-          <label>Country </label>
-          <select type="text" disabled class="input-fld required-fld" name="Country" [(ngModel)]="type.Country" #Country="ngModel" placeholder="Country" required>
-            <option value="" disable selected>Choose Select</option>
-            <option *ngFor="let item of countrys" [value]="item.Name">{{item.Name}}</option>
-          </select>
-          <span class="help-block danger" *ngIf="(Country.errors?.required && f.submitted)||(Country.errors?.required && Country.touched)">
-            The Country is required
-          </span>
-          <br>
-        </div>
+       
 
-        <div class="col-md-12">
-          <label>Zip Code </label>
+        <div class="figma-form-wrapper">
+          <label class="userLabel">Zip Code </label>
           <input type="text" class="input-fld required-fld" name="ZipCode" [(ngModel)]="type.ZipCode" #ZipCode="ngModel" placeholder="ZipCode" required>
           <span class="help-block danger" *ngIf="(ZipCode.errors?.required && f.submitted)||(ZipCode.errors?.required && ZipCode.touched)">
             The Zip Code is required
           </span>
           <br>
         </div>
-        <div class="col-md-12">
-          <label>GST </label>
+        <div class="figma-form-wrapper">
+          <label class="userLabel">GST </label>
           <input type="text" class="input-fld required-fld" name="FederalTaxID" [(ngModel)]="type.FederalTaxID" #FederalTaxID="ngModel" placeholder="GST" required>
           <span class="help-block danger" *ngIf="(FederalTaxID.errors?.required && f.submitted)||(FederalTaxID.errors?.required && FederalTaxID.touched)">
             The GST is required
@@ -183,10 +187,17 @@
           <br>
         </div>
 
-        <div class="col-md-12 text-center mt-2">
+        <!-- <div class="col-md-12 text-center mt-2">
           <button class="add-invent1">Save</button>
-        </div>
+        </div> -->
       </div>
+    
+
+    <div class="figma-modal-fotter">
+      <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+      <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
+      <button class="figma-prim-btn" (click)="addCustomerType(f)" >Save</button>
     </div>
   </form>
+  </ng-container>
 </ng-template>

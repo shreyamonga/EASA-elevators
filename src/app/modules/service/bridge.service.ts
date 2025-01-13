@@ -239,7 +239,7 @@ storeApplication(customer: any,appEdit:boolean) {
     sessionStorage.setItem('ProjectSetting', JSON.stringify(data.ProjectSetting));
     sessionStorage.setItem('currencySymbol', data.ProjectSetting[0].currency_value);
     sessionStorage.setItem('currencyCode', data.ProjectSetting[0].currency_type);
-    this.FirstLogin = 'true';
+    // this.FirstLogin = 'true';
     this.UserName = sessionStorage.getItem('UserName');
     this.UserId = sessionStorage.getItem('UserId');
     this.role = sessionStorage.getItem('role');
@@ -3071,14 +3071,17 @@ storeApplication(customer: any,appEdit:boolean) {
     );
   }
 
-  getPaymentCollactionByPagination(pagination: any, searchValue: any, order_by_field: any, order_by_value: any) {
+  getPaymentCollactionByPagination(pagination: any,filteruser: any, searchValue: any, order_by_field: any, order_by_value: any) {
+    filteruser.CardCode = this.checkKeyEpty(filteruser.CardCode);
     return this.http.post(`${this.baseUrl2}/payment/all_filter_page`, {
       "PageNo": pagination.PageNo,
       "maxItem": pagination.maxItem,
       "order_by_field": order_by_field,
       "order_by_value": order_by_value,
       "SearchText": searchValue,
-      "field": {}
+      "field": {
+        "CardCode": filteruser.CardCode,
+      }
     }, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
         return res;
@@ -3915,5 +3918,33 @@ replaceKeyInArray(arr: any[], oldKey: string, newKey: string): any[] {
       })
     );
   }
+//chatgpt
+  sendChatInputandGetResponse(input: any) {
+    return this.http.post(`${this.baseUrl2}/chatbot/api/ask-database/`, input, { 'headers': this.getHeader() }).pipe(
+      map((res: any) => {
+        return res;
+      })
+    );
+  }
+
+  getChatBoatHistory(pagination: any, searchValue: any) {
+    return this.http.get(`${this.baseUrl2}/chatbot/api/query-history/?page=${pagination.PageNo}&search_keyword=${searchValue}`, { 'headers': this.getHeader() }).pipe(
+      map((res: any) => {
+        // //console.log(res)
+        return res;
+      })
+    );
+ 
+  }
+
+  getOneChatBoatHistory(id: any) {
+    return this.http.get(`${this.baseUrl2}/chatbot/api/follow-up-results/?query_history_id=${id}`, { 'headers': this.getHeader() }).pipe(
+      map((res: any) => {
+        // //console.log(res)
+        return res;
+      })
+    );
+  }
+ 
 
 }

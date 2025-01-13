@@ -99,6 +99,7 @@ import { AccessModulesListComponent } from './access-modules/access-modules-list
 import { FieldManagementComponent } from './field-management/field-management.component';
 import { WorkflowlistComponent } from './workflowlist/workflowlist.component';
 import { AddEditWorkflowComponent } from './workflowlist/add-edit-workflow/add-edit-workflow.component';
+import { ChatComponent } from './Boat/chat/chat.component';
 
 
 const routes: Routes = [
@@ -155,12 +156,12 @@ const routes: Routes = [
   { path: 'lead/campaign-details/:id', component: LeadCampaignDetailsComponent },
   { path: 'lead/history/:id', component: LeadCampaignFollowupComponent },
   { path: 'lead/Create', component: LeadCreateComponent },
-  { path: 'industry', component: IndustryComponent },
-  { path: 'opportunitytype', component: OpportunitytypeComponent },
-  { path: 'customertype', component: CustomertypeComponent },
+  { path: 'setting/industry', component: IndustryComponent },
+  { path: 'setting/opportunitytype', component: OpportunitytypeComponent },
+  { path: 'setting/customertype', component: CustomertypeComponent },
   { path: 'leads/linkedin', component: LinkedinComponent },
   { path: 'add-industry', component: CustomertypeComponent },
-  { path: 'paymentmaster', component: PaymentmasterComponent },
+  { path: 'setting/paymentmaster', component: PaymentmasterComponent },
   { path: 'payment-details', component: PaymentTermsComponent },
   { path: 'campaign/details/memberlist/:id', component: MemberlistComponent },
   { path: 'calendar', component: CalendarComponent },
@@ -194,21 +195,21 @@ const routes: Routes = [
   {path:'videos',component:VideoGalleryComponent},
   {path:'projectmanagment',component:ProjectmanagmentComponent},
   {path:'projectmanagment/ProjectDetails',component:ProjectDetailsComponent},
-  {path:'zonemaster',component:ZonemasterComponent},
-  {path:'rolemaster',component:RolemasterComponent},
-  {path:'departmentmaster',component:DepartmentmasterComponent},
+  {path:'setting/zonemaster',component:ZonemasterComponent},
+  {path:'setting/rolemaster',component:RolemasterComponent},
+  {path:'setting/departmentmaster',component:DepartmentmasterComponent},
   {path:'payment-collection',component:PaymentCollactionComponent},
-  {path:'company-branch',component:ComBranchComponent},
-  {path:'local-setting',component:LocalSettingComponent},
+  {path:'setting/company-branch',component:ComBranchComponent},
+  {path:'setting/local-setting',component:LocalSettingComponent},
   {path:'reports',component:ReportsComponent},
   {path:'generatereports',component:GenreatedReportsComponent},
-  {path:'access-modules',component:AccessModulesComponent},
+  {path:'setting/access-modules',component:AccessModulesComponent},
   {path:'access-modules-list/:id',component:AccessModulesListComponent},
-  {path:'field-management',component:FieldManagementComponent},
-  {path:'workflow',component:WorkflowlistComponent},
+  {path:'setting/field-management',component:FieldManagementComponent},
+  {path:'setting/workflow',component:WorkflowlistComponent},
   {path:'workflow/addEdit/:id',component:AddEditWorkflowComponent},
 
-
+  {path:'boat/chat',component:ChatComponent},
 
 
 ];

@@ -7,7 +7,7 @@
       <p class="custom-search-head-name">{{Headingss[0].leftheading}}</p>
       <div class="custom-search-wrapper">
         <div ngbDropdown class="custom-common-search-container">
-          <button *ngIf="exportStatus" type="button" class="custom-action-btn openbtn" (click)="Exportexcel()" ><i >Export &nbsp;</i>
+          <button *ngIf="exportStatus" type="button" class="custom-action-btn openbtn" (click)="ExportFile(confirmModalExport)" ><i >Export &nbsp;</i>
             <i title="Download Excel" class="fa-solid fa-file-export download-icon cursor-pointer exportfileicon"></i>
           </button>
           <!-- <button type="button" class="custom-action-btn openbtn" (click)="openNav()"><i class="fa fa-filter openbtn"></i> Filter</button>
@@ -181,7 +181,7 @@
 
         <div class="figma-form-wrapper">
           <label>{{Headingss[1].heading13}}</label>
-          <ng-select #selectsource [clearOnBackspace]="false" [searchable]="false" [(ngModel)]="AddDelivery.OrderID" name="OrderID" class="input-fld required-fld" (change)="selectQuotationChangeHandlerItem($event)" placeholder="Order" required>
+          <ng-select #selectsource [clearOnBackspace]="false" [searchable]="false" [(ngModel)]="AddDelivery.OrderID" name="OrderID" class="input-fld required-fld" (ngModelChange)="selectQuotationChangeHandlerItem($event)" placeholder="Order" required>
             <ng-template ng-header-tmp>
               <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="Search" type="text" (input)="selectsource.filter($event.target.value)" />
             </ng-template>
@@ -269,7 +269,7 @@
             <div>
               <ng-select #selectshipstate [clearOnBackspace]="false" [searchable]="false" name="ShipToState" #ShipToState="ngModel"
                 [(ngModel)]="AddDelivery.AddressExtension.ShipToState" required
-                (change)="selectChangeHandlerState2($event)" class="ngsearch-dropdown input-fld required-fld">
+                (ngModelChange)="selectChangeHandlerState2($event)" class="ngsearch-dropdown input-fld required-fld">
                 <ng-template ng-header-tmp>
                   <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
                     type="text" (input)="selectshipstate.filter($event.target.value)" />
@@ -289,7 +289,7 @@
             <label>{{Headingss[2].heading4}}</label>
             <div>
               <ng-select #selectshipcountry [clearOnBackspace]="false" [searchable]="false" name="ShipToCountry" #ShipToCountry="ngModel"
-                [(ngModel)]="AddDelivery.AddressExtension.ShipToCountry" (change)="selectChangeHandler2($event)"
+                [(ngModel)]="AddDelivery.AddressExtension.ShipToCountry" (ngModelChange)="selectChangeHandler2($event)"
                 required class="ngsearch-dropdown input-fld required-fld">
                 <ng-template ng-header-tmp>
                   <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
@@ -484,7 +484,7 @@
       </div>
       <div class="figma-modal-fotter">
         <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">{{Headingss[0].heading112}}</button>
-        <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
+     
         <button class="figma-prim-btn" (click)="SaveOrder(f)">{{Headingss[0].heading105}}</button>
       </div>
       </ng-container>
@@ -551,6 +551,18 @@
     <div class="confirm-btn">
       <button class="btn custom-btn-blue" (click)="cancelOrder(CanelID)">OK</button>
       <button class="btn custom-btn-outline-blue" (click)="modal.dismiss('Cross click')">Cancel</button>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #confirmModalExport let-modal>
+  <div class="modal-body">
+    <p> Are You Sure Do You Want To Export List ?</p>
+    <div class="confirm-btn">
+      
+      <button class="btn custom-btn-outline-blue" (click)="modal.dismiss('Cross click')">Cancel</button>
+      <button class="btn custom-btn-blue" (click)="Exportexcel()">OK</button>
     </div>
   </div>
 </ng-template>

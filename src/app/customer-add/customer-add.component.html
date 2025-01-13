@@ -430,7 +430,7 @@
                   <label>{{Headingss[2].heading3}}  </label>
                   <div>
                     <ng-select #selectshipstate [clearOnBackspace]="false" [searchable]="false" name="State"
-                      (change)="selectChangeHandlerState($event)" #State=ngModel
+                      (ngModelChange)="selectChangeHandlerState($event)" #State=ngModel
                       [(ngModel)]="customer.BPAddresses[0].State" required
                       class="ngsearch-dropdown input-fld required-fld">
                       <ng-template ng-header-tmp>
@@ -451,7 +451,7 @@
                   <label>{{Headingss[2].heading4}}  </label>
                   <div>
                     <ng-select #selectshipcountry [clearOnBackspace]="false" [searchable]="false" name="Country"
-                      (change)="selectChangeHandler($event)" #Country="ngModel"
+                      (ngModelChange)="selectChangeHandler($event)" #Country="ngModel"
                       [(ngModel)]="customer.BPAddresses[0].Country" required
                       class="ngsearch-dropdown input-fld required-fld">
                       <ng-template ng-header-tmp>
@@ -563,7 +563,7 @@
                     <label>{{Headingss[2].heading9}}  </label>
                     <div>
                       <ng-select #selectbillstate [clearOnBackspace]="false" [searchable]="false" name="State1"
-                        (change)="selectChangeHandlerState2($event)" #State1=ngModel
+                        (ngModelChange)="selectChangeHandlerState2($event)" #State1=ngModel
                         [(ngModel)]="customer.BPAddresses[1].State" required
                         class="ngsearch-dropdown input-fld required-fld">
                         <ng-template ng-header-tmp>
@@ -590,7 +590,7 @@
                     <label>{{Headingss[2].heading10}}  </label>
                     <div>
                       <ng-select #selectbillcountry [clearOnBackspace]="false" [searchable]="false" name="Country1"
-                        (change)="selectChangeHandler2($event)" #Country1=ngModel
+                        (ngModelChange)="selectChangeHandler2($event)" #Country1=ngModel
                         [(ngModel)]="customer.BPAddresses[1].Country" required
                         class="ngsearch-dropdown input-fld required-fld">
                         <ng-template ng-header-tmp>

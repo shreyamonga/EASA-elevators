@@ -12,8 +12,8 @@
         <div ngbDropdown class="custom-common-search-container">
           <!-- <button type="button" class="custom-action-btn openbtn" (click)="open(Greport)"><i>Generate &nbsp;</i>
           </button> -->
-          <button *ngIf="bridgeService2.isValidExportStatus()" type="button" class="custom-action-btn openbtn"
-            (click)="Exportexcel()"><i>Export &nbsp;</i>
+          <button *ngIf="exportStatus" type="button" class="custom-action-btn openbtn" 
+            (click)="ExportFile(confirmModalExport)"><i>Export &nbsp;</i>
             <i title="Download Excel" class="fa-solid fa-file-export download-icon cursor-pointer exportfileicon"></i>
           </button>
           <div class="row">
@@ -23,10 +23,10 @@
                   ngbDropdownToggle>{{Headingss[0].heading111}}</button>
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                   <button ngbDropdownItem>
-                    <input type="file" ngbDropdownItem (change)="onFileChange($event)" multiple="false"
-                      class="custom-file-input1" style="float: left;" />
                     <i title="Download Excel" class="fa-solid fa-download download-icon cursor-pointer importfileicon"
                       onclick="window.location.href = '../../assets/lead_import.xlsx'"></i>
+                    <input type="file" ngbDropdownItem (change)="onFileChange($event)" multiple="false"
+                      class="custom-file-input1" style="float: left;" />
                   </button>
                   <button ngbDropdownItem routerLink="/leads/split">
                     <span>
@@ -75,7 +75,7 @@
               <i *ngIf="commonObj.tbCheckM_2" class="fa-solid fa-eye figma-template-central"
                 (click)="openEdit(contentEdit, count,true)"></i>
               <i *ngIf="commonObj.tbCheckM_1" class="fa-solid fa-user" style="color:#909092;" data-bs-toggle="modal"
-                data-bs-target="#EditModalNew" (click)="assingEdit(contentAssignEdit, '',true,count)"></i>
+                data-bs-target="#EditModalNew" (click)="assingEdit(assignTO, '',true,count)"></i>
               <!-- <i class="fa-solid fa-gear" style="color:#909092;" data-bs-toggle="modal" data-bs-target="#EditModalNew"></i> -->
               <span [innerHTML]="'figma-table-refresh' | svgIcons:'figma-template-central'" (click)="reload()"></span>
             </div>
@@ -154,7 +154,7 @@
                     {{Headingss[0].heading101}} {{Headingss[0].heading17}} <br></span>
                   <span (click)="openfollowup(followup, item.id)"><i class="fa fa-hand-o-up" aria-hidden="true"></i>
                     {{Headingss[1].heading}}</span><br>
-                  <span (click)="assingEdit(contentAssignEdit, item,false,'')"><i class="fa fa-user"
+                  <span (click)="assingEdit(assignTO, item,false,'')"><i class="fa fa-user"
                       aria-hidden="true"></i>
                     Assign {{Headingss[0].leftheading}}</span><br>
                   <span (click)="openEdit(contentPriorityEdit, [item.id])"><i class="fa fa-pencil"
@@ -209,17 +209,27 @@
   <div class="modal-header">
     <h4 class="modal-title modal-heading" id="modal-basic-title">{{Headingss[0].heading101}}
       {{Headingss[0].leftheading}}</h4>
-    <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')"
+    <!-- <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')"
       style="outline: none;">
       <span aria-hidden="true" style="outline: none;">×</span>
-    </button>
+    </button> -->
+    <span class="figma-screen-ico" [innerHTML]="(commonObj.bigScreenMode ? 'figma-modal-big-screen-ico' : 'figma-modal-mid-screen-ico') | svgIcons:''" (click)="bigScreenOrMid()"></span>
+    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
   </div>
   <!-- <div *ngIf="error">{{error}}</div> -->
+<!-- 
+  <form #f="ngForm" name="theForm" class="figma-modal-form" id="ProjectManagmentPopupHere">
+    <ng-container [ngSwitch]="commonObj.previousItem">
+      <ng-container *ngSwitchCase="'form'"> -->
   <!-- <div *ngIf="success">{{success}}</div> -->
-  <form #f="ngForm" name="theForm" (submit)="addLeads(f)">
-    <div class="modal-body">
-      <div class="row">
-        <div class="col-md-6">
+  <ng-container >
+  <form #f="ngForm" name="theForm" class="figma-modal-form"  >
+    <ng-container [ngSwitch]="commonObj.previousItem">
+      <ng-container *ngSwitchCase="'form'">
+        <p class="figma-modal-inner-heading">{{'Lead Details'}}</p>
+    <div class="figma-modal-body">
+      <!-- <div class="row"> -->
+        <div class="figma-form-wrapper">
           <label>{{Headingss[0].heading1}} </label>
           <input type="text" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'companyName')" name="companyName"
@@ -233,7 +243,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6">
+        <div class="figma-form-wrapper">
           <label>{{Headingss[0].heading2}} </label>
           <input type="text" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'contactPerson')" name="contactPerson"
@@ -247,7 +257,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'designation')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'designation')">
           <label>{{Headingss[0].heading4}}</label>
           <input type="text" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'designation')" name="designation"
@@ -262,7 +272,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6">
+        <div class="figma-form-wrapper">
           <label>{{Headingss[0].heading3}} </label>
           <input type="number" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'phoneNumber')" name="phoneNumber"
@@ -281,7 +291,7 @@
           </span>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'email')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'email')">
           <label>{{Headingss[0].heading5}}</label>
           <input type="email" email="true" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'email')" name="email"
@@ -299,7 +309,7 @@
           </span>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'location')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'location')">
           <label>{{Headingss[0].heading6}}</label>
           <input type="text" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'location')" name="location"
@@ -314,7 +324,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6">
+        <div class="figma-form-wrapper">
           <label>{{Headingss[0].heading7}} </label>
           <ng-select #selectsource [clearOnBackspace]="false" [searchable]="false" name="source"
             [(ngModel)]=bridges.source #source="ngModel"
@@ -335,7 +345,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6" *ngIf="bridges.source == 'Campaign'">
+        <div class="figma-form-wrapper" *ngIf="bridges.source == 'Campaign'">
           <label>Campaign Name</label>
           <ng-select #selectsource [clearOnBackspace]="false" [searchable]="false" name="campaign1"
             [(ngModel)]="bridges.campaign" #campaign1="ngModel"
@@ -357,7 +367,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'productInterest')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'productInterest')">
           <label>{{Headingss[0].heading8}} </label>
           <input type="text" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'productInterest')" name="productInterest"
@@ -373,7 +383,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'numOfEmployee')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'numOfEmployee')">
           <label>{{Headingss[0].heading9}}</label>
           <input type="number" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'numOfEmployee')" name="numOfEmployee"
@@ -393,7 +403,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'turnover')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'turnover')">
           <label>{{Headingss[0].heading10}}</label>
           <div class="newrupe">
 
@@ -416,7 +426,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6">
+        <div class="figma-form-wrapper">
           <label>{{Headingss[0].heading11}} </label>
           <ng-select #selectstatus [clearOnBackspace]="false" [searchable]="false" [(ngModel)]="bridges.status"
             name="status" #status="ngModel" [required]="HeadingServices.isModulefieldMendetory(1, 'status')"
@@ -441,7 +451,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'leadType')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'leadType')">
           <label>{{Headingss[0].heading12}} </label>
           <ng-select #selectleadpriority [clearOnBackspace]="false" [searchable]="false" [(ngModel)]="bridges.leadType"
             name="leadType" #leadType="ngModel" class="ngsearch-dropdown input-fld"
@@ -468,7 +478,7 @@
           </select> -->
         </div>
 
-        <div class="col-md-12" *ngIf="HeadingServices.isModulefieldview(1, 'assignedTo')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'assignedTo')">
           <label>{{Headingss[0].heading13}}</label>
           <ng-select #selectassignTo [clearOnBackspace]="false" [searchable]="false" [(ngModel)]="bridges.assignedTo"
             name="assignedTo" #assignedTo="ngModel" class="ngsearch-dropdown input-fld"
@@ -494,7 +504,7 @@
           </select> -->
         </div>
 
-        <div class="col-md-12" *ngIf="HeadingServices.isModulefieldview(1, 'message')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'message')">
           <label>{{Headingss[0].heading14}}</label>
           <input type="text" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'message')" name="message"
@@ -515,7 +525,7 @@
         <ng-container *ngFor="let item of DynamicFiledPositionDetials">
 
           <!-- <div class="lead-update-wrapper" *ngIf="HeadingServices.isModulefieldview(1,item.field_name)"> -->
-          <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1,item.field_name)">
+          <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1,item.field_name)">
             <label>{{HeadingServices.isfindlablebykey(1, item.field_name)}} </label>
             <div *ngIf="item.data_type != 'Dropdown'">
               <input type="{{item.data_type}}" class="input-fld" [disabled]="!HeadingServices.isModulefieldedit(1, item.field_name)"
@@ -550,24 +560,32 @@
                 </span>
               </ng-container>
             </div>
-
-
           </div>
         </ng-container>
 
 
 
 
-        <div style="text-align: center;" *ngIf="isLoading">
+        <!-- <div style="text-align: center;" *ngIf="isLoading">
           <img src="../../assets/img/loder.gif" style="height: 100%;width: 10%;">
-        </div>
-        <div class="col-md-12 text-center mt-3" *ngIf="!isLoading">
-          <button class="add-invent1">{{Headingss[0].heading105}}</button>
-        </div>
+        </div> -->
+      
 
-      </div>
+      <!-- </div> -->
+    </div>
+    <!-- <div class="figma-modal-fotter" *ngIf="!isLoading">
+      <button class="figma-outline-btn">{{Headingss[0].heading105}}</button>
+    </div> -->
+    </ng-container>
+    </ng-container>
+
+    <div class="figma-modal-fotter">
+      <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+      <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
+      <button class="figma-prim-btn"  (click)="addLeads(f)">Save</button>
     </div>
   </form>
+</ng-container >
 
 </ng-template>
 
@@ -578,16 +596,23 @@
   <div class="modal-header">
     <h4 class="modal-title modal-heading" id="modal-basic-title">
       {{isView?Headingss[0].heading115:Headingss[0].heading102}} {{Headingss[0].leftheading}}</h4>
-    <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')"
+    <!-- <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')"
       style="outline: none;">
       <span aria-hidden="true" style="outline: none;">×</span>
-    </button>
+    </button> -->
+
+    <span class="figma-screen-ico" [innerHTML]="(commonObj.bigScreenMode ? 'figma-modal-big-screen-ico' : 'figma-modal-mid-screen-ico') | svgIcons:''" (click)="bigScreenOrMid()"></span>
+    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
   </div>
-  <form #f="ngForm" name="theForm" (submit)="editLeads(f)">
-    <div class="modal-body">
-      <div class="row">
-        <div class="col-md-6">
-          <label>{{Headingss[0].heading1}} {{HeadingServices.isModulefieldMendetory(1, 'companyName')}}</label>
+  <ng-container>
+  <form #f="ngForm" name="theForm" class="figma-modal-form"  >
+    <ng-container>
+    <ng-container>
+      <p class="figma-modal-inner-heading">{{'Lead Details'}}</p>
+    <div class="figma-modal-body">
+      <!-- <div class="row"> -->
+        <div class="figma-form-wrapper">
+          <label>{{Headingss[0].heading1}}</label>
           <input type="text" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'companyName')" name="companyName"
             [readonly]="isView" [(ngModel)]="editbridges.companyName" #companyName="ngModel"
@@ -601,7 +626,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6">
+        <div class="figma-form-wrapper">
           <label>{{Headingss[0].heading2}} </label>
           <input type="text" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'contactPerson')" name="contactPerson"
@@ -616,7 +641,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'designation')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'designation')">
           <label>{{Headingss[0].heading4}} </label>
           <input type="text" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'designation')" name="designation"
@@ -632,7 +657,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6">
+        <div class="figma-form-wrapper">
           <label>{{Headingss[0].heading3}} </label>
           <input type="number" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'phoneNumber')" name="phoneNumber"
@@ -649,7 +674,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'email')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'email')">
           <label>{{Headingss[0].heading5}}</label>
           <input type="email" email="true" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'email')" name="email" [readonly]="isView"
@@ -667,7 +692,7 @@
           </span>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'location')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'location')">
           <label>{{Headingss[0].heading6}}</label>
           <input type="text" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'location')" name="location"
@@ -683,7 +708,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6">
+        <div class="figma-form-wrapper">
           <label>{{Headingss[0].heading7}} </label>
           <ng-select #selectsource [clearOnBackspace]="false" [readonly]="isView" [searchable]="false" name="source"
             [(ngModel)]="editbridges.source" #source="ngModel" placeholder="Source"
@@ -705,7 +730,7 @@
           <!-- <input type="text" class="input-fld" name="source" [(ngModel)]="editbridges.source" #source="ngModel" placeholder="Source"> -->
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'productInterest')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'productInterest')">
           <label>{{Headingss[0].heading8}}</label>
           <input type="text" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'productInterest')" name="productInterest"
@@ -721,7 +746,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'numOfEmployee')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'numOfEmployee')">
           <label>{{Headingss[0].heading9}}</label>
           <input type="number" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'numOfEmployee')" name="numOfEmployee"
@@ -738,7 +763,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'turnover')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'turnover')">
           <label>{{Headingss[0].heading10}}</label>
           <div class="newrupe">
             <span class="span10">{{'' | priceFormat:''}}</span>
@@ -757,7 +782,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6">
+        <div class="figma-form-wrapper">
           <label>{{Headingss[0].heading11}} </label>
           <ng-select #selectstatus [clearOnBackspace]="false" [searchable]="false" [(ngModel)]="editbridges.status"
             name="status" #status="ngModel" [required]="HeadingServices.isModulefieldMendetory(1, 'status')"
@@ -778,7 +803,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'leadType')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'leadType')">
           <label>{{Headingss[0].heading12}}</label>
           <ng-select #selectleadtype [clearOnBackspace]="false" [readonly]="isView" [searchable]="false"
             [(ngModel)]="editbridges.leadType" #leadType="ngModel" name="leadType" class="ngsearch-dropdown input-fld"
@@ -800,7 +825,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-12" *ngIf="HeadingServices.isModulefieldview(1, 'assignedTo')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'assignedTo')">
           <label>{{Headingss[0].heading13}}</label>
           <ng-select #selectleadassignedTo [clearOnBackspace]="false" [readonly]="isView" [searchable]="false"
             [items]="bridgess" bindLabel="firstName" placeholder="Select {{Headingss[0].heading13}}" bindValue="id"
@@ -828,7 +853,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-12" *ngIf="HeadingServices.isModulefieldview(1, 'message')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'message')">
           <label>{{Headingss[0].heading14}}</label>
           <input type="text" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'message')" name="message"
@@ -850,7 +875,7 @@
         <ng-container *ngFor="let item of DynamicFiledPositionDetials">
 
           <!-- <div class="lead-update-wrapper" *ngIf="HeadingServices.isModulefieldview(1,item.field_name)"> -->
-          <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1,item.field_name)">
+          <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1,item.field_name)">
             <label>{{HeadingServices.isfindlablebykey(1, item.field_name)}} </label>
             <div *ngIf="item.data_type != 'Dropdown'">
               <input type="{{item.data_type}}" class="input-fld" [disabled]="!HeadingServices.isModulefieldedit(1, item.field_name)"
@@ -890,17 +915,28 @@
           </div>
         </ng-container>
 
-        <div style="text-align: center;" *ngIf="isLoading">
+        <!-- <div style="text-align: center;" *ngIf="isLoading">
           <img src="../../assets/img/loder.gif" style="height: 100%;width: 10%;">
-        </div>
+        </div> -->
 
-        <div class="col-md-12 text-center mt-3" *ngIf="!isLoading && !isView">
-          <button class="add-invent1">{{Headingss[0].heading105}}</button>
-        </div>
+       
 
       </div>
+    <!-- </div> -->
+
+    <!-- <div class="figma-modal-fotter" *ngIf="!isLoading && !isView">
+      <button class="figma-outline-btn">{{Headingss[0].heading105}}</button>
+    </div> -->
+    </ng-container>
+    </ng-container>
+
+    <div class="figma-modal-fotter">
+      <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+      <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
+      <button class="figma-prim-btn"  (click)="editLeads(f)">Save</button>
     </div>
   </form>
+  </ng-container>
 
 </ng-template>
 
@@ -911,13 +947,10 @@
   <div class="modal-header">
     <h4 class="modal-title modal-heading" id="modal-basic-title">{{Headingss[0].heading102}} {{Headingss[0].heading12}}
     </h4>
-    <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')"
-      style="outline: none;">
-      <span aria-hidden="true" style="outline: none;">×</span>
-    </button>
+    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
   </div>
-  <form #f="ngForm" name="theForm" (submit)="editLeads(f)">
-    <div class="modal-body">
+  <form #f="ngForm" name="theForm" class="figma-modal-form "  >
+    <div class="modal-body childBody">
       <div class="row">
 
 
@@ -944,52 +977,103 @@
           <img src="../../assets/img/loder.gif" style="height: 100%;width: 10%;">
         </div>
 
-        <div class="col-md-12 text-center mt-3" *ngIf="!isLoading">
+        <!-- <div class="col-md-12 text-center mt-3" *ngIf="!isLoading">
           <button class="add-invent1" [disabled]="f.invalid">{{Headingss[0].heading105}}</button>
-        </div>
+        </div> -->
 
       </div>
+    </div>
+    <div class="figma-modal-fotter">
+      <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+      <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
+      <button class="figma-prim-btn" (click)="editLeads(f)">Save</button>
     </div>
   </form>
 
 </ng-template>
 
-<ng-template #contentAssignEdit let-modal>
-  <div class="modal-header justify-content-center">
-    <h4 class="modal-title modal-heading" id="modal-basic-Assign">Assign</h4>
+<!-- <ng-template #contentAssignEdit let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title modal-heading" id="modal-basic-title" >Assign</h4>
+    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
   </div>
   <div class="modal-body">
 
     <ng-select id="CustomDesignInput" [items]="bridgess" [multiple]="false" bindValue="id" bindLabel="firstName"
       placeholder="Select Employee" [(ngModel)]="searchAssignValue" [ngModelOptions]="{standalone: true}">
     </ng-select>
-    <div class="row">
-      <div class="col-6 d-flex justify-content-center p-1 text-center">
-        <button type="button" class="assign-btn" ngbDropdownItem (click)="Assign_()">Assign</button>
+   
+      <div class="figma-modal-fotter">
+        <button type="button" class="assign-btn" ngbDropdownItem (click)="Assign_()">Save</button>
       </div>
       <div class="col-6 d-flex justify-content-center p-1 text-center">
-        <button type="button" class="cancelbtn" (click)="modal.dismiss('Cross click')" ngbDropdownItem>Cancel</button>
+        <button type="button" class="cancelbtn" (click)="modal.dismiss('Cross click')" >Cancel</button>
       </div>
-    </div>
+    
 
   </div>
 
 
+</ng-template> -->
+
+<ng-template #assignTO let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title modal-heading" id="modal-basic-title">Assign</h4>
+    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
+  </div>
+
+  <div class="modal-body childBody">
+    <div class="figma-form-wrapper">
+      <label>{{Headingss[0].heading7}} </label>
+      <ng-select #selectAssignee [clearOnBackspace]="false" [readonly]="isView" [searchable]="true" name="searchAssignValue"
+        [(ngModel)]="searchAssignValue" #assignee="ngModel" placeholder="- Choose Assignee Name -"
+        [required]="HeadingServices.isModulefieldMendetory(1, 'assignee')" class="ngsearch-dropdown input-fld"
+        [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'assignee')">
+        <ng-template ng-header-tmp>
+          <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="Search" type="text"
+            (input)="selectAssignee.filter($event.target.value)" />
+        </ng-template>
+        <ng-option value="" disable selected>Select {{Headingss[0].heading7}}</ng-option>
+        <ng-option value="{{item.id}}" *ngFor="let item of bridgess">{{item.firstName}}</ng-option>
+      </ng-select>
+      <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'assignee')">
+        <span class="help-block danger"
+          *ngIf="(assignee.errors?.required && f.submitted) || (assignee.errors?.required)">
+          The {{Headingss[0].heading7}} is required
+        </span>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- <div class="row">
+    <div class="col-6 d-flex justify-content-center p-4 text-center">
+      <button type="button" class="figma-prim-btn" (click)="Assign_()">Assign</button>
+    </div>
+    <div class="col-6 d-flex justify-content-center p-4 text-center">
+      <button type="button" class="figma-outline-btn" (click)="modal.dismiss('Cross click')">
+        {{Headingss[0].heading112}}
+      </button>
+    </div>
+  </div> -->
+  <div class="figma-modal-fotter">
+    <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+    <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
+    <button class="figma-prim-btn" (click)="Assign_(confirmModalAssign)">Assign</button>
+  </div>
 </ng-template>
+
 
 <ng-template #followup let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title"
-      style="width: 100%;text-align: center;color: #4A79E4; font-size: 1.2rem;">{{Headingss[1].heading}}</h4>
-    <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')"
-      style="outline: none;">
-      <span aria-hidden="true" style="outline: none;">×</span>
-    </button>
+    <h4 class="modal-title modal-heading" id="modal-basic-title">{{Headingss[1].heading}}</h4>
+    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
   </div>
 
-  <div class="modal-body">
-    <form #fb="ngForm" name="theForm" (submit)="addFollowUp(fb)">
-      <div class="row">
+  <div class="figma-modal-body">
+    <form #fb="ngForm" name="theForm" class="figma-modal-form chile-form" (submit)="addFollowUp(fb)">
+      <!-- <div class="row"> -->
+        <div class="modal-body">
+          <div class="row">
 
         <div class="col-md-1">
           <input type="radio" id="checkfld" style="height: 27px;cursor: pointer;" name="showremid"
@@ -1009,7 +1093,7 @@
         </div>
         <br><br>
         <div class="col-md-6" *ngIf="showremid">
-          <label>{{Headingss[1].heading0}}</label>
+          <label class="userLabel">{{Headingss[1].heading0}}</label>
           <input type="date" class="input-fld required-fld" name="From" [(ngModel)]="AddFollow2.From" #From="ngModel"
             required>
           <span class="help-block danger"
@@ -1019,7 +1103,7 @@
         </div>
 
         <div class="col-md-6" *ngIf="showremid">
-          <label>{{Headingss[1].heading1}}</label>
+          <label class="userLabel">{{Headingss[1].heading1}}</label>
           <input type="time" class="input-fld required-fld" name="Time" [(ngModel)]="AddFollow2.Time" #Time="ngModel"
             required>
           <span class="help-block danger"
@@ -1060,11 +1144,15 @@
         <div style="text-align: center;" *ngIf="isLoading">
           <img src="../../assets/img/loder.gif" style="height: 100%;width: 10%;">
         </div>
-        <div class="col-md-12 text-center mt-3" *ngIf="!isLoading">
-          <button class="add-invent1">{{Headingss[0].heading105}}</button>
+        </div>
+        </div>
+        <div class="figma-modal-fotter">
+          <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+          <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
+          <button class="figma-prim-btn" >Save</button>
         </div>
         <!-- <div *ngIf="isLoading"><img src="../../assets/img/loder.gif"></div> -->
-      </div>
+      <!-- </div> -->
     </form>
   </div>
 
@@ -1133,8 +1221,10 @@
   <div class="modal-body">
     <p>Are You Sure Do You Want To Move This Data in Junk ?</p>
     <div class="confirm-btn">
-      <button class="btn custom-btn-blue" (click)="multipleDelete1(JunkId)">OK</button>
+
       <button class="btn custom-btn-outline-blue" (click)="modal.dismiss('Cross click')">Cancel</button>
+      <button class="btn custom-btn-blue" (click)="multipleDelete1(JunkId)">OK</button>
+     
     </div>
   </div>
 </ng-template>
@@ -1252,5 +1342,28 @@
   </form>
 
 </ng-template>
+
+<ng-template #confirmModalExport let-modal>
+  <div class="modal-body">
+    <p> Are You Sure Do You Want To Export List ?</p>
+    <div class="confirm-btn">
+      
+      <button class="btn custom-btn-outline-blue" (click)="modal.dismiss('Cross click')">Cancel</button>
+      <button class="btn custom-btn-blue" (click)="Exportexcel()">OK</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #confirmModalAssign let-modal>
+  <div class="modal-body">
+    <p>Are You Sure Do You Want To Assign Lead?</p>
+    <div class="confirm-btn">
+   
+      <button class="btn custom-btn-outline-blue" (click)="modal.dismiss('Cross click')">Cancel</button>
+      <button class="btn custom-btn-blue" (click)="modal.close('OK')">OK</button>
+    </div>
+  </div>
+</ng-template>
+
 
 <app-phone></app-phone>

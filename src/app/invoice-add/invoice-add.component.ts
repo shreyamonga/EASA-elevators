@@ -61,6 +61,7 @@ export class InvoiceAddComponent implements OnInit {
       PONumber:'',
       ContactPersonCode: '',
       DiscountPercent: '0',
+      TaxRate:'0',
       DocDate: this.HeadingServices.getDate(),
       CardCode: '',
       CardName: '',
@@ -283,6 +284,9 @@ export class InvoiceAddComponent implements OnInit {
           this.order.BPLID = this.quotations[0].BPLID;
           // console.log(this.order.U_OPPID )
           this.order.DiscountPercent = Number(this.quotations[0].DiscountPercent);
+
+          this.order.TaxRate = Number(this.quotations[0].TaxRate);
+          console.log('TaxRate',this.order.TaxRate)
           this.order.CardCode = this.quotations[0].CardCode;
           this.order.DocumentLines = this.quotations[0].DocumentLines;
           this.order.AddressExtension = this.quotations[0].AddressExtension;
@@ -449,7 +453,7 @@ export class InvoiceAddComponent implements OnInit {
           this.order.BaseType = 'Delivery';
           this.order.DiscountPercent = Number(this.quotations[0].DiscountPercent);
           this.order.CardCode = this.quotations[0].CardCode;
-
+          this.order.TaxRate = Number(this.quotations[0].TaxRate)||0;
           this.order.PONumber = this.quotations[0].PONumber;
           this.order.PODate = this.quotations[0].PODate;
           this.order.AddressExtension = this.quotations[0].AddressExtension;
@@ -475,6 +479,7 @@ export class InvoiceAddComponent implements OnInit {
           this.order.BaseEntry = Number(this.quotations[0].id);
           this.order.BaseType = 'Order';
           this.order.DiscountPercent = Number(this.quotations[0].DiscountPercent);
+          this.order.TaxRate = Number(this.quotations[0].TaxRate)||0;
           this.order.CardCode = this.quotations[0].CardCode;
           this.order.BPLID = this.quotations[0].BPLID;
 
@@ -840,7 +845,7 @@ export class InvoiceAddComponent implements OnInit {
     TaxRate: any;
     open(content: any, item: any) {
       this.modalService
-        .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' })
+        .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css' })
         .result.then(
           (result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -854,11 +859,12 @@ export class InvoiceAddComponent implements OnInit {
       this.ItemNAme = item.ItemName;
       this.ItemQty = 1;
       this.ItemDis =  item.Discount;
+     // this.tax =  item.tax;
       this.ItemCode = item.ItemCode;
       this.ItemPrice = item.UnitPrice;
       this.ItemDueDate = '';
       this.TaxCode = item.TaxCode;
-      this.TaxRate = item.TaxRate;
+      this.TaxRate = item.Tax ||0;
     }
     // addItemType: string = 'paid';
     add_items() {
@@ -914,7 +920,7 @@ export class InvoiceAddComponent implements OnInit {
 
     editItemArray(content: any, item: any) {
       this.modalService
-        .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' })
+        .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css' })
         .result.then(
           (result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -932,7 +938,7 @@ export class InvoiceAddComponent implements OnInit {
       this.ItemPrice = item.UnitPrice;
       this.ItemDueDate = item.DueDate;
       this.TaxCode = item.TaxCode;
-      this.TaxRate = item.TaxRate;
+      this.TaxRate = item.TaxRate ||0;
     }
 
     UpdateQuotationItem(f: NgForm) {

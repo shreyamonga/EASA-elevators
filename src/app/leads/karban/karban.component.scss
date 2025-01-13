@@ -221,6 +221,7 @@
   color: #000000;
   font-size: 12px;
   padding: 10px;
+  margin-top: 14px;
 }
 
 .assign-btn {
@@ -350,7 +351,7 @@
 }
 
 .download-icon {
-  position: absolute;
+  // position: absolute;
   right: 12px;
   top: 12px;
   font-size: 12px;
@@ -458,4 +459,36 @@
 ::ng-deep .e-kanban .e-kanban-content .e-content-row .e-content-cells{
   overflow: hidden;
     border: none !important;
+}
+
+
+.figma-modal-fotter {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  box-shadow: 0px -1px 6px 0px rgba(74, 74, 74, 0.25);
+  background: var(--template-bg);
+  border-radius: 0 0 14px 14px;
+  width: 100%;
+  z-index: 100;
+}
+ .figma-modal-fotter button {
+  padding: 6px 7px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: 0.035px;
+  border-radius: 4px;
+}
+
+
+.MainFilterLabel {
+  font-size: 13px;
+  margin-top: -3px !important;
+  margin-bottom: 0px !important;
+  font-weight: 400;
 }

@@ -646,7 +646,7 @@ export class AddOpportunityComponent implements OnInit {
     }
     else{
     this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' })
+      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css' })
       .result.then(
         (result) => {
           this.closeResult = `Closed with: ${result}`;
@@ -758,7 +758,7 @@ export class AddOpportunityComponent implements OnInit {
 
   editItemArray(content: any, item: any) {
     this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' })
+      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css' })
       .result.then(
         (result) => {
           this.closeResult = `Closed with: ${result}`;

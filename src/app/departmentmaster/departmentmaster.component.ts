@@ -5,6 +5,7 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ZoneMaster } from '../bridge';
 import { BridgeService } from '../modules/service/bridge.service';
 import { NotiferService } from '../modules/service/helpers/notifer.service';
+import { ExcelsheetComponent } from '../excelsheet/excelsheet.component';
 declare var $: any;
 
 @Component({
@@ -189,8 +190,15 @@ export class DepartmentmasterComponent implements OnInit {
         if(isEdit == true){
           this.type = JSON.parse(JSON.stringify(data));
         }
+        else{
+          this.type = {
+            Name: "",
+            Status:''
+    
+          }
+        }
 
-        this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' }).result.then((result) => {
+        this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css`,backdrop:'static' }).result.then((result) => {
           this.closeResult = `Closed with: ${result}`;
         }, (reason) => {
           this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

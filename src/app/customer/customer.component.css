@@ -19,3 +19,8 @@ app-phone {
   right: 30%;
   z-index: 99;
 }
+.label.MainLabelNames {
+  font-size: 13px;
+  padding-bottom: 7px;
+  padding-top: 3px;
+}

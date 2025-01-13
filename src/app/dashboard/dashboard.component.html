@@ -5,12 +5,13 @@
   <h5 class="dashheadingmain">{{Headingss[0].heading0}}</h5>
 
   <div *ngIf="role == 'admin'" class="me-3 headsec">
-    <ng-select #selectRole [clearOnBackspace]="false" [searchable]="false" [(ngModel)]="SelectedPerson" (ngModelChange)="ChartJs($event)" name="sel2" placeholder="Select Employee" class="ngsearch-dropdown filter-select-width">
+    <ng-select #selectRole [clearOnBackspace]="false" [searchable]="false" [(ngModel)]="SelectedPerson" (ngModelChange)="ChartJs($event)" name="sel2" placeholder="Select Employee"
+     class="ngsearch-dropdown filter-select-width">
       <ng-template ng-header-tmp>
         <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search" type="text" (input)="selectRole.filter($event.target.value)" />
       </ng-template>
       <!-- <ng-option value="" disable >Select Employee</ng-option> -->
-      <ng-option [value]="emp.SalesEmployeeCode" *ngFor="let emp of bridges">{{emp.firstName}} {{emp.lastName}}</ng-option>
+      <ng-option [value]="emp.SalesEmployeeCode" *ngFor="let emp of bridges">{{emp.firstName}} {{emp.lastName}} ({{emp.role_name}})</ng-option>
     </ng-select>
     <!-- <select class="form-select form-select-sm filter-select-width" [ngModel]="selectedDevice"
       (ngModelChange)="dashboardemployeecode($event)" name="sel2">
@@ -89,7 +90,7 @@
       </div>
       <div class="Chartone" style="background-color:#fff;">
         <h3>{{Headingss[0].heading60}}</h3>
-        <canvas id="toFiveCustomer" height="170" style="margin-top:60px;"></canvas>
+        <canvas id="toFiveCustomer" height="170" style="margin-top:100px;"></canvas>
       </div>
     </div>
   </div>

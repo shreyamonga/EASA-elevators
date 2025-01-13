@@ -188,7 +188,15 @@ export class IndustryComponent implements OnInit {
     if(isEdit == true){
       this.indus = JSON.parse(JSON.stringify(data));
     }
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' }).result.then((result) => {
+    else{
+      this.indus = {
+        IndustryDescription: "",
+        IndustryName: "",
+        IndustryCode: ''
+      }
+    }
+
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css`,backdrop:'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -232,7 +240,7 @@ export class IndustryComponent implements OnInit {
 
         },
         (err) => {
-          this.isLoading = false;
+          //this.isLoading = false;
           const delim = ":"
           const name = err.message
           const result = name.split(delim).slice(3).join(delim)
@@ -254,6 +262,18 @@ export class IndustryComponent implements OnInit {
           $("input[name=" + keyys + "]").removeClass("red-line-border");
         }
       }
+    }
+  }
+
+  bigScreenOrMid() {
+    if ((document.querySelector('.figma-cards-modal') as any).classList.contains('figma-cards-modal-lg')) {
+      this.commonObj.bigScreenMode = true;
+      (document.querySelector('.figma-cards-modal') as any).classList.add('figma-cards-modal-full');
+      (document.querySelector('.figma-cards-modal') as any).classList.remove('figma-cards-modal-lg');
+    } else {
+      this.commonObj.bigScreenMode = false;
+      (document.querySelector('.figma-cards-modal') as any).classList.add('figma-cards-modal-lg');
+      (document.querySelector('.figma-cards-modal') as any).classList.remove('figma-cards-modal-full');
     }
   }
 

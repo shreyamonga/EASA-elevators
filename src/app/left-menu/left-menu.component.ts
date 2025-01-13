@@ -27,6 +27,7 @@ export class LeftMenuComponent implements OnInit {
   hiddingLeftNav: any = { match: ["#/", "", "#/login"] };
   urlcheck: any;
   isLead: boolean = false;
+  isSetting: boolean = false;
   isLocation: boolean = false;
   loginData: any;
   Headingss: any[] = [];
@@ -88,6 +89,12 @@ export class LeftMenuComponent implements OnInit {
     }
     else {
       this.isLead = false;
+    }
+    if (this.currentURL.includes('setting')) {
+      this.isSetting = true;
+    }
+    else {
+      this.isSetting = false;
     }
     if (this.currentURL.includes('locationTracking')) {
       this.isLocation = true;
@@ -300,6 +307,7 @@ export class LeftMenuComponent implements OnInit {
   falseDropdown() {
     this.isLead = false;
     this.isLocation = false;
+    this.isSetting = false;
     $('.Inventory3').removeClass("active");
     $('.dropdown-container3').removeClass("active");
     $('.fa-down').removeClass("rotate");
@@ -312,6 +320,7 @@ export class LeftMenuComponent implements OnInit {
   sublist() {
     this.isLead = false;
     this.isLocation = false;
+    this.isSetting = false;
     $('.Inventory').toggleClass("active");
     $('.dropdown-container').toggleClass("active");
     $('.fa-down').toggleClass("rotate");
@@ -404,10 +413,7 @@ export class LeftMenuComponent implements OnInit {
   }
 
   open(content: any) {
-    this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered userList-cards-modal' })
-      .result.then(
-        (result) => {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css`,backdrop:'static' }).result.then((result) => {
           this.closeResult = `Closed with: ${result}`;
         },
         (reason) => {
@@ -416,7 +422,7 @@ export class LeftMenuComponent implements OnInit {
       );
   }
 
-  
+
   addFeedback(f: NgForm) {
     f = this.bridgeService2.GlobaleTrimFunc(f);
     for(let [keys,value] of Object.entries(f.value)){
@@ -456,7 +462,7 @@ export class LeftMenuComponent implements OnInit {
           const result = name.split(delim).slice(3).join(delim);
 
         this._NotifierService.showError(result);
-          
+
         }
       );
     } else {

@@ -183,7 +183,6 @@ export class ReportsComponent implements OnInit {
   }
 
 
-
   reload3() {
     this.count = [];
       $('#selectAll1').prop('checked', false);
@@ -229,6 +228,7 @@ export class ReportsComponent implements OnInit {
         }
         if(this.totalCount == 0){
           this.startind = this.totalCount;
+          this.endind = this.totalCount;
         }
       },
       (error: any) => {
@@ -307,10 +307,19 @@ export class ReportsComponent implements OnInit {
         this.Datas = data.data.data;
         // console.log(this.Datas);
         this.totalCount = data.data.meta.count;
-        const firstObject = this.Datas[0];
-        this.DataHeadingkey =  Object.keys(firstObject);
-        this.DataHeading = Object.keys(firstObject).map(key => key.replace(/_/g, ' '));
-        // console.log(this.DataHeading)
+      //  const firstObject = this.Datas[0];
+      //   this.DataHeadingkey =  Object.keys(firstObject);
+      //   this.DataHeading = Object.keys(firstObject).map(key => key.replace(/_/g, ' '));
+        if (this.Datas && this.Datas.length > 0) {
+          const firstObject = this.Datas[0];
+          this.DataHeadingkey = Object.keys(firstObject);
+          this.DataHeading = Object.keys(firstObject).map(key => key.replace(/_/g, ' '));
+        } else {
+          
+          this.DataHeadingkey = [];
+          this.DataHeading = [];
+        }
+        // console.log("total count", this.totalCount)
         if(this.pagination2.maxItem != 'All'){
           this.startind = ((this.pagination2.PageNo - 1) * Number(this.pagination2.maxItem)) + 1;
           this.endind = ((this.pagination2.PageNo - 1) * Number(this.pagination2.maxItem)) + Number(this.pagination2.maxItem);
@@ -326,6 +335,7 @@ export class ReportsComponent implements OnInit {
         }
         if(this.totalCount == 0){
           this.startind = this.totalCount;
+          this.endind = this.totalCount;
         }
       },
       (err) => {
@@ -450,7 +460,14 @@ export class ReportsComponent implements OnInit {
   // }
 
   resetfilter() {
-    this.filter_customer =  {CreateDate__gte:'',CreateDate__lte:''};
+    this.commonPayload = new CommonModulesPayloadReport().payload;
+    // this.RowPerPage3();
+    this.RowPerPage();
+    // this.RowPerPage();
+
+  }
+  resetfilter2() {
+    this.filter_customer = {Name:'',ctype:'',industry:'',saleemp:'',pterms:''};
     this.RowPerPage3();
     // this.RowPerPage();
     // this.RowPerPage();
@@ -520,7 +537,7 @@ export class ReportsComponent implements OnInit {
       $('#selectAll1').prop('checked', false);
       this.commonObj.tbCheckM_1 = false;
       this.commonObj.tbCheckM_2 = false;
-      this.getIndustryList();
+      this.goDetail(this.NewITme,this.commonPayload);
   }
 
 
@@ -573,6 +590,7 @@ export class ReportsComponent implements OnInit {
       }
       if(this.totalCount == 0){
         this.startind = this.totalCount;
+        this.endind = this.totalCount;
       }
       },
       (err) => {
@@ -608,72 +626,9 @@ export class ReportsComponent implements OnInit {
 
   genaratereport(f:NgForm){
     this.goDetail(this.NewITme,this.commonPayload);
-    this.modalService.dismissAll();
+    // this.modalService.dismissAll();
 
-  //   if (f.valid) {
-  //   this.bridgeService2.GenerateReport2(this.commonPayload).subscribe((res: any) => {
-  //     if (Object(res)['status'] == "200") {
-  //     this.Datas = res.data.data;
-  //     console.log(this.Datas)
-  //       // this._NotifierService.showSuccess("Report generated Successfully");
-  //       this.modalService.dismissAll();
-
-  //       // setTimeout(() => {
-  //       //   let currentUrl = this.router.url;
-  //       //   this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-  //       //   this.router.onSameUrlNavigation = 'reload';
-  //       //   this.router.navigate([currentUrl]);
-  //       // }, 2000);
-  //     }
-
-  //     else {
-  //       this._NotifierService.showError(Object(res)['message']);
-  //     }
-  //   },
-  //   (err) => {
-  //     // this.isLoading3 = false;
-  //     const delim = ":"
-  //     const name = err.message
-  //     const result = name.split(delim).slice(3).join(delim);
-  //     this._NotifierService.showError(result);
-  //   }
-  // );
-  //   }
-  //   else {
-  //     for (let i = 0; i < Object.keys(f.value).length; i++) {
-  //       var keyys = Object.keys(f.value)[i];
-  //       if (f.value[keyys].length == 0) {
-
-  //         if ($("input[name=" + keyys + "]").hasClass('required-fld')) {
-  //           $("input[name=" + keyys + "]").addClass("red-line-border");
-  //           $("input[name=" + keyys + "]").focus();
-  //         }
-  //         else if ($("ng-select[name=" + keyys + "]").hasClass('required-fld')) {
-  //           $("ng-select[name=" + keyys + "]").addClass("red-line-border");
-  //           $("ng-select[name=" + keyys + "]").focus();
-  //         }
-  //         else if ($("select[name=" + keyys + "]").hasClass('required-fld')) {
-  //           $("select[name=" + keyys + "]").addClass("red-line-border");
-  //           $("select[name=" + keyys + "]").focus();
-  //         }
-  //         else if ($("password[name=" + keyys + "]").hasClass('required-fld')) {
-  //           $("password[name=" + keyys + "]").addClass("red-line-border");
-  //           $("password[name=" + keyys + "]").focus();
-  //         }
-  //         else if ($("textarea[name=" + keyys + "]").hasClass('required-fld')) {
-  //           $("textarea[name=" + keyys + "]").addClass("red-line-border");
-  //           $("textarea[name=" + keyys + "]").focus();
-  //         }
-  //       }
-  //       else {
-  //         $("input[name=" + keyys + "]").removeClass("red-line-border");
-  //         $("ng-select[name=" + keyys + "]").removeClass("red-line-border");
-  //         $("select[name=" + keyys + "]").removeClass("red-line-border");
-  //         $("password[name=" + keyys + "]").removeClass("red-line-border");
-  //         $("textarea[name=" + keyys + "]").removeClass("red-line-border");
-  //       }
-  //     }
-  //   }
+  //   
 }
 
 CanelID: any;

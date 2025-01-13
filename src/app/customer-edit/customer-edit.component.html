@@ -415,7 +415,7 @@
                   <label>{{Headingss[2].heading3}}</label>
                   <div>
                     <ng-select #selectstate [clearOnBackspace]="false" [searchable]="false" name="State"
-                      #State="ngModel" (change)="selectChangeHandlerState($event)"
+                      #State="ngModel" (ngModelChange)="selectChangeHandlerState($event)"
                       [(ngModel)]="editcustomer.BPAddresses[0].State" required
                       class="ngsearch-dropdown input-fld required-fld">
                       <ng-template ng-header-tmp>
@@ -442,7 +442,7 @@
                   <label>{{Headingss[2].heading4}}</label>
                   <div>
                     <ng-select #selectcountry [clearOnBackspace]="false" [searchable]="false" name="Country"
-                      #Country="ngModel" (change)="selectChangeHandler($event)"
+                      #Country="ngModel" (ngModelChange)="selectChangeHandler($event)"
                       [(ngModel)]="editcustomer.BPAddresses[0].Country" required
                       class="ngsearch-dropdown input-fld required-fld">
                       <ng-template ng-header-tmp>

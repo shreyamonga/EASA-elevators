@@ -24,13 +24,13 @@
 
         <div ngbDropdown class="custom-common-search-container">
           <ng-container *ngIf="idd != 2 || CAteId != 0">
-          <button *ngIf="exportStatus" type="button" class="custom-action-btn openbtn" (click)="Exportexcel()"><i >Export &nbsp;</i>
+          <button *ngIf="exportStatus" type="button" class="custom-action-btn openbtn" (click)="ExportFile(confirmModalExport)"><i >Export &nbsp;</i>
             <i title="Download Excel" class="fa-solid fa-file-export download-icon cursor-pointer exportfileicon"></i>
           </button>
         </ng-container>
 
         <ng-container *ngIf="idd == 2 && CAteId == 0">
-          <button *ngIf="exportStatus" type="button" class="custom-action-btn openbtn" (click)="Exportexcel2()"><i >Export &nbsp;</i>
+          <button *ngIf="exportStatus" type="button" class="custom-action-btn openbtn" (click)="ExportFile2(confirmModalExport2)"><i >Export &nbsp;</i>
             <i title="Download Excel" class="fa-solid fa-file-export download-icon cursor-pointer exportfileicon"></i>
           </button>
           </ng-container>
@@ -193,7 +193,7 @@
       <div class="figma-rows-per-page">
         <div class="figma-rows-per-page-label">Row per page</div>
         <ng-select [items]="['10','20','50','100','All']" class="figma-row-per-page-ng-select"
-          [(ngModel)]="pagination.maxItem" (change)="RowPerPage()"></ng-select>
+          [(ngModel)]="pagination.maxItem" (ngModelChange)="RowPerPage()"></ng-select>
         <div class="figma-rows-per-page-total">Total {{startind}}-{{endind}} of {{totalCount}}</div>
       </div>
       <ngb-pagination [collectionSize]="totalCount" [pageSize]="pagination.PageShow"
@@ -209,15 +209,18 @@
 
   <ng-template #mymodal let-modal>
     <div class="modal-header">
-      <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="closnePop()" style="outline: none;">
+      <h4 class="modal-title modal-heading" id="modal-basic-title">{{' Select Items Group'}} </h4>
+      <!-- <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="closnePop()" style="outline: none;">
         <span aria-hidden="true" style="outline: none;">×</span>
-      </button>
+      </button> -->
+      <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="closnePop()"></span>
     </div>
-    <form #f="ngForm" name="theForm">
-      <div class="modal-body">
+    <form #f="ngForm" name="theForm" class="figma-modal-form" >
+      <!-- <p class="figma-modal-inner-heading">{{'Select Group'}}</p> -->
+      <div class="modal-body childBody">
         <div class="row">
           <div class="col-md-12">
-            <label style="font-size:12px">{{Headingss[0].header2}}</label>
+            <label style="font-size:12px" class="userLabel">{{Headingss[0].header2}}</label>
             <select type="text" class="input-fld required-fld" name="AddCAteId" [(ngModel)]="AddCAteId" required>
               <option value="">Select {{Headingss[0].header2}}</option>
               <option *ngFor="let item of categorys;  let i = index" value="{{item.id}}">{{item.CategoryName}}</option>
@@ -230,13 +233,15 @@
             color: #4a79e4;
         " (click)="openCate(mymodalCate,false,'')">+ {{Headingss[0].heading101}} {{Headingss[0].header2}}</div>
           </div>
-          <br>
-          <div class="col-md-12 text-center mt-2">
-            <!-- <button class="add-invent1" [disabled]="f.invalid">Save</button> -->
-            <button class="add-invent" (click)="closnePop()">{{Headingss[0].heading112}}</button> &nbsp;&nbsp;&nbsp;
-            <button class="add-invent1" (click)="ClickConticu()">Continue</button>
-          </div>
+         
         </div>
+      </div>
+
+    
+      <div class="figma-modal-fotter">
+        <!-- <button class="add-invent1" [disabled]="f.invalid">Save</button> -->
+        <button class="figma-outline-btn" (click)="closnePop()">{{Headingss[0].heading112}}</button> 
+        <button class="figma-prim-btn" (click)="ClickConticu()">Continue</button>
       </div>
     </form>
   </ng-template>
@@ -254,7 +259,7 @@
     <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
   </div>
   <ng-container >
-    <form #f="ngForm" name="theForm" (submit)="addItem(f)" class="figma-modal-form" id="ProjectManagmentPopupHere">
+    <form #f="ngForm" name="theForm"  class="figma-modal-form" id="ProjectManagmentPopupHere">
 
     <p class="figma-modal-inner-heading">{{Headingss[0].heading118}} Information</p>
     <!-- <div style="
@@ -529,7 +534,7 @@
       <div class="figma-modal-fotter" *ngIf="!isItemView">
         <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
         <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
-        <button class="figma-prim-btn">Save</button>
+        <button class="figma-prim-btn" (click)="addItem(f)">Save</button>
       </div>
     </form>
   </ng-container>
@@ -540,36 +545,39 @@
 
 <ng-template #mymodalCate let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title" style="width: 100%;text-align: center;color: #4A79E4; font-size: 20px;">{{isEdit?'Edit':'Add'}} {{Headingss[0].header2}}</h4>
-    <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')" style="outline: none;">
+    <h4 class="modal-title" id="modal-basic-title">{{isEdit?'Edit':'Add'}} {{Headingss[0].header2}}</h4>
+    <!-- <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')" style="outline: none;">
       <span aria-hidden="true" style="outline: none;">×</span>
-    </button>
+    </button> -->
+    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
   </div>
 
-  <div class="modal-body">
-    <form #f="ngForm" name="theForm" (submit)="addCategory(f)">
-      <div class="row">
-        <div class="col-md-12">
-          <label>{{Headingss[0].Extra8}} {{Headingss[0].Extra2}}</label>
+  
+    <form #f="ngForm" name="theForm" class="figma-modal-form" (submit)="addCategory(f)">
+      <div class="modal-body childBody">
+        <div class="figma-form-wrapper">
+          <label class="userLabel">{{Headingss[0].Extra8}} {{Headingss[0].Extra2}}</label>
           <input type="text" class="input-fld required-fld" name="CategoryName" [(ngModel)]="category.CategoryName" #CategoryName="ngModel" placeholder="Category Name" required>
           <span class="help-block danger" *ngIf="(CategoryName.errors?.required && f.submitted)||(CategoryName.errors?.required && CategoryName.touched)">
             The Category Name is required
           </span>
         </div>
-        <div class="col-md-12">
-          <label>{{Headingss[0].Extra8}} {{Headingss[1].header1}}</label>
+        <div class="figma-form-wrapper">
+          <label class="userLabel">{{Headingss[0].Extra8}} {{Headingss[1].header1}}</label>
           <input type="file" class="input-fld"  (change)="onFileChanged($event)" name="CategoryImageURL" >
 
         </div>
 
-        <div class="col-md-12 text-center mt-2">
-          <!-- <button class="add-invent1" [disabled]="f.invalid">Save</button> -->
-          <button class="add-invent1">Save</button>
-        </div>
+       
         <!-- <div *ngIf="isLoading"><img src="../../assets/img/loder.gif"></div> -->
       </div>
+      <div class="figma-modal-fotter">
+        <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+        <!-- <button class="add-invent1" [disabled]="f.invalid">Save</button> -->
+        <button class="figma-prim-btn">Save</button>
+      </div>
     </form>
-  </div>
+  
 
 </ng-template>
 
@@ -600,6 +608,28 @@
     <div class="confirm-btn">
       <button class="btn custom-btn-blue" (click)="CallImport(Payload)">OK</button>
       <button class="btn custom-btn-outline-blue" (click)="modal.dismiss('Cross click')">Cancel</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #confirmModalExport let-modal>
+  <div class="modal-body">
+    <p> Are You Sure Do You Want To Export List ?</p>
+    <div class="confirm-btn">
+     
+      <button class="btn custom-btn-outline-blue" (click)="modal.dismiss('Cross click')">Cancel</button>
+      <button class="btn custom-btn-blue" (click)="Exportexcel()">OK</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #confirmModalExport2 let-modal>
+  <div class="modal-body">
+    <p> Are You Sure Do You Want To Export List ?</p>
+    <div class="confirm-btn">
+      
+      <button class="btn custom-btn-outline-blue" (click)="modal.dismiss('Cross click')">Cancel</button>
+      <button class="btn custom-btn-blue" (click)="Exportexcel2()">OK</button>
     </div>
   </div>
 </ng-template>

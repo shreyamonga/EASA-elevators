@@ -539,14 +539,14 @@ export class CustomerDetailsComponent implements OnInit {
       }
     );
   }
-
+  // this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg`,backdrop:'static' }).result.then((result) => {
+  //   this.closeResult = `Closed with: ${result}`;
 
   open(content: any) {
-    this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' })
-      .result.then(
-        (result) => {
-          this.closeResult = `Closed with: ${result}`;
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css`,backdrop:'static' }).result.then((result) => {
+    
+         this.closeResult = `Closed with: ${result}`;
+    
         },
         (reason) => {
           this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -566,7 +566,7 @@ export class CustomerDetailsComponent implements OnInit {
 
 
   open1(contentattach: any) {
-    this.modalService.open(contentattach, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' }).result.then((result) => {
+    this.modalService.open(contentattach, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css`,backdrop:'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -718,10 +718,8 @@ export class CustomerDetailsComponent implements OnInit {
   openEdit(contentEdit: any, item: Branch,index: number) {
     this.selectedIndex = index;
     console.log(this.selectedIndex)
-    this.modalService
-      .open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' })
-      .result.then(
-        (result) => {
+    this.modalService.open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css`,backdrop:'static' }).result.then((result) => {
+    
           this.closeResult = `Closed with: ${result}`;
         },
         (reason) => {
@@ -784,7 +782,7 @@ export class CustomerDetailsComponent implements OnInit {
 
   openEditcontact(contentEdit: any, item: ContactPerson) {
     this.modalService
-      .open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' })
+      .open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css' })
       .result.then(
         (result) => {
           this.closeResult = `Closed with: ${result}`;
@@ -1049,10 +1047,9 @@ export class CustomerDetailsComponent implements OnInit {
 }
 
   open2(content2: any) {
-    this.modalService
-      .open(content2, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' })
-      .result.then(
-        (result) => {
+    // this.modalService
+    this.modalService.open(content2, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css`,backdrop:'static' }).result.then((result) => {
+      
           this.closeResult = `Closed with: ${result}`;
         },
         (reason) => {
@@ -1060,6 +1057,7 @@ export class CustomerDetailsComponent implements OnInit {
         }
       );
   }
+
   openLinkHitter(type: string) {
     this.bridgeService.setAllFilter('',undefined);
     if (type === 'opportunity') {
@@ -1088,10 +1086,7 @@ export class CustomerDetailsComponent implements OnInit {
  deletebranch1: any;
  iemid: any;
  deleteAttach(confirmModal2:any,id: number) {
-  this.modalService
-  .open(confirmModal2, { ariaLabelledBy: 'modal-basic-title',backdrop: 'static', modalDialogClass: 'confirm-modal modal-dialog-centered' })
-  .result.then(
-    (result) => {
+  this.modalService.open(confirmModal2, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css`,backdrop:'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     },
     (reason) => {

@@ -57,9 +57,12 @@ export class PreviewModalComponent implements OnInit {
 
   ngOnInit(): void {
     // console.log(this.GetPopupData)
+    if(this.GetPopupData.length>0){
+      console.log('this.GetPopupData.length',this.GetPopupData.length);
     this.childData = this.GetPopupData[0];
     this.isEdit = this.GetPopupData[1];
     this.TypeOfPop = this.GetPopupData[2];
+    }
     // console.log(this.childData)
     this.populateData(this.childData);
     this.ProjectSetting = sessionStorage.getItem('ProjectSetting');
@@ -170,26 +173,37 @@ export class PreviewModalComponent implements OnInit {
     if (data.PaymentGroupCode != '') {
       this.bridgeService.getPaymentTermsOnedata(data.PaymentGroupCode).subscribe(
         (PaymentGroupCodeDetails: any) => {
+          if(PaymentGroupCodeDetails.length > 0){
+            console.log('py',PaymentGroupCodeDetails.length);
           this.PaymentTermsGroupName = PaymentGroupCodeDetails[0].PaymentTermsGroupName;
+          }
         });
       }
 
     if (data.ContactPersonCode != '') {
     this.bridgeService.getContactPersoneone(data.ContactPersonCode).subscribe(
       (contactPersoneUpdate: any) => {
+        if(contactPersoneUpdate.length>0){
+          console.log('cp',contactPersoneUpdate.length);
         this.MobilePhone = contactPersoneUpdate[0].MobilePhone;
+        }
       });
     }
     if (data.SalesPersonCode != '') {
       this.bridgeService.getoneemployee(data.SalesPersonCode).subscribe(
         (SalesPersonCodeDetails: any) => {
+          if(SalesPersonCodeDetails.length>0){
+            console.log('sp',SalesPersonCodeDetails.length);
           this.SalesEmployeeName = SalesPersonCodeDetails[0].SalesEmployeeName;
+          }
         });
       }
 
     if (data.BPLID != '') {
     this.bridgeService.OneBranchMaster(data.BPLID).subscribe(
       (Client: any) => {
+        if(Client.data.length > 0){
+          console.log('cd',Client.data.length);
         this.BPLName = Client.data[0].BPLName;
         this.FederalTaxID = Client.data[0].FederalTaxID;
         this.ourBranchContent =
@@ -198,6 +212,7 @@ export class PreviewModalComponent implements OnInit {
         this.checkBillingCity(Client.data[0].State) +
         this.replaceNone(Client.data[0].Country) +
         this.replaceNone(Client.data[0].ZipCode);
+        }
 
   },
   (err) => {

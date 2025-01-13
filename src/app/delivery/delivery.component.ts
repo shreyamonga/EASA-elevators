@@ -738,11 +738,13 @@ export class DeliveryComponent implements OnInit {
 showHidedata:boolean=false;
 openmaximize(content: any) {
   this.resetForm();
+  this.commonObj.bigScreenMode = false;
   this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg`,backdrop:'static' }).result.then((result) => {
     this.closeResult = `Closed with: ${result}`;
   },
     (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.commonObj.bigScreenMode = false;
     }
   );
 }
@@ -807,6 +809,7 @@ resetForm(){
     "DocumentLines": []
   }
 }
+
 bigScreenOrMid() {
   if ((document.querySelector('.figma-cards-modal') as any).classList.contains('figma-cards-modal-lg')) {
     this.commonObj.bigScreenMode = true;
@@ -898,14 +901,34 @@ bigScreenOrMid() {
   }
 
   checkExportStatus() {
+    if(sessionStorage.getItem('role') == 'admin'){
+      this.exportStatus = true;
+    }
+    else{
     const status = sessionStorage.getItem('exportStatus');
     this.exportStatus = status === 'true'; // sessionStorage stores everything as strings
+    }
+  }
+
+  closeResultExport = '';
+  ExportFile(confirmModalForExport: any) {
+    this.modalService
+      .open(confirmModalForExport, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static', modalDialogClass: 'confirm-modal modal-dialog-centered' })
+      .result.then(
+        (result) => {
+          this.closeResultExport = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResultExport = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
   }
 
   // Default excel file name when download
   fileName ="delivery_export.xlsx";
 
   Exportexcel() {
+    this.modalService.dismissAll();
     // Get the table element
     const data = document.getElementById("table-data");
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);

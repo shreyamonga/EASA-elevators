@@ -336,7 +336,7 @@ export class QuotationComponent implements OnInit {
     this.Payload.status = 0;
     this.Payload.remark = '';
     this.modalService
-    .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered userList-cards-modal' })
+    .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css' })
     .result.then(
       (result) => {
         this.closeResult = `Closed with: ${result}`;
@@ -504,14 +504,34 @@ export class QuotationComponent implements OnInit {
   }
 
   checkExportStatus() {
+    if(sessionStorage.getItem('role') == 'admin'){
+      this.exportStatus = true;
+    }
+    else{
     const status = sessionStorage.getItem('exportStatus');
     this.exportStatus = status === 'true'; // sessionStorage stores everything as strings
+    }
+  }
+
+  closeResultExport = '';
+  ExportFile(confirmModalForExport: any) {
+    this.modalService
+      .open(confirmModalForExport, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static', modalDialogClass: 'confirm-modal modal-dialog-centered' })
+      .result.then(
+        (result) => {
+          this.closeResultExport = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResultExport = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
   }
 
   // Default excel file name when download
   fileName ="quotation_export.xlsx";
 
   Exportexcel() {
+    this.modalService.dismissAll();
     // Get the table element
     const data = document.getElementById("table-data");
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);

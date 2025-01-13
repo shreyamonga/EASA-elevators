@@ -92,15 +92,16 @@
 <ng-template #mymodal let-modal>
   <div class="modal-header">
     <h4 class="modal-title modal-heading" id="modal-basic-title">{{isEdit ? 'Update' : 'Create'}} Zone Master</h4>
-    <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')" style="outline: none;">
+    <!-- <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')" style="outline: none;">
       <span aria-hidden="true" style="outline: none;">×</span>
-    </button>
+    </button> -->
+    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
   </div>
-  <form #f="ngForm" name="theForm" (submit)="addCustomerType(f)">
-    <div class="modal-body">
+  <form #f="ngForm" name="theForm" class="figma-modal-form"  >
+    <div class="modal-body childBody">
       <div class="row">
         <div class="col-md-12">
-          <label>Name </label>
+          <label class="userLabel">Name </label>
           <input type="text" class="input-fld required-fld" name="Name" [(ngModel)]="type.Name" #Name="ngModel" placeholder="Name" required>
           <span class="help-block danger" *ngIf="(Name.errors?.required && f.submitted)||(Name.errors?.required && Name.touched)">
             The Name is required
@@ -109,7 +110,7 @@
         </div>
 
         <div class="col-md-12">
-          <label>Status </label>
+          <label class="userLabel">Status </label>
           <select class="input-fld required-fld" name="Status" [(ngModel)]="type.Status" #Status="ngModel">
             <option value="">Select Status</option>
             <option value="1">Active</option>
@@ -117,11 +118,17 @@
             </select>
           <br>
         </div>
-
+        <!-- <hr style="margin-top: 20px; border: none; height: 2px; background-color: #ccc;">
         <div class="col-md-12 text-center mt-2">
           <button class="add-invent1">Save</button>
-        </div>
+        </div> -->
       </div>
+    </div>
+
+    <div class="figma-modal-fotter">
+      <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+      <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
+      <button class="figma-prim-btn"  (click)="addCustomerType(f)">Save</button>
     </div>
   </form>
 </ng-template>

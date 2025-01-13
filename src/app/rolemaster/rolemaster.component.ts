@@ -201,20 +201,29 @@ export class RolemasterComponent implements OnInit {
 
           this.type = JSON.parse(JSON.stringify(data));
           if(data.id != 1 && data.id != 2 && data.id != 3 && data.id != 4 && data.id != 5 && data.id != 6 && data.id != 7){
-          this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' }).result.then((result) => {
-            this.closeResult = `Closed with: ${result}`;
+            this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css`,backdrop:'static' }).result.then((result) => {
           }, (reason) => {
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
           });
         }
+        
         else{
 
+          
+        
           // alert('This role is not editable');
           this._NotifierService.showError('This role is not editable');
         }
         }
 else{
-  this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' }).result.then((result) => {
+
+  this.type ={
+    Name: "",
+    Status:'',
+    Department:''
+
+  }
+  this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css`,backdrop:'static' }).result.then((result) => {
     this.closeResult = `Closed with: ${result}`;
   }, (reason) => {
     this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

@@ -41,3 +41,10 @@
   padding-right: 30px;
   margin-bottom: 0 !important;
 }
+
+.figma-modal-form {
+  /* overflow: auto !important;*/
+  /* height: calc(9vh - 200px) !important;  */
+ margin-bottom: 90px !important;
+
+}

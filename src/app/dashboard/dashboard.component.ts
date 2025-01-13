@@ -75,7 +75,7 @@ export class DashboardComponent implements OnInit {
     this.bridgeService.getempall().subscribe(
       (data: Bridge[]) => {
         this.bridges = data;
-        // console.log('employee list', this.bridges);
+        console.log('employee list', this.bridges);
         for (let i = 0; i < this.bridges.length; i++) {
           if (this.bridges[i]['SalesEmployeeCode'] == '-1') {
             this.bridges.splice(i, 1);
@@ -83,6 +83,9 @@ export class DashboardComponent implements OnInit {
           if (this.bridges[i]['SalesEmployeeCode'] == '') {
             this.bridges.splice(i, 1);
           }
+          if (this.bridges[i]['Active'] != 'tYES') {
+                     this.bridges.splice(i, 1);
+           }
         }
 
 
@@ -129,6 +132,9 @@ export class DashboardComponent implements OnInit {
           if (this.bridges[i]['SalesEmployeeCode'] == '') {
             this.bridges.splice(i, 1);
           }
+          if (this.bridges[i]['Active'] != 'tYES') {
+                     this.bridges.splice(i, 1);
+           }
         }
 
 
@@ -149,6 +155,7 @@ export class DashboardComponent implements OnInit {
         this.Customer = data.data[0].Customer;
         this.allOrder = data.data[0].Order;
         this.notification = data.data[0].notification;
+        console.log('Notification',this.notification);
       });
 
       this.bridgeService.BestsellingItembyAmount(code).subscribe((data)=>{

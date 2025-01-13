@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,ViewChild ,ElementRef} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -16,6 +16,8 @@ declare var $: any;
   styleUrls: ['./payment-collaction.component.scss']
 })
 export class PaymentCollactionComponent implements OnInit {
+
+  @ViewChild('mymodal')mymodal!:ElementRef;
   DynamicFiledPositionDetials: any[] = [];
     p: number = 1;
     sortedColumn: string = '';
@@ -251,11 +253,26 @@ export class PaymentCollactionComponent implements OnInit {
 
     }
 
+    resetfilter() {
+      this.filter_customer =  {CreateDate:'',CardCode:''};
+      this.RowPerPage();
 
+    }
 
+    openNav() {
+      (document.getElementById("mySidepanel") as HTMLInputElement).style.width = "340px";
+      (document.getElementById("mySidepanel") as HTMLInputElement).style.zIndex = "9";
+      $('#mySidepanel').addClass('sidepanel2');
+      $('#mySidepanel').removeClass('mySidepanelGo');
+      $('.sidepanel').show();
 
+    }
 
-
+    closeNav() {
+      (document.getElementById("mySidepanel") as HTMLInputElement).style.width = "340";
+      $('#mySidepanel').removeClass('sidepanel2');
+      $('#mySidepanel').addClass('mySidepanelGo');
+    }
 
     deleteAttachment(contentDelete: any){
 
@@ -451,7 +468,7 @@ export class PaymentCollactionComponent implements OnInit {
     getPyterms(): void {
       this.isLoading2 = true;
       this.setPrevious();
-      this.bridgeService2.getPaymentCollactionByPagination(this.pagination,this.searchValue,this.order_by_field,this.order_by_value).subscribe(
+      this.bridgeService2.getPaymentCollactionByPagination(this.pagination,this.filter_customer,this.searchValue,this.order_by_field,this.order_by_value).subscribe(
         (data: any) => {
           this.pyterms = data.data;
           this.totalCount = data.meta.count;
@@ -524,10 +541,13 @@ export class PaymentCollactionComponent implements OnInit {
           "UpdatedBy": sessionStorage.getItem('SalesEmployeeCode')
       }
       }
-      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered userList-cards-modal' }).result.then((result) => {
+      this.commonObj.bigScreenMode = false;
+      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg`,backdrop:'static' }).result.then((result) => {
+ 
         this.closeResult = `Closed with: ${result}`;
       }, (reason) => {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        this.commonObj.bigScreenMode = false;
       });
     }
 
@@ -603,14 +623,33 @@ export class PaymentCollactionComponent implements OnInit {
     }
 
     checkExportStatus() {
+      if(sessionStorage.getItem('role') == 'admin'){
+        this.exportStatus = true;
+      }
+      else{
       const status = sessionStorage.getItem('exportStatus');
       this.exportStatus = status === 'true'; // sessionStorage stores everything as strings
+      }
     }
 
+    closeResultExport = '';
+  ExportFile(confirmModalForExport: any) {
+    this.modalService
+      .open(confirmModalForExport, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static', modalDialogClass: 'confirm-modal modal-dialog-centered' })
+      .result.then(
+        (result) => {
+          this.closeResultExport = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResultExport = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
+  }
     // Default excel file name when download
     fileName ="payment-collaction_export.xlsx";
 
     Exportexcel() {
+      this.modalService.dismissAll();
       // Get the table element
       const data = document.getElementById("table-data");
       const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);
@@ -672,4 +711,18 @@ export class PaymentCollactionComponent implements OnInit {
 //     }
 //     return false;
 //   }
+
+
+
+bigScreenOrMid() {
+  if ((document.querySelector('.figma-cards-modal') as any).classList.contains('figma-cards-modal-lg')) {
+    this.commonObj.bigScreenMode = true;
+    (document.querySelector('.figma-cards-modal') as any).classList.add('figma-cards-modal-full');
+    (document.querySelector('.figma-cards-modal') as any).classList.remove('figma-cards-modal-lg');
+  } else {
+    this.commonObj.bigScreenMode = false;
+    (document.querySelector('.figma-cards-modal') as any).classList.add('figma-cards-modal-lg');
+    (document.querySelector('.figma-cards-modal') as any).classList.remove('figma-cards-modal-full');
+  }
+}
   }

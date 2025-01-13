@@ -89,3 +89,13 @@ div#EditModalNew
   color: #4a79e4;
   cursor: pointer;
 }
+
+.ResetBTN button {
+  background: transparent;
+  border: 1px solid #4a79e4 !important;
+  padding: 4px 12px;
+  color: #4a79e4;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+}

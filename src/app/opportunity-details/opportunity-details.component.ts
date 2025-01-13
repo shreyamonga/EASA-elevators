@@ -737,11 +737,14 @@ scrollToBottom(): void {
     }
   }
   openEdit(contentEdit: any) {
-    this.modalService.open(contentEdit, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+    this.modalService.open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css`,backdrop:'static' }).result.then((result) => {
+      
       this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
+    },
+    (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    }
+  );
     // console.log(item);
 
   }
@@ -764,7 +767,7 @@ scrollToBottom(): void {
       this.Changestage.DocId = '';
     }
     if(Stage.Status != 2){
-    this.modalService.open(contentEdit2, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' }).result.then((result) => {
+    this.modalService.open(contentEdit2, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

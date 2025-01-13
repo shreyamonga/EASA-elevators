@@ -28,7 +28,9 @@ export class ExcelsheetComponent implements OnInit {
   DynamicFiledPositionDetials: any[] = [];
   baseUrl2: any;
   bridgess: Bridge[] = [];
-  commonObj: any = { exportLoading: false }
+  //commonObj: any = { exportLoading: false }
+  commonObj : any={exportLoading:false,previousItem:'form'}
+  
   nodata: boolean = false;
   p: number = 1;
   Com_name: any;
@@ -135,6 +137,7 @@ export class ExcelsheetComponent implements OnInit {
     maxItem: '10',
     PageShow: 10
   }
+  public tereer: any[] = [];
   leadStatus: any;
   Headingss: any[] = [];
   exportStatus: boolean = false;
@@ -183,6 +186,7 @@ export class ExcelsheetComponent implements OnInit {
     this.openfollowup(this.followup, id);
   }
   ngOnInit() {
+    this.checkExportStatus();
     if (this.HeadingServices.isModuleView(1) == false) {
       this.router.navigate(['/dashboard']);
     }
@@ -316,7 +320,8 @@ export class ExcelsheetComponent implements OnInit {
     this.bridgeService2.getAll().subscribe(
       (data: Bridge[]) => {
         this.bridgess = data;
-        // console.log(this.bridges)
+         console.log(this.bridges)
+        this.tereer = this.bridgess;
       },
       (err) => {
         console.log(err);
@@ -324,6 +329,19 @@ export class ExcelsheetComponent implements OnInit {
       }
     );
   }
+
+  filterDropdown(e: any) {
+
+    let searchString = e.target.value;
+    this.tereer = this.bridgess;
+    this.tereer = this.bridgess.filter(
+      (user: any) => {
+        return user.SalesEmployeeName.toLocaleLowerCase().includes(searchString.toLocaleLowerCase())
+
+      }
+    );
+  }
+
   CallFiled(item: any) {
     this.childComponent.visible(item);
   }
@@ -669,7 +687,7 @@ CallImport(data:any){
   }
 
   genarateCommonPayload(f:NgForm){
-    console.log(this.commonPayload)
+    // console.log(this.commonPayload)
     // debugger
     if (f.valid) {
     this.bridgeService2.GenerateReport(this.commonPayload).subscribe((res: any) => {
@@ -813,10 +831,12 @@ CallImport(data:any){
 
 
     open(content: any) {
-      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' }).result.then((result) => {
+      this.commonObj.bigScreenMode = false;
+      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg `,backdrop:'static' }).result.then((result) => {
         this.closeResult = `Closed with: ${result}`;
       }, (reason) => {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        this.commonObj.bigScreenMode = false;
       });
     }
 
@@ -831,11 +851,12 @@ CallImport(data:any){
   }
 
   openEdit(contentEdit: any, item2: any, isView: boolean) {
-
-    this.modalService.open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' }).result.then((result) => {
+    this.commonObj.bigScreenMode = false;
+    this.modalService.open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg `,backdrop:'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.commonObj.bigScreenMode = false;
     });
     this.isView = isView;
     var item: any;
@@ -991,7 +1012,7 @@ CallImport(data:any){
 
 
   multipleAssign(contentMultipleAssignEdit: any) {
-    this.modalService.open(contentMultipleAssignEdit, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+    this.modalService.open(contentMultipleAssignEdit, { ariaLabelledBy: 'modal-basic-title'  }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -1003,7 +1024,7 @@ CallImport(data:any){
 
   assingEdit(contentAssignEdit: any, item: any, multiple: boolean, ids: any) {
 
-    this.modalService.open(contentAssignEdit, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+    this.modalService.open(contentAssignEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal custom-modal-css ` }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -1019,38 +1040,90 @@ CallImport(data:any){
     }
   }
 
-  Assign_() {
-    if (confirm('Are You Sure Do You Want To Assign Lead')) {
-      this.bridgeService2.leadAssign(this.lead_id, this.searchAssignValue).subscribe(
-        (res: any) => {
-          if (Object(res)['status'] == "200") {
-            this.modalService.dismissAll();
-            this.searchAssignValue = null;
-            this.reload();
+  // assingEdit(contentAssignEdit: any, item: any, multiple: boolean, ids: any) {
 
-          }
-          else {
-            this._NotifierService.showError(Object(res)['message']);
-          }
-          // Reset the form
-        },
-        (err) => {
-          const delim = ":"
-          const name = err.message
-          const result = name.split(delim).slice(3).join(delim)
-          this._NotifierService.showError(result);
-          //  this.ngOnInit();
+  //   this.modalService.open(contentAssignEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css`,backdrop:'static' }).result.then((result) => {
+  //     this.closeResult = `Closed with: ${result}`;
+  //   }, (reason) => {
+  //     this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+  //   });
+  //   if (multiple == false) {
+  //   this.lead_id = [item.id];
+  //   this.selectedValue = item.assignedTo.SalesEmployeeCode;
+  //   this.selectedName = item.assignedTo.SalesEmployeeName;
+  // }
+  // else {
+  //   this.lead_id = ids;
+  // }
+  // }
+
+  // Assign_() {
+  //   if (confirm('Are You Sure Do You Want To Assign Lead')) {
+  //     this.bridgeService2.leadAssign(this.lead_id, this.searchAssignValue).subscribe(
+  //       (res: any) => {
+  //         if (Object(res)['status'] == "200") {
+  //           this.modalService.dismissAll();
+  //           this.searchAssignValue = null;
+  //           this.reload();
+
+  //         }
+  //         else {
+  //           this._NotifierService.showError(Object(res)['message']);
+  //         }
+  //         // Reset the form
+  //       },
+  //       (err) => {
+  //         const delim = ":"
+  //         const name = err.message
+  //         const result = name.split(delim).slice(3).join(delim)
+  //         this._NotifierService.showError(result);
+  //         //  this.ngOnInit();
+  //       }
+  //     );
+  //   }
+  // }
+
+  closeResultAssign = '';
+
+Assign_(confirmModalAssign: any) {
+  debugger
+  this.modalService
+    .open(confirmModalAssign, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static', modalDialogClass: 'confirm-modal modal-dialog-centered' })
+    .result.then(
+      (result) => {
+        if (result === 'OK') {
+          this.bridgeService2.leadAssign(this.lead_id, this.searchAssignValue).subscribe(
+            (res: any) => {
+              if (Object(res)['status'] == "200") {
+                this.modalService.dismissAll();
+                this.searchAssignValue = null;
+                this.reload();
+              } else {
+                this._NotifierService.showError(Object(res)['message']);
+              }
+            },
+            (err) => {
+              const delim = ':';
+              const name = err.message;
+              const result = name.split(delim).slice(3).join(delim);
+              this._NotifierService.showError(result);
+            }
+          );
         }
-      );
-    }
-  }
+      },
+      (reason) => {
+        this.closeResultAssign = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
+}
+
 
   assignCancel() {
     this.modalService.dismissAll();
   }
 
   openfollowup(followup: any, item2: any) {
-    this.modalService.open(followup, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' }).result.then((result) => {
+    this.modalService.open(followup, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -1226,11 +1299,20 @@ CallImport(data:any){
     );
   }
 
-
+  checkExportStatus() {
+    if(sessionStorage.getItem('role') == 'admin'){
+      this.exportStatus = true;
+    }
+    else{
+    const status = sessionStorage.getItem('exportStatus');
+    this.exportStatus = status === 'true'; // sessionStorage stores everything as strings
+    }
+  }
   // Default excel file name when download
   fileName = "lead_export.xlsx";
 
   Exportexcel() {
+    this.modalService.dismissAll();
     // Get the table element
     const data = document.getElementById("table-data");
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);
@@ -1291,8 +1373,35 @@ CallImport(data:any){
   //   return false;
   // }
 
+  closeResultExport = '';
+  ExportFile(confirmModalForExport: any) {
+    this.modalService
+      .open(confirmModalForExport, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static', modalDialogClass: 'confirm-modal modal-dialog-centered' })
+      .result.then(
+        (result) => {
+          this.closeResultExport = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResultExport = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
+  }
+
+  
+bigScreenOrMid() {
+  debugger
+  if ((document.querySelector('.figma-cards-modal') as any).classList.contains('figma-cards-modal-lg')) {
+    this.commonObj.bigScreenMode = true;
+    (document.querySelector('.figma-cards-modal') as any).classList.add('figma-cards-modal-full');
+    (document.querySelector('.figma-cards-modal') as any).classList.remove('figma-cards-modal-lg');
+  } else {
+    this.commonObj.bigScreenMode = false;
+    (document.querySelector('.figma-cards-modal') as any).classList.add('figma-cards-modal-lg');
+    (document.querySelector('.figma-cards-modal') as any).classList.remove('figma-cards-modal-full');
+  }
 
 
+}
 }
 
 

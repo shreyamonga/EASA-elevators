@@ -27,7 +27,6 @@ export class AccessModulesComponent implements OnInit {
       this.bridgeService.GetRoles().subscribe(
         (data: any) => {
           this.UserRole = data.data;
-          console.log('Role',this.UserRole)
         },
         (error: any) => {
           console.error('Error fetching components', error);

@@ -113,10 +113,11 @@
   </section>
   <ng-template #confirmModal let-modal>
     <div class="modal-body">
-      <p> Are You Sure To Save ? You have to login Again</p>
+      <p>Are you sure you want to make changes?</p>
       <div class="confirm-btn">
-        <button class="btn custom-btn-blue" (click)="SaveChange()">OK</button>
+      
         <button class="btn custom-btn-outline-blue" (click)="modal.dismiss('Cross click')">Cancel</button>
+        <button class="btn custom-btn-blue" (click)="SaveChange()">OK</button>
       </div>
     </div>
   </ng-template>
@@ -144,7 +145,7 @@
   </div>
   <div class="modal-body">
     <div class="lead-update-wrapper">
-      <label>Field Type</label>
+      <label  class="userLabel" >Field Type</label>
       <div>
         <select class="input-fld" [(ngModel)]="AddUser.field_data[0].data_type"  name="data_type">
         <option value="text">Text</option>
@@ -157,7 +158,7 @@
 
 
     <div class="lead-update-wrapper" *ngIf="AddUser.field_data[0].data_type == 'Dropdown'">
-      <label>Options</label>
+      <label class="userLabel">Options</label>
       <div>
         <ng-container *ngFor="let address of addresses; let i = index;">
         <input type="text" class="input-fld" placeholder="Enter Option {{i+1}}"
@@ -168,10 +169,10 @@
       </div>
     </div>
 
-    <div class="lead-update-wrapper">
-      <label>Field Title</label>
+    <div class="lead-update-wrapper" style="margin-bottom: 50px">
+      <label class="userLabel">Field Title</label>
       <div>
-        <input type="text" class="input-fld" placeholder="Enter Title" maxlength="30"
+        <input type="text" class="input-fld required-fld" placeholder="Enter Title" maxlength="30"
         [(ngModel)]="AddUser.field_data[0].verbose_name"  name="verbose_name">
       </div>
     </div>
@@ -188,11 +189,36 @@
     </div> -->
     <br>
 
-    <div class="confirm-btn">
-      <button class="custom-btn-blue" (click)="AppruvedPosition2()" *ngIf="!isLoading">Save</button>
-      <button class="custom-btn-outline-blue" *ngIf="isLoading" style="cursor: no-drop;">Save</button>
-      <button class="custom-btn-outline-blue" (click)="modal.dismiss('Cross click')">Cancel</button>
+    <div class="figma-modal-fotter">
+      <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+      <button class="figma-prim-btn" (click)="AppruvedPosition2()" *ngIf="!isLoading">Save</button>
+      <button class="figma-prim-btn" *ngIf="isLoading" style="cursor: no-drop;">Save</button>
+    
     </div>
   </div>
 
 </ng-template>
+
+<ng-template #confirmModal2 let-modal>
+  <div class="modal-body">
+    <p>Are You Sure Do You Want To Move This Data in Junk ?</p>
+    <div class="confirm-btn">
+     
+      <button class="btn custom-btn-outline-blue" (click)="modal.dismiss('Cross click')">Cancel</button>
+      <button class="btn custom-btn-blue" (click)="multipleDelete1(JunkId)">OK</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #confirmLogout let-modal>
+  <div class="modal-body">
+    <p>Are you sure you want to save changes?</p>
+    <div class="confirm-btn">
+    
+      <button class="btn custom-btn-outline-blue" (click)="modal.dismiss('Cancel click')">Cancel</button>
+      <button class="btn custom-btn-blue" (click)="SaveChange()">OK</button>
+     
+    </div>
+  </div>
+</ng-template>
+

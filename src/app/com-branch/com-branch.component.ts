@@ -232,8 +232,21 @@ export class ComBranchComponent implements OnInit {
         if(isEdit == true){
           this.type = JSON.parse(JSON.stringify(data));
         }
+        else{
+          this.type = {
+            "BPLName": "",
+            "Address": "",
+            "StreetNo": "",
+            "Building": "",
+            "ZipCode": "",
+            "City": "",
+            "State": "",
+            "Country": "India",
+            "FederalTaxID": ""
+        }
+        }
 
-        this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' }).result.then((result) => {
+        this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg`,backdrop:'static' }).result.then((result) => {
           this.closeResult = `Closed with: ${result}`;
         }, (reason) => {
           this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -301,6 +314,21 @@ export class ComBranchComponent implements OnInit {
             }
           }
         }
+      }
+
+
+      bigScreenOrMid() {
+        if ((document.querySelector('.figma-cards-modal') as any).classList.contains('figma-cards-modal-lg')) {
+          this.commonObj.bigScreenMode = true;
+          (document.querySelector('.figma-cards-modal') as any).classList.add('figma-cards-modal-full');
+          (document.querySelector('.figma-cards-modal') as any).classList.remove('figma-cards-modal-lg');
+        } else {
+          this.commonObj.bigScreenMode = false;
+          (document.querySelector('.figma-cards-modal') as any).classList.add('figma-cards-modal-lg');
+          (document.querySelector('.figma-cards-modal') as any).classList.remove('figma-cards-modal-full');
+        }
+      
+      
       }
 
     }

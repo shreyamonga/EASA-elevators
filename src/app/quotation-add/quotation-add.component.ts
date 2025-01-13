@@ -541,13 +541,13 @@ export class QuotationAddComponent implements OnInit {
     this.RowPerPage();
   }
 
-  open(content: any, item: QuotationItem) {
+  open(content: any, item: any) {
     if(this.QuatItems.map(($item:any) => $item.ItemCode).includes(item.ItemCode)){
       return;
     }
     else{
     this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' })
+      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css' })
       .result.then(
         (result) => {
           this.closeResult = `Closed with: ${result}`;
@@ -560,13 +560,13 @@ export class QuotationAddComponent implements OnInit {
     this.ItemId = item.id;
     this.ItemNAme = item.ItemName;
     this.ItemQty = 1;
-    this.ItemDis =  0;
+    this.ItemDis =  item.Discount;
     this.ItemCode = item.ItemCode;
     this.ItemPrice = item.UnitPrice;
     this.ItemDueDate = ''
     this.TaxCode = item.TaxCode;
     // this.TaxCode = 'IGST12';
-    this.TaxRate = 0;
+    this.TaxRate = item.Tax;
   }
 }
 // addItemType: string = 'paid';
@@ -622,7 +622,7 @@ showitem() {
 
   editItemArray(content: any, item: any) {
     this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' })
+      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css' })
       .result.then(
         (result) => {
           this.closeResult = `Closed with: ${result}`;

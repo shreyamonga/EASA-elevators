@@ -10,6 +10,8 @@ export interface Quotation {
    DocDate: string;
    CardCode: any;
    CardName: string;
+   TaxRate:any;
+   tax:any;
    Comments: string;
    CreatedByPerson?:any;
    SalesPersonCode: any;

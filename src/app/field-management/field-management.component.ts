@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { BridgeService } from '../modules/service/bridge.service';
 import { Location } from '@angular/common';
 import { NotiferService } from '../modules/service/helpers/notifer.service';
 import { Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { retry } from 'rxjs/operators';
+import { AuthService , } from 'src/app/modules/service/AuthService.service';
 @Component({
   selector: 'app-field-management',
   templateUrl: './field-management.component.html',
@@ -12,6 +13,7 @@ import { retry } from 'rxjs/operators';
 })
 export class FieldManagementComponent implements OnInit {
 
+  @ViewChild('confirmLogout') confirmLogout!: ElementRef;
   Module: any[] = [];
   UserRole: any[] = [];
   AccessSuperModules: any[] = [];
@@ -21,7 +23,8 @@ export class FieldManagementComponent implements OnInit {
   AddDynamicFields:any = sessionStorage.getItem('AddDynamicFields');
 
   constructor(private bridgeService: BridgeService,private _location: Location,
-    private _NotifierService: NotiferService,private route: Router,private modalService: NgbModal,) {}
+    private _NotifierService: NotiferService,private route: Router,private modalService: NgbModal,
+    private authService: AuthService) {}
 
   ngOnInit(): void {
     this.getModuleData();
@@ -148,6 +151,29 @@ mainarray.forEach((mainItem: { module_name: any; is_accessible: boolean; id: any
         }
       );
   }
+
+  ngOnDestroy() {
+    debugger
+    if (this.isanythingEdit) {
+      this.modalService.open(this.confirmLogout, { 
+        ariaLabelledBy: 'modal-basic-title', 
+        backdrop: 'static', 
+        modalDialogClass: 'confirm-modal modal-dialog-centered' 
+      }).result.then(
+        (result) => {
+          if (result === 'OK') {
+            this.closeResult = `Closed with: ${result}`;
+            this.SaveChange();
+          }
+        },
+        (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+          console.log(`Modal dismissed with reason: ${reason}`);
+        }
+      );
+    }
+  }
+
   SaveAction(subfield: any,index:any): void {
     if(subfield.label.trim() == ''){
       this._NotifierService.showError('do not set the blank value it replaced with old value');
@@ -159,14 +185,15 @@ mainarray.forEach((mainItem: { module_name: any; is_accessible: boolean; id: any
     // Implement your action logic here (e.g., edit, delete)
   }
 
-  ngOnDestroy(): void {
-    if(this.isanythingEdit){
-    if (confirm('Are you want to Save Changes ? You have to login Again')) {
-      this.SaveChange();
-    }
-  }
-  }
+  // ngOnDestroy(): void {
+  //   if(this.isanythingEdit){
+  //   if (confirm('Are you want to Save Changes ? You have to login Again')) {
+  //     this.SaveChange();
+  //   }
+  // }
+  // }
 
+  
 
   getRoles() {
       this.bridgeService.GetWorkflow().subscribe(
@@ -191,7 +218,21 @@ SaveChange2(){
       if (Object(res)['status'] == "200") {
         this.isLoading = false;
         this._NotifierService.showSuccess('Save Changes Successfully !');
-        this.route.navigate(['/login']);
+        // this.route.navigate(['/login']);
+        const email = localStorage.getItem('currentUserEmail') || sessionStorage.getItem('currentUserEmail');
+        const password = localStorage.getItem('currentUserPassword') || sessionStorage.getItem('currentUserPassword');
+
+        if (email && password) {
+          const loginPayload = { email: email, password: password, FCM: '',"app_id": "2" };
+          this.authService.loginWithSession(loginPayload, false).subscribe(
+            (userData) => {
+              console.log('Login Success:', userData);
+            },
+            (error) => {
+              console.error('Login Error:', error);
+            }
+          );
+        }
         this.getModuleData();
         this.SaveAction(this.oldsubfld,this.isEditIndex);
         this.isanythingEdit = false;
@@ -218,9 +259,23 @@ SaveChange2(){
         if (Object(res)['status'] == "200") {
           this.isLoading = false;
           this._NotifierService.showSuccess('Save Changes Successfully !');
-          this.route.navigate(['/login']);
-          this.getModuleData();
-          this.SaveAction(this.oldsubfld,this.isEditIndex);
+          // this.route.navigate(['/login']);
+          // this.getModuleData();
+          // this.SaveAction(this.oldsubfld,this.isEditIndex);
+          const email = localStorage.getItem('currentUserEmail') || sessionStorage.getItem('currentUserEmail');
+          const password = localStorage.getItem('currentUserPassword') || sessionStorage.getItem('currentUserPassword');
+
+          if (email && password) {
+            const loginPayload = { email: email, password: password, FCM: '',"app_id": "2" };
+            this.authService.loginWithSession(loginPayload, false).subscribe(
+              (userData) => {
+                console.log('Login Success:', userData);
+              },
+              (error) => {
+                console.error('Login Error:', error);
+              }
+            );
+          }
           this.isanythingEdit = false;
         }
         else {
@@ -317,6 +372,21 @@ SaveChange2(){
           this.getModuleData();
           this._NotifierService.showSuccess("Field Added Successfully");
           this.modalService.dismissAll();
+          const email = localStorage.getItem('currentUserEmail') || sessionStorage.getItem('currentUserEmail');
+          const password = localStorage.getItem('currentUserPassword') || sessionStorage.getItem('currentUserPassword');
+
+          if (email && password) {
+            const loginPayload = { email: email, password: password, FCM: '',"app_id": "2" };
+            this.authService.loginWithSession(loginPayload, false).subscribe(
+              (userData) => {
+                console.log('Login Success:', userData);
+              },
+              (error) => {
+                console.error('Login Error:', error);
+              }
+            );
+          }
+          
         }
         else {
           this.isLoading = false;

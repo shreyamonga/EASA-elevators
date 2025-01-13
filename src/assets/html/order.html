@@ -828,7 +828,7 @@
                     <th class="text-left pding3">Qty</th>
 
                     <!-- <th class="text-left pding3">MRP</th> -->
-                    <th class="text-left pding3">Price [INR]</th>
+                    <th class="text-left pding3">Price <span class="curretype">[INR]</span></th>
 
                     <th class="text-left pding3">Disc(%)</th>
                     <th class="text-left pding3">Taxable Value</th>
@@ -1020,6 +1020,9 @@ if(response22.data[0].ProjectSetting[0].custom_field2 != null && response22.data
   $("#ComName").html((response22.data[0].ProjectSetting[0].custom_field2));
 }
 
+if(response22.data[0].ProjectSetting[0].currency_type != null && response22.data[0].ProjectSetting[0].currency_type != ''){
+  $(".curretype").html("["+response22.data[0].ProjectSetting[0].currency_type+"]");
+}
 
         })
 

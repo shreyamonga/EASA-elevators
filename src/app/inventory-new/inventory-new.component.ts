@@ -417,7 +417,7 @@ export class InventoryNewComponent implements OnInit {
 
     open(content: any) {
       this.getBridge();
-      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal',backdrop:'static' }).result.then(
+      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css',backdrop:'static' }).result.then(
         (result) => {
           this.closeResult = `Closed with: ${result}`;
         },
@@ -495,8 +495,9 @@ export class InventoryNewComponent implements OnInit {
         UpdatedTime: this.HeadingServices.getTime(),
       }
     }
+    //add gruop pop-up
     this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal',backdrop:'static' })
+      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css',backdrop:'static' })
       .result.then(
         (result) => {
           this.closeResult = `Closed with: ${result}`;
@@ -866,14 +867,48 @@ export class InventoryNewComponent implements OnInit {
     }
 
     checkExportStatus() {
+      if(sessionStorage.getItem('role') == 'admin'){
+        this.exportStatus = true;
+      }
+      else{
       const status = sessionStorage.getItem('exportStatus');
       this.exportStatus = status === 'true'; // sessionStorage stores everything as strings
+      }
     }
+
+    closeResultExport = '';
+  ExportFile(confirmModalForExport: any) {
+    this.modalService
+      .open(confirmModalForExport, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static', modalDialogClass: 'confirm-modal modal-dialog-centered' })
+      .result.then(
+        (result) => {
+          this.closeResultExport = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResultExport = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
+  }
+
+  closeResultExport2 = '';
+  ExportFile2(confirmModalForExport2: any) {
+    this.modalService
+      .open(confirmModalForExport2, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static', modalDialogClass: 'confirm-modal modal-dialog-centered' })
+      .result.then(
+        (result) => {
+          this.closeResultExport2 = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResultExport2 = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
+  }
 
     // Default excel file name when download
     fileName ="inventory-new_export.xlsx";
 
     Exportexcel() {
+      this.modalService.dismissAll();
       // Get the table element
       const data = document.getElementById("table-data");
       const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);
@@ -902,6 +937,7 @@ export class InventoryNewComponent implements OnInit {
     // Default excel file name when download
     fileName2 ="inventory-category-new_export.xlsx";
     Exportexcel2() {
+      this.modalService.dismissAll();
       // Get the table element
       const data = document.getElementById("yourTableId");
       const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);

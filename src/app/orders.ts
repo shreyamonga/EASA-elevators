@@ -10,6 +10,8 @@ export interface Orders {
     CardCode: string;
     departement?:string,
     PRID:string,
+    TaxRate:any;
+    tax:any;
     CardName: string;
     Comments: string;
     SalesPersonCode: any;

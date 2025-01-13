@@ -658,6 +658,7 @@ nav .profile-details i {
 
       /* box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); */
       /* min-height: 571px !important; */
+      
       .recent-sales-heading {
         display: flex;
         justify-content: space-between;
@@ -1808,7 +1809,7 @@ i.fa.fa-caret-down2.rotate {
 }
 
 i.fa.fa-caret-down.rotate {
-  transform: rotate(180deg);
+  transform: rotate(270deg);
 }
 
 .dropdown-container3 li a.active {
@@ -2431,14 +2432,17 @@ img {
     border-radius: 10px;
 
     .modal-header {
-      padding-bottom: 15px;
+      padding-bottom: 0px;
       border: none;
-
+      position: relative;
+      border-radius: 10px 10px 0 0;
+      // background-color: #E0EAFF;
       .modal-title {
         width: 100%;
         text-align: center;
-        color: #4A79E4;
-        font-size: 20px;
+        color: black;
+        font-size: 16px;
+
       }
 
       .clos-pop-btn {
@@ -3933,6 +3937,7 @@ ngb-datepicker {
 .custom-file-input1 {
   width: 46px;
   padding: 0px;
+  margin-left: 29px;
 
   &::before {
     content: "Import ";

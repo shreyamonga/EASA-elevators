@@ -314,10 +314,12 @@ export class SplitComponent implements OnInit {
 
 
   open(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' }).result.then((result) => {
+    this.commonObj.bigScreenMode = false;
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg`,backdrop:'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.commonObj.bigScreenMode = false;
     });
   }
 
@@ -511,11 +513,13 @@ export class SplitComponent implements OnInit {
     }
   }
   openEdit(contentEdit: any, item: any) {
-
-    this.modalService.open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' }).result.then((result) => {
+    this.commonObj.bigScreenMode = false;
+    this.modalService.open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg `,backdrop:'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.commonObj.bigScreenMode = false;
+
     });
 
     this.editbridges.id = String(item.id);
@@ -545,6 +549,37 @@ export class SplitComponent implements OnInit {
       this.editbridges[this.DynamicFiledPositionDetials[i].field_name] = item[this.DynamicFiledPositionDetials[i].field_name];
     }
 
+
+  }
+
+  openEdit2(contentEdit: any, item: any) {
+this.commonObj.bigScreenMode = false;
+    this.modalService.open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css`,backdrop:'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.commonObj.bigScreenMode = false;
+    });
+    
+    this.editbridges.id = String(item.id);
+    this.editbridges.date = item.date;
+    this.editbridges.companyName = item.companyName;
+    this.editbridges.source = item.source;
+    //console.log(this.editbridges.source);
+    this.editbridges.email = item.email;
+    this.editbridges.location = item.location;
+    this.editbridges.contactPerson = item.contactPerson;
+    this.editbridges.phoneNumber = item.phoneNumber;
+    this.editbridges.message = item.message;
+    this.editbridges.productInterest = item.productInterest;
+    this.editbridges.assignedTo = Object.values(item.assignedTo)[0];
+    this.editbridges.employeeId = item.employeeId.id;
+    this.editbridges.timestamp = item.timestamp;
+    this.editbridges.status = item.status;
+    this.editbridges.leadType = item.leadType;
+    this.editbridges.designation = item.designation;
+    this.editbridges.turnover = item.turnover;
+    this.editbridges.numOfEmployee = item.numOfEmployee;
 
   }
 
@@ -631,7 +666,7 @@ export class SplitComponent implements OnInit {
 
   addNotes(contentEdit: any) {
 
-    this.modalService.open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' }).result.then((result) => {
+    this.modalService.open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg`,backdrop:'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -783,7 +818,7 @@ export class SplitComponent implements OnInit {
 
   AssignTo(contentEdit: any, item: Bridge2) {
 
-    this.modalService.open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' }).result.then((result) => {
+    this.modalService.open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal`,backdrop:'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -797,38 +832,72 @@ export class SplitComponent implements OnInit {
     // console.log(this.lead_id);
   }
 
-  Assign_() {
-    if (confirm('Are You Sure Do You Want To Assign Lead')) {
+  // Assign_() {
+  //   if (confirm('Are You Sure Do You Want To Assign Lead')) {
 
 
 
-      this.bridgeService2.leadAssign(this.lead_id, this.selectedValue).subscribe(
-        (res: any) => {
-          if (Object(res)['status'] == "200") {
+  //     this.bridgeService2.leadAssign(this.lead_id, this.selectedValue).subscribe(
+  //       (res: any) => {
+  //         if (Object(res)['status'] == "200") {
 
-            this.ngOnInit();
-            this.modalService.dismissAll();
-          }
-          else {
-            this._NotifierService.showError(Object(res)['message']);
-          }
-          // Reset the form
-        },
-        (err) => {
-          const delim = ":"
-          const name = err.message
-          const result = name.split(delim).slice(3).join(delim)
-          this._NotifierService.showError(result);
-          //  this.ngOnInit();
+  //           this.ngOnInit();
+  //           this.modalService.dismissAll();
+  //         }
+  //         else {
+  //           this._NotifierService.showError(Object(res)['message']);
+  //         }
+       
+  //       },
+  //       (err) => {
+  //         const delim = ":"
+  //         const name = err.message
+  //         const result = name.split(delim).slice(3).join(delim)
+  //         this._NotifierService.showError(result);
+          
+  //       }
+  //     );
+
+     
+  //   }
+  // }
+
+  
+  closeResultAssign = '';
+
+Assign_(confirmModalAssign: any) {
+  debugger
+  this.modalService
+    .open(confirmModalAssign, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static', modalDialogClass: 'confirm-modal modal-dialog-centered' })
+    .result.then(
+      (result) => {
+        if (result === 'OK') {
+          this.bridgeService2.leadAssign(this.lead_id, this.searchAssignValue).subscribe(
+            (res: any) => {
+              if (Object(res)['status'] == "200") {
+                this.modalService.dismissAll();
+                this.searchAssignValue = null;
+                this.reload();
+              } else {
+                this._NotifierService.showError(Object(res)['message']);
+              }
+            },
+            (err) => {
+              const delim = ':';
+              const name = err.message;
+              const result = name.split(delim).slice(3).join(delim);
+              this._NotifierService.showError(result);
+            }
+          );
         }
-      );
+      },
+      (reason) => {
+        this.closeResultAssign = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
+}
 
-      // this.http.post(this.baseUrl2 + '/lead/assign', { id: this.lead_id, employeeId: this.selectedValue }).toPromise().then((data: any) => { });
-      // this.ngOnInit();
-      // this.modalService.dismissAll();
-    }
-  }
-  // Assign to modal close
+ 
 
   receiveData(data: string) {
     if(data == 'true'){
@@ -1171,6 +1240,21 @@ getDynaimcFld(name:any){
       console.log(result);
     }
   );
+}
+
+//commonObj : any={exportLoading:false,previousItem:'form'}
+bigScreenOrMid() {
+  if ((document.querySelector('.figma-cards-modal') as any).classList.contains('figma-cards-modal-lg')) {
+    this.commonObj.bigScreenMode = true;
+    (document.querySelector('.figma-cards-modal') as any).classList.add('figma-cards-modal-full');
+    (document.querySelector('.figma-cards-modal') as any).classList.remove('figma-cards-modal-lg');
+  } else {
+    this.commonObj.bigScreenMode = false;
+    (document.querySelector('.figma-cards-modal') as any).classList.add('figma-cards-modal-lg');
+    (document.querySelector('.figma-cards-modal') as any).classList.remove('figma-cards-modal-full');
+  }
+
+
 }
 
 }

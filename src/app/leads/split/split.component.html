@@ -13,11 +13,10 @@
                   ngbDropdownToggle>{{Headingss[0].heading111}}</button>
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                   <button ngbDropdownItem>
+                    <i title="Download Excel" class="fa-solid fa-download download-icon cursor-pointer importfileicon"
+                      onclick="window.location.href = '../../assets/lead_import.xlsx'"></i>
                     <input type="file" ngbDropdownItem (change)="onFileChange($event)" multiple="false"
                       class="custom-file-input1" style="float: left;" />
-
-                    <i title="Download Excel" onclick="window.location.href = '../../assets/lead_import.xlsx'"
-                      class="fa-solid fa-download download-icon cursor-pointer importfileicon"></i>
                   </button>
                   <button ngbDropdownItem routerLink="/leads/table">
                     <span>
@@ -366,7 +365,7 @@
                           <div class="d-flex  justify-content-between align-items-center ">
                             <h6 class="fw-600 mb-0 pb-3" style="font-size: 14px;"> Contact Address </h6>
                             <a class="btn addfollowup" style="margin-right: 12px;"
-                              (click)="openEdit(contentEditaddress, item)">Edit</a>
+                              (click)="openEdit2(contentEditaddress, item)">Edit</a>
                           </div>
                           <p>{{item.location || 'No Address Available'}}</p>
                         </div>
@@ -455,37 +454,55 @@
   <div class="modal-header">
     <h4 class="modal-title modal-heading" id="modal-basic-title">{{Headingss[0].heading101}}
       {{Headingss[0].leftheading}}</h4>
-    <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')"
+    <!-- <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')"
       style="outline: none;">
       <span aria-hidden="true" style="outline: none;">×</span>
-    </button>
+    </button> -->
+    <span class="figma-screen-ico" [innerHTML]="(commonObj.bigScreenMode ? 'figma-modal-big-screen-ico' : 'figma-modal-mid-screen-ico') | svgIcons:''" (click)="bigScreenOrMid()"></span>
+    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
   </div>
   <!-- <div *ngIf="error">{{error}}</div> -->
+<!-- 
+  <form #f="ngForm" name="theForm" class="figma-modal-form" id="ProjectManagmentPopupHere">
+    <ng-container [ngSwitch]="commonObj.previousItem">
+      <ng-container *ngSwitchCase="'form'"> -->
   <!-- <div *ngIf="success">{{success}}</div> -->
-  <form #f="ngForm" name="theForm" (submit)="addLeads(f)">
-    <div class="modal-body">
-      <div class="row">
-        <div class="col-md-6">
+  <ng-container >
+  <form #f="ngForm" name="theForm" class="figma-modal-form"  >
+    <ng-container>
+      <ng-container>
+        <p class="figma-modal-inner-heading">{{'Lead Details'}}</p>
+    <div class="figma-modal-body">
+      <!-- <div class="row"> -->
+        <div class="figma-form-wrapper">
           <label>{{Headingss[0].heading1}} </label>
-          <input type="text" class="input-fld required-fld" name="companyName" [(ngModel)]="bridges.companyName"
-            #companyName="ngModel" placeholder="Enter {{Headingss[0].heading1}}" required>
-          <span class="help-block danger"
-            *ngIf="(companyName.errors?.required && f.submitted)||(companyName.errors?.required && companyName.touched)">
-            The {{Headingss[0].heading1}} is required
-          </span>
+          <input type="text" class="input-fld"
+            [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'companyName')" name="companyName"
+            [(ngModel)]="bridges.companyName" #companyName="ngModel" placeholder="Enter {{Headingss[0].heading1}}"
+            [required]="HeadingServices.isModulefieldMendetory(1, 'companyName')">
+          <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'companyName')">
+            <span class="help-block danger"
+              *ngIf="(companyName.errors?.required && f.submitted)||(companyName.errors?.required && companyName.touched)">
+              The {{Headingss[0].heading1}} is required
+            </span>
+          </ng-container>
         </div>
 
-        <div class="col-md-6">
+        <div class="figma-form-wrapper">
           <label>{{Headingss[0].heading2}} </label>
-          <input type="text" class="input-fld required-fld" name="contactPerson" [(ngModel)]="bridges.contactPerson"
-            #contactPerson="ngModel" placeholder="Enter {{Headingss[0].heading2}}" required>
-          <span class="help-block danger"
-            *ngIf="(contactPerson.errors?.required && f.submitted)||(contactPerson.errors?.required && contactPerson.touched)">
-            The {{Headingss[0].heading2}} is required
-          </span>
+          <input type="text" class="input-fld"
+            [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'contactPerson')" name="contactPerson"
+            [(ngModel)]="bridges.contactPerson" #contactPerson="ngModel" placeholder="Enter {{Headingss[0].heading2}}"
+            [required]="HeadingServices.isModulefieldMendetory(1, 'contactPerson')">
+          <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'contactPerson')">
+            <span class="help-block danger"
+              *ngIf="(contactPerson.errors?.required && f.submitted)||(contactPerson.errors?.required && contactPerson.touched)">
+              The {{Headingss[0].heading2}} is required
+            </span>
+          </ng-container>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'designation')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'designation')">
           <label>{{Headingss[0].heading4}}</label>
           <input type="text" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'designation')" name="designation"
@@ -500,21 +517,26 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6">
+        <div class="figma-form-wrapper">
           <label>{{Headingss[0].heading3}} </label>
-          <input type="number" class="input-fld required-fld" name="phoneNumber" [(ngModel)]="bridges.phoneNumber"
-            ngModel #phoneNumber="ngModel" placeholder="Enter {{Headingss[0].heading3}}" maxlength="15"
-            pattern="^((\\+91-?)|0)?[0-9]{7,15}$" required>
-          <span class="help-block danger"
-            *ngIf="(phoneNumber.errors?.required && f.submitted)||(phoneNumber.errors?.required && phoneNumber.touched)">
-            The {{Headingss[0].heading3}} is required
-          </span>
+          <input type="number" class="input-fld"
+            [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'phoneNumber')" name="phoneNumber"
+            [(ngModel)]="bridges.phoneNumber" ngModel #phoneNumber="ngModel"
+            placeholder="Enter {{Headingss[0].heading3}}" maxlength="15" pattern="^((\\+91-?)|0)?[0-9]{7,15}$"
+            [required]="HeadingServices.isModulefieldMendetory(1, 'phoneNumber')">
+          <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'phoneNumber')">
+            <span class="help-block danger"
+              *ngIf="(phoneNumber.errors?.required && f.submitted)||(phoneNumber.errors?.required && phoneNumber.touched)">
+              The {{Headingss[0].heading3}} is required
+            </span>
+          </ng-container>
+
           <span class="help-block danger" *ngIf="phoneNumber.errors?.pattern">
             Invalid {{Headingss[0].heading3}}
           </span>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'email')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'email')">
           <label>{{Headingss[0].heading5}}</label>
           <input type="email" email="true" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'email')" name="email"
@@ -532,7 +554,7 @@
           </span>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'location')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'location')">
           <label>{{Headingss[0].heading6}}</label>
           <input type="text" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'location')" name="location"
@@ -542,15 +564,17 @@
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'location')">
             <span class="help-block danger"
               *ngIf="(location.errors?.required && f.submitted)||(location.errors?.required && location.touched)">
-              The {{Headingss[0].heading3}} is required
+              The {{Headingss[0].heading6}} is required
             </span>
           </ng-container>
         </div>
 
-        <div class="col-md-6">
+        <div class="figma-form-wrapper">
           <label>{{Headingss[0].heading7}} </label>
           <ng-select #selectsource [clearOnBackspace]="false" [searchable]="false" name="source"
-            [(ngModel)]=bridges.source #source="ngModel" required class="ngsearch-dropdown input-fld required-fld">
+            [(ngModel)]=bridges.source #source="ngModel"
+            [required]="HeadingServices.isModulefieldMendetory(1, 'source')" class="ngsearch-dropdown input-fld"
+            [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'source')">
             <ng-template ng-header-tmp>
               <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search" type="text"
                 (input)="selectsource.filter($event.target.value)" />
@@ -558,16 +582,20 @@
             <ng-option value="" disable selected>Select {{Headingss[0].heading7}} </ng-option>
             <ng-option value="{{item1.Name}}" *ngFor="let item1 of source1">{{item1.Name}}</ng-option>
           </ng-select>
-          <span class="help-block danger"
-            *ngIf="(source.errors?.required && f.submitted)||(source.errors?.required && source.touched)">
-            The {{Headingss[0].heading7}} is required
-          </span>
+          <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'source')">
+            <span class="help-block danger"
+              *ngIf="(source.errors?.required && f.submitted)||(source.errors?.required && source.touched)">
+              The {{Headingss[0].heading7}} is required
+            </span>
+          </ng-container>
         </div>
 
-        <div class="col-md-6" *ngIf="bridges.source == 'Campaign'">
+        <div class="figma-form-wrapper" *ngIf="bridges.source == 'Campaign'">
           <label>Campaign Name</label>
           <ng-select #selectsource [clearOnBackspace]="false" [searchable]="false" name="campaign1"
-            [(ngModel)]="bridges.campaign" class="ngsearch-dropdown input-fld required-fld">
+            [(ngModel)]="bridges.campaign" #campaign1="ngModel"
+            [required]="HeadingServices.isModulefieldMendetory(1, 'campaign1')" class="ngsearch-dropdown input-fld"
+            [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'campaign1')">
             <ng-template ng-header-tmp>
               <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search" type="text"
                 (input)="selectsource.filter($event.target.value)" />
@@ -576,13 +604,15 @@
             <ng-option value="{{item1.CampaignSetName}}"
               *ngFor="let item1 of CampaigNameList">{{item1.CampaignSetName}}</ng-option>
           </ng-select>
-          <span class="help-block danger"
-            *ngIf="(source.errors?.required && f.submitted)||(source.errors?.required && source.touched)">
-            The Campaign is required
-          </span>
+          <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'campaign1')">
+            <span class="help-block danger"
+              *ngIf="(campaign1.errors?.required && f.submitted)||(campaign1.errors?.required && campaign1.touched)">
+              The Campaign is required
+            </span>
+          </ng-container>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'productInterest')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'productInterest')">
           <label>{{Headingss[0].heading8}} </label>
           <input type="text" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'productInterest')" name="productInterest"
@@ -598,7 +628,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'numOfEmployee')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'numOfEmployee')">
           <label>{{Headingss[0].heading9}}</label>
           <input type="number" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'numOfEmployee')" name="numOfEmployee"
@@ -618,7 +648,7 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'turnover')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'turnover')">
           <label>{{Headingss[0].heading10}}</label>
           <div class="newrupe">
 
@@ -641,10 +671,12 @@
           </ng-container>
         </div>
 
-        <div class="col-md-6">
+        <div class="figma-form-wrapper">
           <label>{{Headingss[0].heading11}} </label>
           <ng-select #selectstatus [clearOnBackspace]="false" [searchable]="false" [(ngModel)]="bridges.status"
-            name="status" #status="ngModel" required class="ngsearch-dropdown input-fld required-fld">
+            name="status" #status="ngModel" [required]="HeadingServices.isModulefieldMendetory(1, 'status')"
+            class="ngsearch-dropdown input-fld"
+            [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'status')">
             <ng-template ng-header-tmp>
               <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search" type="text"
                 (input)="selectstatus.filter($event.target.value)" />
@@ -656,13 +688,15 @@
             <option value="{{status}}" *ngFor="let status of leadStatus">{{status}}</option>
 
           </select> -->
-          <span class="help-block danger"
-            *ngIf="(status.errors?.required && f.submitted)||(status.errors?.required && status.touched)">
-            The {{Headingss[0].heading11}} is required
-          </span>
+          <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'status')">
+            <span class="help-block danger"
+              *ngIf="(status.errors?.required && f.submitted)||(status.errors?.required && status.touched)">
+              The {{Headingss[0].heading11}} is required
+            </span>
+          </ng-container>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'leadType')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'leadType')">
           <label>{{Headingss[0].heading12}} </label>
           <ng-select #selectleadpriority [clearOnBackspace]="false" [searchable]="false" [(ngModel)]="bridges.leadType"
             name="leadType" #leadType="ngModel" class="ngsearch-dropdown input-fld"
@@ -676,23 +710,23 @@
             <ng-option value="" disable selected>Select {{Headingss[0].heading12}}</ng-option>
             <ng-option value="{{item1.Name}}" *ngFor="let item1 of lead_Type">{{item1.Name}}</ng-option>
           </ng-select>
-          <!-- <select class="input-fld" [(ngModel)]="bridges.leadType" name="leadType">
-            <option value="" selected>Select Lead Priority</option>
-            <option value="{{item1.Name}}" *ngFor="let item1 of lead_Type">{{item1.Name}}</option>
-
-          </select> -->
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'leadType')">
             <span class="help-block danger"
               *ngIf="(leadType.errors?.required && f.submitted)||(leadType.errors?.required && leadType.touched)">
               The {{Headingss[0].heading12}} is required
             </span>
           </ng-container>
+          <!-- <select class="input-fld" [(ngModel)]="bridges.leadType" name="leadType">
+            <option value="" selected>Select Lead Priority</option>
+            <option value="{{item1.Name}}" *ngFor="let item1 of lead_Type">{{item1.Name}}</option>
+
+          </select> -->
         </div>
 
-        <div class="col-md-12" *ngIf="HeadingServices.isModulefieldview(1, 'assignedTo')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'assignedTo')">
           <label>{{Headingss[0].heading13}}</label>
           <ng-select #selectassignTo [clearOnBackspace]="false" [searchable]="false" [(ngModel)]="bridges.assignedTo"
-            name="assignedTo" class="ngsearch-dropdown input-fld"
+            name="assignedTo" #assignedTo="ngModel" class="ngsearch-dropdown input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'assignedTo')"
             [class.disable-fld]="!HeadingServices.isModulefieldedit(1, 'assignedTo')" [disabled]="!HeadingServices.isModulefieldedit(1, 'assignedTo')"
             [required]="HeadingServices.isModulefieldMendetory(1, 'assignedTo')">
@@ -715,7 +749,7 @@
           </select> -->
         </div>
 
-        <div class="col-md-12" *ngIf="HeadingServices.isModulefieldview(1, 'message')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'message')">
           <label>{{Headingss[0].heading14}}</label>
           <input type="text" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'message')" name="message"
@@ -736,301 +770,313 @@
         <ng-container *ngFor="let item of DynamicFiledPositionDetials">
 
           <!-- <div class="lead-update-wrapper" *ngIf="HeadingServices.isModulefieldview(1,item.field_name)"> -->
-            <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1,item.field_name)">
+          <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1,item.field_name)">
             <label>{{HeadingServices.isfindlablebykey(1, item.field_name)}} </label>
-              <div *ngIf="item.data_type != 'Dropdown'">
-                <input type="{{item.data_type}}" class="input-fld"
-                [disabled]="!HeadingServices.isModulefieldedit(1, item.field_name)"
+            <div *ngIf="item.data_type != 'Dropdown'">
+              <input type="{{item.data_type}}" class="input-fld" [disabled]="!HeadingServices.isModulefieldedit(1, item.field_name)"
                 [class.disable-fld]="!HeadingServices.isModulefieldedit(1, item.field_name)"
                 [class.required-fld]="HeadingServices.isModulefieldMendetory(1, item.field_name)"
                 [required]="HeadingServices.isModulefieldMendetory(1, item.field_name)"
-                       [(ngModel)]="bridges[item.field_name]"
-                       name="{{item.field_name}}"
-                       #fieldControl="ngModel"
-                       placeholder="Enter {{HeadingServices.isfindlablebykey(1, item.field_name)}}">
-                       <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, item.field_name)">
-                        <span class="help-block danger"
-                        *ngIf="HeadingServices.isModulefieldMendetory(1, item.field_name) && ((fieldControl.errors?.['required'] && f.submitted) || (fieldControl.errors?.['required'] && fieldControl.touched))">
-                    The {{ HeadingServices.isfindlablebykey(1, item.field_name) }} is required
-                  </span>
-                      </ng-container>
-              </div>
+                [(ngModel)]="bridges[item.field_name]" name="{{item.field_name}}" #fieldControl="ngModel"
+                placeholder="Enter {{HeadingServices.isfindlablebykey(1, item.field_name)}}">
+              <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, item.field_name)">
+                <span class="help-block danger"
+                  *ngIf="HeadingServices.isModulefieldMendetory(1, item.field_name) && ((fieldControl.errors?.['required'] && f.submitted) || (fieldControl.errors?.['required'] && fieldControl.touched))">
+                  The {{ HeadingServices.isfindlablebykey(1, item.field_name) }} is required
+                </span>
+              </ng-container>
+            </div>
 
-              <div *ngIf="item.data_type == 'Dropdown'">
-                <select class="input-fld"
-                [disabled]="!HeadingServices.isModulefieldedit(1, item.field_name)"
+            <div *ngIf="item.data_type == 'Dropdown'">
+              <select class="input-fld" [disabled]="!HeadingServices.isModulefieldedit(1, item.field_name)"
                 [class.disable-fld]="!HeadingServices.isModulefieldedit(1, item.field_name)"
                 [class.required-fld]="HeadingServices.isModulefieldMendetory(1, item.field_name)"
                 [required]="HeadingServices.isModulefieldMendetory(1, item.field_name)"
-                       [(ngModel)]="bridges[item.field_name]"
-                       name="{{item.field_name}}"
-                       #fieldControl="ngModel"
-                       placeholder="Enter {{HeadingServices.isfindlablebykey(1, item.field_name)}}">
-                       <option value="">Select {{HeadingServices.isfindlablebykey(1, item.field_name)}}</option>
-                       <option *ngFor="let temd of HeadingServices.JSONparse(item.data_option)" value="{{temd}}"> {{temd}}</option>
-                </select>
-                       <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, item.field_name)">
-                        <span class="help-block danger"
-                        *ngIf="HeadingServices.isModulefieldMendetory(1, item.field_name) && ((fieldControl.errors?.['required'] && f.submitted) || (fieldControl.errors?.['required'] && fieldControl.touched))">
-                    The {{ HeadingServices.isfindlablebykey(1, item.field_name) }} is required
-                  </span>
-                      </ng-container>
-              </div>
-
-
+                [(ngModel)]="bridges[item.field_name]" name="{{item.field_name}}" #fieldControl="ngModel"
+                placeholder="Enter {{HeadingServices.isfindlablebykey(1, item.field_name)}}">
+                <option value="">Select {{HeadingServices.isfindlablebykey(1, item.field_name)}}</option>
+                <option *ngFor="let temd of HeadingServices.JSONparse(item.data_option)" value="{{temd}}"> {{temd}}
+                </option>
+              </select>
+              <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, item.field_name)">
+                <span class="help-block danger"
+                  *ngIf="HeadingServices.isModulefieldMendetory(1, item.field_name) && ((fieldControl.errors?.['required'] && f.submitted) || (fieldControl.errors?.['required'] && fieldControl.touched))">
+                  The {{ HeadingServices.isfindlablebykey(1, item.field_name) }} is required
+                </span>
+              </ng-container>
+            </div>
           </div>
         </ng-container>
 
-        <div style="text-align: center;" *ngIf="isLoading">
-          <img src="../../assets/img/loder.gif" style="height: 100%;width: 10%;">
-        </div>
-        <div class="col-md-12 text-center mt-3" *ngIf="!isLoading">
-          <button class="add-invent1">{{Headingss[0].heading105}}</button>
-        </div>
 
-      </div>
+
+
+        <!-- <div style="text-align: center;" *ngIf="isLoading">
+          <img src="../../assets/img/loder.gif" style="height: 100%;width: 10%;">
+        </div> -->
+      
+
+      <!-- </div> -->
+    </div>
+    <!-- <div class="figma-modal-fotter" *ngIf="!isLoading">
+      <button class="figma-outline-btn">{{Headingss[0].heading105}}</button>
+    </div> -->
+    </ng-container>
+    </ng-container>
+
+    <div class="figma-modal-fotter">
+      <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+      <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
+      <button class="figma-prim-btn"  (click)="addLeads(f)">Save</button>
     </div>
   </form>
+</ng-container >
 
 </ng-template>
+
+
+
 <div class="alert alert-primary success-box alert-dismissible fade show" role="alert">
   Lead Added Successfully !
 </div>
 
-
 <ng-template #contentEdit let-modal>
   <div class="modal-header">
-    <h4 class="modal-title modal-heading" id="modal-basic-title">{{Headingss[0].heading102}} {{Headingss[0].leftheading}}</h4>
-    <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')"
+    <h4 class="modal-title modal-heading" id="modal-basic-title">
+      {{isView?Headingss[0].heading115:Headingss[0].heading102}} {{Headingss[0].leftheading}}</h4>
+    <!-- <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')"
       style="outline: none;">
       <span aria-hidden="true" style="outline: none;">×</span>
-    </button>
+    </button> -->
+
+    <span class="figma-screen-ico" [innerHTML]="(commonObj.bigScreenMode ? 'figma-modal-big-screen-ico' : 'figma-modal-mid-screen-ico') | svgIcons:''" (click)="bigScreenOrMid()"></span>
+    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
   </div>
-  <!-- <div *ngIf="error">{{error}}</div> -->
-  <!-- <div *ngIf="success">{{success}}</div> -->
-  <form #f="ngForm" name="theForm" (submit)="editLeads(f)">
-    <div class="modal-body">
-      <div class="row">
-        <div class="col-md-6">
-          <label>{{Headingss[0].heading1}} </label>
-          <input type="text" class="input-fld required-fld" name="companyName" [(ngModel)]="editbridges.companyName"
-            #companyName="ngModel" placeholder="{{Headingss[0].heading1}}" required>
-          <span class="help-block danger"
-            *ngIf="(companyName.errors?.required && f.submitted)||(companyName.errors?.required && companyName.touched)">
-            The {{Headingss[0].heading1}} is required
-          </span>
-        </div>
-
-        <div class="col-md-6">
-          <label>{{Headingss[0].heading2}} </label>
-          <input type="text" class="input-fld required-fld" name="contactPerson" [(ngModel)]="editbridges.contactPerson"
-            #contactPerson="ngModel" placeholder="Name" required>
-          <span class="help-block danger"
-            *ngIf="(contactPerson.errors?.required && f.submitted)||(contactPerson.errors?.required && contactPerson.touched)">
-            The {{Headingss[0].heading2}} is required
-          </span>
-        </div>
-
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'designation')">
-          <label>{{Headingss[0].heading4}}</label>
+  <ng-container>
+  <form #f="ngForm" name="theForm" class="figma-modal-form"  >
+    <ng-container>
+    <ng-container>
+      <p class="figma-modal-inner-heading">{{'Lead Details'}}</p>
+    <div class="figma-modal-body">
+      <!-- <div class="row"> -->
+        <div class="figma-form-wrapper">
+          <label>{{Headingss[0].heading1}} {{HeadingServices.isModulefieldMendetory(1, 'companyName')}}</label>
           <input type="text" class="input-fld"
-            [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'designation')"
-            name="{{Headingss[0].heading4}}" [(ngModel)]="editbridges.designation" #designation="ngModel"
-            placeholder="Designation" [class.disable-fld]="!HeadingServices.isModulefieldedit(1, 'designation')"
-            [disabled]="!HeadingServices.isModulefieldedit(1, 'designation')"
-            [required]="HeadingServices.isModulefieldMendetory(1, 'designation')">
-          <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'designation')">
+            [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'companyName')" name="companyName"
+            [readonly]="isView" [(ngModel)]="editbridges.companyName" #companyName="ngModel"
+            placeholder="Enter {{Headingss[0].heading1}} "
+            [required]="HeadingServices.isModulefieldMendetory(1, 'companyName')">
+          <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'companyName')">
             <span class="help-block danger"
-              *ngIf="(designation.errors?.required && f.submitted)||(designation.errors?.required && designation.touched)">
-              The {{Headingss[0].heading4}} is required
+              *ngIf="(companyName.errors?.required && f.submitted)||(companyName.errors?.required)">
+              The {{Headingss[0].heading1}} is required
             </span>
           </ng-container>
         </div>
 
-        <div class="col-md-6">
-          <label>{{Headingss[0].heading3}} </label>
-          <input type="number" class="input-fld required-fld" name="phoneNumber" [(ngModel)]="editbridges.phoneNumber"
-            #phoneNumber="ngModel" placeholder="{{Headingss[0].heading3}}" maxlength="15"
-            pattern="^((\\+91-?)|0)?[0-9]{7,15}$" required>
-          <span class="help-block danger" *ngIf="phoneNumber.errors?.required ">
-            The {{Headingss[0].heading3}} Number is required
-          </span>
-          <span class="help-block danger" *ngIf="phoneNumber.errors?.pattern">
-            Invalid {{Headingss[0].heading3}} Number
-          </span>
+        <div class="figma-form-wrapper">
+          <label>{{Headingss[0].heading2}} </label>
+          <input type="text" class="input-fld"
+            [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'contactPerson')" name="contactPerson"
+            [readonly]="isView" [(ngModel)]="editbridges.contactPerson" #contactPerson="ngModel"
+            placeholder="Enter {{Headingss[0].heading2}} "
+            [required]="HeadingServices.isModulefieldMendetory(1, 'contactPerson')">
+          <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'contactPerson')">
+            <span class="help-block danger"
+              *ngIf="(contactPerson.errors?.required && f.submitted)||(contactPerson.errors?.required)">
+              The {{Headingss[0].heading2}} is required
+            </span>
+          </ng-container>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'email')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'designation')">
+          <label>{{Headingss[0].heading4}} </label>
+          <input type="text" class="input-fld"
+            [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'designation')" name="designation"
+            [readonly]="isView" [(ngModel)]="editbridges.designation" #designation="ngModel"
+            placeholder="Enter {{Headingss[0].heading4}}" [class.disable-fld]="!HeadingServices.isModulefieldedit(1, 'designation')"
+            [disabled]="!HeadingServices.isModulefieldedit(1, 'designation')"
+            [required]="HeadingServices.isModulefieldMendetory(1, 'designation')">
+          <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'designation')">
+            <span class="help-block danger"
+              *ngIf="(designation.errors?.required && f.submitted)||(designation.errors?.required)">
+              The {{Headingss[0].heading2}} is required
+            </span>
+          </ng-container>
+        </div>
+
+        <div class="figma-form-wrapper">
+          <label>{{Headingss[0].heading3}} </label>
+          <input type="number" class="input-fld"
+            [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'phoneNumber')" name="phoneNumber"
+            [readonly]="isView" [(ngModel)]="editbridges.phoneNumber" #phoneNumber="ngModel"
+            placeholder="Enter {{Headingss[0].heading3}}" maxlength="15" pattern="^((\\+91-?)|0)?[0-9]{7,15}$"
+            [required]="HeadingServices.isModulefieldMendetory(1, 'phoneNumber')">
+          <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'phoneNumber')">
+            <span class="help-block danger" *ngIf="phoneNumber.errors?.required ">
+              The {{Headingss[0].heading3}} is required
+            </span>
+            <span class="help-block danger" *ngIf="phoneNumber.errors?.pattern">
+              Invalid {{Headingss[0].heading3}}
+            </span>
+          </ng-container>
+        </div>
+
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'email')">
           <label>{{Headingss[0].heading5}}</label>
           <input type="email" email="true" class="input-fld"
-            [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'email')" name="{{Headingss[0].heading5}}"
-            [(ngModel)]="editbridges.email" #email="ngModel" placeholder="Email"
+            [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'email')" name="email" [readonly]="isView"
+            [(ngModel)]="editbridges.email" #email="ngModel" placeholder="Enter {{Headingss[0].heading5}}"
             [class.disable-fld]="!HeadingServices.isModulefieldedit(1, 'email')" [disabled]="!HeadingServices.isModulefieldedit(1, 'email')"
             [required]="HeadingServices.isModulefieldMendetory(1, 'email')">
-          <span class="help-block danger" *ngIf="email.errors?.email">
-            Invalid {{Headingss[0].heading5}} Id
-          </span>
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'email')">
             <span class="help-block danger"
               *ngIf="(email.errors?.required && f.submitted)||(email.errors?.required)">
               The {{Headingss[0].heading5}} is required
             </span>
           </ng-container>
+          <span class="help-block danger" *ngIf="email.errors?.email">
+            Invalid {{Headingss[0].heading5}}
+          </span>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'location')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'location')">
           <label>{{Headingss[0].heading6}}</label>
           <input type="text" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'location')" name="location"
-            [(ngModel)]="editbridges.location" #location="ngModel" placeholder="{{Headingss[0].heading6}}"
-            [class.disable-fld]="!HeadingServices.isModulefieldedit(1, 'location')" [disabled]="!HeadingServices.isModulefieldedit(1, 'location')"
+            [readonly]="isView" [(ngModel)]="editbridges.location" #location="ngModel"
+            placeholder="Enter {{Headingss[0].heading6}}" [class.disable-fld]="!HeadingServices.isModulefieldedit(1, 'location')"
+            [disabled]="!HeadingServices.isModulefieldedit(1, 'location')"
             [required]="HeadingServices.isModulefieldMendetory(1, 'location')">
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'location')">
             <span class="help-block danger"
-              *ngIf="(location.errors?.required && f.submitted)||(location.errors?.required && location.touched)">
-              The {{Headingss[0].heading6}} is required
+              *ngIf="(location.errors?.required && f.submitted)||(location.errors?.required)">
+              The {{Headingss[0].heading3}} is required
             </span>
           </ng-container>
         </div>
 
-        <div class="col-md-6">
+        <div class="figma-form-wrapper">
           <label>{{Headingss[0].heading7}} </label>
-          <ng-select #selecteditsource [clearOnBackspace]="false" [searchable]="false" name="source" required
-            [(ngModel)]="editbridges.source" #source="ngModel" class="ngsearch-dropdown input-fld required-fld">
+          <ng-select #selectsource [clearOnBackspace]="false" [readonly]="isView" [searchable]="false" name="source"
+            [(ngModel)]="editbridges.source" #source="ngModel" placeholder="Source"
+            [required]="HeadingServices.isModulefieldMendetory(1, 'source')" class="ngsearch-dropdown input-fld"
+            [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'source')">
             <ng-template ng-header-tmp>
               <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search" type="text"
-                (input)="selecteditsource.filter($event.target.value)" />
+                (input)="selectsource.filter($event.target.value)" />
             </ng-template>
             <ng-option value="" disable selected>Select {{Headingss[0].heading7}}</ng-option>
             <ng-option value="{{item1.Name}}" *ngFor="let item1 of source1">{{item1.Name}}</ng-option>
           </ng-select>
-
-          <!-- <select class="input-fld required-fld" name="source" required [(ngModel)]="editbridges.source"
-            #source="ngModel" placeholder="Source">
-            <option value="" selected disabled>Choose Select</option>
-            <option value="{{item1.Name}}" *ngFor="let item1 of source1">{{item1.Name}}</option>
-
-          </select> -->
-
-
-          <span class="help-block danger"
-            *ngIf="(source.errors?.required && f.submitted)||(source.errors?.required && source.touched)">
-            The {{Headingss[0].heading7}} is required
-          </span>
-
-
-
+          <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'source')">
+            <span class="help-block danger"
+              *ngIf="(source.errors?.required && f.submitted)||(source.errors?.required)">
+              The {{Headingss[0].heading7}} is required
+            </span>
+          </ng-container>
           <!-- <input type="text" class="input-fld" name="source" [(ngModel)]="editbridges.source" #source="ngModel" placeholder="Source"> -->
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'productInterest')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'productInterest')">
           <label>{{Headingss[0].heading8}}</label>
           <input type="text" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'productInterest')" name="productInterest"
-            [(ngModel)]="editbridges.productInterest" #productInterest="ngModel" placeholder="{{Headingss[0].heading8}}"
-            [class.disable-fld]="!HeadingServices.isModulefieldedit(1, 'productInterest')"
+            [readonly]="isView" [(ngModel)]="editbridges.productInterest" #productInterest="ngModel"
+            placeholder="Enter {{Headingss[0].heading8}}" [class.disable-fld]="!HeadingServices.isModulefieldedit(1, 'productInterest')"
             [disabled]="!HeadingServices.isModulefieldedit(1, 'productInterest')"
             [required]="HeadingServices.isModulefieldMendetory(1, 'productInterest')">
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'productInterest')">
             <span class="help-block danger"
-              *ngIf="(productInterest.errors?.required && f.submitted)||(productInterest.errors?.required && productInterest.touched)">
-              The {{Headingss[0].heading8}} is required
+              *ngIf="(productInterest.errors?.required && f.submitted)||(productInterest.errors?.required)">
+              The {{Headingss[0].heading7}} is required
             </span>
           </ng-container>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'numOfEmployee')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'numOfEmployee')">
           <label>{{Headingss[0].heading9}}</label>
           <input type="number" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'numOfEmployee')" name="numOfEmployee"
-            [(ngModel)]="editbridges.numOfEmployee" #numOfEmployee="ngModel" min="0"
-            placeholder="{{Headingss[0].heading9}}" pattern="^[0-9]*$"
+            [readonly]="isView" [(ngModel)]="editbridges.numOfEmployee" #numOfEmployee="ngModel" min="0"
+            placeholder="Enter {{Headingss[0].heading9}}" pattern="^[0-9]*$"
             [class.disable-fld]="!HeadingServices.isModulefieldedit(1, 'numOfEmployee')"
             [disabled]="!HeadingServices.isModulefieldedit(1, 'numOfEmployee')"
             [required]="HeadingServices.isModulefieldMendetory(1, 'numOfEmployee')">
-          <span class="help-block danger" *ngIf="numOfEmployee.errors?.pattern && numOfEmployee.touched">
-            Take Numeric Value Only
-          </span>
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'numOfEmployee')">
             <span class="help-block danger"
-              *ngIf="(numOfEmployee.errors?.required && f.submitted)||(numOfEmployee.errors?.required && numOfEmployee.touched)">
-              The {{Headingss[0].heading9}} is required
+              *ngIf="(numOfEmployee.errors?.required && f.submitted)||(numOfEmployee.errors?.required)">
+              The {{Headingss[0].heading7}} is required
             </span>
           </ng-container>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'turnover')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'turnover')">
           <label>{{Headingss[0].heading10}}</label>
           <div class="newrupe">
             <span class="span10">{{'' | priceFormat:''}}</span>
             <input type="number" class="input-fld"
               [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'turnover')" name="turnover"
-              [(ngModel)]="editbridges.turnover" #turnover="ngModel" placeholder="2000" min="0" pattern="^[0-9]*$"
+              [readonly]="isView" [(ngModel)]="editbridges.turnover" #turnover="ngModel"
+              placeholder="Enter {{Headingss[0].heading10}}" min="0" pattern="^[0-9]*$"
               [class.disable-fld]="!HeadingServices.isModulefieldedit(1, 'turnover')" [disabled]="!HeadingServices.isModulefieldedit(1, 'turnover')"
               [required]="HeadingServices.isModulefieldMendetory(1, 'turnover')">
           </div>
-          <span class="help-block danger" *ngIf="turnover.errors?.pattern && turnover.touched">
-            Take Numeric Value Only
-          </span>
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'turnover')">
             <span class="help-block danger"
-              *ngIf="(turnover.errors?.required && f.submitted)||(turnover.errors?.required && turnover.touched)">
-              The {{Headingss[0].heading10}} is required
+              *ngIf="(turnover.errors?.required && f.submitted)||(turnover.errors?.required)">
+              The {{Headingss[0].heading7}} is required
             </span>
           </ng-container>
         </div>
 
-        <div class="col-md-6">
-          <label>{{Headingss[0].heading11}}</label>
-          <ng-select #selecteditstatus [clearOnBackspace]="false" [searchable]="false" [(ngModel)]="editbridges.status"
-            name="status" #status="ngModel" class="input-fld required-fld" required>
+        <div class="figma-form-wrapper">
+          <label>{{Headingss[0].heading11}} </label>
+          <ng-select #selectstatus [clearOnBackspace]="false" [searchable]="false" [(ngModel)]="editbridges.status"
+            name="status" #status="ngModel" [required]="HeadingServices.isModulefieldMendetory(1, 'status')"
+            class="ngsearch-dropdown input-fld"
+            [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'status')">
             <ng-template ng-header-tmp>
               <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search" type="text"
-                (input)="selecteditstatus.filter($event.target.value)" />
+                (input)="selectstatus.filter($event.target.value)" />
             </ng-template>
-            <ng-option value="" disable selected>{{Headingss[0].heading11}}</ng-option>
+            <ng-option value="" disable selected>Select {{Headingss[0].heading11}}</ng-option>
             <ng-option value="{{status}}" *ngFor="let status of leadStatus">{{status}}</ng-option>
           </ng-select>
-          <!-- <select class="input-fld required-fld" [(ngModel)]="editbridges.status" name="status">
-            <option value="{{status}}" *ngFor="let status of leadStatus">{{status}}</option>
-          </select> -->
-          <span class="help-block danger"
-            *ngIf="(status.errors?.required && f.submitted)||(status.errors?.required && status.touched)">
-            The {{Headingss[0].heading11}} is required
-          </span>
+          <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'status')">
+            <span class="help-block danger"
+              *ngIf="(status.errors?.required && f.submitted)||(status.errors?.required)">
+              The {{Headingss[0].heading11}} is required
+            </span>
+          </ng-container>
         </div>
 
-        <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1, 'leadType')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'leadType')">
           <label>{{Headingss[0].heading12}}</label>
-          <ng-select #selecteditleadpriority [clearOnBackspace]="false" [searchable]="false"
-            [(ngModel)]="editbridges.leadType" name="leadType" #leadType="ngModel" class="ngsearch-dropdown input-fld"
+          <ng-select #selectleadtype [clearOnBackspace]="false" [readonly]="isView" [searchable]="false"
+            [(ngModel)]="editbridges.leadType" #leadType="ngModel" name="leadType" class="ngsearch-dropdown input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'leadType')"
             [class.disable-fld]="!HeadingServices.isModulefieldedit(1, 'leadType')" [disabled]="!HeadingServices.isModulefieldedit(1, 'leadType')"
             [required]="HeadingServices.isModulefieldMendetory(1, 'leadType')">
             <ng-template ng-header-tmp>
               <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search" type="text"
-                (input)="selecteditleadpriority.filter($event.target.value)" />
+                (input)="selectleadtype.filter($event.target.value)" />
             </ng-template>
-            <ng-option value="" disable selected>Select Lead Priority</ng-option>
+            <ng-option value="" disable selected>Select {{Headingss[0].heading12}}</ng-option>
             <ng-option value="{{item1.Name}}" *ngFor="let item1 of lead_Type">{{item1.Name}}</ng-option>
           </ng-select>
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'leadType')">
             <span class="help-block danger"
-              *ngIf="(leadType.errors?.required && f.submitted)||(leadType.errors?.required && leadType.touched)">
-              The {{Headingss[0].heading12}} is required
+              *ngIf="(leadType.errors?.required && f.submitted)||(leadType.errors?.required)">
+              The {{Headingss[0].heading11}} is required
             </span>
           </ng-container>
-          <!-- <select class="input-fld" [(ngModel)]="editbridges.leadType" name="leadType">
-            <option value="">Select Lead Type</option>
-            <option value="{{item1.Name}}" *ngFor="let item1 of lead_Type">{{item1.Name}}</option>
-
-          </select> -->
         </div>
 
-        <div class="col-md-12" *ngIf="HeadingServices.isModulefieldview(1, 'assignedTo')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'assignedTo')">
           <label>{{Headingss[0].heading13}}</label>
-          <ng-select #selectleadassignedTo [clearOnBackspace]="false" [searchable]="false" [items]="bridgess"
-            bindLabel="firstName" placeholder="Select {{Headingss[0].heading13}}" bindValue="id"
+          <ng-select #selectleadassignedTo [clearOnBackspace]="false" [readonly]="isView" [searchable]="false"
+            [items]="bridgess" bindLabel="firstName" placeholder="Select {{Headingss[0].heading13}}" bindValue="id"
             [(ngModel)]="editbridges.assignedTo" name="assignedTo" class="ngsearch-dropdown input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'assignedTo')"
             [class.disable-fld]="!HeadingServices.isModulefieldedit(1, 'assignedTo')" [disabled]="!HeadingServices.isModulefieldedit(1, 'assignedTo')"
@@ -1043,30 +1089,30 @@
             <ng-option *ngFor="let item of bridgess" value="{{item.id}}">{{item.firstName}}</ng-option> -->
             <!-- <ng-option value="{{UserId}}">UnAssigned</ng-option> -->
           </ng-select>
-
           <!-- <select class="input-fld" [(ngModel)]="editbridges.assignedTo" name="assignedTo">
-            <option *ngFor="let item of bridgessList" value="{{item.id}}">{{item.firstName}}</option>
+            <option *ngFor="let item of bridgess" value="{{item.id}}">{{item.firstName}}</option>
             <option value="{{UserId}}">UnAssigned</option>
           </select> -->
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'assignedTo')">
             <span class="help-block danger"
-              *ngIf="(assignedTo.errors?.required && f.submitted)||(assignedTo.errors?.required && assignedTo.touched)">
-              The {{Headingss[0].heading13}} is required
+              *ngIf="(assignedTo.errors?.required && f.submitted)||(assignedTo.errors?.required)">
+              The {{Headingss[0].heading11}} is required
             </span>
           </ng-container>
         </div>
 
-        <div class="col-md-12" *ngIf="HeadingServices.isModulefieldview(1, 'message')">
+        <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1, 'message')">
           <label>{{Headingss[0].heading14}}</label>
           <input type="text" class="input-fld"
             [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'message')" name="message"
-            [(ngModel)]="editbridges.message" #message="ngModel" placeholder="{{Headingss[0].heading14}}"
-            [class.disable-fld]="!HeadingServices.isModulefieldedit(1, 'message')" [disabled]="!HeadingServices.isModulefieldedit(1, 'message')"
+            [readonly]="isView" [(ngModel)]="editbridges.message" #message="ngModel"
+            placeholder="Enter {{Headingss[0].heading14}}" [class.disable-fld]="!HeadingServices.isModulefieldedit(1, 'message')"
+            [disabled]="!HeadingServices.isModulefieldedit(1, 'message')"
             [required]="HeadingServices.isModulefieldMendetory(1, 'message')">
           <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'message')">
             <span class="help-block danger"
-              *ngIf="(message.errors?.required && f.submitted)||(message.errors?.required && message.touched)">
-              The {{Headingss[0].heading14}} is required
+              *ngIf="(message.errors?.required && f.submitted)||(message.errors?.required)">
+              The {{Headingss[0].heading11}} is required
             </span>
           </ng-container>
         </div>
@@ -1077,62 +1123,68 @@
         <ng-container *ngFor="let item of DynamicFiledPositionDetials">
 
           <!-- <div class="lead-update-wrapper" *ngIf="HeadingServices.isModulefieldview(1,item.field_name)"> -->
-            <div class="col-md-6" *ngIf="HeadingServices.isModulefieldview(1,item.field_name)">
+          <div class="figma-form-wrapper" *ngIf="HeadingServices.isModulefieldview(1,item.field_name)">
             <label>{{HeadingServices.isfindlablebykey(1, item.field_name)}} </label>
-              <div *ngIf="item.data_type != 'Dropdown'">
-                <input type="{{item.data_type}}" class="input-fld"
-                [disabled]="!HeadingServices.isModulefieldedit(1, item.field_name)"
+            <div *ngIf="item.data_type != 'Dropdown'">
+              <input type="{{item.data_type}}" class="input-fld" [disabled]="!HeadingServices.isModulefieldedit(1, item.field_name)"
                 [class.disable-fld]="!HeadingServices.isModulefieldedit(1, item.field_name)"
                 [class.required-fld]="HeadingServices.isModulefieldMendetory(1, item.field_name)"
                 [required]="HeadingServices.isModulefieldMendetory(1, item.field_name)"
-                       [(ngModel)]="editbridges[item.field_name]"
-                       name="{{item.field_name}}"
-                       #fieldControl="ngModel"
-                       placeholder="Enter {{HeadingServices.isfindlablebykey(1, item.field_name)}}">
-                       <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, item.field_name)">
-                        <span class="help-block danger"
-                        *ngIf="HeadingServices.isModulefieldMendetory(1, item.field_name) && ((fieldControl.errors?.['required'] && f.submitted) || (fieldControl.errors?.['required'] && fieldControl.touched))">
-                    The {{ HeadingServices.isfindlablebykey(1, item.field_name) }} is required
-                  </span>
-                      </ng-container>
-              </div>
+                [(ngModel)]="editbridges[item.field_name]" name="{{item.field_name}}" #fieldControl="ngModel"
+                placeholder="Enter {{HeadingServices.isfindlablebykey(1, item.field_name)}}">
+              <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, item.field_name)">
+                <span class="help-block danger"
+                  *ngIf="HeadingServices.isModulefieldMendetory(1, item.field_name) && ((fieldControl.errors?.['required'] && f.submitted) || (fieldControl.errors?.['required'] && fieldControl.touched))">
+                  The {{ HeadingServices.isfindlablebykey(1, item.field_name) }} is required
+                </span>
+              </ng-container>
+            </div>
 
-              <div *ngIf="item.data_type == 'Dropdown'">
-                <select class="input-fld"
-                [disabled]="!HeadingServices.isModulefieldedit(1, item.field_name)"
+            <div *ngIf="item.data_type == 'Dropdown'">
+              <select class="input-fld" [disabled]="!HeadingServices.isModulefieldedit(1, item.field_name)"
                 [class.disable-fld]="!HeadingServices.isModulefieldedit(1, item.field_name)"
                 [class.required-fld]="HeadingServices.isModulefieldMendetory(1, item.field_name)"
                 [required]="HeadingServices.isModulefieldMendetory(1, item.field_name)"
-                       [(ngModel)]="editbridges[item.field_name]"
-                       name="{{item.field_name}}"
-                       #fieldControl="ngModel"
-                       placeholder="Enter {{HeadingServices.isfindlablebykey(1, item.field_name)}}">
-                       <option value="">Select {{HeadingServices.isfindlablebykey(1, item.field_name)}}</option>
-                       <option *ngFor="let temd of HeadingServices.JSONparse(item.data_option)" value="{{temd}}"> {{temd}}</option>
-                </select>
-                       <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, item.field_name)">
-                        <span class="help-block danger"
-                        *ngIf="HeadingServices.isModulefieldMendetory(1, item.field_name) && ((fieldControl.errors?.['required'] && f.submitted) || (fieldControl.errors?.['required'] && fieldControl.touched))">
-                    The {{ HeadingServices.isfindlablebykey(1, item.field_name) }} is required
-                  </span>
-                      </ng-container>
-              </div>
+                [(ngModel)]="editbridges[item.field_name]" name="{{item.field_name}}" #fieldControl="ngModel"
+                placeholder="Enter {{HeadingServices.isfindlablebykey(1, item.field_name)}}">
+                <option value="">Select {{HeadingServices.isfindlablebykey(1, item.field_name)}}</option>
+                <option *ngFor="let temd of HeadingServices.JSONparse(item.data_option)" value="{{temd}}"> {{temd}}
+                </option>
+              </select>
+              <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, item.field_name)">
+                <span class="help-block danger"
+                  *ngIf="HeadingServices.isModulefieldMendetory(1, item.field_name) && ((fieldControl.errors?.['required'] && f.submitted) || (fieldControl.errors?.['required'] && fieldControl.touched))">
+                  The {{ HeadingServices.isfindlablebykey(1, item.field_name) }} is required
+                </span>
+              </ng-container>
+            </div>
 
 
           </div>
         </ng-container>
 
-        <div style="text-align: center;" *ngIf="isLoading">
+        <!-- <div style="text-align: center;" *ngIf="isLoading">
           <img src="../../assets/img/loder.gif" style="height: 100%;width: 10%;">
-        </div>
+        </div> -->
 
-        <div class="col-md-12 text-center mt-3" *ngIf="!isLoading">
-          <button class="add-invent1" >Save</button>
-        </div>
+       
 
-      </div>
+      <!-- </div> -->
+    </div>
+
+    <!-- <div class="figma-modal-fotter" *ngIf="!isLoading && !isView">
+      <button class="figma-outline-btn">{{Headingss[0].heading105}}</button>
+    </div> -->
+    </ng-container>
+    </ng-container>
+
+    <div class="figma-modal-fotter">
+      <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+      <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
+      <button class="figma-prim-btn" (click)="editLeads(f)" >Save</button>
     </div>
   </form>
+  </ng-container>
 
 </ng-template>
 
@@ -1140,27 +1192,29 @@
 <ng-template #contentEditaddress let-modal>
   <div class="modal-header">
     <h4 class="modal-title modal-heading" id="modal-basic-title">Edit Contact Address</h4>
-    <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')"
-      style="outline: none;">
-      <span aria-hidden="true" style="outline: none;">×</span>
-    </button>
+    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
   </div>
   <!-- <div *ngIf="error">{{error}}</div> -->
   <!-- <div *ngIf="success">{{success}}</div> -->
-  <form #f="ngForm" name="theForm" (submit)="editLeads(f)">
+  <form #f="ngForm" name="theForm" class="figma-modal-form"  >
     <div class="modal-body">
       <div class="row">
         <div class="col-md-12">
-          <label>Contact Address</label>
+          <label class="userLabel">Contact Address</label>
           <input type="text" class="input-fld" name="location" [(ngModel)]="editbridges.location" #location="ngModel"
             placeholder="Contact Address">
         </div>
 
-        <div class="col-md-12 text-center mt-3">
+        <!-- <div class="col-md-12 text-center mt-3">
           <button class="add-invent1" [disabled]="f.invalid">{{Headingss[0].heading105}}</button>
-        </div>
+        </div> -->
 
       </div>
+    </div>
+    <div class="figma-modal-fotter">
+      <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+      <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
+      <button class="figma-prim-btn"(click)="editLeads(f)" >Save</button>
     </div>
   </form>
 
@@ -1191,62 +1245,49 @@
 
 <ng-template #assignTO let-modal>
   <div class="modal-header">
-
     <h4 class="modal-title modal-heading" id="modal-basic-title">Assign</h4>
-
+    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
   </div>
 
-  <div ngbDropdown class="d-block mx-3">
-    <button type="button" class="btn btn-assign w-100 text-start assign-dropdown" id="dropdownForm1"
-      ngbDropdownToggle>{{selectedValue ? selectedName : '- Choose Assignee Name -'}}</button>
-    <div ngbDropdownMenu aria-labelledby="dropdownForm1" style="transform: translate(1px, 38px) !important;
-    right: 0;">
-      <div class="d-block p-3">
-        <div class="position-relative search_icon ">
-          <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchAssignValue"
-            (input)="filterDropdown($event)">
-          <!-- <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchText"> -->
-          <span><i class="fa fa-search" aria-hidden="true"></i></span>
-        </div>
-
-
-
-        <div id="style-1" class="force-overflow">
-
-          <ul class="scrollbox-content assign-ul">
-            <li class="dropdown-item  border-bottom" *ngFor="let item of tereer ">
-              <a (click)="selectValue(item.id? item.id:0)">
-                <span>{{item.firstName | slice:0:2}}</span> {{item.firstName}}
-              </a>
-            </li>
-            <li *ngIf="bridgess.length==0">No data</li>
-
-
-          </ul>
-
-
-        </div>
-
-
-      </div>
-
-
+  <div class="modal-body childBody">
+    <div class="figma-form-wrapper">
+      <label>{{Headingss[0].heading7}} </label>
+      <ng-select #selectAssignee [clearOnBackspace]="false" [readonly]="isView" [searchable]="true" name="searchAssignValue"
+        [(ngModel)]="searchAssignValue" #assignee="ngModel" placeholder="- Choose Assignee Name -"
+        [required]="HeadingServices.isModulefieldMendetory(1, 'assignee')" class="ngsearch-dropdown input-fld"
+        [class.required-fld]="HeadingServices.isModulefieldMendetory(1, 'assignee')">
+        <ng-template ng-header-tmp>
+          <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="Search" type="text"
+            (input)="selectAssignee.filter($event.target.value)" />
+        </ng-template>
+        <ng-option value="" disable selected>Select {{Headingss[0].heading7}}</ng-option>
+        <ng-option value="{{item.id}}" *ngFor="let item of bridgess">{{item.firstName}}</ng-option>
+      </ng-select>
+      <ng-container *ngIf="HeadingServices.isModulefieldMendetory(1, 'assignee')">
+        <span class="help-block danger"
+          *ngIf="(assignee.errors?.required && f.submitted) || (assignee.errors?.required)">
+          The {{Headingss[0].heading7}} is required
+        </span>
+      </ng-container>
     </div>
-
   </div>
-  <div class="row">
+
+  <!-- <div class="row">
     <div class="col-6 d-flex justify-content-center p-4 text-center">
-      <button type="button" class="assign-btn" ngbDropdownItem (click)="Assign_()">Assign</button>
+      <button type="button" class="figma-prim-btn" (click)="Assign_()">Assign</button>
     </div>
     <div class="col-6 d-flex justify-content-center p-4 text-center">
-      <button type="button" class="cancelbtn" (click)="modal.dismiss('Cross click')" ngbDropdownItem>{{Headingss[0].heading112}}</button>
+      <button type="button" class="figma-outline-btn" (click)="modal.dismiss('Cross click')">
+        {{Headingss[0].heading112}}
+      </button>
     </div>
+  </div> -->
+  <div class="figma-modal-fotter">
+    <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+    <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
+    <button class="figma-prim-btn" (click)="Assign_(confirmModalAssign)">Assign</button>
   </div>
-
-
-
 </ng-template>
-
 
 <div id="mySidepanel" class="sidepanel sidepanel2 px-0">
   <div class="row ">
@@ -1306,3 +1347,14 @@
     </form>
   </div>
 </div>
+
+<ng-template #confirmModalAssign let-modal>
+  <div class="modal-body">
+    <p>Are You Sure Do You Want To Assign Lead?</p>
+    <div class="confirm-btn">
+   
+      <button class="btn custom-btn-outline-blue" (click)="modal.dismiss('Cross click')">Cancel</button>
+      <button class="btn custom-btn-blue" (click)="modal.close('OK')">OK</button>
+    </div>
+  </div>
+</ng-template>

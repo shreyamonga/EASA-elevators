@@ -229,6 +229,7 @@ export class OpportunityEditComponent implements OnInit {
           // this.selectChangeHandler2(this.opportunitys[0]['CardCode']);
         }
        // console.log(this.opportunity.CardCode);
+       this.opportunity.U_LEADID = this.opportunitys[0]['U_LEADID'];
        this.opportunity.U_LEADNM = this.opportunitys[0]['U_LEADNM'];
        //console.log('this.opportunity.U_LEADNM',this.opportunity.U_LEADNM);
         this.opportunity.SalesPerson = this.opportunitys[0]['SalesPerson'];
@@ -626,7 +627,7 @@ showitem() {
       return;
     }
     else{
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' }).result.then((result) => {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -777,7 +778,7 @@ showitem() {
 
   editItemArray(content: any, item: any) {
     this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' })
+      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css' })
       .result.then(
         (result) => {
           this.closeResult = `Closed with: ${result}`;

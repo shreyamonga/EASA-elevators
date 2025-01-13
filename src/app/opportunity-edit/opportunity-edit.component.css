@@ -3,4 +3,9 @@
     height: 20px;
     /* border-radius: 50%; */
 }
+/* .figma-modal-form {
+    overflow: auto !important;
+    height: calc(90vh - 150px) !important;
+    margin-bottom: -80px;
+  } */
 

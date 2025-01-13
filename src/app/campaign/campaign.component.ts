@@ -4,6 +4,7 @@ import * as XLSX from 'xlsx';
 import { BridgeService } from '../modules/service/bridge.service';
 import { CampaignSet, UpdateCampaignSetStatus } from '../campaign';
 import { HeadingServicesService } from '../modules/service/heading-services.service';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 declare var $: any;
 
@@ -44,9 +45,10 @@ export class CampaignComponent implements OnInit {
   exportStatus: boolean = false;
 
   constructor(private route: Router, public bridgeService2: BridgeService,
-    private HeadingServices: HeadingServicesService) { }
+    private HeadingServices: HeadingServicesService,private modalService: NgbModal,) { }
 
   ngOnInit(): void {
+    this.checkExportStatus();
     if (this.HeadingServices.isModuleView(2) == false) {
       this.route.navigate(['/dashboard']);
     }
@@ -247,10 +249,20 @@ export class CampaignComponent implements OnInit {
     );
   }
 
+  checkExportStatus() {
+    if(sessionStorage.getItem('role') == 'admin'){
+      this.exportStatus = true;
+    }
+    else{
+    const status = sessionStorage.getItem('exportStatus');
+    this.exportStatus = status === 'true'; // sessionStorage stores everything as strings
+    }
+  }
 
   fileName ="campaign_export.xlsx";
 
   Exportexcel() {
+    this.modalService.dismissAll();
     // Get the table element
     const data = document.getElementById("table-data");
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);
@@ -310,5 +322,28 @@ action(e1: any, e2: any) {
     return false;
   }
 
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  closeResultExport = '';
+  ExportFile(confirmModalForExport: any) {
+    this.modalService
+      .open(confirmModalForExport, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static', modalDialogClass: 'confirm-modal modal-dialog-centered' })
+      .result.then(
+        (result) => {
+          this.closeResultExport = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResultExport = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
+  }
 
 }

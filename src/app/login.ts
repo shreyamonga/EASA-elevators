@@ -85,4 +85,15 @@ export interface TargeEmployeGet{
     Department:any;
     reportingTo:any;
     }
+    export interface InputData {
+      results: string;
+      id: number;
+      is_json: boolean;
+    }
+    
+    export  interface OutputData {
+      id: number;
+      is_json: boolean;
+      data: Record<string, string>[];
+    }
 

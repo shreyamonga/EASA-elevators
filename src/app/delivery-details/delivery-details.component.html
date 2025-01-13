@@ -258,11 +258,13 @@
 <ng-template #mymodal let-modal>
   <div class="modal-header">
     <h4 class="modal-title modal-heading" id="modal-basic-title">{{SelectStage.StageName}}</h4>
-    <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')" style="outline: none;">
+    <!-- <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')" style="outline: none;">
       <span aria-hidden="true" style="outline: none;">×</span>
-    </button>
+    </button> -->
+    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
+
   </div>
-  <form #f="ngForm" name="theForm" (submit)="addPaymentTerms(f)">
+  <form #f="ngForm" name="theForm"  class="figma-modal-form"  >
     <div class="modal-body">
       <div class="row">
               <div class="col-md-12">
@@ -281,11 +283,19 @@
         <div style="text-align: center;" *ngIf="isSubmit">
           <img src="../../assets/img/loder.gif" style="height: 100%;width: 10%;">
         </div>
-        <div class="col-md-12 text-center mt-2" *ngIf="!isSubmit">
-          <button class="add-invent1">Complete</button>
-        </div>
+       
       </div>
     </div>
+
+    <div class="figma-modal-fotter">
+      <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+      <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
+      <button class="figma-prim-btn"  *ngIf="!isSubmit" (click)="addPaymentTerms(f)">Complete</button>
+    </div>
+
+    <!-- <div class="col-md-12 text-center mt-2" >
+      <button class="add-invent1" >Complete</button>
+    </div> -->
   </form>
 </ng-template>
 
@@ -293,15 +303,16 @@
 <ng-template #mymodal2 let-modal>
   <div class="modal-header">
     <h4 class="modal-title modal-heading" id="modal-basic-title">ADD  LOG</h4>
-    <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')" style="outline: none;">
+    <!-- <button type="button" class="close clos-pop-btn" aria-label="Close" (click)="modal.dismiss('Cross click')" style="outline: none;">
       <span aria-hidden="true" style="outline: none;">×</span>
-    </button>
+    </button> -->
+    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
   </div>
-  <form #f="ngForm" name="theForm" (submit)="addLogsFunc(f)">
+  <form #f="ngForm" name="theForm"  class="figma-modal-form" >
     <div class="modal-body">
       <div class="row">
           <div class="col-md-12">
-          <label>Title </label>
+          <label  class="userLabel">Title </label>
           <select type="text" class="input-fld required-fld" name="Title" [(ngModel)]="addLogs.Title" #Title="ngModel" placeholder="Title" required>
           <option value="">Select Stage</option>
           <option *ngFor="let item of orders[0].StageDetails" value="{{item.StageName}}">{{item.StageName}}</option>
@@ -312,7 +323,7 @@
         </div>
 
         <div class="col-md-12">
-          <label>Description </label>
+          <label  class="userLabel">Description </label>
           <input type="text" class="input-fld required-fld" name="Description" [(ngModel)]="addLogs.Description" #Description="ngModel" placeholder="Description" required>
           <span class="help-block danger" *ngIf="(Description.errors?.required && f.submitted)||(Description.errors?.required && Description.touched)">
             The Description is required
@@ -323,10 +334,15 @@
         <div style="text-align: center;" *ngIf="isLoading">
           <img src="../../assets/img/loder.gif" style="height: 100%;width: 10%;">
         </div>
-        <div class="col-md-12 text-center mt-2" *ngIf="!isLoading">
+        <!-- <div class="col-md-12 text-center mt-2" *ngIf="!isLoading">
           <button class="add-invent1">Save</button>
-        </div>
+        </div> -->
       </div>
+    </div>
+    <div class="figma-modal-fotter">
+      <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+      <!-- <button class="figma-outline-btn">Save and Create Other</button> -->
+      <button class="figma-prim-btn"  (click)="addLogsFunc(f)">Save</button>
     </div>
   </form>
 </ng-template>

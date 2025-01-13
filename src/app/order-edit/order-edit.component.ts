@@ -468,9 +468,9 @@ export class OrderEditComponent implements OnInit {
   ItemPrice: any;
   TaxCode: any;
   TaxRate: any;
-  open(content: any, item: QuotationItem) {
+  open(content: any, item: any) {
     this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' })
+      .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css' })
       .result.then(
         (result) => {
           this.closeResult = `Closed with: ${result}`;
@@ -483,11 +483,11 @@ export class OrderEditComponent implements OnInit {
     this.ItemId = item.id;
     this.ItemNAme = item.ItemName;
     this.ItemQty = 1;
-    this.ItemDis = 0;
+    this.ItemDis = item.Discount;
     this.ItemCode = item.ItemCode;
     this.ItemPrice = item.UnitPrice;
     this.TaxCode = item.TaxCode;
-    this.TaxRate = 0;
+    this.TaxRate = item.Tax;
   }
 // addItemType: string = 'paid';
 add_items() {

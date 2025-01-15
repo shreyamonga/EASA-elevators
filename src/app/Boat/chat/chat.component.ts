@@ -1,6 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild ,HostListener} from '@angular/core';
 import { BridgeService } from 'src/app/modules/service/bridge.service';
 import { NotiferService } from 'src/app/modules/service/helpers/notifer.service';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import * as XLSX from 'xlsx';
 declare var $: any;
 @Component({
   selector: 'app-chat',
@@ -11,10 +13,14 @@ export class ChatComponent implements OnInit {
   @ViewChild('scrollMe') private myScrollContainer!: ElementRef;
 
   temp1: boolean = false;
-
+  closeResult = '';
+  zoomLevel = 1;
+  isHovered = false;
+  isDeveloperMode:boolean = false;
+  isthreedotPopupVisible: boolean = false;
   pagination: any = {
     PageNo: 1,
-    maxItem: '10',
+    max: 10,
     PageShow: 10
   }
   isLoading2: boolean = false;
@@ -116,6 +122,7 @@ export class ChatComponent implements OnInit {
 
   InputMess: string = '';
   isPopupVisible = false;
+  isPopupVisible1 = false;
 
   MessageArrya: any = [];
   isTyping: boolean = false;
@@ -124,9 +131,8 @@ export class ChatComponent implements OnInit {
   firstName: any;
 
 
-  typingInterval = 10; // Adjust for typing speed
+  typingInterval = 10;
   typingLoop: any;
-  // Typing simulation function
 
   commonObj: any = { isContact: true, bpAddreassMerge: null, detailTab: 'Items', activityTab: 'event' };
 
@@ -147,71 +153,33 @@ export class ChatComponent implements OnInit {
   ];
 
 
-  constructor(private bridgeService2: BridgeService, private _NotifierService: NotiferService) { }
+  constructor(private bridgeService2: BridgeService, private modalService: NgbModal, private _NotifierService: NotiferService) { }
 
   ngOnInit(): void {
-
     this.GetHistory();
     this.userName = sessionStorage.getItem('UserName');
-    // console.log('userName',this.userName);
     this.firstName = '';
-    // this.firstName = this.userName.split(' ')[0];
     this.firstName = this.userName.split(' ')[0].charAt(0).toUpperCase() + this.userName.split(' ')[0].slice(1).toLowerCase();
 
-
-    // console.log('firstName:', this.firstName);
-
     this.userName = sessionStorage.getItem('UserName');
-    // console.log('userName',this.userName);
+    if(sessionStorage.getItem('theme') == 'theme-dark'){
+      this.isDeveloperMode =  true;
+    }
+    else{
+      this.isDeveloperMode =  false;
+    }
 
-  }
-
-  GetHistory() {
-    this.bridgeService2.getChatBoatHistory(this.pagination, this.searchValue).subscribe(
-      (data: any) => {
-        if (data.status == "200") {
-          this.AllOrders = data.data;
-          // console.log('history',this.AllOrders);
-          this.totalCount = data.meta.count;
-          this.isLoading2 = false;
-          if(this.pagination.maxItem != 'All'){
-          this.startind = ((this.pagination.PageNo - 1) * Number(this.pagination.maxItem)) + 1;
-          this.endind = ((this.pagination.PageNo - 1) * Number(this.pagination.maxItem)) + Number(this.pagination.maxItem);
-          if (this.endind > this.totalCount) {
-            this.endind = this.totalCount;
-          }
-          this.pagination.PageShow = Number(this.pagination.maxItem);
-        }
-        else{
-          this.startind = 1;
-          this.endind = this.totalCount;
-          this.pagination.PageShow = Number(this.totalCount);
-        }
-        if(this.totalCount == 0){
-          this.startind = this.totalCount;
-        }
+    this.bridgeService2.getthemeRefreshData().subscribe(($theme: any) => {
+      this.refreshPage();
+      if($theme == 'theme-dark'){
+        this.isDeveloperMode =  true;
       }
-
-      else {
-        this._NotifierService.showError(data.message);
-        this.totalCount = 0;
-        this.isLoading2 = false;
+      else{
+        this.isDeveloperMode =  false;
       }
-    },
-        (err) => {
-          this.isLoading2 = false;
-          this.totalCount = 0;
-          const delim = ':';
-          const name = err.message;
-          const result = name.split(delim).slice(3).join(delim);
-          this._NotifierService.showError(result);
-        }
-    );
+    });
   }
-  togglePopup() {
-    this.isPopupVisible = !this.isPopupVisible;
-  }
-
+itrcount:any;
 
 
   opportuni: any[] = ['ert'];
@@ -269,16 +237,24 @@ export class ChatComponent implements OnInit {
       if (this.InputMess !== '') {
         this.MessageArrya.push({ side: 'right', text: this.InputMess, type: 'text' });
         this.isTyping = true;
-        let Payload = {
+        var Payload:any= {}
+        if(this.isDeveloperMode){
+          Payload = {
+            "query": this.InputMess,
+          };
+      }
+      else{
+        Payload = {
           "query": this.InputMess,
           "is_generate_query": String(this.ChatFromDatabase),
           "id": this.LastChatID
         };
+      }
         this.adjustHeightByClass();
 
         this.MessageArrya.push({ side: 'left', text: 'Loading ...', type: 'loader' });
         this.scrollToBottom();
-        this.bridgeService2.sendChatInputandGetResponse(Payload).subscribe(
+        this.bridgeService2.sendChatInputandGetResponse(Payload,this.isDeveloperMode).subscribe(
           (res: any) => {
 
           if (Object(res)['status'] == "200") {
@@ -310,6 +286,10 @@ export class ChatComponent implements OnInit {
   simulateTyping(ApiRes: any) {
     this.GetHistory();
     let textType: any = 'text';
+    if(this.isDeveloperMode){
+
+    }
+    else{
     if (ApiRes.data.is_json == true) {
       this.LastChatID = ApiRes.data.id;
       textType = 'json';
@@ -379,6 +359,7 @@ export class ChatComponent implements OnInit {
       }, this.typingInterval);
     }
   }
+  }
 
   tostop1() {
     this.isTyping = false;
@@ -422,9 +403,14 @@ export class ChatComponent implements OnInit {
 
   scrollToBottom(): void {
     try {
-      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch (err) { }
+      setTimeout(() => {
+        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+      }, 2);
+    } catch (err) {
+      console.error('Error in scrollToBottom:', err);
+    }
   }
+
 
 adjustHeight(event: Event): void {
   const textarea = event.target as HTMLTextAreaElement;
@@ -436,6 +422,7 @@ adjustHeight(event: Event): void {
 refreshPage() {
   this.MessageArrya=[];
   this.ChatFromDatabase= true;
+  this.isTyping = false;
   this.LastChatID = '';
   this.InputMess='';
   this.adjustHeightByClass();
@@ -453,6 +440,239 @@ adjustHeightByClass(): void {
   }
 }
 
+
+// onScroll(): void {
+//   console.log('hi');
+//   if(this.totalCount > Number(this.pagination.maxItem)){
+//     this.pagination.maxItem = String(Number(this.pagination.maxItem)+10);
+//     this.GetHistory();
+//   }
+
+// }
+
+isLoading = false; // Flag to manage loader visibility
+
+
+
+
+
+
+
+
+
+expandTable(): void {
+  const tableView = document.querySelector('.tableview') as HTMLElement;
+  tableView.classList.toggle('expanded');
+
+
+
+ }
+ open(content: any) {
+  this.commonObj.bigScreenMode = false;
+  this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg `,backdrop:'static' }).result.then((result) => {
+
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        this.commonObj.bigScreenMode = false;
+      }
+    );
 }
+private getDismissReason(reason: any): string {
+  if (reason === ModalDismissReasons.ESC) {
+    return 'by pressing ESC';
+  } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+    return 'by clicking on a backdrop';
+  } else {
+    return `with: ${reason}`;
+  }
+}
+zoomIn(): void {
+  if (this.zoomLevel < 2) { // Maximum zoom level
+    this.zoomLevel += 0.1;
+  }
+}
+zoomOut(): void {
+  if (this.zoomLevel > 0.5) { // Minimum zoom level
+    this.zoomLevel -= 0.1;
+  }
+}
+bigScreenOrMid() {
+  this.zoomLevel = 1;
+  if ((document.querySelector('.figma-cards-modal') as any).classList.contains('figma-cards-modal-lg')) {
+    this.commonObj.bigScreenMode = true;
+    (document.querySelector('.figma-cards-modal') as any).classList.add('figma-cards-modal-full');
+    (document.querySelector('.figma-cards-modal') as any).classList.remove('figma-cards-modal-lg');
+  } else {
+    this.commonObj.bigScreenMode = false;
+    (document.querySelector('.figma-cards-modal') as any).classList.add('figma-cards-modal-lg');
+    (document.querySelector('.figma-cards-modal') as any).classList.remove('figma-cards-modal-full');
+  }
+
+
+}
+//isLoading2 = false; // Flag to manage loader visibility
+onHover(): void {
+  this.isHovered = true;
+}
+
+// Hide overlay when mouse leaves the table
+offHover(): void {
+  this.isHovered = false;
+}
+
+//isPopupVisible = false;
+popupStyles: any = {};
+
+  // Sample data for insights
+  todayInsights = [
+    { title: 'Insight 1', description: 'Morem ipsum dolor sit amet.', time: '10:00 AM' },
+    { title: 'Insight 2', description: 'Morem ipsum dolor sit amet.', time: '11:00 AM' },
+    // { title: 'Insight 3', description: 'Morem ipsum dolor sit amet.', time: '12:00 PM' }
+  ];
+
+  olderInsights = [
+    { title: 'Insight 4', description: 'Morem ipsum dolor sit amet.', time: '10:00 AM' },
+    { title: 'Insight 5', description: 'Morem ipsum dolor sit amet.', time: '11:00 AM' },
+    // { title: 'Insight 6', description: 'Morem ipsum dolor sit amet.', time: '12:00 PM' }
+  ];
+
+  togglePopup(): void {
+    this.isPopupVisible = !this.isPopupVisible;
+  }
+
+
+  isNotificationVisible = false;
+
+ // Sample data for notifications
+ todayNotifications = [
+  { title: 'Notification 1', description: 'Morem ipsum dolor sit amet, consectetur consectetur elit.', time: '10:00 AM' },
+  { title: 'Notification 2', description: 'Morem ipsum dolor sit amet, consectetur consectetur elit.', time: '11:00 AM' },
+  // { title: 'Notification 3', description: 'Morem ipsum dolor sit amet, consectetur elit.', time: '12:00 PM' }
+];
+
+olderNotifications = [
+  { title: 'Notification 4', description: 'Morem ipsum dolor sit amet, consectetur consectetur elit.', time: '10:00 AM' },
+  { title: 'Notification 5', description: 'Morem ipsum dolor sit amet, consectetur consectetur elit.', time: '11:00 AM' },
+  // { title: 'Notification 6', description: 'Morem ipsum dolor sit amet, consectetur elit.', time: '12:00 PM' }
+];
+ toggleNotification(): void {
+    this.isNotificationVisible = !this.isNotificationVisible;
+  }
+
+
+  onScroll(): void {
+
+    this.pagination.max = String(Number(this.pagination.max) + 10);
+    // console.log(this.pagination)
+        this.GetHistory();
+  }
+
+  GetHistory() {
+    this.isLoading2 = true;
+    this.bridgeService2.getChatBoatHistory(this.pagination).subscribe(
+      (data: any) => {
+        if (data.status == "200") {
+          this.AllOrders = data.data;
+          this.totalCount = data.meta.count;
+           this.itrcount=(this.totalCount)/10;
+           this.isLoading2 = false;
+       }
+
+      else {
+        this._NotifierService.showError(data.message);
+        // this.totalCount = 0;
+        this.isLoading2 = false;
+      }
+    },
+        (err) => {
+          this.isLoading2 = false;
+          // this.totalCount = 0;
+          const delim = ':';
+          const name = err.message;
+          const result = name.split(delim).slice(3).join(delim);
+          this._NotifierService.showError(result);
+        }
+    );
+  }
+
+  ngOnDestroy(){
+    document.querySelector('body')?.classList.remove('theme-dark');
+    sessionStorage.setItem('theme', 'theme-light'); //theme-dark
+    this.bridgeService2.themeRefresh.next('theme-light')
+  }
+  togglePopup11(event: MouseEvent): void {
+    console.log("hiokm")
+    // Close all other popups
+    document.querySelectorAll('.popup-menu').forEach((popup) => {
+      popup.classList.add('popup-inactive');
+    });
+
+    const icon = event.target as HTMLElement;
+    const popup = icon.nextElementSibling as HTMLElement;
+
+    if (popup) {
+      // Toggle the popup's visibility
+      popup.classList.toggle('popup-inactive');
+
+      // Position the popup dynamically relative to the icon
+      const rect = icon.getBoundingClientRect();
+      popup.style.top = `${rect.bottom + window.scrollY}px`; // Position below the icon
+      popup.style.left = `${rect.left + window.scrollX}px`;  // Align with the icon
+    }
+  }
+  togglethreedotPopup() {
+    this.isthreedotPopupVisible = !this.isthreedotPopupVisible;
+  }
+
+  @HostListener('document:click', ['$event'])
+  closePopup(event: Event) {
+    const target = event.target as HTMLElement;
+    const popup = document.querySelector('.hover-show1');
+
+    // Close popup only if the click is outside
+    if (popup && !popup.contains(target) && !target.classList.contains('table-v-dots')) {
+      this.isthreedotPopupVisible = false;
+    }
+  }
+  // editdeletepop() {
+  //   console.log("edjiosdoat");
+  //   $('.hover-show1').hide();
+  //   $('.hover-show1').show();
+  // }
+  fileName ="askmilo-table-data_export.xlsx";
+
+  Exportexcel() {
+    console.log("exportjkjkj")
+    this.modalService.dismissAll();
+
+    const data = document.getElementById("table-data");
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);
+    console.log("tyuiexportjkjkj",data);
+
+    // Convert the worksheet to JSON (2D array format)
+    let jsonData: any[][] = XLSX.utils.sheet_to_json(ws, { header: 1 }) as any[][];
+
+    // Remove the first column from each row
+   // jsonData = jsonData.map(row => row.slice(1));
+
+    // Remove the last column from each row
+  //jsonData = jsonData.map(row => row.slice(0, row.length - 1));
+
+    // Convert the modified JSON data back to a worksheet
+    const modifiedWs: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(jsonData);
+
+    // Create a new workbook and append the modified worksheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, modifiedWs, 'Sheet1');
+
+    // Save the file
+    XLSX.writeFile(wb, this.fileName);
+  }
+}
+
+
+
 
 

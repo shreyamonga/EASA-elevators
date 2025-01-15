@@ -17,6 +17,8 @@ export class HeaderComponent implements OnInit {
   hiddingLeftNav: any = { match: ["#/", "", "#/login"] };
   leftNavbar: any;
   error: any;
+
+  isBoat:boolean = false;
   isLoading2:boolean = false;
   constructor(private route: Router,public bridgeService2: BridgeService,private _NotifierService: NotiferService, private modalService: NgbModal) { }
   toogleList:boolean = false;
@@ -48,6 +50,7 @@ export class HeaderComponent implements OnInit {
 }
 
 notify: any[] = [];
+DeveloperMode:boolean = false;
 Bridge2: any;
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent) {
@@ -64,6 +67,20 @@ Bridge2: any;
     }
     else{
       this.isButn = false;
+    }
+
+    if (this.currentURL.includes('boat')) {
+      this.isBoat = true;
+    }
+    else {
+      this.isBoat = false;
+    }
+    if(sessionStorage.getItem('theme') == 'theme-dark'){
+      this.DeveloperMode =  true;
+      this.themeChange();
+    }
+    else{
+      this.DeveloperMode =  false;
     }
     this.getAppListAll();
     this.getEmpOne();
@@ -123,7 +140,7 @@ Bridge2: any;
         this.isLoading2 = false;
         this.notify = res.data;
         console.log(this.notify);
-        
+
         this.unreadCount = res.meta.unread_count;
         sessionStorage.setItem('unreadCount', this.unreadCount);
       },
@@ -398,7 +415,7 @@ for (let i = 0; i < this.appList.length; i++) {
   }
   closeResult = '';
   openPass(contentchangepassword: any, id: any) {
-   
+
     this.modalService.open(contentchangepassword, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal' })
       .result.then(
         (result) => {
@@ -463,7 +480,7 @@ for (let i = 0; i < this.appList.length; i++) {
     hasNumber: false,
     hasSpecialChar: false,
   };
-  
+
   resetPasswordStrength: string = '';
   shouldShowResetCriteria: boolean = false;
 
@@ -474,8 +491,8 @@ for (let i = 0; i < this.appList.length; i++) {
   hideResetCriteria(): void {
     this.shouldShowResetCriteria = false;
   }
-  
-  
+
+
   validateResetPasswordStrength(password: string): void {
     this.resetPasswordCriteria.minLength = password.length >= 8;
     this.resetPasswordCriteria.hasUppercase = /[A-Z]/.test(password);
@@ -495,8 +512,23 @@ for (let i = 0; i < this.appList.length; i++) {
       this.resetPasswordStrength = '';
     }
   }
-  
-  
+
+  commonObj: any = {  isThemeDark: false};
+  role = sessionStorage.getItem('role');
+  themeChange() {
+    this.commonObj.isThemeDark = !this.commonObj.isThemeDark
+    if (this.commonObj.isThemeDark) {
+      document.querySelector('body')?.classList.add('theme-dark');
+      this.commonObj.isThemeDark = true;
+      sessionStorage.setItem('theme', 'theme-dark'); //theme-dark
+      this.bridgeService2.themeRefresh.next('theme-dark');
+    } else {
+      document.querySelector('body')?.classList.remove('theme-dark');
+      this.commonObj.isThemeDark = false;
+      sessionStorage.setItem('theme', 'theme-light'); //theme-dark
+      this.bridgeService2.themeRefresh.next('theme-light');
+    }
+  }
 
 
 }

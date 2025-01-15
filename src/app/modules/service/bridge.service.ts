@@ -35,6 +35,9 @@ export class BridgeService {
   loginData: any;
   UserName = sessionStorage.getItem('UserName');
   FirstLogin = 'false';
+
+  themeRefresh: Subject<any> = new Subject<any>();
+
   UserId = sessionStorage.getItem('UserId');
   role = sessionStorage.getItem('role');
   SalesEmployeeCode = sessionStorage.getItem('SalesEmployeeCode');
@@ -246,6 +249,9 @@ storeApplication(customer: any,appEdit:boolean) {
     data.module_data = JSON.stringify(modueldat);
     this.SalesEmployeeCode = sessionStorage.getItem('SalesEmployeeCode');
     this.loginDataSubject.next(data);
+  }
+  getthemeRefreshData() {
+    return this.themeRefresh.asObservable();
   }
   getLoginData() {
     return this.loginDataSubject.asObservable();
@@ -3134,7 +3140,7 @@ storeApplication(customer: any,appEdit:boolean) {
 
   insertFeedback(feedbackData: any) {
     const uploadData = new FormData();
-  
+
     // Append each key-value pair from feedbackData to the FormData object
     for (const [key, value] of Object.entries(feedbackData)) {
       // Handle files if the `Attach` field is an array
@@ -3146,7 +3152,7 @@ storeApplication(customer: any,appEdit:boolean) {
         uploadData.append(key, value as string);
       }
     }
-  
+
     // Make the HTTP POST request
     return this.http.post(`${this.SuperbaseUrl}/enquiry/feedback`, uploadData, { headers: this.getHeader() }).pipe(
       map((res: any) => {
@@ -3155,7 +3161,7 @@ storeApplication(customer: any,appEdit:boolean) {
       })
     );
   }
-  
+
 
   deletePaymentTerms(id: any) {
     return this.http.post(`${this.baseUrl2}/paymenttermstypes/delete`, { id: id }, { 'headers': this.getHeader() }).pipe(
@@ -3919,23 +3925,33 @@ replaceKeyInArray(arr: any[], oldKey: string, newKey: string): any[] {
     );
   }
 //chatgpt
-  sendChatInputandGetResponse(input: any) {
-    return this.http.post(`${this.baseUrl2}/chatbot/api/ask-database/`, input, { 'headers': this.getHeader() }).pipe(
-      map((res: any) => {
-        return res;
-      })
-    );
+  sendChatInputandGetResponse(input: any,isDeveloperMode:boolean) {
+    if(isDeveloperMode){
+      return this.http.post(`${this.baseUrl2}/chatbot/api/ask-developer-console/`, input, { 'headers': this.getHeader() }).pipe(
+        map((res: any) => {
+          return res;
+        })
+      );
+    }
+    else{
+      return this.http.post(`${this.baseUrl2}/chatbot/api/ask-database/`, input, { 'headers': this.getHeader() }).pipe(
+        map((res: any) => {
+          return res;
+        })
+      );
+    }
   }
 
-  getChatBoatHistory(pagination: any, searchValue: any) {
-    return this.http.get(`${this.baseUrl2}/chatbot/api/query-history/?page=${pagination.PageNo}&search_keyword=${searchValue}`, { 'headers': this.getHeader() }).pipe(
+  getChatBoatHistory(pagination: any) {
+    return this.http.get(`${this.baseUrl2}/chatbot/api/query-history/?page=${pagination.PageNo}&max=${pagination.max}`, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
         // //console.log(res)
         return res;
       })
     );
- 
+
   }
+
 
   getOneChatBoatHistory(id: any) {
     return this.http.get(`${this.baseUrl2}/chatbot/api/follow-up-results/?query_history_id=${id}`, { 'headers': this.getHeader() }).pipe(
@@ -3945,6 +3961,6 @@ replaceKeyInArray(arr: any[], oldKey: string, newKey: string): any[] {
       })
     );
   }
- 
+
 
 }

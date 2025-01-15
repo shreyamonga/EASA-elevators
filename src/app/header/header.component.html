@@ -15,13 +15,19 @@
       </li>
     </ul> -->
     </ng-container>
+    <div style="width: 80px;position: relative;top: 10px;" *ngIf="role == 'admin' && isBoat">
+      <label class="switch">
+        <input type="checkbox" [(ngModel)]="DeveloperMode" name="DeveloperMode" (click)="themeChange()">
+        <span class="slider round"></span>
+      </label>
+      </div>
     <div class="notification-icon" (click)="shownot()" style="cursor: pointer; position: relative;">
       <span class="figma-user-bell-ico" [innerHTML]="'figma-user-bell-ico' | svgIcons:''"></span>
       <span class="badge" style="right: 30px;">{{ unreadCount }}</span>
     </div>
     <!-- <span class="figma-user-bell-ico" [innerHTML]="'figma-user-bell-ico' | svgIcons:''"></span> -->
     <div class="figma-user-detail" (click)="openNav()" style="cursor: pointer;">
-      <img src="../../assets/img/figma-ellipse-1.png">
+      <img src="../../assets/img/figma-ellipse-1.png" style="border-radius: 50%;">
       <div class="figma-user">
         <div class="figma-user-name" title="{{bridgeService2.UserName}}">{{show10Only(bridgeService2.UserName)}}</div>
         <div class="figma-user-role">{{bridgeService2.role}}</div>
@@ -95,7 +101,7 @@
           </div> -->
           <div class="password-eye">
             <input class="input-fld" name="password" id="password" [(ngModel)]="resetPass.password" #password="ngModel"
-              [type]="fieldTextType ? 'text' : 'password'" maxlength="20" placeholder="Re Enter password" required (input)="validateResetPasswordStrength(resetPass.password)" (focus)="showResetCriteria()" 
+              [type]="fieldTextType ? 'text' : 'password'" maxlength="20" placeholder="Re Enter password" required (input)="validateResetPasswordStrength(resetPass.password)" (focus)="showResetCriteria()"
               (blur)="hideResetCriteria()">
             <i class="fa input-group-addon" [ngClass]="{ 'fa-eye-slash': !fieldTextType,'fa-eye': fieldTextType}"
               (click)="toggleFieldTextType()"></i>
@@ -150,7 +156,7 @@
       <div class="notifyArea " *ngFor="let item of notify">
         <div> <span class="figma-user-bell-ico newbell-ico" [innerHTML]="'figma-user-bell-ico' | svgIcons:''"></span>
           <!-- <span class="notification-dot"></span> -->
-          
+
         </div>
         <div (click)="deleteNotification([item.id],item)" class="singdiv">
           <strong> {{item.Heading}}</strong>

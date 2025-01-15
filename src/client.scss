@@ -501,8 +501,8 @@ div#mySidepanel {
 
           &.active,
           &:hover {
-            color: var(--left-main-list-txt-color);
-            background-color: var(--dropdown-inner-active-bg);
+            color: var(--template-bg);
+            background-color: var(--main-template-bg-color);
           }
         }
       }
@@ -1037,9 +1037,31 @@ div#mySidepanel {
   overflow: auto;
 }
 
+// .figma-cards-modal-lg {
+//   max-width: 850px;
+//   overflow: auto;
+
+//   .modal-content {
+//     height: 93vh;
+//   }
+// }
+
+// .figma-cards-modal-full {
+//   max-width: 100%;
+//   max-height: 100%;
+//   // margin: 10px 0 0 0;
+//   margin: 0;
+
+//   .modal-content {
+//     height: 100vh;
+//   }
+// }
 .figma-cards-modal-lg {
   max-width: 850px;
   overflow: auto;
+  .modal-content {
+    max-height: 93vh;
+  }
 }
 
 .figma-cards-modal-full {
@@ -2812,7 +2834,7 @@ div#mySidepanel {
     .figma-navigator-ul12 {
       list-style-type: none;
       padding: 0;
-      margin: 0;
+      margin: 10px 0;
 
       >li {
         position: relative;
@@ -3025,7 +3047,7 @@ div#mySidepanel {
   align-items: center;
   justify-content: space-between;
   // padding: 20px 24px 20px 34px;
-  padding:3px 13px;
+  padding:5px 13px;
   background-color: var(--template-bg);
   transform: translateX(-20px);
   width: calc(100% + 20px);
@@ -7011,4 +7033,121 @@ grid-column: 1/-1;
 .custom-modal-css.figma-cards-modal-lg .modal-content {
   max-width: 450px !important;
   margin-inline: auto;
+}
+
+
+
+
+
+
+
+// / New Css for Developer Mode
+body.theme-dark {
+  color: var(--template-bg);
+  background-color: #232323;
+}
+
+.theme-dark {
+  .figma-sidebar .logo-details {
+  background: #232323;
+  border-bottom: 2px solid #767676;
+  }
+
+.figma-sidebar {
+  background: #232323;
+}
+.figma-sidebar .figma-ul-sidebar > li{
+  color:var(--template-bg);
+}
+
+.figma-sidebar .figma-ul-sidebar > li:hover{
+  color:#232323;
+    background:var(--dropdown-inner-active-bg);
+  }
+
+.figma-sidebar .figma-ul-sidebar div[class*=dropdown-container] ul li{
+  color:var(--template-bg);
+}
+
+.figma-sidebar .figma-ul-sidebar div[class*=dropdown-container] ul li:hover{
+color:#232323;
+  background:var(--dropdown-inner-active-bg);
+}
+
+.figma-sidebar .figma-ul-sidebar > li.active, .figma-sidebar .figma-ul-sidebar > li:hover{
+  color:#232323;
+    background:var(--dropdown-inner-active-bg);
+}
+ .figma-header {
+  background-color: #232323 !important;
+}
+
+.figma-header .figma-user-info .figma-user-detail .figma-user .figma-user-name{
+  color:var(--template-bg);
+}
+
+.figma-header .figma-user-info .figma-user-detail .figma-user .figma-user-role{
+  color:var(--template-bg);
+}
+
+.figma-detial-home-sec-spliter .figma-navigator-tabs12{
+  background-color: #232323 !important;
+
+}
+.figma-navigator-ul12 > li .figma-navigate-text12{
+  color:var(--template-bg) !important;
+
+}
+
+  .textmessage2{
+    height: calc(100vh - 203px) !important;
+  }
+
+  .mainmess2{
+    height: calc(100vh - 203px) !important;
+  }
+
+  .figma-left-main-container{
+    background-color: #000000 !important;
+
+  }
+  .auto-expand{
+    background-color: #232323 !important;
+    color:var(--template-bg) !important;
+  }
+  .checkboxText span{
+    color:var(--template-bg) !important;
+  }
+
+  .textmessage .right .inputtextmess{
+    background:#232323 !important;
+  }
+
+  .home-section{
+    background:#363941 !important;
+  }
+  th{
+    background:#232323 !important;
+  }
+  .hover:hover{
+    background-color:#232323 !important;
+  }
+
+  .figma-detial-home-sec-spliter .figma-recent-activities-container{
+    background-color:#232323 !important;
+  }
+
+  .figma-recent-activities-wrapper1 .figma-recent-activities-wrap-card1 .figma-recent-activities-content-detail-new21 .figma-recent-activities-content .figma-recent-activity-head{
+    color:var(--template-bg) !important;
+  }
+  .figma-detial-home-sec-spliter .figma-recent-activities-container .figma-recent-activities-header .figma-recent-head-name{
+    color:var(--template-bg) !important;
+  }
+  .figma-recent-activities-content-detail-new21:hover{
+    background:#363941 !important;
+    border-bottom:1px solid #363941 !important;
+  }
+  .tableview{
+    background-color:#232323 !important;
+  }
 }

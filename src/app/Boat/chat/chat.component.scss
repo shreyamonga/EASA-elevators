@@ -17,7 +17,7 @@
   height: calc(100vh - 240px);
   width: 90%;
   margin: auto;
-  overflow: scroll;
+  overflow: auto;
   scroll-behavior: smooth;
 
   .paddingbottom {
@@ -51,7 +51,8 @@
 
 
   .left {
-    max-width: 95%;
+    // max-width: 95%;
+    width: 100%;
     display: grid;
     grid-template-columns: 50px auto;
     float: left;
@@ -790,7 +791,7 @@ label {
 
 .tableview {
  // max-height: 300px;
-  overflow: scroll;
+  overflow: auto;
   margin-top: 10px;
 }
 
@@ -1569,3 +1570,44 @@ label {
 .table-v-dots {
   cursor: pointer;
 }
+
+
+// Neww Css
+
+.inputaree{
+  display: grid;
+      grid-template-columns: 200px 200px;
+      grid-gap: 30px;
+      // grid-gap: 296px;
+      text-align: left;
+      margin-bottom: 10px;
+
+      .fields {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #858585;
+        padding: 5px;
+        color: #ffffff;
+        font-size: 12px;
+
+        option{
+          background: #000;
+          color: #fff;
+        }
+      }
+}
+
+.history-height{
+  max-height: 82vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.save-btn{
+  text-align: right;margin-right: 96px !important;
+    display: inline;
+}
+// .text-field{
+//   width: 25vw;
+
+// }

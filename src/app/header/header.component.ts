@@ -139,7 +139,7 @@ Bridge2: any;
       (res: any) => {
         this.isLoading2 = false;
         this.notify = res.data;
-        console.log(this.notify);
+        // console.log(this.notify);
 
         this.unreadCount = res.meta.unread_count;
         sessionStorage.setItem('unreadCount', this.unreadCount);

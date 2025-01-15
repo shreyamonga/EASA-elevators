@@ -106,8 +106,20 @@ export class DashboardComponent implements OnInit {
    const dateObj = new Date();
   const month2 = dateObj.getMonth() + 1;
   const year = dateObj.getUTCFullYear();
-  const year1 = year+1;
-  const year2 = String(year)+'-'+String(year1);
+  // const year1 = year+1;
+  // const year2 = String(year)+'-'+String(year1);
+  let startYear, endYear;
+
+  if (month2 >= 4) {
+    startYear = year;
+    endYear = year + 1;
+  } else {
+    startYear = year - 1;
+    endYear = year;
+  }
+
+  const year2 = `${startYear}-${endYear}`;
+
     this.bridgeService.getleadsourcedashboard(code,String(month2),year2).subscribe(
       (data: Bridge[]) => {
         this.leadsource = data;

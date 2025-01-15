@@ -30,7 +30,7 @@ export class ExcelsheetComponent implements OnInit {
   bridgess: Bridge[] = [];
   //commonObj: any = { exportLoading: false }
   commonObj : any={exportLoading:false,previousItem:'form'}
-  
+
   nodata: boolean = false;
   p: number = 1;
   Com_name: any;
@@ -182,8 +182,14 @@ export class ExcelsheetComponent implements OnInit {
   openEmployee22(id: any) {
     this.openEdit(this.contentEdit, [id], false);
   }
-  openfollowup22(id: any) {
-    this.openfollowup(this.followup, id);
+  // openfollowup22(id: any) {
+  //   this.openfollowup(this.followup, id);
+  // }
+
+  openfollowup22(id: any,Type?:any) {
+    console.log(Type)
+    console.log(id)
+    this.openfollowup(this.followup, id,Type);
   }
   ngOnInit() {
     this.checkExportStatus();
@@ -206,7 +212,7 @@ export class ExcelsheetComponent implements OnInit {
     this.getBridge2();
     this.getBridge();
     this.getcampaign1List();
-    
+
     this.Headingss = this.HeadingServices.getModule2();
     $(document).mouseup(function (e: { target: any; }) {
       var popup = $(".hover-show");
@@ -681,29 +687,322 @@ CallImport(data:any){
 
 }
 
-  resetAlerts() {
-    this.error = '';
-    this.success = '';
+
+resetAlerts() {
+  this.error = '';
+  this.success = '';
+}
+
+genarateCommonPayload(f:NgForm){
+  // console.log(this.commonPayload)
+  // debugger
+  if (f.valid) {
+  this.bridgeService2.GenerateReport(this.commonPayload).subscribe((res: any) => {
+    if (Object(res)['status'] == "200") {
+      this.isLoading = false;
+      this._NotifierService.showSuccess("Report generated Successfully");
+      this.modalService.dismissAll();
+
+      // setTimeout(() => {
+      //   let currentUrl = this.router.url;
+      //   this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+      //   this.router.onSameUrlNavigation = 'reload';
+      //   this.router.navigate([currentUrl]);
+      // }, 2000);
+    }
+
+    else {
+      this._NotifierService.showError(Object(res)['message']);
+    }
+  },
+  (err) => {
+    // this.isLoading3 = false;
+    const delim = ":"
+    const name = err.message
+    const result = name.split(delim).slice(3).join(delim);
+    this._NotifierService.showError(result);
+  }
+);
+  }
+  else {
+    for (let i = 0; i < Object.keys(f.value).length; i++) {
+      var keyys = Object.keys(f.value)[i];
+      if (f.value[keyys].length == 0) {
+
+        if ($("input[name=" + keyys + "]").hasClass('required-fld')) {
+          $("input[name=" + keyys + "]").addClass("red-line-border");
+          $("input[name=" + keyys + "]").focus();
+        }
+        else if ($("ng-select[name=" + keyys + "]").hasClass('required-fld')) {
+          $("ng-select[name=" + keyys + "]").addClass("red-line-border");
+          $("ng-select[name=" + keyys + "]").focus();
+        }
+        else if ($("select[name=" + keyys + "]").hasClass('required-fld')) {
+          $("select[name=" + keyys + "]").addClass("red-line-border");
+          $("select[name=" + keyys + "]").focus();
+        }
+        else if ($("password[name=" + keyys + "]").hasClass('required-fld')) {
+          $("password[name=" + keyys + "]").addClass("red-line-border");
+          $("password[name=" + keyys + "]").focus();
+        }
+        else if ($("textarea[name=" + keyys + "]").hasClass('required-fld')) {
+          $("textarea[name=" + keyys + "]").addClass("red-line-border");
+          $("textarea[name=" + keyys + "]").focus();
+        }
+      }
+      else {
+        $("input[name=" + keyys + "]").removeClass("red-line-border");
+        $("ng-select[name=" + keyys + "]").removeClass("red-line-border");
+        $("select[name=" + keyys + "]").removeClass("red-line-border");
+        $("password[name=" + keyys + "]").removeClass("red-line-border");
+        $("textarea[name=" + keyys + "]").removeClass("red-line-border");
+      }
+    }
+  }
+}
+addLeads(f: NgForm) {
+  f = this.bridgeService2.GlobaleTrimFunc(f);
+  this.resetAlerts();
+  for (let [keys, value] of Object.entries(f.value)) {
+    if (!!!f.value[keys]) {
+      f.value[keys] = "";
+    }
+  }
+  if (f.valid) {
+    this.isLoading = true;
+    this.bridgeService2.addlead(this.bridges).subscribe(
+      (res: Bridge2) => {
+        if (Object(res)['message'] == "successful") {
+          this.isLoading = false;
+          this._NotifierService.showSuccess(this.Headingss[0].leftheading + " " + this.Headingss[0].heading103 + " " + this.Headingss[0].heading106);
+          this.modalService.dismissAll();
+
+          setTimeout(() => {
+            let currentUrl = this.router.url;
+            this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+            this.router.onSameUrlNavigation = 'reload';
+            this.router.navigate([currentUrl]);
+          }, 2000);
+        }
+        else {
+          this._NotifierService.showError(Object(res)['message']);
+          this.isLoading = false;
+        }
+        // Reset the form
+      },
+      (err) => {
+        const delim = ":"
+        const name = err.message
+        const result = name.split(delim).slice(3).join(delim)
+        this._NotifierService.showError(result);
+        this.isLoading = false;
+        //  this.ngOnInit();
+      }
+    );
+  } else {
+    for (let i = 0; i < Object.keys(f.value).length; i++) {
+      var keyys = Object.keys(f.value)[i];
+      if (f.value[keyys].length == 0) {
+
+        if ($("input[name=" + keyys + "]").hasClass('required-fld')) {
+          $("input[name=" + keyys + "]").addClass("red-line-border");
+          $("input[name=" + keyys + "]").focus();
+        }
+        else if ($("ng-select[name=" + keyys + "]").hasClass('required-fld')) {
+          $("ng-select[name=" + keyys + "]").addClass("red-line-border");
+          $("ng-select[name=" + keyys + "]").focus();
+        }
+        else if ($("select[name=" + keyys + "]").hasClass('required-fld')) {
+          $("select[name=" + keyys + "]").addClass("red-line-border");
+          $("select[name=" + keyys + "]").focus();
+        }
+        else if ($("password[name=" + keyys + "]").hasClass('required-fld')) {
+          $("password[name=" + keyys + "]").addClass("red-line-border");
+          $("password[name=" + keyys + "]").focus();
+        }
+        else if ($("textarea[name=" + keyys + "]").hasClass('required-fld')) {
+          $("textarea[name=" + keyys + "]").addClass("red-line-border");
+          $("textarea[name=" + keyys + "]").focus();
+        }
+      }
+      else {
+        $("input[name=" + keyys + "]").removeClass("red-line-border");
+        $("ng-select[name=" + keyys + "]").removeClass("red-line-border");
+        $("select[name=" + keyys + "]").removeClass("red-line-border");
+        $("password[name=" + keyys + "]").removeClass("red-line-border");
+        $("textarea[name=" + keyys + "]").removeClass("red-line-border");
+      }
+    }
+  }
+}
+
+
+  open(content: any) {
+    this.commonObj.bigScreenMode = false;
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg `,backdrop:'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.commonObj.bigScreenMode = false;
+    });
   }
 
-  genarateCommonPayload(f:NgForm){
-    // console.log(this.commonPayload)
-    // debugger
-    if (f.valid) {
-    this.bridgeService2.GenerateReport(this.commonPayload).subscribe((res: any) => {
-      if (Object(res)['status'] == "200") {
-        this.isLoading = false;
-        this._NotifierService.showSuccess("Report generated Successfully");
-        this.modalService.dismissAll();
+private getDismissReason(reason: any): string {
+  if (reason === ModalDismissReasons.ESC) {
+    return 'by pressing ESC';
+  } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+    return 'by clicking on a backdrop';
+  } else {
+    return `with: ${reason}`;
+  }
+}
 
-        // setTimeout(() => {
-        //   let currentUrl = this.router.url;
-        //   this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-        //   this.router.onSameUrlNavigation = 'reload';
-        //   this.router.navigate([currentUrl]);
-        // }, 2000);
+openEdit(contentEdit: any, item2: any, isView: boolean) {
+  this.commonObj.bigScreenMode = false;
+  this.modalService.open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg `,backdrop:'static' }).result.then((result) => {
+    this.closeResult = `Closed with: ${result}`;
+  }, (reason) => {
+    this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    this.commonObj.bigScreenMode = false;
+  });
+  this.isView = isView;
+  var item: any;
+  this.bridgeService2.getOneLeaddata(item2[0]).subscribe(
+    (data: Bridge2[]) => {
+      item = data[0];
+      this.editbridges.id = String(item.id);
+      this.editbridges.date = item.date;
+      this.editbridges.companyName = item.companyName;
+      this.editbridges.source = item.source;
+      this.editbridges.email = item.email;
+      this.editbridges.location = item.location;
+      this.editbridges.contactPerson = item.contactPerson;
+      this.editbridges.phoneNumber = item.phoneNumber;
+      this.editbridges.message = item.message;
+      this.editbridges.productInterest = item.productInterest;
+      this.editbridges.assignedTo = Object.values(item.assignedTo)[0];
+      this.editbridges.employeeId = item.employeeId.id;
+      this.editbridges.timestamp = item.timestamp;
+      this.editbridges.status = item.status;
+      this.editbridges.leadType = item.leadType;
+      this.editbridges.designation = item.designation;
+      this.editbridges.turnover = item.turnover;
+      this.editbridges.numOfEmployee = item.numOfEmployee;
+
+      for(let i=0;i<this.DynamicFiledPositionDetials.length;i++){
+        this.editbridges[this.DynamicFiledPositionDetials[i].field_name] = item[this.DynamicFiledPositionDetials[i].field_name];
       }
 
+    },
+    (err) => {
+      console.log(err);
+      this.error = err;
+    }
+  );
+
+  // console.log(this.editbridges.employeeId);
+}
+
+
+editLeads(fb: NgForm) {
+  fb = this.bridgeService2.GlobaleTrimFunc(fb);
+  this.resetAlerts();
+  if (fb.valid) {
+    this.isLoading = true;
+    // this.editbridges.assignedTo = this.editbridges.assignedTo ?? this.assignSalesCode;
+    this.bridgeService2.editleads(this.editbridges).subscribe(
+      (res: EditBridge2) => {
+        if (Object(res)['status'] == "200") {
+          this.isLoading = false;
+          this._NotifierService.showSuccess(this.Headingss[0].leftheading + " " + this.Headingss[0].heading104 + " " + this.Headingss[0].heading106);
+          this.modalService.dismissAll();
+
+          setTimeout(() => {
+         this.reload();
+          }, 2000);
+        }
+        else {
+          this._NotifierService.showError(Object(res)['message']);
+          this.isLoading = false;
+        }
+
+      },
+      (err) => {
+        this.modalService.dismissAll();
+        const delim = ":"
+        const name = err.message
+        const result = name.split(delim).slice(3).join(delim)
+        this._NotifierService.showError(result);
+        this.ngOnInit();
+      }
+    );
+  }
+  else {
+    for (let i = 0; i < Object.keys(fb.value).length; i++) {
+      var keyys = Object.keys(fb.value)[i];
+      if (fb.value[keyys].length == 0) {
+
+        if ($("input[name=" + keyys + "]").hasClass('required-fld')) {
+          $("input[name=" + keyys + "]").addClass("red-line-border");
+          $("input[name=" + keyys + "]").focus();
+        }
+        else if ($("ng-select[name=" + keyys + "]").hasClass('required-fld')) {
+          $("ng-select[name=" + keyys + "]").addClass("red-line-border");
+          $("ng-select[name=" + keyys + "]").focus();
+        }
+        else if ($("select[name=" + keyys + "]").hasClass('required-fld')) {
+          $("select[name=" + keyys + "]").addClass("red-line-border");
+          $("select[name=" + keyys + "]").focus();
+        }
+        else if ($("password[name=" + keyys + "]").hasClass('required-fld')) {
+          $("password[name=" + keyys + "]").addClass("red-line-border");
+          $("password[name=" + keyys + "]").focus();
+        }
+        else if ($("textarea[name=" + keyys + "]").hasClass('required-fld')) {
+          $("textarea[name=" + keyys + "]").addClass("red-line-border");
+          $("textarea[name=" + keyys + "]").focus();
+        }
+      }
+      else {
+        $("input[name=" + keyys + "]").removeClass("red-line-border");
+        $("ng-select[name=" + keyys + "]").removeClass("red-line-border");
+        $("select[name=" + keyys + "]").removeClass("red-line-border");
+        $("password[name=" + keyys + "]").removeClass("red-line-border");
+        $("textarea[name=" + keyys + "]").removeClass("red-line-border");
+      }
+    }
+  }
+
+
+}
+
+editdeletepop(item: Bridge2) {
+  $('.hover-show').hide();
+  $('.hover-show' + item.id).show()
+}
+
+JunkId: any;
+confirmModal(confirmModal2: any, JunkId: any) {
+  this.JunkId = JunkId;
+  this.modalService
+    .open(confirmModal2, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static', modalDialogClass: 'confirm-modal modal-dialog-centered' })
+    .result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
+}
+
+multipleDelete1(count: any) {
+  this.bridgeService2.junkleads(count, 1).subscribe(
+    (res: any) => {
+      if (Object(res)['status'] == "200") {
+        this.modalService.dismissAll();
+        this.reload();
+      }
       else {
         this._NotifierService.showError(Object(res)['message']);
       }
@@ -716,421 +1015,130 @@ CallImport(data:any){
       this._NotifierService.showError(result);
     }
   );
-    }
-    else {
-      for (let i = 0; i < Object.keys(f.value).length; i++) {
-        var keyys = Object.keys(f.value)[i];
-        if (f.value[keyys].length == 0) {
-
-          if ($("input[name=" + keyys + "]").hasClass('required-fld')) {
-            $("input[name=" + keyys + "]").addClass("red-line-border");
-            $("input[name=" + keyys + "]").focus();
-          }
-          else if ($("ng-select[name=" + keyys + "]").hasClass('required-fld')) {
-            $("ng-select[name=" + keyys + "]").addClass("red-line-border");
-            $("ng-select[name=" + keyys + "]").focus();
-          }
-          else if ($("select[name=" + keyys + "]").hasClass('required-fld')) {
-            $("select[name=" + keyys + "]").addClass("red-line-border");
-            $("select[name=" + keyys + "]").focus();
-          }
-          else if ($("password[name=" + keyys + "]").hasClass('required-fld')) {
-            $("password[name=" + keyys + "]").addClass("red-line-border");
-            $("password[name=" + keyys + "]").focus();
-          }
-          else if ($("textarea[name=" + keyys + "]").hasClass('required-fld')) {
-            $("textarea[name=" + keyys + "]").addClass("red-line-border");
-            $("textarea[name=" + keyys + "]").focus();
-          }
-        }
-        else {
-          $("input[name=" + keyys + "]").removeClass("red-line-border");
-          $("ng-select[name=" + keyys + "]").removeClass("red-line-border");
-          $("select[name=" + keyys + "]").removeClass("red-line-border");
-          $("password[name=" + keyys + "]").removeClass("red-line-border");
-          $("textarea[name=" + keyys + "]").removeClass("red-line-border");
-        }
-      }
-    }
 }
-  addLeads(f: NgForm) {
-    f = this.bridgeService2.GlobaleTrimFunc(f);
-    this.resetAlerts();
-    for (let [keys, value] of Object.entries(f.value)) {
-      if (!!!f.value[keys]) {
-        f.value[keys] = "";
-      }
-    }
-    if (f.valid) {
-      this.isLoading = true;
-      this.bridgeService2.addlead(this.bridges).subscribe(
-        (res: Bridge2) => {
-          if (Object(res)['message'] == "successful") {
-            this.isLoading = false;
-            this._NotifierService.showSuccess(this.Headingss[0].leftheading + " " + this.Headingss[0].heading103 + " " + this.Headingss[0].heading106);
-            this.modalService.dismissAll();
 
-            setTimeout(() => {
-              let currentUrl = this.router.url;
-              this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-              this.router.onSameUrlNavigation = 'reload';
-              this.router.navigate([currentUrl]);
-            }, 2000);
-          }
-          else {
-            this._NotifierService.showError(Object(res)['message']);
-            this.isLoading = false;
-          }
-          // Reset the form
-        },
-        (err) => {
-          const delim = ":"
-          const name = err.message
-          const result = name.split(delim).slice(3).join(delim)
-          this._NotifierService.showError(result);
-          this.isLoading = false;
-          //  this.ngOnInit();
-        }
-      );
-    } else {
-      for (let i = 0; i < Object.keys(f.value).length; i++) {
-        var keyys = Object.keys(f.value)[i];
-        if (f.value[keyys].length == 0) {
 
-          if ($("input[name=" + keyys + "]").hasClass('required-fld')) {
-            $("input[name=" + keyys + "]").addClass("red-line-border");
-            $("input[name=" + keyys + "]").focus();
-          }
-          else if ($("ng-select[name=" + keyys + "]").hasClass('required-fld')) {
-            $("ng-select[name=" + keyys + "]").addClass("red-line-border");
-            $("ng-select[name=" + keyys + "]").focus();
-          }
-          else if ($("select[name=" + keyys + "]").hasClass('required-fld')) {
-            $("select[name=" + keyys + "]").addClass("red-line-border");
-            $("select[name=" + keyys + "]").focus();
-          }
-          else if ($("password[name=" + keyys + "]").hasClass('required-fld')) {
-            $("password[name=" + keyys + "]").addClass("red-line-border");
-            $("password[name=" + keyys + "]").focus();
-          }
-          else if ($("textarea[name=" + keyys + "]").hasClass('required-fld')) {
-            $("textarea[name=" + keyys + "]").addClass("red-line-border");
-            $("textarea[name=" + keyys + "]").focus();
-          }
-        }
-        else {
-          $("input[name=" + keyys + "]").removeClass("red-line-border");
-          $("ng-select[name=" + keyys + "]").removeClass("red-line-border");
-          $("select[name=" + keyys + "]").removeClass("red-line-border");
-          $("password[name=" + keyys + "]").removeClass("red-line-border");
-          $("textarea[name=" + keyys + "]").removeClass("red-line-border");
-        }
-      }
-    }
+multipleAssign(contentMultipleAssignEdit: any) {
+  this.modalService.open(contentMultipleAssignEdit, { ariaLabelledBy: 'modal-basic-title'  }).result.then((result) => {
+    this.closeResult = `Closed with: ${result}`;
+  }, (reason) => {
+    this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+  });
+
+
+}
+
+
+assingEdit(contentAssignEdit: any, item: any, multiple: boolean, ids: any) {
+
+  this.modalService.open(contentAssignEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal custom-modal-css ` }).result.then((result) => {
+    this.closeResult = `Closed with: ${result}`;
+  }, (reason) => {
+    this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+  });
+  if (multiple == false) {
+    this.lead_id = [item.id];
+
+    // this.selectedValue=item.assignedTo.SalesEmployeeCode;
+    // this.selectedName = item.assignedTo.SalesEmployeeName;
   }
-
-
-    open(content: any) {
-      this.commonObj.bigScreenMode = false;
-      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg `,backdrop:'static' }).result.then((result) => {
-        this.closeResult = `Closed with: ${result}`;
-      }, (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        this.commonObj.bigScreenMode = false;
-      });
-    }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
+  else {
+    this.lead_id = ids;
   }
+}
 
-  openEdit(contentEdit: any, item2: any, isView: boolean) {
-    this.commonObj.bigScreenMode = false;
-    this.modalService.open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg `,backdrop:'static' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      this.commonObj.bigScreenMode = false;
-    });
-    this.isView = isView;
-    var item: any;
-    this.bridgeService2.getOneLeaddata(item2[0]).subscribe(
-      (data: Bridge2[]) => {
-        item = data[0];
-        this.editbridges.id = String(item.id);
-        this.editbridges.date = item.date;
-        this.editbridges.companyName = item.companyName;
-        this.editbridges.source = item.source;
-        this.editbridges.email = item.email;
-        this.editbridges.location = item.location;
-        this.editbridges.contactPerson = item.contactPerson;
-        this.editbridges.phoneNumber = item.phoneNumber;
-        this.editbridges.message = item.message;
-        this.editbridges.productInterest = item.productInterest;
-        this.editbridges.assignedTo = Object.values(item.assignedTo)[0];
-        this.editbridges.employeeId = item.employeeId.id;
-        this.editbridges.timestamp = item.timestamp;
-        this.editbridges.status = item.status;
-        this.editbridges.leadType = item.leadType;
-        this.editbridges.designation = item.designation;
-        this.editbridges.turnover = item.turnover;
-        this.editbridges.numOfEmployee = item.numOfEmployee;
+// assingEdit(contentAssignEdit: any, item: any, multiple: boolean, ids: any) {
 
-        for(let i=0;i<this.DynamicFiledPositionDetials.length;i++){
-          this.editbridges[this.DynamicFiledPositionDetials[i].field_name] = item[this.DynamicFiledPositionDetials[i].field_name];
-        }
+//   this.modalService.open(contentAssignEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css`,backdrop:'static' }).result.then((result) => {
+//     this.closeResult = `Closed with: ${result}`;
+//   }, (reason) => {
+//     this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+//   });
+//   if (multiple == false) {
+//   this.lead_id = [item.id];
+//   this.selectedValue = item.assignedTo.SalesEmployeeCode;
+//   this.selectedName = item.assignedTo.SalesEmployeeName;
+// }
+// else {
+//   this.lead_id = ids;
+// }
+// }
 
-      },
-      (err) => {
-        console.log(err);
-        this.error = err;
-      }
-    );
+// Assign_() {
+//   if (confirm('Are You Sure Do You Want To Assign Lead')) {
+//     this.bridgeService2.leadAssign(this.lead_id, this.searchAssignValue).subscribe(
+//       (res: any) => {
+//         if (Object(res)['status'] == "200") {
+//           this.modalService.dismissAll();
+//           this.searchAssignValue = null;
+//           this.reload();
 
-    // console.log(this.editbridges.employeeId);
-  }
+//         }
+//         else {
+//           this._NotifierService.showError(Object(res)['message']);
+//         }
+//         // Reset the form
+//       },
+//       (err) => {
+//         const delim = ":"
+//         const name = err.message
+//         const result = name.split(delim).slice(3).join(delim)
+//         this._NotifierService.showError(result);
+//         //  this.ngOnInit();
+//       }
+//     );
+//   }
+// }
 
-
-  editLeads(fb: NgForm) {
-    fb = this.bridgeService2.GlobaleTrimFunc(fb);
-    this.resetAlerts();
-    if (fb.valid) {
-      this.isLoading = true;
-      // this.editbridges.assignedTo = this.editbridges.assignedTo ?? this.assignSalesCode;
-      this.bridgeService2.editleads(this.editbridges).subscribe(
-        (res: EditBridge2) => {
-          if (Object(res)['status'] == "200") {
-            this.isLoading = false;
-            this._NotifierService.showSuccess(this.Headingss[0].leftheading + " " + this.Headingss[0].heading104 + " " + this.Headingss[0].heading106);
-            this.modalService.dismissAll();
-
-            setTimeout(() => {
-           this.reload();
-            }, 2000);
-          }
-          else {
-            this._NotifierService.showError(Object(res)['message']);
-            this.isLoading = false;
-          }
-
-        },
-        (err) => {
-          this.modalService.dismissAll();
-          const delim = ":"
-          const name = err.message
-          const result = name.split(delim).slice(3).join(delim)
-          this._NotifierService.showError(result);
-          this.ngOnInit();
-        }
-      );
-    }
-    else {
-      for (let i = 0; i < Object.keys(fb.value).length; i++) {
-        var keyys = Object.keys(fb.value)[i];
-        if (fb.value[keyys].length == 0) {
-
-          if ($("input[name=" + keyys + "]").hasClass('required-fld')) {
-            $("input[name=" + keyys + "]").addClass("red-line-border");
-            $("input[name=" + keyys + "]").focus();
-          }
-          else if ($("ng-select[name=" + keyys + "]").hasClass('required-fld')) {
-            $("ng-select[name=" + keyys + "]").addClass("red-line-border");
-            $("ng-select[name=" + keyys + "]").focus();
-          }
-          else if ($("select[name=" + keyys + "]").hasClass('required-fld')) {
-            $("select[name=" + keyys + "]").addClass("red-line-border");
-            $("select[name=" + keyys + "]").focus();
-          }
-          else if ($("password[name=" + keyys + "]").hasClass('required-fld')) {
-            $("password[name=" + keyys + "]").addClass("red-line-border");
-            $("password[name=" + keyys + "]").focus();
-          }
-          else if ($("textarea[name=" + keyys + "]").hasClass('required-fld')) {
-            $("textarea[name=" + keyys + "]").addClass("red-line-border");
-            $("textarea[name=" + keyys + "]").focus();
-          }
-        }
-        else {
-          $("input[name=" + keyys + "]").removeClass("red-line-border");
-          $("ng-select[name=" + keyys + "]").removeClass("red-line-border");
-          $("select[name=" + keyys + "]").removeClass("red-line-border");
-          $("password[name=" + keyys + "]").removeClass("red-line-border");
-          $("textarea[name=" + keyys + "]").removeClass("red-line-border");
-        }
-      }
-    }
-
-
-  }
-
-  editdeletepop(item: Bridge2) {
-    $('.hover-show').hide();
-    $('.hover-show' + item.id).show()
-  }
-
-  JunkId: any;
-  confirmModal(confirmModal2: any, JunkId: any) {
-    this.JunkId = JunkId;
-    this.modalService
-      .open(confirmModal2, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static', modalDialogClass: 'confirm-modal modal-dialog-centered' })
-      .result.then(
-        (result) => {
-          this.closeResult = `Closed with: ${result}`;
-        },
-        (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
-      );
-  }
-
-  multipleDelete1(count: any) {
-    this.bridgeService2.junkleads(count, 1).subscribe(
-      (res: any) => {
-        if (Object(res)['status'] == "200") {
-          this.modalService.dismissAll();
-          this.reload();
-        }
-        else {
-          this._NotifierService.showError(Object(res)['message']);
-        }
-      },
-      (err) => {
-        // this.isLoading3 = false;
-        const delim = ":"
-        const name = err.message
-        const result = name.split(delim).slice(3).join(delim);
-        this._NotifierService.showError(result);
-      }
-    );
-  }
-
-
-  multipleAssign(contentMultipleAssignEdit: any) {
-    this.modalService.open(contentMultipleAssignEdit, { ariaLabelledBy: 'modal-basic-title'  }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-
-
-  }
-
-
-  assingEdit(contentAssignEdit: any, item: any, multiple: boolean, ids: any) {
-
-    this.modalService.open(contentAssignEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal custom-modal-css ` }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-    if (multiple == false) {
-      this.lead_id = [item.id];
-
-      // this.selectedValue=item.assignedTo.SalesEmployeeCode;
-      // this.selectedName = item.assignedTo.SalesEmployeeName;
-    }
-    else {
-      this.lead_id = ids;
-    }
-  }
-
-  // assingEdit(contentAssignEdit: any, item: any, multiple: boolean, ids: any) {
-
-  //   this.modalService.open(contentAssignEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css`,backdrop:'static' }).result.then((result) => {
-  //     this.closeResult = `Closed with: ${result}`;
-  //   }, (reason) => {
-  //     this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-  //   });
-  //   if (multiple == false) {
-  //   this.lead_id = [item.id];
-  //   this.selectedValue = item.assignedTo.SalesEmployeeCode;
-  //   this.selectedName = item.assignedTo.SalesEmployeeName;
-  // }
-  // else {
-  //   this.lead_id = ids;
-  // }
-  // }
-
-  // Assign_() {
-  //   if (confirm('Are You Sure Do You Want To Assign Lead')) {
-  //     this.bridgeService2.leadAssign(this.lead_id, this.searchAssignValue).subscribe(
-  //       (res: any) => {
-  //         if (Object(res)['status'] == "200") {
-  //           this.modalService.dismissAll();
-  //           this.searchAssignValue = null;
-  //           this.reload();
-
-  //         }
-  //         else {
-  //           this._NotifierService.showError(Object(res)['message']);
-  //         }
-  //         // Reset the form
-  //       },
-  //       (err) => {
-  //         const delim = ":"
-  //         const name = err.message
-  //         const result = name.split(delim).slice(3).join(delim)
-  //         this._NotifierService.showError(result);
-  //         //  this.ngOnInit();
-  //       }
-  //     );
-  //   }
-  // }
-
-  closeResultAssign = '';
+closeResultAssign = '';
 
 Assign_(confirmModalAssign: any) {
-  debugger
-  this.modalService
-    .open(confirmModalAssign, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static', modalDialogClass: 'confirm-modal modal-dialog-centered' })
-    .result.then(
-      (result) => {
-        if (result === 'OK') {
-          this.bridgeService2.leadAssign(this.lead_id, this.searchAssignValue).subscribe(
-            (res: any) => {
-              if (Object(res)['status'] == "200") {
-                this.modalService.dismissAll();
-                this.searchAssignValue = null;
-                this.reload();
-              } else {
-                this._NotifierService.showError(Object(res)['message']);
-              }
-            },
-            (err) => {
-              const delim = ':';
-              const name = err.message;
-              const result = name.split(delim).slice(3).join(delim);
-              this._NotifierService.showError(result);
+debugger
+this.modalService
+  .open(confirmModalAssign, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static', modalDialogClass: 'confirm-modal modal-dialog-centered' })
+  .result.then(
+    (result) => {
+      if (result === 'OK') {
+        this.bridgeService2.leadAssign(this.lead_id, this.searchAssignValue).subscribe(
+          (res: any) => {
+            if (Object(res)['status'] == "200") {
+              this.modalService.dismissAll();
+              this.searchAssignValue = null;
+              this.reload();
+            } else {
+              this._NotifierService.showError(Object(res)['message']);
             }
-          );
-        }
-      },
-      (reason) => {
-        this.closeResultAssign = `Dismissed ${this.getDismissReason(reason)}`;
+          },
+          (err) => {
+            const delim = ':';
+            const name = err.message;
+            const result = name.split(delim).slice(3).join(delim);
+            this._NotifierService.showError(result);
+          }
+        );
       }
-    );
+    },
+    (reason) => {
+      this.closeResultAssign = `Dismissed ${this.getDismissReason(reason)}`;
+    }
+  );
 }
 
 
-  assignCancel() {
-    this.modalService.dismissAll();
-  }
+assignCancel() {
+  this.modalService.dismissAll();
+}
 
-  openfollowup(followup: any, item2: any) {
-    this.modalService.open(followup, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+openfollowup(followup: any, item2: any,Type?:any) {
+  this.modalService.open(followup, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered order-cards-modal' }).result.then((result) => {
+    this.closeResult = `Closed with: ${result}`;
+  }, (reason) => {
+    this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+  });
 
-    //console.log(item);
-    this.bridgeService2.getOneLeaddata(item2).subscribe(
+  //console.log(item);
+  if(Type == 'Opportunity'){
+    this.bridgeService2.getOneOpportunitydata(item2).subscribe(
       (data: Bridge2[]) => {
         data[0];
 
@@ -1140,269 +1148,312 @@ Assign_(confirmModalAssign: any) {
         this.AddFollow2.Time = this.HeadingServices.getTime();
         this.AddFollow2.Emp = String(this.UserId);
         this.AddFollow2.Emp_Name = this.UserName;
-        this.AddFollow2.SourceType = 'Lead';
+        this.AddFollow2.SourceType = 'Opportunity';
       },
       (err) => {
         console.log(err);
         this.error = err;
       }
     );
+
   }
+  else if(Type == 'Order'){
+    this.bridgeService2.getOneOrderdata(item2).subscribe(
+      (data: Bridge2[]) => {
+        data[0];
 
-
-  addFollowUp(fb: NgForm) {
-    fb = this.bridgeService2.GlobaleTrimFunc(fb);
-    this.resetAlerts();
-    for (let [keys, value] of Object.entries(fb.value)) {
-      if (!!!fb.value[keys]) {
-        fb.value[keys] = "";
+        this.AddFollow2.Subject = data[0].companyName;
+        this.AddFollow2.SourceID = String(data[0].id);
+        this.AddFollow2.From = this.HeadingServices.getrevDate();
+        this.AddFollow2.Time = this.HeadingServices.getTime();
+        this.AddFollow2.Emp = String(this.UserId);
+        this.AddFollow2.Emp_Name = this.UserName;
+        this.AddFollow2.SourceType = 'Order';
+      },
+      (err) => {
+        console.log(err);
+        this.error = err;
       }
+    );
+
+  }
+  else{
+  this.bridgeService2.getOneLeaddata(item2).subscribe(
+    (data: Bridge2[]) => {
+      data[0];
+
+      this.AddFollow2.Subject = data[0].companyName;
+      this.AddFollow2.SourceID = String(data[0].id);
+      this.AddFollow2.From = this.HeadingServices.getrevDate();
+      this.AddFollow2.Time = this.HeadingServices.getTime();
+      this.AddFollow2.Emp = String(this.UserId);
+      this.AddFollow2.Emp_Name = this.UserName;
+      this.AddFollow2.SourceType = 'Lead';
+    },
+    (err) => {
+      console.log(err);
+      this.error = err;
     }
-    if (fb.valid) {
-      this.isLoading = true;
-      this.AddFollow2.Emp = Number(this.AddFollow2.Emp);
-      this.AddFollow2.To = this.AddFollow2.From;
-      this.AddFollow2.CreateDate= this.HeadingServices.getDate(),
-      this.AddFollow2.CreateTime= this.HeadingServices.getTime(),
-      this.AddFollow2.CreateTime= this.HeadingServices.getTime2(),
+  );
+}
+}
 
-      this.bridgeService2.storeleadfollow2(this.AddFollow2).subscribe(
-        (res: AddFollow2) => {
-          if (Object(res)['status'] == "200") {
-            // Update the list of cars
-            this.isLoading = false;
-            // Inform the user
-            this._NotifierService.showSuccess(this.Headingss[1].heading + " " + this.Headingss[0].heading103 + " " + this.Headingss[0].heading106);
-            this.modalService.dismissAll();
-            setTimeout(() => {
-              this.reload();
-            }, 2000);
-          }
-          else {
-            this._NotifierService.showError(Object(res)['message']);
-            this.isLoading = false;
-          }
-          // Reset the form
-        },
-        (err) => {
-          this.isLoading = false;
-          const delim = ":"
-          const name = err.message
-          const result = name.split(delim).slice(3).join(delim);
-          this._NotifierService.showError(result);
-          //  this.ngOnInit();
-        }
-      );
 
+addFollowUp(fb: NgForm) {
+fb = this.bridgeService2.GlobaleTrimFunc(fb);
+this.resetAlerts();
+for (let [keys, value] of Object.entries(fb.value)) {
+  if (!!!fb.value[keys]) {
+    fb.value[keys] = "";
+  }
+}
+if (fb.valid) {
+  this.isLoading = true;
+  this.AddFollow2.Emp = Number(this.AddFollow2.Emp);
+  this.AddFollow2.To = this.AddFollow2.From;
+
+
+  this.bridgeService2.storeleadfollow2(this.AddFollow2).subscribe(
+    (res: AddFollow2) => {
+      if (Object(res)['status'] == "200") {
+        // Update the list of cars
+        this.isLoading = false;
+        // Inform the user
+        this._NotifierService.showSuccess(this.Headingss[1].heading + " " + this.Headingss[0].heading103 + " " + this.Headingss[0].heading106);
+        this.modalService.dismissAll();
+        setTimeout(() => {
+          let currentUrl = this.router.url;
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          this.router.onSameUrlNavigation = 'reload';
+          this.router.navigate([currentUrl]);
+        }, 2000);
+      }
+      else {
+        this._NotifierService.showError(Object(res)['message']);
+        this.isLoading = false;
+      }
+      // Reset the form
+    },
+    (err) => {
+      this.isLoading = false;
+      const delim = ":"
+      const name = err.message
+      const result = name.split(delim).slice(3).join(delim);
+      this._NotifierService.showError(result);
+      //  this.ngOnInit();
+    }
+  );
+
+
+}
+else {
+  for (let i = 0; i < Object.keys(fb.value).length; i++) {
+    var keyys = Object.keys(fb.value)[i];
+    if (fb.value[keyys].length == 0) {
+
+      if ($("input[name=" + keyys + "]").hasClass('required-fld')) {
+        $("input[name=" + keyys + "]").addClass("red-line-border");
+        $("input[name=" + keyys + "]").focus();
+      }
+      else if ($("ng-select[name=" + keyys + "]").hasClass('required-fld')) {
+        $("ng-select[name=" + keyys + "]").addClass("red-line-border");
+        $("ng-select[name=" + keyys + "]").focus();
+      }
+      else if ($("select[name=" + keyys + "]").hasClass('required-fld')) {
+        $("select[name=" + keyys + "]").addClass("red-line-border");
+        $("select[name=" + keyys + "]").focus();
+      }
+      else if ($("password[name=" + keyys + "]").hasClass('required-fld')) {
+        $("password[name=" + keyys + "]").addClass("red-line-border");
+        $("password[name=" + keyys + "]").focus();
+      }
+      else if ($("textarea[name=" + keyys + "]").hasClass('required-fld')) {
+        $("textarea[name=" + keyys + "]").addClass("red-line-border");
+        $("textarea[name=" + keyys + "]").focus();
+      }
 
     }
+
     else {
-      for (let i = 0; i < Object.keys(fb.value).length; i++) {
-        var keyys = Object.keys(fb.value)[i];
-        if (fb.value[keyys].length == 0) {
-
-          if ($("input[name=" + keyys + "]").hasClass('required-fld')) {
-            $("input[name=" + keyys + "]").addClass("red-line-border");
-            $("input[name=" + keyys + "]").focus();
-          }
-          else if ($("ng-select[name=" + keyys + "]").hasClass('required-fld')) {
-            $("ng-select[name=" + keyys + "]").addClass("red-line-border");
-            $("ng-select[name=" + keyys + "]").focus();
-          }
-          else if ($("select[name=" + keyys + "]").hasClass('required-fld')) {
-            $("select[name=" + keyys + "]").addClass("red-line-border");
-            $("select[name=" + keyys + "]").focus();
-          }
-          else if ($("password[name=" + keyys + "]").hasClass('required-fld')) {
-            $("password[name=" + keyys + "]").addClass("red-line-border");
-            $("password[name=" + keyys + "]").focus();
-          }
-          else if ($("textarea[name=" + keyys + "]").hasClass('required-fld')) {
-            $("textarea[name=" + keyys + "]").addClass("red-line-border");
-            $("textarea[name=" + keyys + "]").focus();
-          }
-
-        }
-
-        else {
-          $("input[name=" + keyys + "]").removeClass("red-line-border");
-          $("ng-select[name=" + keyys + "]").removeClass("red-line-border");
-          $("select[name=" + keyys + "]").removeClass("red-line-border");
-          $("password[name=" + keyys + "]").removeClass("red-line-border");
-          $("textarea[name=" + keyys + "]").removeClass("red-line-border");
-        }
-      }
+      $("input[name=" + keyys + "]").removeClass("red-line-border");
+      $("ng-select[name=" + keyys + "]").removeClass("red-line-border");
+      $("select[name=" + keyys + "]").removeClass("red-line-border");
+      $("password[name=" + keyys + "]").removeClass("red-line-border");
+      $("textarea[name=" + keyys + "]").removeClass("red-line-border");
     }
-
   }
+}
+
+}
 
 
-  suplier(item: any) {
-    this.router.navigate(['/leads/table/lead-details/' + item]);
+suplier(item: any) {
+  this.router.navigate(['/leads/table/lead-details/' + item]);
+}
+
+CreateLeadstoBp(id: number) {
+  this.bridgeService2.setLeadID(id);
+  this.bridgeService2.setAllFilter('', undefined);
+  this.router.navigate(['/customer/add-customer']);
+}
+
+totalItems: any;
+sortedColumn: string = '';
+sortsend: boolean | undefined;
+
+isDesc: boolean = false;
+
+source1: any;
+getAllSource(): void {
+  let sourcetmp: any[] = [];
+  this.bridgeService2.getAllSourcedata().subscribe(
+    (data: any[]) => {
+      this.source1 = data;
+      // console.log(this.source1)
+
+    },
+    (err) => {
+      console.log(err);
+      this.error = err;
+    }
+  );
+}
+
+getcampaign1List() {
+  this.bridgeService2.getCampaignnameList().subscribe(
+    (data: any) => {
+      this.CampaigNameList = data;
+      // this.quotation.ContactPersonCode = this.contactPersoneList[0].InternalCode;
+
+    });
+}
+
+lead_Type: any;
+filterLeadPriority: any = new Array;
+getLeadAll(): void {
+  this.bridgeService2.getLeadTypedata().subscribe(
+    (data: any[]) => {
+      this.lead_Type = data;
+      for (let i = 0; i < this.lead_Type.length; i++) {
+        this.filterLeadPriority.push({ item_text: this.lead_Type[i].Name })
+      }
+      // console.log(this.source1)
+      this.dropdownLead = this.filterLeadPriority
+      // console.log(this.source1)
+
+    },
+    (err) => {
+      console.log(err);
+      this.error = err;
+    }
+  );
+}
+
+checkExportStatus() {
+  if(sessionStorage.getItem('role') == 'admin'){
+    this.exportStatus = true;
   }
-
-  CreateLeadstoBp(id: number) {
-    this.bridgeService2.setLeadID(id);
-    this.bridgeService2.setAllFilter('', undefined);
-    this.router.navigate(['/customer/add-customer']);
+  else{
+  const status = sessionStorage.getItem('exportStatus');
+  this.exportStatus = status === 'true'; // sessionStorage stores everything as strings
   }
+}
+// Default excel file name when download
+fileName = "lead_export.xlsx";
 
-  totalItems: any;
-  sortedColumn: string = '';
-  sortsend: boolean | undefined;
+Exportexcel() {
+  this.modalService.dismissAll();
+  // Get the table element
+  const data = document.getElementById("table-data");
+  const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);
 
-  isDesc: boolean = false;
+  // Convert the worksheet to JSON (2D array format)
+  let jsonData: any[][] = XLSX.utils.sheet_to_json(ws, { header: 1 }) as any[][];
 
-  source1: any;
-  getAllSource(): void {
-    let sourcetmp: any[] = [];
-    this.bridgeService2.getAllSourcedata().subscribe(
-      (data: any[]) => {
-        this.source1 = data;
-        // console.log(this.source1)
+  // Remove the first column from each row
+  jsonData = jsonData.map(row => row.slice(1));
 
+  // Remove the last column from each row
+jsonData = jsonData.map(row => row.slice(0, row.length - 1));
+
+  // Convert the modified JSON data back to a worksheet
+  const modifiedWs: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(jsonData);
+
+  // Create a new workbook and append the modified worksheet
+  const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, modifiedWs, 'Sheet1');
+
+  // Save the file
+  XLSX.writeFile(wb, this.fileName);
+}
+// isModuleViewadd(module_id: number): boolean {
+//   const selectedModule = this.savedModules?.filter((module: any) => module.module_id === module_id);
+//   if (selectedModule && selectedModule.length > 0 && selectedModule[0].is_add) {
+//     return true;
+//   }
+//   return false;
+// }
+
+// isModuleViewedit(module_id: number): boolean {
+//   const selectedModule = this.savedModules?.filter((module: any) => module.module_id === module_id);
+//   if (selectedModule && selectedModule.length > 0 && selectedModule[0].is_edit) {
+//     return true;
+//   }
+//   return false;
+// }
+
+// isModulefieldview(module_id: number, key: string): boolean {
+//   const selectedModule = this.savedModules?.find((module: any) => module.module_id === module_id);
+//   if (selectedModule) {
+//     const hasViewPermission = selectedModule.data.some((item: any) => item.key === key && item.view);
+//     return hasViewPermission;
+//   }
+//   return false;
+// }
+
+// isModulefieldedit(module_id: number, key: string): boolean {
+//   // debugger
+//   const selectedModule = this.savedModules?.find((module: any) => module.module_id === module_id);
+//   if (selectedModule) {
+//     // debugger
+//     const hasEditPermission = selectedModule.data.some((item: any) => item.key === key && item.edit);
+//     // console.log(key, hasEditPermission)
+//     return hasEditPermission;
+//   }
+//   return false;
+// }
+
+closeResultExport = '';
+ExportFile(confirmModalForExport: any) {
+  this.modalService
+    .open(confirmModalForExport, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static', modalDialogClass: 'confirm-modal modal-dialog-centered' })
+    .result.then(
+      (result) => {
+        this.closeResultExport = `Closed with: ${result}`;
       },
-      (err) => {
-        console.log(err);
-        this.error = err;
+      (reason) => {
+        this.closeResultExport = `Dismissed ${this.getDismissReason(reason)}`;
       }
     );
-  }
+}
 
-  getcampaign1List() {
-    this.bridgeService2.getCampaignnameList().subscribe(
-      (data: any) => {
-        this.CampaigNameList = data;
-        // this.quotation.ContactPersonCode = this.contactPersoneList[0].InternalCode;
 
-      });
-  }
-
-  lead_Type: any;
-  filterLeadPriority: any = new Array;
-  getLeadAll(): void {
-    this.bridgeService2.getLeadTypedata().subscribe(
-      (data: any[]) => {
-        this.lead_Type = data;
-        for (let i = 0; i < this.lead_Type.length; i++) {
-          this.filterLeadPriority.push({ item_text: this.lead_Type[i].Name })
-        }
-        // console.log(this.source1)
-        this.dropdownLead = this.filterLeadPriority
-        // console.log(this.source1)
-
-      },
-      (err) => {
-        console.log(err);
-        this.error = err;
-      }
-    );
-  }
-
-  checkExportStatus() {
-    if(sessionStorage.getItem('role') == 'admin'){
-      this.exportStatus = true;
-    }
-    else{
-    const status = sessionStorage.getItem('exportStatus');
-    this.exportStatus = status === 'true'; // sessionStorage stores everything as strings
-    }
-  }
-  // Default excel file name when download
-  fileName = "lead_export.xlsx";
-
-  Exportexcel() {
-    this.modalService.dismissAll();
-    // Get the table element
-    const data = document.getElementById("table-data");
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);
-
-    // Convert the worksheet to JSON (2D array format)
-    let jsonData: any[][] = XLSX.utils.sheet_to_json(ws, { header: 1 }) as any[][];
-
-    // Remove the first column from each row
-    jsonData = jsonData.map(row => row.slice(1));
-
-    // Remove the last column from each row
-  jsonData = jsonData.map(row => row.slice(0, row.length - 1));
-
-    // Convert the modified JSON data back to a worksheet
-    const modifiedWs: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(jsonData);
-
-    // Create a new workbook and append the modified worksheet
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, modifiedWs, 'Sheet1');
-
-    // Save the file
-    XLSX.writeFile(wb, this.fileName);
-  }
-  // isModuleViewadd(module_id: number): boolean {
-  //   const selectedModule = this.savedModules?.filter((module: any) => module.module_id === module_id);
-  //   if (selectedModule && selectedModule.length > 0 && selectedModule[0].is_add) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
-  // isModuleViewedit(module_id: number): boolean {
-  //   const selectedModule = this.savedModules?.filter((module: any) => module.module_id === module_id);
-  //   if (selectedModule && selectedModule.length > 0 && selectedModule[0].is_edit) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
-  // isModulefieldview(module_id: number, key: string): boolean {
-  //   const selectedModule = this.savedModules?.find((module: any) => module.module_id === module_id);
-  //   if (selectedModule) {
-  //     const hasViewPermission = selectedModule.data.some((item: any) => item.key === key && item.view);
-  //     return hasViewPermission;
-  //   }
-  //   return false;
-  // }
-
-  // isModulefieldedit(module_id: number, key: string): boolean {
-  //   // debugger
-  //   const selectedModule = this.savedModules?.find((module: any) => module.module_id === module_id);
-  //   if (selectedModule) {
-  //     // debugger
-  //     const hasEditPermission = selectedModule.data.some((item: any) => item.key === key && item.edit);
-  //     // console.log(key, hasEditPermission)
-  //     return hasEditPermission;
-  //   }
-  //   return false;
-  // }
-
-  closeResultExport = '';
-  ExportFile(confirmModalForExport: any) {
-    this.modalService
-      .open(confirmModalForExport, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static', modalDialogClass: 'confirm-modal modal-dialog-centered' })
-      .result.then(
-        (result) => {
-          this.closeResultExport = `Closed with: ${result}`;
-        },
-        (reason) => {
-          this.closeResultExport = `Dismissed ${this.getDismissReason(reason)}`;
-        }
-      );
-  }
-
-  
 bigScreenOrMid() {
-  debugger
-  if ((document.querySelector('.figma-cards-modal') as any).classList.contains('figma-cards-modal-lg')) {
-    this.commonObj.bigScreenMode = true;
-    (document.querySelector('.figma-cards-modal') as any).classList.add('figma-cards-modal-full');
-    (document.querySelector('.figma-cards-modal') as any).classList.remove('figma-cards-modal-lg');
-  } else {
-    this.commonObj.bigScreenMode = false;
-    (document.querySelector('.figma-cards-modal') as any).classList.add('figma-cards-modal-lg');
-    (document.querySelector('.figma-cards-modal') as any).classList.remove('figma-cards-modal-full');
-  }
+debugger
+if ((document.querySelector('.figma-cards-modal') as any).classList.contains('figma-cards-modal-lg')) {
+  this.commonObj.bigScreenMode = true;
+  (document.querySelector('.figma-cards-modal') as any).classList.add('figma-cards-modal-full');
+  (document.querySelector('.figma-cards-modal') as any).classList.remove('figma-cards-modal-lg');
+} else {
+  this.commonObj.bigScreenMode = false;
+  (document.querySelector('.figma-cards-modal') as any).classList.add('figma-cards-modal-lg');
+  (document.querySelector('.figma-cards-modal') as any).classList.remove('figma-cards-modal-full');
+}
 
 
 }
 }
+
 
 
 

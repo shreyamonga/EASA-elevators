@@ -4,7 +4,7 @@ import * as XLSX from 'xlsx'
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { BridgeService } from '../modules/service/bridge.service';
 import { BusinessPartners } from '../businesspartners';
-import { opportunity } from '../opportunity';
+import { opportunity , UpdateOppSetStatus} from '../opportunity';
 import { HeadingServicesService } from '../modules/service/heading-services.service';
 import { NotiferService } from '../modules/service/helpers/notifer.service';
 declare var $: any;
@@ -436,7 +436,7 @@ checkboxclick(id: any) {
       );
   }
 
-  // Default excel file name when download 
+  // Default excel file name when download
   fileName ="opportunity_export.xlsx";
 
   Exportexcel() {
@@ -444,28 +444,28 @@ checkboxclick(id: any) {
     // Get the table element
     const data = document.getElementById("table-data");
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(data);
- 
+
     // Convert the worksheet to JSON (2D array format)
     let jsonData: any[][] = XLSX.utils.sheet_to_json(ws, { header: 1 }) as any[][];
- 
+
     // Remove the first column from each row
     jsonData = jsonData.map(row => row.slice(1));
- 
+
     // Remove the last column from each row
   jsonData = jsonData.map(row => row.slice(0, row.length - 1));
- 
+
     // Convert the modified JSON data back to a worksheet
     const modifiedWs: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(jsonData);
- 
+
     // Create a new workbook and append the modified worksheet
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, modifiedWs, 'Sheet1');
- 
+
     // Save the file
     XLSX.writeFile(wb, this.fileName);
   }
 
-  // isModuleViewadd(module_id: number): boolean {  
+  // isModuleViewadd(module_id: number): boolean {
   //   const selectedModule = this.savedModules?.filter((module: any) => module.module_id === module_id);
   //   if (selectedModule && selectedModule.length > 0 && selectedModule[0].is_add) {
   //     return true;
@@ -473,12 +473,35 @@ checkboxclick(id: any) {
   //   return false;
   // }
 
-  // isModuleViewedit(module_id: number): boolean {  
+  // isModuleViewedit(module_id: number): boolean {
   //   const selectedModule = this.savedModules?.filter((module: any) => module.module_id === module_id);
   //   if (selectedModule && selectedModule.length > 0 && selectedModule[0].is_edit) {
   //     return true;
   //   }
   //   return false;
   // }
+  Updateaction: UpdateOppSetStatus = {
+    Opportunity_Id: "",
+    Status: ""
+  }
+  action(e1: any, e2: any) {
+    this.Updateaction.Opportunity_Id = e1;
+     this.Updateaction.Status = e2;
+    this.bridgeService2.oppsetstatus(this.Updateaction).subscribe(
+      (res: any) => {
+        if (Object(res)['status'] == "200") {
+        // console.log("act", res)
+        this.getOpportunity();
+        this._NotifierService.showSuccess("Status Updated Succesfully!");
+          this.modalService.dismissAll();
+        }
+        else {
+          this._NotifierService.showError(Object(res)['message']);
 
+        }
+
+      }
+  );
+
+  }
 }

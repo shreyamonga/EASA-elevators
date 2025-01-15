@@ -57,6 +57,12 @@ export interface opportunity {
   // UomNo:string,
   //     }],
     }
+    export interface UpdateOppSetStatus {
+      id?: number,
+      Opportunity_Id: string;
+      Status: string;
+
+    }
 
     export interface oneopportunity {
       DocTotal?:any;

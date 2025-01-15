@@ -6,7 +6,7 @@ import { addSmtp, Bridge, EditBridge, Industry, PaymentTerms } from '../../bridg
 import { AddFollow2, Bridge2, EditBridge2, EditExpense, EditPayment, Expense, Follow, Inventoryfile, Payment } from '../../bridge2';
 import { Employee } from '../../employee';
 
-import { Editopportunity, opportunity } from '../../opportunity';
+import { Editopportunity, opportunity, UpdateOppSetStatus } from '../../opportunity';
 // import { Bridge2 } from './bridge2';
 
 import { Quotation, EditQuotation, QuoAttach, Attachment } from '../../quotation';
@@ -3926,7 +3926,7 @@ replaceKeyInArray(arr: any[], oldKey: string, newKey: string): any[] {
   }
 //chatgpt
   sendChatInputandGetResponse(input: any,isDeveloperMode:boolean) {
-    if(isDeveloperMode){
+    if(isDeveloperMode == true){
       return this.http.post(`${this.baseUrl2}/chatbot/api/ask-developer-console/`, input, { 'headers': this.getHeader() }).pipe(
         map((res: any) => {
           return res;
@@ -3942,13 +3942,23 @@ replaceKeyInArray(arr: any[], oldKey: string, newKey: string): any[] {
     }
   }
 
-  getChatBoatHistory(pagination: any) {
+  getChatBoatHistory(pagination: any,isDeveloperMode:boolean) {
+    if(isDeveloperMode == true){
+      return this.http.get(`${this.baseUrl2}/chatbot/api/developer-console-history/?page=${pagination.PageNo}&max=${pagination.max}`, { 'headers': this.getHeader() }).pipe(
+        map((res: any) => {
+          // //console.log(res)
+          return res;
+        })
+      );
+    }
+    else{
     return this.http.get(`${this.baseUrl2}/chatbot/api/query-history/?page=${pagination.PageNo}&max=${pagination.max}`, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
         // //console.log(res)
         return res;
       })
     );
+  }
 
   }
 
@@ -3962,5 +3972,26 @@ replaceKeyInArray(arr: any[], oldKey: string, newKey: string): any[] {
     );
   }
 
-
+  OtherApiForSTatus(apiType: any) {
+    return this.http.post(`${this.baseUrl2}/chatbot/api/save-developer-console-data/`,apiType
+      , { 'headers': this.getHeader() }).pipe(
+      map((res: any) => {
+        return res;
+      })
+    );
+  }
+  getFollowdata(idd: number) {
+    return this.http.post(`${this.baseUrl2}/activity/chatter_all`, { "SourceID": idd, "SourceType": "Opportunity", "Emp": this.UserId }, { 'headers': this.getHeader() }).pipe(
+      map((res: any) => {
+        return res['data'];
+      })
+    );
+  }
+  oppsetstatus(campn: UpdateOppSetStatus) {
+    return this.http.post(`${this.baseUrl2}/opportunity/opp_status`, campn, { 'headers': this.getHeader() }).pipe(
+      map((res: any) => {
+        return res;
+      })
+    );
+  }
 }

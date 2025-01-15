@@ -164,7 +164,7 @@
           <div style="
          display:  flex;
           align-content: center ;justify-content: center;"><div class="TEXt">
-            <img src="../../assets/img/myloo.gif" style="width:100px;">
+             <img [src]="!isDeveloperMode ? '../../assets/img/myloo.gif' :  '../../assets/img/mylo-contractor.png' " style="width:100px;">
         </div>
         <div>
           <h3 class="main-text" style=" padding-top: 24px;"> Hello {{ firstName}}</h3>
@@ -175,7 +175,7 @@
         </div>
 
         <div class="textmessage" [ngClass]="{'textmessage2':isDeveloperMode}" *ngIf="MessageArrya.length != 0" #scrollMe>
-        <div *ngFor="let item of MessageArrya" class="paddingbottom">
+        <div *ngFor="let item of MessageArrya; let i = index" class="paddingbottom">
 
           <div [ngClass]="{'left':item.side == 'left','right':item.side == 'right'}">
             <div>
@@ -183,8 +183,9 @@
               <div class="logo-circle" *ngIf="item.side == 'right'">
                 {{ userName[0] }}
               </div>
-              <img src="../../assets/img/askmile.jpg" *ngIf="item.side == 'left'" class="chatai">
-            </div>
+
+              <img [src]="!isDeveloperMode ? '../../assets/img/mylooimg.jpg' :  '../../assets/img/mylo-contractor.png' " *ngIf="item.side == 'left'" class="chatai">
+                    </div>
             <p class="inputtextmess " *ngIf="item.side == 'right'">{{item.text}}</p>
           <div class="inputtextmess " *ngIf="item.side == 'left' && item.type == 'text'">
             <pre  class="pre-container">{{item.text}}</pre>
@@ -197,7 +198,6 @@
               <span  [innerHTML]="'figma-off-chatDot-i-icon' | svgIcons:''"  ></span>
             </div>
             </div>
-            <!-- <div *ngIf="item.side === 'left' && item.type === 'json'"> -->
               <div *ngIf="item.side === 'left' && item.type === 'json'" style="overflow: hidden;">
               <div class="inputtextmess">
                 <pre  class="pre-container">{{item.text2}}</pre>
@@ -291,6 +291,72 @@
                 </div>
               </div>
             </div>
+            <div *ngIf="item.side === 'left' && item.type === 'Field'">
+              <div class="inputtextmess">
+                <pre  class="pre-container">{{item.text2}}</pre>
+                </div>
+
+                <form>
+                <div *ngFor="let it of item.text">
+                  <div class="inputaree">
+                    <lable>Type</lable>
+                    <lable>Title</lable>
+                  </div>
+                 <div class="inputaree">
+                  <select type="text" [disabled]="(MessageArrya.length-1) != i" class="fields text-field" [(ngModel)]="item.text[0].field_data[0].data_type"  name="data_type" placeholder="Type">
+                    <option value="text">Text</option>
+        <option value="number">Number</option>
+        <option value="date">Date</option>
+        <!-- <option value="Dropdown">Dropdown</option> -->
+                    </select>
+                  <input type="text" [disabled]="(MessageArrya.length-1) != i" [(ngModel)]="item.text[0].field_data[0].verbose_name"  name="verbose_name" class="fields text-field" placeholder="Title">
+                </div>
+
+                <div class="figma-modal-fotter save-btn" *ngIf="(MessageArrya.length-1) == i">
+                  <!-- <button class="figma-outline-btn" style="font-size: 12px;padding: 3px 10px;">Cancel</button> -->
+      <button class="figma-prim-btn" (click)="AppruvedPosition2()" *ngIf="!isLoading" style="    font-size: 12px;
+      margin-left: 15px;
+      margin-top: 10px;
+      padding: 3px 10px;
+      border-radius: 5px;
+      ">Save</button>
+      <button class="figma-prim-btn" *ngIf="isLoading" style="cursor: no-drop;" style="    font-size: 12px;
+      margin-left: 15px;
+      margin-top: 10px;
+      padding: 3px 10px;">Save</button>
+
+                </div>
+                </div>
+              </form>
+              <div class="iscofoote">
+                <span  [innerHTML]="'figma-off-chatHear-i-icon' | svgIcons:''" ></span>
+                <span  [innerHTML]="'figma-off-chatReloard-i-icon' | svgIcons:''"  ></span>
+                <span  [innerHTML]="'figma-off-chatFile-i-icon' | svgIcons:''"  ></span>
+                <span  [innerHTML]="'figma-off-chatShare-i-icon' | svgIcons:''"  ></span>
+                <span  [innerHTML]="'figma-off-chatDot-i-icon' | svgIcons:''"  ></span>
+              </div>
+            </div>
+
+            <div *ngIf="item.side === 'left' && item.type === 'Record'">
+              <div class="inputtextmess">
+                <pre  class="pre-container">{{item.text2}}</pre>
+                </div>
+
+                <div class="inputtextmess">
+                  <a style="
+                  color: #2196f3;
+                  cursor: pointer;
+                  text-decoration: underline;
+                  padding-left: 10px;
+              ">{{item.text[0]}}</a>
+                  </div>
+
+                  <div class="iscofoote">
+                    <span  [innerHTML]="'figma-off-chatReloard-i-icon' | svgIcons:''"  ></span>
+                    <span  [innerHTML]="'figma-off-chatDot-i-icon' | svgIcons:''"  ></span>
+                  </div>
+            </div>
+
 
             <div  class="loader" style="padding-top:35px;"    *ngIf="item.side == 'left' && item.type == 'loader'">
               <!-- <h1><i>Typing</i></h1> -->
@@ -324,7 +390,7 @@ rows="1"></textarea>
 </div>
 
       <div class="checkboxText" style="display: flex; align-items: center; width: 100%; right:10px ;margin-left: 7px">
-            <input type="checkbox" [(ngModel)]="ChatFromDatabase" style="transform: scale(1.3);">
+            <input type="checkbox" [(ngModel)]="ChatFromDatabase" style="transform: scale(1.3);" *ngIf="isDeveloperMode == false">
             <span style="font-size: 12px;padding: 6px;color: #1B1B1F;">   Tick to first Search data from the database</span>
           </div>
 </div>
@@ -388,8 +454,9 @@ rows="1"></textarea>
           <span class="figma-recent-head-name">{{'Favorites'}}</span>
           <span class="cursor-pointer" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="commonObj.addonsTabsActivity = false"></span>
         </div>
-        <div class="figma-recent-activities-wrapper1" style="max-height: 500px; overflow-y: auto; overflow-x: hidden;" id="style-1" infiniteScroll [scrollWindow]="false"  (scrolled)="onScroll()">
-     <ng-container *ngFor="let oppo of AllOrders;">
+        <!-- <div class="figma-recent-activities-wrapper1" style="max-height: 500px; overflow-y: auto; overflow-x: hidden;" id="style-1" infiniteScroll [scrollWindow]="false"  (scrolled)="onScroll()"> -->
+          <div class="figma-recent-activities-wrapper1 history-height" id="style-1" infiniteScroll [scrollWindow]="false"  (scrolled)="onScroll()">
+          <ng-container *ngFor="let oppo of AllOrders;">
     <h5 style="font-size: 13px;margin-top:10px;">{{ oppo.date_str }}</h5>
     <div
       class="figma-recent-activities-wrap-card1"

@@ -155,10 +155,10 @@ mainarray.forEach((mainItem: { module_name: any; is_accessible: boolean; id: any
   ngOnDestroy() {
     debugger
     if (this.isanythingEdit) {
-      this.modalService.open(this.confirmLogout, { 
-        ariaLabelledBy: 'modal-basic-title', 
-        backdrop: 'static', 
-        modalDialogClass: 'confirm-modal modal-dialog-centered' 
+      this.modalService.open(this.confirmLogout, {
+        ariaLabelledBy: 'modal-basic-title',
+        backdrop: 'static',
+        modalDialogClass: 'confirm-modal modal-dialog-centered'
       }).result.then(
         (result) => {
           if (result === 'OK') {
@@ -193,7 +193,7 @@ mainarray.forEach((mainItem: { module_name: any; is_accessible: boolean; id: any
   // }
   // }
 
-  
+
 
   getRoles() {
       this.bridgeService.GetWorkflow().subscribe(
@@ -386,7 +386,7 @@ SaveChange2(){
               }
             );
           }
-          
+
         }
         else {
           this.isLoading = false;

@@ -73,6 +73,8 @@
                   [innerHTML]="'up-down-arrow' | svgIcons:''"></span></th>
               <th (click)="togglesortType('DocTotal')">Total Amount <span
                   [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th>
+               <th >Won/Lost Status
+                  </th>
 
               <th>{{Headingss[0].heading111}}</th>
 
@@ -98,6 +100,16 @@
               {{item.ClosingDate | customDate}}
             </td>
             <td (click)="suplier(item.id)">{{item.DocTotal || 0 | priceFormat}}</td>
+            <ng-container [ngSwitch]="true">
+              <div ngbDropdown container="body">
+                <td ngbDropdownToggle *ngSwitchCase="item.OpportunityStatus == '1'" style="color:green;">Won</td>
+                <td ngbDropdownToggle *ngSwitchDefault style="color:red;">Lost</td>
+                <div ngbDropdownMenu>
+                  <button ngbDropdownItem class="actonbtn" (click)="action(item.id,1)">Won</button>
+                  <button ngbDropdownItem class="actonbtn" (click)="action(item.id,0)">Lost</button>
+                </div>
+              </div>
+            </ng-container>
             <td class="EditBoxForm" style="padding: 0 15px;">
               <span class="edit-delete edit-delete{{item.id}}" (click)="editdeletepop(item)"
                 [innerHTML]="'table-v-dots' | svgIcons:''" class="table-v-dots"></span>
@@ -243,7 +255,7 @@
   <div class="modal-body">
     <p> Are You Sure Do You Want To Export List ?</p>
     <div class="confirm-btn">
-      
+
       <button class="btn custom-btn-outline-blue" (click)="modal.dismiss('Cross click')">Cancel</button>
       <button class="btn custom-btn-blue" (click)="Exportexcel()">OK</button>
     </div>

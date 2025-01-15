@@ -8,7 +8,7 @@ import { oneopportunity, opportunity } from '../opportunity';
 import { Stages, CreateStages, ChangeStages, CompleteStages } from '../stage';
 import { Chatter, Activity, EditActivity, OppoAttach,  } from '../chatter';
 import { Location } from '@angular/common';
-import { Bridge2 } from '../bridge2';
+import { Bridge2 ,Follow,AddFollow2} from '../bridge2';
 import { Quotation } from '../quotation';
 import { Orders } from '../orders';
 import { NotiferService } from '../modules/service/helpers/notifer.service';
@@ -22,6 +22,7 @@ declare var $: any;
 })
 export class OpportunityDetailsComponent implements OnInit, AfterViewChecked {
   @ViewChild('scrollMe') private myScrollContainer!: ElementRef;
+  @ViewChild('ExcelsheetComponent', { static: false }) ExcelsheetComponent!: ElementRef | any;
   DynamicFiledPositionDetials: any[] = [];
   baseUrl2: any;
   isLoading:boolean=false;
@@ -186,6 +187,7 @@ export class OpportunityDetailsComponent implements OnInit, AfterViewChecked {
   commonObj: any = { isContact: true, bpAddreassMerge: null,detailTab:'Items',activityTab: 'event' };
   ticketsAll:any[] = [];
   savedModules: any[] = [];
+  AddFollow2: AddFollow2 = { "Subject": "", "Mode": "", "Comment": "", "CreateDate": this.HeadingServices.getDate(), "CreateTime": this.HeadingServices.getTime(), "Emp": '', "Emp_Name": "", "From": this.HeadingServices.getDate(), "SourceID": "82", "SourceType": "", "Time": this.HeadingServices.getTime(), "Type": "Followup", "leadType": '' };
   constructor(private modalService: NgbModal, private _NotifierService: NotiferService,private HeadingServices: HeadingServicesService, private route: Router, private bridgeService2: BridgeService, private router: ActivatedRoute, private http: HttpClient,
   private routers: Router,private _location: Location) {
     this.baseUrl2 = this.bridgeService2.baseUrl2;
@@ -193,7 +195,8 @@ export class OpportunityDetailsComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     this.scrollToBottom();
-
+    this.getleadFollow2();
+    this.commonObj.addonsTabsActivity='';
     this.bridgeService2.autoCall();
     this.CampaignFrequency=this.bridgeService2.CampaignFrequency;
     this.TaskProgressStatus=this.bridgeService2.TaskProgressStatus;
@@ -738,7 +741,7 @@ scrollToBottom(): void {
   }
   openEdit(contentEdit: any) {
     this.modalService.open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css`,backdrop:'static' }).result.then((result) => {
-      
+
       this.closeResult = `Closed with: ${result}`;
     },
     (reason) => {
@@ -1107,5 +1110,56 @@ scrollToBottom(): void {
     );
   }
 
+  Type:any = 'Opportunity';
+  openfollowup(id:any){
+    this.ExcelsheetComponent.openfollowup22(id,this.Type);
+  }
+
+ Follow: Follow[] = [];
+ nodata: boolean = false;
+  isLoading2: boolean = false;
+  isdataLoading:boolean=false;
+  getleadFollow2(): void {
+      this.isLoading2 = true;
+      this.idd = this.router.snapshot.params.id;
+      this.bridgeService2.getFollowdata(this.idd).subscribe(
+        (data: Follow[]) => {
+          this.isLoading2 = false;
+          this.Follow = data
+          console.log('HELLOthis.Follow',this.Follow)
+          this.Follow.sort(function(a:any,b:any){
+            return Number(new Date(b.UpdateDate)) - Number(new Date(a.UpdateDate));
+          });
+
+          if (this.Follow.length <= 0) {
+            this.nodata = true;
+          } else {
+            this.nodata = false;
+          }
+
+        },
+        (err) => {
+          this.isLoading2 = false;
+          console.log(err);
+          this.error = err;
+        }
+      );
+    }
+
+    receiveData(data: string) {
+      if(data == 'true'){
+        this.ngOnInit();
+      }
+    }
+
+    convertTo12Hour(timeString: string): string {
+      const [hours, minutes, seconds] = timeString.split(':'); // Split the time string
+      const hour = parseInt(hours, 10);
+      const ampm = hour >= 12 ? 'PM' : 'AM';
+      const adjustedHour = hour % 12 || 12; // Convert 0 to 12 for 12-hour format
+      return `${adjustedHour}:${minutes} ${ampm}`;
+    }
+
 }
+
 

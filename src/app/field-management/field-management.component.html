@@ -137,11 +137,6 @@
 <ng-template #mymodal let-modal>
   <div class="modal-header">
     <h4 class="modal-title modal-heading" id="modal-basic-title">{{isEdit?'Edit':'Add'}} New Field in {{AddUser.model_name}}</h4>
-    <!-- <span class="figma-screen-ico"
-      [innerHTML]="(commonObj.bigScreenMode ? 'figma-modal-big-screen-ico' : 'figma-modal-mid-screen-ico') | svgIcons:''"
-      (click)="common.bigScreenOrMid()"></span> -->
-    <!-- <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''"
-      (click)="modal.dismiss('Cross click')"></span> -->
   </div>
   <div class="modal-body">
     <div class="lead-update-wrapper">
@@ -172,26 +167,19 @@
     <div class="lead-update-wrapper" style="margin-bottom: 50px">
       <label class="userLabel">Field Title</label>
       <div>
-        <input type="text" class="input-fld required-fld" placeholder="Enter Title" maxlength="30"
+        <input type="text" class="input-fld required-fld" #FieldName="ngModel" pattern="^[a-zA-Z0-9 ]{1,20}$" placeholder="Enter Title" maxlength="30"
         [(ngModel)]="AddUser.field_data[0].verbose_name"  name="verbose_name">
+
+        <span class="help-block danger" *ngIf="FieldName.errors?.pattern">
+          Invalid Field Title
+        </span>
       </div>
     </div>
-
-    <!-- <div class="lead-update-wrapper">
-      <label>Field Mandatory</label>
-      <div>
-        <select class="input-fld"
-        [(ngModel)]="AddUser.is_mandatory"  name="is_mandatory">
-        <option value="true">Yes</option>
-        <option value="false">No</option>
-        </select>
-      </div><br>
-    </div> -->
     <br>
 
     <div class="figma-modal-fotter">
       <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
-      <button class="figma-prim-btn" (click)="AppruvedPosition2()" *ngIf="!isLoading">Save</button>
+      <button class="figma-prim-btn" (click)="AppruvedPosition2()" *ngIf="!isLoading && FieldName.valid">Save</button>
       <button class="figma-prim-btn" *ngIf="isLoading" style="cursor: no-drop;">Save</button>
 
     </div>

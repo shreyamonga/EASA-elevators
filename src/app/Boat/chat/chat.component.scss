@@ -216,19 +216,17 @@
 }
 
 .expand-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 40px;
-  height: 40px;
-  background: no-repeat center center;
-  /* Replace with your icon path */
-  background-size: contain;
-  cursor: pointer;
-  display: none;
-  z-index: 1056;
-  /* Ensure the icon is above the table */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* width: 26px; */
+    height: 24px;
+    background: no-repeat center center;
+    background-size: contain;
+    cursor: pointer;
+    display: none;
+    z-index: 1056;
 }
 
 .tableview:hover .expand-icon {
@@ -263,12 +261,12 @@
   left: 95%;
   right: 0;
   bottom: 86%;
- // background: rgba(0, 0, 0, 0.2); /* Semi-transparent black */
-  background: white; /* Semi-transparent black */
-  backdrop-filter: blur(5px); /* Apply blur effect */
+  -webkit-backdrop-filter: blur(5px);
   z-index: 1000;
-  display: none; /* Hidden by default */
-  pointer-events: all; /* Allow clicks on overlay */
+  display: none;
+  background-color: #eeeeee;
+  pointer-events: all;
+  height: 30px;
 }
 
 
@@ -1559,8 +1557,9 @@ label {
 .hover-show1 {
   background-color: #fff;
   position: absolute;
-  left: 20%;
-  top: 55%;
+  left: 89%;
+  top: -179%;
+  width: 100%;
   color: #4a79e4;
   box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
@@ -1605,10 +1604,10 @@ label {
 }
 
 .save-btn{
-  text-align: right;margin-right: 96px !important;
+  text-align: right;
+  // margin-right: 96px !important;
     display: inline;
 }
-// .text-field{
-//   width: 25vw;
-
-// }
+.table-overlay ::ng-deep svg {
+height: 16px !important;
+}

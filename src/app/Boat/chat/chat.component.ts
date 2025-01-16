@@ -134,7 +134,7 @@ export class ChatComponent implements OnInit {
 
   typingInterval = 10;
   typingLoop: any;
-
+  hideSaveOnDevMode : boolean = true
   commonObj: any = { isContact: true, bpAddreassMerge: null, detailTab: 'Items', activityTab: 'event' };
 
   contactPersoneList: any[] = [
@@ -199,6 +199,7 @@ export class ChatComponent implements OnInit {
     this.bridgeService2.getOneChatBoatHistory(data.id).subscribe(
       (res: any) => {
         if (Object(res)['status'] == "200") {
+          this.hideSaveOnDevMode =  false
 
           this.MessageArrya.push({ side: 'right', text: res.main_query_data.question, type: 'text' });
           this.LastChatID = res.main_query_data.id;
@@ -236,7 +237,54 @@ export class ChatComponent implements OnInit {
     );
   }
   else{
-    this._NotifierService.showError('We Are Working on it');
+    this.refreshPage();
+    this.bridgeService2.getOneChatBoatHistoryDevMode(data.id).subscribe(
+      (res: any) => {
+        if (Object(res)['status'] == "200") {
+
+          this.hideSaveOnDevMode =  true
+          // console.log('check res  of dev mode' , res)
+          if(res.data.length != 0){
+          this.MessageArrya.push({ side: 'right', text: res.data[0].question, type: 'text' });
+          }
+          // this.LastChatID = res.main_query_data.id;
+          if(res.data.length > 1){
+          let typedText: any[] = [{
+            model_name:"",
+            field_data: [
+              {
+                field_name:res.data[1].field_name,
+                field_type:'CharField',
+                verbose_name:res.data[1].field_name,
+                data_option:[],
+                data_type:res.data[1].data_type,
+              }
+            ]
+          }];
+          this.MessageArrya.push({ side: 'left', text: typedText, text2: res.data[1].query_result, type: 'Field' });
+        }
+          // if (res.data.length != 0) {
+          //   for (let i = 0; i < res.data.length; i++) {
+          //     this.MessageArrya.push({ side: 'right', text: res.data[i].question, type: 'text' });
+          //     this.MessageArrya.push({ side: 'left', text: res.data[i].answer, type: 'text' });
+          //   }
+          // }
+          this.scrollToBottom();
+        }
+        else {
+          this._NotifierService.showError(Object(res)['message']);
+        }
+      },
+      (err) => {
+        // this.MessageArrya.pop();
+        const delim = ":";
+        const name = err.message;
+        const result = name.split(delim).slice(3).join(delim);
+        this._NotifierService.showError(result);
+      }
+    );
+
+    // this._NotifierService.showError('We Are Working on it');
   }
   }
   SendMessage() {
@@ -330,6 +378,7 @@ export class ChatComponent implements OnInit {
       else {
 
         if (ApiRes.data.action == "create_field") {
+          this.hideSaveOnDevMode = false
           this.LastChatID = ApiRes.data.id;
           textType = 'Field';
 

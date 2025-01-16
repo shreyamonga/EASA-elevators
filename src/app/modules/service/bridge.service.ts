@@ -3972,6 +3972,15 @@ replaceKeyInArray(arr: any[], oldKey: string, newKey: string): any[] {
     );
   }
 
+  getOneChatBoatHistoryDevMode(id: any) {
+    return this.http.get(`${this.baseUrl2}/chatbot/api/developer-console-history-details/?page=1&id=${id}&max=100`, { 'headers': this.getHeader() }).pipe(
+      map((res: any) => {
+        console.log(res)
+        return res;
+      })
+    );
+  }
+
   OtherApiForSTatus(apiType: any) {
     return this.http.post(`${this.baseUrl2}/chatbot/api/save-developer-console-data/`,apiType
       , { 'headers': this.getHeader() }).pipe(
@@ -3994,4 +4003,6 @@ replaceKeyInArray(arr: any[], oldKey: string, newKey: string): any[] {
       })
     );
   }
+
+
 }

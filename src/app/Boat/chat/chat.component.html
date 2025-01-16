@@ -206,7 +206,7 @@
                   (mouseleave)="offHover()" >
                   <div *ngIf="isHovered" class="table-overlay" (click)="offHover()" >
                     <!-- <div class="expand-icon" (click)="expandTable()"></div> -->
-                    <span class="figma-screen-ico expand-icon"
+                    <span class="figma-screen-ico expand-icon" [ngClass]="{'expand-icon-height' : commonObj.bigScreenMode}"
                       [innerHTML]="(commonObj.bigScreenMode ? 'figma-modal-big-screen-ico' : 'figma-modal-mid-screen-ico') | svgIcons:''" (click)="open(mymodal)"></span>
                   </div>
                   <table id="table-data">
@@ -276,7 +276,7 @@
 
 
 
-              <div class="iscofoote">
+              <div class="iscofoote" style="position: relative;">
                 <span  [innerHTML]="'figma-off-chatHear-i-icon' | svgIcons:''" ></span>
                 <span  [innerHTML]="'figma-off-chatReloard-i-icon' | svgIcons:''"  ></span>
                 <span  [innerHTML]="'figma-off-chatFile-i-icon' | svgIcons:''"  ></span>
@@ -285,10 +285,10 @@
                 <span (click)="togglethreedotPopup()" [innerHTML]="'table-v-dots' | svgIcons:''" class="table-v-dots" >
                 </span>
 
-                <div class="hover-show1" *ngIf="isthreedotPopupVisible">
-                  <span [innerHTML]="'figma-export-iconn' | svgIcons:''"></span>
-                  <span style="margin-left: 5px; cursor: pointer;" (click)="Exportexcel()">Export To Sheets</span>
-                </div>
+                  <div class="hover-show1" *ngIf="isthreedotPopupVisible">
+                    <span [innerHTML]="'figma-export-iconn' | svgIcons:''"></span>
+                    <span style="margin-left: 5px; cursor: pointer;" (click)="Exportexcel()">Export To Sheets</span>
+                  </div>
               </div>
             </div>
             <div *ngIf="item.side === 'left' && item.type === 'Field'">
@@ -303,13 +303,13 @@
                     <lable>Title</lable>
                   </div>
                  <div class="inputaree">
-                  <select type="text" [disabled]="(MessageArrya.length-1) != i" class="fields text-field" [(ngModel)]="item.text[0].field_data[0].data_type"  name="data_type" placeholder="Type">
+                  <select type="text" [disabled]="(MessageArrya.length-1) != i || hideSaveOnDevMode" class="fields text-field" [(ngModel)]="item.text[0].field_data[0].data_type"  name="data_type" placeholder="Type">
                     <option value="text">Text</option>
         <option value="number">Number</option>
-        <option value="date">Date</option>
+        <option  value="date">Date</option>
         <!-- <option value="Dropdown">Dropdown</option> -->
                     </select>
-                  <input type="text" [disabled]="(MessageArrya.length-1) != i" [(ngModel)]="item.text[0].field_data[0].verbose_name"  name="verbose_name" class="fields text-field"  #FieldName="ngModel" pattern="^[a-zA-Z0-9 ]{1,20}$" placeholder="Title">
+                  <input type="text" [disabled]="(MessageArrya.length-1) != i || hideSaveOnDevMode" [(ngModel)]="item.text[0].field_data[0].verbose_name"  name="verbose_name" class="fields text-field"  #FieldName="ngModel" pattern="^(?=.*[a-zA-Z])[a-zA-Z0-9 ]{1,50}$" placeholder="Title">
                     <span> </span>
         <span class="help-block danger" *ngIf="FieldName.errors?.pattern">
           Invalid Field Title
@@ -318,15 +318,15 @@
 
                 <div class="figma-modal-fotter save-btn" *ngIf="(MessageArrya.length-1) == i">
                   <!-- <button class="figma-outline-btn" style="font-size: 12px;padding: 3px 10px;">Cancel</button> -->
-      <button class="figma-prim-btn" (click)="AppruvedPosition2()" *ngIf="!isLoading && FieldName.valid" style="    font-size: 12px;
-      margin-left: 15px;
-      margin-top: 10px;
+      <button class="figma-prim-btn" (click)="AppruvedPosition2()" *ngIf="!isLoading && FieldName.valid && !hideSaveOnDevMode" style="    font-size: 12px;
+      margin-left: 168px;
+     
       padding: 3px 10px;
       border-radius: 5px;
       ">Save</button>
       <button class="figma-prim-btn" *ngIf="isLoading" style="cursor: no-drop;" style="    font-size: 12px;
-      margin-left: 15px;
-      margin-top: 10px;
+      margin-left: 168px;
+     
       padding: 3px 10px;">Save</button>
 
                 </div>

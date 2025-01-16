@@ -167,7 +167,7 @@
     <div class="lead-update-wrapper" style="margin-bottom: 50px">
       <label class="userLabel">Field Title</label>
       <div>
-        <input type="text" class="input-fld required-fld" #FieldName="ngModel" pattern="^[a-zA-Z0-9 ]{1,20}$" placeholder="Enter Title" maxlength="30"
+        <input type="text" class="input-fld required-fld" #FieldName="ngModel" pattern="^(?=.*[a-zA-Z])[a-zA-Z0-9 ]{1,50}$" placeholder="Enter Title" maxlength="30"
         [(ngModel)]="AddUser.field_data[0].verbose_name"  name="verbose_name">
 
         <span class="help-block danger" *ngIf="FieldName.errors?.pattern">

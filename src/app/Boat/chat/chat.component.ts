@@ -17,9 +17,16 @@ export class ChatComponent implements OnInit {
   getId(){
     this.ExcelsheetComponent.openEmpll();
   }
+  modelName : any;
   receiveData(data: string) {
     if(data == 'true'){
-      this.ngOnInit();
+      this.getModuleData({
+        "id": this.LastChatID,
+        "model_name" : this.modelName,
+        "action": 'create_record',
+        "field_name": '',
+        "data_type":'',
+    });
     }
   }
 
@@ -409,6 +416,7 @@ export class ChatComponent implements OnInit {
         if (ApiRes.data.action == "create_field") {
           this.hideSaveOnDevMode = false;
           this.LastChatID = ApiRes.data.id;
+          this.modelName = ApiRes.data.modules[0].module_name
           textType = 'Field';
 
           let typedText: any[] = [];
@@ -455,6 +463,7 @@ export class ChatComponent implements OnInit {
         else{
           this.hideSaveOnDevMode = false;
           this.LastChatID = ApiRes.data.id;
+          this.modelName = ApiRes.data.modules[0].module_name
           textType = 'Record';
 
           let typedText: any[] = []
@@ -560,7 +569,11 @@ export class ChatComponent implements OnInit {
   transformString(input: string): string {
     return input.trim().toLowerCase().replace(/\s+/g, '_');
   }
-  AppruvedPosition2(){
+  AppruvedPosition2()
+ 
+  {
+    // console.log('check data from the Save click' , data)
+    // this.clickFrom = data
     // console.log(this.MessageArrya.length);
    var AddUser:any = this.MessageArrya[this.MessageArrya.length-1].text[0];
     this.isLoading = true;
@@ -580,8 +593,8 @@ export class ChatComponent implements OnInit {
             "id": this.LastChatID,
             "model_name": AddUser.model_name,
             "action": 'create_field',
-            "field_name":AddUser.field_data[0].verbose_name,
-            "data_type":AddUser.field_data[0].data_type
+            "field_name": AddUser.field_data[0].verbose_name,
+            "data_type": AddUser.field_data[0].data_type ,
         });
           this._NotifierService.showSuccess("Field Added Successfully");
           this.modalService.dismissAll();

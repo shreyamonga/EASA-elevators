@@ -24,7 +24,7 @@ export class ExcelsheetComponent implements OnInit {
   @ViewChild('mymodal') mymodal!: ElementRef;
   @ViewChild('followup') followup!: ElementRef;
   @ViewChild('confirmModal44') confirmModal44!: ElementRef;
-
+  @Output() dataEvent = new EventEmitter<string>();
 
   DynamicFiledPositionDetials: any[] = [];
   baseUrl2: any;
@@ -781,12 +781,9 @@ addLeads(f: NgForm) {
           this.isLoading = false;
           this._NotifierService.showSuccess(this.Headingss[0].leftheading + " " + this.Headingss[0].heading103 + " " + this.Headingss[0].heading106);
           this.modalService.dismissAll();
-
-          setTimeout(() => {
-            let currentUrl = this.router.url;
-            this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-            this.router.onSameUrlNavigation = 'reload';
-            this.router.navigate([currentUrl]);
+          this.dataEvent.emit('true');
+          setTimeout(() => {           
+         this.reload();
           }, 2000);
         }
         else {
@@ -921,7 +918,8 @@ editLeads(fb: NgForm) {
           this.isLoading = false;
           this._NotifierService.showSuccess(this.Headingss[0].leftheading + " " + this.Headingss[0].heading104 + " " + this.Headingss[0].heading106);
           this.modalService.dismissAll();
-
+          console.log('check data:' , this.dataEvent)
+          this.dataEvent.emit('true');
           setTimeout(() => {
          this.reload();
           }, 2000);

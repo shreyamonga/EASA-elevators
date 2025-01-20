@@ -102,6 +102,7 @@ export class OpportunityDetailsComponent implements OnInit, AfterViewChecked {
   UserName: any;
   error = '';
   success = '';
+ // OpportunityStatus='';
   idd: any;
   stage_lenght: any;
   bridges2: Bridge2[] = [];
@@ -149,6 +150,7 @@ export class OpportunityDetailsComponent implements OnInit, AfterViewChecked {
     DocId: '',
     StartDate: '',
     EndDate: '',
+    OpportunityStatus:'',
     Status: '',
   };
 
@@ -494,6 +496,7 @@ scrollToBottom(): void {
   current_stage_name: any;
   current_stage_Status: any;
   current_stage_comment: any;
+  current_stage_opp_status: any;
   current_stage_StartDate: any;
   current_stage_EndDate: any;
   current_stage_DocId: any = '';
@@ -756,11 +759,14 @@ scrollToBottom(): void {
     this.sid = Stage.Stageno;
     this.current_stage_name = Stage.Name;
     this.current_stage_comment = Stage.Comment;
+    this.current_stage_opp_status = Stage.OpportunityStatus;
     this.current_stage_StartDate = Stage.StartDate;
+    console.log("oppstatus",this.current_stage_opp_status,"anddddddddd", this.current_stage_comment)
     this.current_stage_EndDate = Stage.EndDate;
     this.current_stage_DocId = Stage.DocId;
     this.current_stage_Status = Stage.Status;
     this.Changestage = Stage;
+    this.Changestage.OpportunityStatus='';
     if(this.current_stage_name == 'Lead'){
       if(this.opportunitys[0].U_LEADID != 0){
       this.Changestage.DocId = String(this.opportunitys[0].U_LEADID);
@@ -794,6 +800,7 @@ scrollToBottom(): void {
     if (f.valid) {
       this.Changestage.Opp_Id = this.router.snapshot.params.id;
       this.Changestage.Stageno = this.sid;
+      console.log("change", this.Changestage.Stageno, this.Changestage.Opp_Id);
       this.bridgeService2.ChangeStage(this.Changestage).subscribe(
         (res: ChangeStages) => {
           // Update the list of cars

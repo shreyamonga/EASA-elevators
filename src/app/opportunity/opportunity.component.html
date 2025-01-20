@@ -73,7 +73,7 @@
                   [innerHTML]="'up-down-arrow' | svgIcons:''"></span></th>
               <th (click)="togglesortType('DocTotal')">Total Amount <span
                   [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th>
-               <th >Won/Lost Status
+               <th >Status
                   </th>
 
               <th>{{Headingss[0].heading111}}</th>
@@ -100,7 +100,10 @@
               {{item.ClosingDate | customDate}}
             </td>
             <td (click)="suplier(item.id)">{{item.DocTotal || 0 | priceFormat}}</td>
-            <ng-container [ngSwitch]="true">
+            <td>{{ item.OpportunityStatus === "" || item.OpportunityStatus === "0" ? 'Lost' : (item.OpportunityStatus === "1" ? 'Won' : item.OpportunityStatus) }}</td>
+
+            <!-- <td >{{ item.OpportunityStatus }}</td> -->
+            <!-- <ng-container [ngSwitch]="true">
               <div ngbDropdown container="body">
                 <td ngbDropdownToggle *ngSwitchCase="item.OpportunityStatus == '1'" style="color:green;">Won</td>
                 <td ngbDropdownToggle *ngSwitchDefault style="color:red;">Lost</td>
@@ -109,7 +112,7 @@
                   <button ngbDropdownItem class="actonbtn" (click)="action(item.id,0)">Lost</button>
                 </div>
               </div>
-            </ng-container>
+            </ng-container> -->
             <td class="EditBoxForm" style="padding: 0 15px;">
               <span class="edit-delete edit-delete{{item.id}}" (click)="editdeletepop(item)"
                 [innerHTML]="'table-v-dots' | svgIcons:''" class="table-v-dots"></span>

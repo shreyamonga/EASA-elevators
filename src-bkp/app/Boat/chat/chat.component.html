@@ -1,0 +1,667 @@
+<app-excelsheet style="display: none;" #ExcelsheetComponent (dataEvent)="receiveData($event)"></app-excelsheet>
+<section class="home-section" appLeftMenuNavbar>
+  <app-header></app-header>
+  <div class="home-content1">
+    <div class="figma-detial-home-sec-spliter" style="    margin-left: -8px;
+    margin-top: -18px; height:100%" [ngStyle]="temp1 ? { 'flex-direction': 'column' } : {}">
+      <div class="figma-left-main-container" style="background-color:white; margin-right: 3px;">
+
+        <div style="display: flex;justify-content: end;">
+          <span class="figma-navigate-icon" *ngIf="!isDeveloperMode"  [innerHTML]="'figma-vector-icon22' | svgIcons:''"  (click)="togglePopup()" style="cursor: pointer;"></span>
+          <span class="figma-navigate-icon" *ngIf="!isDeveloperMode" [innerHTML]="'figma-vector-icon31' | svgIcons:''"  (click)="toggleNotification()" style="cursor: pointer; position: relative;" ></span>
+
+<!--
+          <div class="notification-icon" (click)="shownot()" style="cursor: pointer; position: relative;">
+            <span class="figma-user-bell-ico" [innerHTML]="'figma-user-bell-ico' | svgIcons:''"></span>
+            <span class="badge" style="right: 30px;">{{ unreadCount }}</span>
+          </div> -->
+        </div>
+        <div class="action-button hide" style="position: fixed;bottom: 32px; right: 8px; cursor: pointer; z-index:9">
+          <div  class ="custom-action-btn1">
+            <!-- <span class="figma-navigate-icon" *ngIf="temp1" (click)="temp1 = !temp1"><i class="fa fa-angle-left" style="font-size:24px"></i></span> -->
+            <span class="figma-navigate-icon"  [innerHTML]="(temp1 ? 'figma-arrow-ico2' : 'figma-arrow-ico') | svgIcons" (click)="temp1 = !temp1"></span>
+          </div>
+        </div>
+
+        <!-- <div class="popup-container" *ngIf="isPopupVisible" [ngStyle]="popupStyles">
+          <div class="popup-header">
+            <span>Insights</span>
+            <button class="close-btn" (click)="togglePopup()">X</button>
+          </div>
+          <div class="popup-content">
+            <div class="popup-item" *ngFor="let item of insights">
+              <h4>{{ item.title }}</h4>
+              <p class="clamp-description">{{ item.description }}</p>
+              <hr class="divider" *ngIf="item !== insights[insights.length - 1]" />
+            </div>
+          </div>
+        </div> -->
+
+
+<!-- Insights -->
+
+<div class="insights-popup" *ngIf="isPopupVisible">
+  <div class="popup-header bg-white">
+    <span style="color:#1B1B1F; font-size:18px ;font-family:'Poppins';font-weight:500">Insights</span>
+    <button class="close-btn close-btn-color" (click)="togglePopup()">X</button>
+  </div>
+
+<!-- new ui added for insights -->
+<div class="notification-popup-body">
+<div class="section-title popup-inner-heading">Today</div>
+<!-- <div style="padding: 10px;"> -->
+  <div class="notification-section">
+
+    <div class="notification-item" *ngFor="let notification of todayNotifications">
+      <div class="icon-container">
+        <span class="figma-navigate-icon"[innerHTML]="'figma-vector-icon21' | svgIcons:''" ></span>
+      </div>
+      <div class="content">
+        <h4>{{ notification.title }}</h4>
+        <div style="display: flex;">
+          <p class="notification-desc">{{ notification.description }}</p>
+          <p class="notification-time">{{ notification.time }}</p>
+        </div>
+        <!-- <div>
+          <hr>
+
+        </div> -->
+
+      </div>
+
+    </div>
+
+  </div>
+<!-- </div> -->
+  <div class="notification-popup-body">
+    <div class="section-title popup-inner-heading">22/10/2024</div>
+    <!-- <div style="padding: 10px;"> -->
+
+    <div class="notification-item" *ngFor="let notification of olderNotifications">
+      <div class="icon-container">
+        <span class="figma-navigate-icon"[innerHTML]="'figma-vector-icon21' | svgIcons:''" ></span>
+      </div>
+      <div class="content">
+        <h4>{{ notification.title }}</h4>
+        <div style="display: flex;">
+          <p class="notification-desc">{{ notification.description }}</p>
+          <p class="notification-time">{{ notification.time }}</p>
+        </div>
+      </div>
+    </div>
+  <!-- </div> -->
+</div>
+
+</div>
+
+
+
+</div>
+<!--notification-->
+<div class="notification-popup" *ngIf="isNotificationVisible">
+<div class="popup-header bg-white">
+<span style="color:#1B1B1F; font-size:18px ;font-family:'Poppins';font-weight:500">Notification</span>
+<div>
+<button class="close-btn close-btn-color" (click)="toggleNotification()">X</button>
+<!-- <br> -->
+<a href="#" class="see-all-link">See All</a>
+
+</div>
+</div>
+<div class="notification-popup-body">
+<div class="section-title popup-inner-heading">Today</div>
+<!-- <div style="padding: 10px;"> -->
+<div class="notification-section">
+
+<div class="notification-item" *ngFor="let notification of todayNotifications">
+  <div class="icon-container">
+    <span class="figma-navigate-icon" [innerHTML]="'figma-bell-icon21' | svgIcons:''" ></span>
+  </div>
+  <div class="content">
+    <h4>{{ notification.title }}</h4>
+    <div style="display: flex;">
+      <p class="notification-desc">{{ notification.description }}</p>
+      <p class="notification-time">{{ notification.time }}</p>
+    </div>
+    <!-- <div>
+      <hr>
+
+    </div> -->
+
+  </div>
+
+</div>
+
+</div>
+<!-- </div> -->
+<div class="notification-popup-body">
+<div class="section-title popup-inner-heading">22/10/2024</div>
+<div style="padding: 10px;">
+
+<div class="notification-item" *ngFor="let notification of olderNotifications">
+  <div class="icon-container">
+    <span class="figma-navigate-icon" [innerHTML]="'figma-bell-icon21' | svgIcons:''" ></span>
+  </div>
+  <div class="content">
+    <h4>{{ notification.title }}</h4>
+    <div style="display: flex;">
+      <p class="notification-desc">{{ notification.description }}</p>
+      <p class="notification-time">{{ notification.time }}</p>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+        <div class="mainmess" [ngClass]="{'mainmess2':isDeveloperMode}" *ngIf="MessageArrya.length == 0">
+          <div style="
+         display:  flex;
+          align-content: center ;justify-content: center;"><div class="TEXt">
+             <img [src]="!isDeveloperMode ? '../../assets/img/myloo.gif' :  '../../assets/img/mylo-contractor.png' " style="width:100px;">
+        </div>
+        <div>
+          <h3 class="main-text" style=" padding-top: 24px;"> Hello {{ firstName}}</h3>
+          <p class="hello">I’m here for you, how can I assist?</p>
+        </div>
+
+      </div>
+        </div>
+
+        <div class="textmessage" [ngClass]="{'textmessage2':isDeveloperMode}" *ngIf="MessageArrya.length != 0" #scrollMe>
+        <div *ngFor="let item of MessageArrya; let i = index" class="paddingbottom">
+
+          <div [ngClass]="{'left':item.side == 'left','right':item.side == 'right'}">
+            <div>
+              <!-- <span [innerHTML]="'figma-off-chatUser-i-icon' | svgIcons:''" class="chatuser" *ngIf="item.side == 'right'"></span> -->
+              <div class="logo-circle" *ngIf="item.side == 'right'">
+                {{ userName[0] }}
+              </div>
+
+              <img [src]="!isDeveloperMode ? '../../assets/img/mylooimg.jpg' :  '../../assets/img/mylo-contractor.png' " *ngIf="item.side == 'left'" class="chatai">
+                    </div>
+            <p class="inputtextmess " *ngIf="item.side == 'right'">{{item.text}}</p>
+          <div class="inputtextmess " *ngIf="item.side == 'left' && item.type == 'text'">
+            <pre  class="pre-container">{{item.text}}</pre>
+
+            <div class="iscofoote">
+              <span  [innerHTML]="'figma-off-chatHear-i-icon' | svgIcons:''" ></span>
+              <span  [innerHTML]="'figma-off-chatReloard-i-icon' | svgIcons:''"  ></span>
+              <span  [innerHTML]="'figma-off-chatFile-i-icon' | svgIcons:''"  ></span>
+              <span  [innerHTML]="'figma-off-chatShare-i-icon' | svgIcons:''"  ></span>
+              <span  [innerHTML]="'figma-off-chatDot-i-icon' | svgIcons:''"  ></span>
+            </div>
+            </div>
+              <div *ngIf="item.side === 'left' && item.type === 'json'" style="overflow: hidden;">
+              <div class="inputtextmess">
+                <pre  class="pre-container">{{item.text2}}</pre>
+                </div>
+                <div class="tableview" style="max-height: 300px; " (mouseenter)="onHover()"
+                  (mouseleave)="offHover()" >
+                  <div *ngIf="isHovered" class="table-overlay" (click)="offHover()" >
+                    <!-- <div class="expand-icon" (click)="expandTable()"></div> -->
+                    <span class="figma-screen-ico expand-icon" [ngClass]="{'expand-icon-height' : commonObj.bigScreenMode}"
+                      [innerHTML]="(commonObj.bigScreenMode ? 'figma-modal-big-screen-ico' : 'figma-modal-mid-screen-ico') | svgIcons:''" (click)="open(mymodal)"></span>
+                  </div>
+                  <table id="table-data">
+                    <thead>
+                      <tr>
+                        <!-- Table Headers -->
+                        <th *ngFor="let head of item.text[0]">{{ toTitleCase(head) }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- Loop through JSON data and render table rows -->
+                      <ng-container *ngFor="let tt of item.text[1]; let i = index">
+                        <tr class="hover">
+                          <td *ngFor="let headkey of item.text[2]">
+                            <!-- Use 'NA' as fallback if the key is not available in the row data -->
+                            {{ tt[headkey] || 'NA' }}
+                          </td>
+                        </tr>
+                      </ng-container>
+                    </tbody>
+                  </table>
+                </div>
+
+                <ng-template #mymodal let-modal >
+
+                  <!-- <div class="modal-header" >
+
+                    <div style="display: flex; gap: 35px; justify-content: center;"  >
+                      <div (click)="zoomIn()" class="zoom-button">
+                        <i class="fa-regular fa-magnifying-glass-plus"></i>
+                      </div>
+                      <div (click)="zoomOut()" class="zoom-button">
+                        <i class="fa-regular fa-magnifying-glass-minus"></i>
+                      </div>
+                    </div>
+                    <span class="figma-screen-ico" style="top: 19px;" [innerHTML]="(commonObj.bigScreenMode ? 'figma-modal-big-screen-ico' : 'figma-modal-mid-screen-ico') | svgIcons:''" (click)="bigScreenOrMid()"></span>
+                    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
+
+                  </div> -->
+                  <div class="close-btn"   [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')" style="width: 45px;"> </div>
+                  <div class="tableview" style="margin: 10px; background: rgb(255 255 255);" >
+
+                      <table [style.transform]="'scale(' + zoomLevel + ')'" [style.transformOrigin]="'center center'">
+
+                      <thead>
+                        <tr>
+                          <!-- Table Headers -->
+                          <th style="padding: 7px 13px;" *ngFor="let head of item.text[0]">{{ toTitleCase(head) }}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- Loop through JSON data and render table rows -->
+                        <ng-container *ngFor="let tt of item.text[1]; let i = index">
+                          <tr class="hover">
+                            <td style="padding: 7px 13px;" *ngFor="let headkey of item.text[2]">
+                              <!-- Use 'NA' as fallback if the key is not available in the row data -->
+                              {{ tt[headkey] || 'NA' }}
+                            </td>
+                          </tr>
+                        </ng-container>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  </ng-template>
+
+
+
+
+              <div class="iscofoote" style="position: relative;">
+                <span  [innerHTML]="'figma-off-chatHear-i-icon' | svgIcons:''" ></span>
+                <span  [innerHTML]="'figma-off-chatReloard-i-icon' | svgIcons:''"  ></span>
+                <span  [innerHTML]="'figma-off-chatFile-i-icon' | svgIcons:''"  ></span>
+                <span  [innerHTML]="'figma-off-chatShare-i-icon' | svgIcons:''"  ></span>
+                <!-- <span  [innerHTML]="'figma-off-chatDot-i-icon' | svgIcons:''"  ></span> -->
+                <span (click)="togglethreedotPopup()" [innerHTML]="'table-v-dots' | svgIcons:''" class="table-v-dots" >
+                </span>
+
+                  <div class="hover-show1" *ngIf="isthreedotPopupVisible">
+                    <span [innerHTML]="'figma-export-iconn' | svgIcons:''"></span>
+                    <span style="margin-left: 5px; cursor: pointer;" (click)="Exportexcel()">Export To Sheets</span>
+                  </div>
+              </div>
+            </div>
+            <div *ngIf="item.side === 'left' && item.type === 'Field'">
+              <div class="inputtextmess">
+                <pre  class="pre-container">{{item.text2}}</pre>
+                </div>
+
+                <form>
+                <div *ngFor="let it of item.text">
+                  <div class="inputaree">
+                    <lable>Type</lable>
+                    <lable>Title</lable>
+                  </div>
+                 <div class="inputaree">
+                  <select type="text" [disabled]="(MessageArrya.length-1) != i || hideSaveOnDevMode" class="fields text-field" [(ngModel)]="item.text[0].field_data[0].data_type"  name="data_type" placeholder="Type">
+                    <option value="text">Text</option>
+        <option value="number">Number</option>
+        <option  value="date">Date</option>
+        <!-- <option value="Dropdown">Dropdown</option> -->
+                    </select>
+                  <input type="text" [disabled]="(MessageArrya.length-1) != i || hideSaveOnDevMode" [(ngModel)]="item.text[0].field_data[0].verbose_name"  name="verbose_name" class="fields text-field"  #FieldName="ngModel" pattern="^(?=.*[a-zA-Z])[a-zA-Z0-9 ]{1,50}$" placeholder="Title">
+                    <span> </span>
+        <span class="help-block danger" *ngIf="FieldName.errors?.pattern">
+          Invalid Field Title
+        </span>
+                </div>
+
+                <div class="figma-modal-fotter save-btn" *ngIf="(MessageArrya.length-1) == i">
+                  <!-- <button class="figma-outline-btn" style="font-size: 12px;padding: 3px 10px;">Cancel</button> -->
+      <button class="figma-prim-btn" (click)="AppruvedPosition2()" *ngIf="!isLoading && FieldName.valid && !hideSaveOnDevMode" style="    font-size: 12px;
+      margin-left: 168px;
+
+      padding: 3px 10px;
+      border-radius: 5px;
+      ">Save</button>
+      <button class="figma-prim-btn" *ngIf="isLoading" style="cursor: no-drop;" style="    font-size: 12px;
+      margin-left: 168px;
+
+      padding: 3px 10px;">Save</button>
+
+                </div>
+                </div>
+              </form>
+              <div class="iscofoote">
+                <span  [innerHTML]="'figma-off-chatHear-i-icon' | svgIcons:''" ></span>
+                <span  [innerHTML]="'figma-off-chatReloard-i-icon' | svgIcons:''"  ></span>
+                <span  [innerHTML]="'figma-off-chatFile-i-icon' | svgIcons:''"  ></span>
+                <span  [innerHTML]="'figma-off-chatShare-i-icon' | svgIcons:''"  ></span>
+                <span  [innerHTML]="'figma-off-chatDot-i-icon' | svgIcons:''"  ></span>
+              </div>
+            </div>
+
+            <div *ngIf="item.side === 'left' && item.type === 'Record'">
+              <div class="inputtextmess">
+                <pre  class="pre-container">{{item.text2}}</pre>
+                </div>
+
+                <div class="inputtextmess">
+                  <a style="
+                  color: #2196f3;
+                  cursor: pointer;
+                  text-decoration: underline;
+                  padding-left: 10px;
+              " (click)="getId()">{{item.text[0]}}</a>
+                  </div>
+
+                  <div class="iscofoote">
+                    <span  [innerHTML]="'figma-off-chatReloard-i-icon' | svgIcons:''"  ></span>
+                    <span  [innerHTML]="'figma-off-chatDot-i-icon' | svgIcons:''"  ></span>
+                  </div>
+            </div>
+
+
+            <div  class="loader" style="padding-top:35px;"    *ngIf="item.side == 'left' && item.type == 'loader'">
+              <!-- <h1><i>Typing</i></h1> -->
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        </div>
+        </div>
+
+        <div class="chatSearchArea">
+          <div class="inputfld">
+            <div class="related-section">
+          </div>
+
+    <div class="search-wrapper" style="display: flex;flex-direction: column;width: 90%;margin: auto;">
+     <div class="sear-sec" style="display: flex; align-items: center; position: relative;">
+
+  <textarea   class="auto-expand" placeholder="Ask Milo" [(ngModel)]="InputMess" (keyup.enter)="SendMessage()"(input)="adjustHeight($event)"  autocomplete="off" autofocus
+style="width: 100%; padding: 15px 35px; padding-left: 57px;  border-radius: 25px; border: 1px solid #E5E5E5; font-size: 12px; resize: none; overflow: hidden; box-sizing: border-box;"
+rows="1"></textarea>
+
+<span
+  [innerHTML]="'figma-off-chatimg-i-icon' | svgIcons:''"
+  style="position: absolute; left: 20px; cursor: pointer; margin-right: 10px;"></span>
+
+<span *ngIf="isTyping == false" [innerHTML]="'figma-off-chatsendarrow-i-icon' | svgIcons:''" (click)="SendMessage()" style="position: absolute; right: 20px; cursor: pointer;"></span>
+
+<span *ngIf="isTyping == true">
+  <i class="fa-regular fa-circle-pause"  (click)="tostop1()" style="position: absolute; right: 20px; cursor: pointer; bottom: 17px;"></i>
+</span>
+</div>
+
+      <div class="checkboxText" style="display: flex; align-items: center; width: 100%; right:10px ;margin-left: 7px">
+            <input type="checkbox" [(ngModel)]="ChatFromDatabase" style="transform: scale(1.3);" *ngIf="isDeveloperMode == false">
+            <span style="font-size: 12px;padding: 6px;color: #1B1B1F;" *ngIf="isDeveloperMode == false">   Tick to first Search data from the database</span>
+          </div>
+</div>
+</div>
+</div>
+      </div>
+      <div class="figma-recent-activities-container" *ngIf="commonObj.addonsTabsActivity == 'recent activity'">
+        <div class="figma-recent-activities-header">
+          <span class="figma-recent-head-name">Recent Activities</span>
+
+          <span class="cursor-pointer" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="commonObj.addonsTabsActivity = false"></span>
+        </div>
+        <div class="figma-recent-activities-search-filter-container">
+          <input type="text" class="figma-recent-activities-search-input">
+          <span class="figma-recent-se-fil-ico" [innerHTML]="'figma-search-ico' | svgIcons:''"></span>
+          <span class="figma-recent-se-fil-ico" [innerHTML]="'figma-filter-ico' | svgIcons:''"></span>
+        </div>
+        <div class="figma-recent-activities-wrapper">
+          <div class="figma-recent-activities-wrap-card" *ngFor="let activity of [1,2,3,4,5]">
+            <div class="figma-recent-activities-wrap-date">June 8 2023</div>
+            <div class="figma-recent-activities-content-detail">
+              <span class="figma-note-ico" [innerHTML]="'figma-note-ico' | svgIcons:''"></span>
+              <div class="figma-recent-activities-content">
+                <div class="figma-recent-activity-head"> <span class="figma-recent-activity-head-bold">Note</span> by Yogita Mer </div>
+                <span class="figma-recent-activity-message">I have changed the order address</span>
+              </div>
+              <div class="figma-recent-activity-time-tags">
+                <span class="figma-recent-activity-time"> 10 AM </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="figma-recent-activities-container" *ngIf="commonObj.addonsTabsActivity == 'Contact'">
+        <div class="figma-recent-activities-header bor-mar">
+          <span class="figma-recent-head-name">{{'Favorites'}}</span>
+          <span class="cursor-pointer" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="commonObj.addonsTabsActivity = false"></span>
+        </div>
+
+        <div class="figma-recent-activities-wrapper">
+          <div class="figma-recent-activities-wrap-card" *ngFor="let tickets of contactPersoneList;">
+
+            <div class="figma-recent-activities-content-detail-new2">
+              <div class="figma-recent-activities-content">
+                <div class="figma-recent-activity-head"> <span class="figma-recent-activity-head-bold"> <i class="fa-solid fa-user"></i> <span style="
+                  font-size: 14px;
+                  font-weight: 600;
+              "> {{tickets.name}} </span></span> </div>
+                <div class="figma-recent-activity-head"> <span class="figma-recent-activity-head-bold"> <i class="fa-solid fa-phone"></i> {{tickets.phone}} </span> </div>
+                  <div class="figma-recent-activity-head"> <span class="figma-recent-activity-head-bold"> <i class="fa-solid fa-envelope"></i> {{tickets.email || 'NA'}} </span>  </div>
+
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <div class="figma-recent-activities-container" *ngIf="commonObj.addonsTabsActivity == 'Contact'">
+        <div class="figma-recent-activities-header bor-mar">
+          <span class="figma-recent-head-name">{{'Favorites'}}</span>
+          <span class="cursor-pointer" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="commonObj.addonsTabsActivity = false"></span>
+        </div>
+        <!-- <div class="figma-recent-activities-wrapper1" style="max-height: 500px; overflow-y: auto; overflow-x: hidden;" id="style-1" infiniteScroll [scrollWindow]="false"  (scrolled)="onScroll()"> -->
+          <div class="figma-recent-activities-wrapper1 history-height" id="style-1" infiniteScroll [scrollWindow]="false"  (scrolled)="onScroll()">
+          <ng-container *ngFor="let oppo of AllOrders;">
+    <h5 style="font-size: 13px;margin-top:10px;">{{ oppo.date_str }}</h5>
+    <div
+      class="figma-recent-activities-wrap-card1"
+      *ngFor="let itt of oppo.data;"    (click)="checkhistory(itt)"   >
+      <div class="figma-recent-activities-content-detail-new21">
+        <div class="figma-recent-activities-content">
+          <div class="figma-recent-activity-head">
+            <span class="figma-recent-activity-head-bold">
+              <div
+                style="font-size: 14px; font-weight: 500;"
+                title="{{ itt.question }}"
+                class="limited-width"
+              >
+                {{ itt.question }}
+              </div>
+            </span>
+          </div>
+          <div class="figma-recent-activity-head">
+            <span class="figma-recent-activity-head-bold">
+              {{ itt.query_result.length > 60 ? (itt.query_result.substring(0, 60) + '...') : itt.query_result }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+
+  <!-- No Data Found -->
+
+  <div *ngIf="totalCount == 0 && !isLoading" style="text-align: center; display:flex; padding: 150px 0px;">
+    No Data Found
+  </div>
+</div>
+
+</div>
+
+      <!-- <div class="figma-recent-activities-container" *ngIf="commonObj.addonsTabsActivity == 'Quotation'">
+        <div class="figma-recent-activities-header bor-mar">
+          <span class="figma-recent-head-name">Reports</span>
+          <span class="cursor-pointer" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="commonObj.addonsTabsActivity = false"></span>
+        </div>
+
+        <div class="figma-recent-activities-wrapper" style="max-height: 500px;overflow-y: auto;overflow-x: hidden;" id="style-1" infiniteScroll [scrollWindow]="false" (scrolled)="onScroll()">
+          <div class="figma-recent-activities-wrap-card" *ngFor="let oppo of AllQuotations;">
+
+            <div class="figma-recent-activities-content-detail-new2">
+              <div class="figma-recent-activities-content">
+                <div class="figma-recent-activity-head"> <span class="figma-recent-activity-head-bold"><span style="font-size: 14px;font-weight: 600;"> {{oppo.id}} </span></span> </div>
+                <div class="figma-recent-activity-head"> <span class="figma-recent-activity-head-bold"> <span [innerHTML]="'figma-date-ico' | svgIcons:'':{w:15,h:15}"></span> Total Amount :  {{oppo.totalAmount }} </span> </div>
+                <div class="figma-recent-activity-head"> <span class="figma-recent-activity-head-bold"> <span [innerHTML]="'figma-date-ico' | svgIcons:'':{w:15,h:15}"></span> Remarks:  {{oppo.remarks  }} </span> </div>
+
+              </div>
+
+            </div>
+          </div>
+          <div *ngIf="AllQuotations.length == 0" style="text-align: center;padding: 150px 0px;"> No Data Found</div>
+        </div>
+      </div> -->
+      <div class="figma-recent-activities-container" *ngIf="commonObj.addonsTabsActivity == 'Quotation'">
+        <div class="figma-recent-activities-header bor-mar">
+          <span class="figma-recent-head-name">{{'Reports'}}</span>
+          <span class="cursor-pointer" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="commonObj.addonsTabsActivity = false"></span>
+        </div>
+        <div class="figma-recent-activities-wrapper1" style="max-height: calc(100vh - 135px); overflow-y: auto; overflow-x: hidden;" id="style-1">
+     <ng-container *ngFor="let oppo of AllOrders;">
+    <h5 style="font-size: 13px">{{ oppo.date_str }}</h5>
+    <div
+      class="figma-recent-activities-wrap-card1"
+      *ngFor="let itt of oppo.data;"
+      (click)="checkhistory(itt)"
+    >
+      <div class="figma-recent-activities-content-detail-new21">
+        <div class="figma-recent-activities-content">
+          <div class="figma-recent-activity-head">
+            <span class="figma-recent-activity-head-bold">
+              <div
+                style="font-size: 14px; font-weight: 500;"
+                title="{{ itt.question }}"
+                class="limited-width"
+              >
+                {{ itt.question }}
+              </div>
+            </span>
+          </div>
+          <div class="figma-recent-activity-head">
+            <span class="figma-recent-activity-head-bold">
+              {{ itt.query_result.length > 60 ? (itt.query_result.substring(0, 60) + '...') : itt.query_result }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Loader -->
+  <div *ngIf="isLoading" style="text-align: center; padding: 20px; padding-left: 99px;">
+    <div class="loader"></div>
+    <!-- <p>Loading...</p> -->
+  </div>
+
+  <!-- No Data Found -->
+  <div *ngIf="totalCount == 0 && !isLoading" style="text-align: center; display:flex; padding: 150px 0px;">
+    No Data Found
+  </div>
+</div>
+</div>
+      <div class="figma-recent-activities-container" *ngIf="commonObj.addonsTabsActivity == 'Order'">
+        <div class="figma-recent-activities-header bor-mar">
+          <span class="figma-recent-head-name">{{'History'}}</span>
+          <span class="cursor-pointer" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="commonObj.addonsTabsActivity = false"></span>
+        </div>
+        <div class="figma-recent-activities-wrapper1" style="max-height: calc(100vh - 135px); overflow-y: auto; overflow-x: hidden;" id="style-1" infiniteScroll [scrollWindow]="false"  (scrolled)="onScroll()">
+     <ng-container *ngFor="let oppo of AllOrders;">
+    <h5 style="font-size: 13px;margin-top:10px;">{{ oppo.date_str }}</h5>
+    <div
+      class="figma-recent-activities-wrap-card1"
+      *ngFor="let itt of oppo.data;"
+      (click)="checkhistory(itt)"
+    >
+      <div class="figma-recent-activities-content-detail-new21">
+        <div class="figma-recent-activities-content">
+          <div class="figma-recent-activity-head">
+            <span class="figma-recent-activity-head-bold">
+              <div
+                style="font-size: 14px; font-weight: 500;"
+                title="{{ itt.question }}"
+                class="limited-width"
+              >
+                {{ itt.question }}
+              </div>
+            </span>
+          </div>
+          <div class="figma-recent-activity-head">
+            <span class="figma-recent-activity-head-bold">
+              {{ itt.query_result.length > 60 ? (itt.query_result.substring(0, 60) + '...') : itt.query_result }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Loader -->
+  <div *ngIf="isLoading2" style="position: absolute;left: 45%;top: 50%;">
+    <div class="loader"></div>
+    <!-- <p>Loading...</p> -->
+  </div>
+
+  <!-- No Data Found -->
+  <div *ngIf="totalCount == 0 && !isLoading" style="text-align: center; display:flex; padding: 150px 0px;">
+    No Data Found
+  </div>
+</div>
+</div>
+      <div class="figma-navigator-tabs12" *ngFor="let item of opportuni">
+        <div class="figma-activity-panel-content">
+
+          <span class="figma-activity-head-name"></span>
+          <div class="figma-activities-tabs" [class.d-none]="temp1">
+        <ul class="figma-navigator-ul12">
+
+          <li [class.active]="commonObj.addonsTabsActivity=='Opportunity'" (click)="refreshPage()">
+
+            <span class="figma-navigate-icon " [innerHTML]="'figma-opportunity-ico2' | svgIcons:''"></span>
+            <span class="figma-navigate-text12">New Chat
+
+               <h6></h6>
+            </span>
+          </li>
+          <li *ngIf="!isDeveloperMode" [class.active]="commonObj.addonsTabsActivity=='Contact'" (click)="commonObj.addonsTabsActivity='Contact'">
+            <span class="figma-navigate-icon" [innerHTML]="'figma-contact-ico2' | svgIcons:''"></span>
+            <span class="figma-navigate-text12">Favorites
+
+
+            </span>
+          </li>
+
+          <li *ngIf="!isDeveloperMode" [class.active]="commonObj.addonsTabsActivity=='Quotation'" (click)="commonObj.addonsTabsActivity='Quotation'">
+            <span class="figma-navigate-icon " [innerHTML]="'figma-quote-ico2' | svgIcons:''"></span>
+            <span class="figma-navigate-text12">Reports
+            </span>
+          </li>
+          <li [class.active]="commonObj.addonsTabsActivity=='Order'" (click)="commonObj.addonsTabsActivity='Order'" style="margin-top: 0px;">
+
+            <span class="figma-navigate-icon" [innerHTML]="'figma-order-ico2' | svgIcons:''"></span>
+            <span class="figma-navigate-text12">History
+            </span>
+          </li>
+        </ul>
+        <!-- <div  class ="custom-action-btn1" style="margin-top: 100px;align-content: center; padding-left: 20px;cursor: pointer;">
+          <span   class="figma-navigate-icon" [innerHTML]="'figma-arrow-ico' | svgIcons:''" (click)="temp1 = !temp1"></span>
+        </div> -->
+        </div>
+        </div>
+
+      </div>
+      <!-- <div  class ="custom-action-btn1" style="margin-top: 100px;align-content: center; padding-left: 20px;cursor: pointer;">
+        <span   class="figma-navigate-icon" [innerHTML]="'figma-arrow-ico' | svgIcons:''" (click)="openNav()"></span>
+      </div> -->
+
+    </div>
+  </div>
+</section>

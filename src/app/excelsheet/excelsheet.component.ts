@@ -21,6 +21,7 @@ declare var $: any;
 export class ExcelsheetComponent implements OnInit {
   @ViewChild(PhoneComponent) childComponent!: PhoneComponent;
   @ViewChild('contentEdit') contentEdit!: ElementRef;
+  @ViewChild('mymodal') mymodal!: ElementRef;
   @ViewChild('followup') followup!: ElementRef;
   @ViewChild('confirmModal44') confirmModal44!: ElementRef;
 
@@ -182,6 +183,10 @@ export class ExcelsheetComponent implements OnInit {
   openEmployee22(id: any) {
     this.openEdit(this.contentEdit, [id], false);
   }
+
+  openEmpll(){
+    this.open(this.mymodal);
+   }
   // openfollowup22(id: any) {
   //   this.openfollowup(this.followup, id);
   // }

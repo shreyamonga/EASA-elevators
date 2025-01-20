@@ -1,0 +1,42 @@
+.new-tabl th{
+  padding: 10px 10px;
+}
+
+.new-tabl td {
+  padding: 5px 10px !important;
+}
+
+
+.MainUserList2{
+  z-index: 1;
+  position: sticky;
+  background: #fff !important;
+  top: 82px !important;
+  box-shadow: 1px 4px 0px -3px #cdcdcd;
+}
+
+.MainUserList3{
+  z-index: 1;
+  position: sticky;
+  background: #fff !important;
+  top: 117px !important;
+  box-shadow: 1px 4px 0px -3px #cdcdcd;
+}
+
+.MainUserList3 th {
+  position: relative;
+}
+
+
+.MainUserList3 th::after {
+  position: absolute;
+  content: '';
+  left: 0;
+  width: 1px;
+  height: 101%;
+  top: -.4px;
+  background:lightgray;
+}
+.MainUserList3 th:first-child:after{
+  display: none;
+}

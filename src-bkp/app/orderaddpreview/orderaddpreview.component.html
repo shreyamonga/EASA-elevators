@@ -1,0 +1,244 @@
+<section class="home-section position-relative" appLeftMenuNavbar>
+  <app-header></app-header>
+  <div class="home-content position-relative">
+    <div class="sales-boxes" id="add_quat">
+      <div class="recent-sales box">
+        <div class="em-search-wrapper">
+          <h5 class="em-search-heading" (click)="orderback(this.previewData)"><i class="fa-solid fa-arrow-left-long cursor-pointer"></i> Add Orders </h5>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+
+
+                  <div class="invoice">
+                    <!-- begin invoice-company -->
+                    <div class="invoice-company text-inverse f-w-600">
+                      <span class="pull-right hidden-print ">
+                        <!-- <button class="waves-effect waves-light" onclick="generatePDF()">Download</button> -->
+                        <!-- <a href="javascript:;" class="btn btn-sm btn-white m-b-10 p-l-5"><i class="fa fa-file t-plus-1 text-danger fa-fw fa-lg"></i> Export as PDF</a> -->
+                        <a href="javascript:;" onclick="generatePDF()" class="btn btn-sm btn-white m-b-10 p-l-5 right-print1"
+                          style="background-color:#fff;color:black; border-radius: 4px;padding: 10px;text-decoration: none;"><i
+                            class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Download</a>
+                        <!-- <button id="hideexcbtn" onclick="Export2Doc(&#39;invoice&#39;);">Export as .doc</button> -->
+                        <!-- <a href="javascript:;" onclick="myFunction()"
+                                      class="btn btn-sm btn-white m-b-10 p-l-5 right-print1"
+                                      style="background-color:#fff;color:black; border-radius: 4px;padding: 10px;text-decoration: none;"><i
+                                          class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Print</a> -->
+                      </span><span class="typs" style="font-size: 20px;
+              font-weight: bold !important;">Order</span>
+                      <!-- Quotation -->
+                    </div>
+                    <!-- end invoice-company -->
+
+                    <!-- begin invoice-header -->
+                    <!--  <div class="main-header">
+                                  <div class="content">
+                                      <h4 style="display: inline-block;">Quotation :</h4>
+                                      <h5 id="qtp" style="display: inline-block;"></h5>
+                                  </div>
+                              </div> -->
+
+                    <div class="second">
+
+                      <div class="left">
+                        <div class="log1">
+                        </div>
+                        <div class="addrs k">
+                          <p> <span style="font-size:14px; font-weight:bold">Cinntra Infotech Solutions Pvt.Ltd. </span> <br> E -
+                            138, Sector 63,Noida<br> <span style="font-weight:bold">Phone:</span> +91 888-2709-959
+                            <br>
+                            <span style="font-weight:bold">GSTIN/UIN:</span> 1111111111 <br>
+                            <span style="font-weight:bold">State Name:</span> Uttar Pradesh <span
+                              style="font-weight:bold">Code:</span> 201301 <br>
+                            <!-- <span style="font-weight:bold">CIN:</span>U74120DL2010PLC205490 <br>Gst -->
+                            <span style="font-weight:bold">E-Mail:</span>marketing@cinntra.com
+                          </p>
+                        </div>
+
+                      </div>
+
+                      <div class="right">
+                        <div class="quotaion-heading">
+                          <!-- <h1 style="color:rgb(19 19 82)">Quotation</h1> -->
+                          <!-- <img src="WAE-LOGO.jpeg" class="logo-img" alt="not available"> -->
+                          <img src="dash-logo.svg" style="max-width:250px; width:80%;" alt="Bridge Logo">
+                        </div>
+                        <!-- <div class="right-tbl" style="margin-top:30px"> -->
+                        <div style="text-align: -webkit-center;">
+                          <table style="width:100%;" border="1">
+
+                            <tr>
+                              <th>Order No.:</th>
+                              <th id="disp_qut">
+                                </th>
+
+                            </tr>
+                            <tr>
+                              <th>Date:</th>
+                              <th id="disp_date" value="">
+                                </th>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- begin invoice-content -->
+                    <div class="invoice-content">
+                      <!-- begin table-responsive -->
+                      <div class="table-responsive">
+                        <!-- first-table-with-image-begin---------------------------------------- -->
+                        <table class="table table-invoice" width="100%">
+                          <tr style="background-color: #518DE3;color: #000;">
+                            <th class="text-center cust_box" width="25%" colspan="5">Customer</th>
+                            <th class="text-right" colspan="4">Our Bank Details</th>
+                          </tr>
+                          <tr>
+                            <td class="pd cust_box" width="25%" colspan="5">
+                              <span style="font-weight: bold;font-size: 14px;">Kind Attention: </span>
+                                 <span id="kind_atn" style="text-transform: capitalize;"></span> <br>
+                              <span style="font-weight: bold;font-size: 14px;">Bill Address:</span> <span id="addre"
+                                style="text-transform: capitalize;">
+                                BillToBuilding- {{previewData?.AddressExtension?.BillToBuilding}},
+                                BillToCity- {{previewData?.AddressExtension?.BillToCity}},
+                                BillToZipCode- {{previewData?.AddressExtension?.BillToZipCode}},
+                                BillToStreet- {{previewData?.AddressExtension?.BillToStreet}},
+                                State- {{previewData?.AddressExtension?.U_BSTATE}},
+                                Country- {{previewData?.AddressExtension?.U_BCOUNTRY}}
+                                Type- {{previewData?.AddressExtension?.U_SHPTYPB}}
+                              </span>
+
+                              <span id="kind_atn" style="text-transform: capitalize;"></span> <br>
+                              <span style="font-weight: bold;font-size: 14px;">Ship Address:</span> <span id="addre"
+                                style="text-transform: capitalize;">
+                                ShipToBuilding- {{previewData?.AddressExtension?.ShipToBuilding}},
+                                ShipToCity- {{previewData?.AddressExtension?.ShipToCity}},
+                                ShipToZipCode- {{previewData?.AddressExtension?.ShipToZipCode}},
+                                ShipToStreet- {{previewData?.AddressExtension?.ShipToStreet}},
+                                State- {{previewData?.AddressExtension?.U_SSTATE}},
+                                Country- {{previewData?.AddressExtension?.U_SCOUNTRY}},
+                                Type- {{previewData?.AddressExtension?.U_SHPTYPS}},
+                              </span>
+                                <span id="addre"
+                                style="text-transform: capitalize;"></span> <br>
+                              <span style="font-weight: bold;font-size: 14px;"> Email Id: </span> <span id="eml"
+                                style="color:blue; text-decoration: underline;"></span>
+
+                            </td>
+
+                            <td class="text-right" colspan="4">
+                              <span style="font-weight:bold">Stand Alone</span><br>
+                              <span style="font-weight:bold">Bank Name:</span>YES Bank Account<br>
+                              <span style="font-weight:bold">A/C:</span>1111111111<br>
+                              <span style="font-weight:bold">IFSC Code:</span>YESB0000184
+                            </td>
+                          </tr>
+
+
+                          <tr style="background-color: #518DE3;color:#000;">
+                            <th class="text-center" width="25%" style="width: 6px;">Opportunity Name</th>
+
+                            <!-- <th class="text-center disc2" width="10%" style="display:none">Area Code</th> -->
+
+                            <th class="text-center" width="25%" style="min-width: 75px;">Quotation Name</th>
+                            <th class="text-center" width="25%" style="min-width: 175px;">Card Name</th>
+                            <th class="text-center" width="25%" style="min-width: 175px;">Comments</th>
+                            <th class="text-center" width="25%" style="min-width: 175px;">Description</th>
+                            <th class="text-center prd_img" style="display: none;">Image</th>
+                            <th class="text-center" width="5%">Qty</th>
+                            <!-- <th class="text-right" width="20%">Indicative Image</th> -->
+                            <!-- <th class="text-right" width="20%">Description</th> -->
+                            <th class="text-right" width="20%">Unit Price</th>
+                            <th class="text-right" width="20%">Tax Code</th>
+                            <th class="text-right" width="20%">Item Code</th>
+                            <th class="text-right" width="20%">Item Description</th>
+                            <!-- <th class="text-right" width="10%">Rate</th> -->
+                            <th class="text-right" width="25%" style="min-width: 75px;">Item Dis.(%)</th>
+                            <th class="text-right" width="15%">Amount(&#x20B9;)</th>
+                            <!-- <th class="text-right" width="15%">Tax Amt(&#x20B9;)</th> -->
+                            <!-- <th class="text-right" width="25%">Total Amount(&#x20B9;) </th> -->
+                          </tr>
+
+                          <!----end quotation header ----------------------------->
+
+                          <tbody id="api1">
+
+                          </tbody>
+                          <tr>
+                          <td>{{previewData?.U_OPPRNM || 'NA'}}</td>
+                          <td>{{previewData?.U_QUOTNM || 'NA'}}</td>
+                          <td>{{previewData?.CardName || 'NA'}}</td>
+                          <td>{{previewData?.Comments || 'NA'}}</td>
+                          <td></td>
+                          <td>{{previewData?.DocumentLines[0].Quantity || 'NA'}}</td>
+                          <td>{{previewData?.DocumentLines[0].UnitPrice || 'NA'}}</td>
+                          <td>{{previewData?.DocumentLines[0].TaxCode || 'NA'}}</td>
+                          <td></td>
+                          <td>{{previewData?.DocumentLines[0].ItemCode || 'NA'}}</td>
+                          <td>{{previewData?.DocumentLines[0].ItemDescription || 'NA'}}</td>
+                          <td>{{previewData?.DocumentLines[0].DiscountPercent || 'NA'}}</td>
+                          <td>{{total_Amount}}</td>
+                        </tr>
+
+                          <!--begin Terms and condition---------------------------->
+
+                          <!--end Terms and condition---------------------------->
+
+                          <!--begin authorized signatory---------------------------->
+                          <tr>
+                            <td class="text-right specification" colspan="10" style="padding: 0 8px;">
+                              <p class="specification" style="font-size:12px;"> <span style="font-weight:bold"> Payment Term
+                                  :</span> <span id="pytrm">Testing</span></p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="text-right specification" colspan="10" style="padding: 0 8px;">
+                              <p class="specification" style="font-size:12px;"> <span style="font-weight:bold"> Delivery Terms
+                                  :</span> <span id="dlvtrm">NA</span></p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="text-right specification" colspan="10" style="padding: 0 8px;">
+                              <p class="specification" style="font-size:12px;"> <span style="font-weight:bold"> Specification
+                                  :</span> In line with our continual improvement, we reserve the right to modify the design and
+                                change the specification of any material, if in our opinion, such modifications
+                                constitute an improvement or is in accordance with revised standards of manufacturing methods.
+                                Therefore the specifications, illustrations, dimensions and weights given or agreed to by us in
+                                our proposal, catalogues,
+                                drawings, photographs etc. are not binding in detail.</p>
+                              <p>This is a computer generated document hence no signature required.</p>
+                            </td>
+                          </tr>
+
+                        </table>
+                        <!-- first-table-with-image-end---------------------------------------- -->
+                      </div>
+                    </div>
+
+                    <div class="invoice-footer">
+                      <p class="text-center m-b-5" style="font-size:11px; font-weight:500">
+                        FOR ANY QUERIES KINDLY CONTACT US!
+                      </p>
+                      <p class="text-center">
+                        <span class="m-r-10" style="font-size:11px; font-weight:500"><i class="fa fa-fw fa-lg fa-globe"></i> <span
+                            id="spname1"></span></span>
+                        <span class="m-r-10" style="font-size:11px; font-weight:500"><i
+                            class="fa fa-phone fa-lg fa-phone-volume"></i> <span id="spnumber1">NA</span></span>
+                        <span class="m-r-10" style="font-size:11px; font-weight:500"><i class="fa fa-fw fa-lg fa-envelope"></i>
+                          <span id="spemail1">NA</span></span>
+                      </p>
+                    </div>
+                    <!-- end invoice-footer -->
+                  </div>
+
+
+              <br>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

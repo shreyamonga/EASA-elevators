@@ -1,0 +1,78 @@
+.password-eye {
+    position: relative;
+  }
+  
+  /* Popup default styling */
+  .password-strength-wrapper {
+    position: absolute;
+    top: 75%; /* Positioned below the input field */
+    left: 0px;
+    width: 218px;
+    padding: 10px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: none; /* Hidden by default */
+  }
+  
+  /* Show the popup when the class is added dynamically */
+  .password-strength-wrapper.show {
+    display: block;
+  }
+  
+  /* Criteria styling */
+  .password-strength-wrapper ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .password-strength-wrapper span.weak {
+    color: red;
+  }
+  
+  .password-strength-wrapper span.medium {
+    color: orange;
+  }
+  
+  .password-strength-wrapper span.strong {
+    color: green;
+  }
+  
+  .password-strength-wrapper div {
+    color: gray;
+    font-size: smaller;
+    margin: 5px 0;
+  }
+  
+  .password-strength-wrapper div.valid {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .password-strength-wrapper div.invalid {
+    color: red;
+  }
+  
+.figma-modal-fotter {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  box-shadow: 0px -1px 6px 0px rgba(74, 74, 74, 0.25);
+  background: var(--template-bg);
+  border-radius: 0 0 14px 14px;
+  width: 100%;
+  z-index: 100;
+}
+/* .figma-modal-form {
+  overflow: auto !important;
+  height: calc(90vh - 150px) !important;
+} */
+
+

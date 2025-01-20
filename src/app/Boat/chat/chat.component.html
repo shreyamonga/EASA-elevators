@@ -1,4 +1,4 @@
-
+<app-excelsheet style="display: none;" #ExcelsheetComponent (dataEvent)="receiveData($event)"></app-excelsheet>
 <section class="home-section" appLeftMenuNavbar>
   <app-header></app-header>
   <div class="home-content1">
@@ -246,7 +246,7 @@
                     <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
 
                   </div> -->
-                  <div class="close-btn"   [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"> </div>
+                  <div class="close-btn"   [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')" style="width: 45px;"> </div>
                   <div class="tableview" style="margin: 10px; background: rgb(255 255 255);" >
 
                       <table [style.transform]="'scale(' + zoomLevel + ')'" [style.transformOrigin]="'center center'">
@@ -320,13 +320,13 @@
                   <!-- <button class="figma-outline-btn" style="font-size: 12px;padding: 3px 10px;">Cancel</button> -->
       <button class="figma-prim-btn" (click)="AppruvedPosition2()" *ngIf="!isLoading && FieldName.valid && !hideSaveOnDevMode" style="    font-size: 12px;
       margin-left: 168px;
-     
+
       padding: 3px 10px;
       border-radius: 5px;
       ">Save</button>
       <button class="figma-prim-btn" *ngIf="isLoading" style="cursor: no-drop;" style="    font-size: 12px;
       margin-left: 168px;
-     
+
       padding: 3px 10px;">Save</button>
 
                 </div>
@@ -346,7 +346,7 @@
                 <pre  class="pre-container">{{item.text2}}</pre>
                 </div>
 
-                <div class="inputtextmess">
+                <div class="inputtextmess" *ngIf="hideSaveOnDevMode == true">
                   <a style="
                   color: #2196f3;
                   cursor: pointer;
@@ -354,7 +354,14 @@
                   padding-left: 10px;
               ">{{item.text[0]}}</a>
                   </div>
-
+                  <div class="inputtextmess" *ngIf="hideSaveOnDevMode == false">
+                    <a style="
+                    color: #2196f3;
+                    cursor: pointer;
+                    text-decoration: underline;
+                    padding-left: 10px;
+                " (click)="getId()">{{item.text[0]}}</a>
+                    </div>
                   <div class="iscofoote">
                     <span  [innerHTML]="'figma-off-chatReloard-i-icon' | svgIcons:''"  ></span>
                     <span  [innerHTML]="'figma-off-chatDot-i-icon' | svgIcons:''"  ></span>
@@ -525,7 +532,7 @@ rows="1"></textarea>
           <span class="figma-recent-head-name">{{'Reports'}}</span>
           <span class="cursor-pointer" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="commonObj.addonsTabsActivity = false"></span>
         </div>
-        <div class="figma-recent-activities-wrapper1" style="max-height: 500px; overflow-y: auto; overflow-x: hidden;" id="style-1">
+        <div class="figma-recent-activities-wrapper1" style="max-height: calc(100vh - 135px); overflow-y: auto; overflow-x: hidden;" id="style-1">
      <ng-container *ngFor="let oppo of AllOrders;">
     <h5 style="font-size: 13px">{{ oppo.date_str }}</h5>
     <div
@@ -573,7 +580,7 @@ rows="1"></textarea>
           <span class="figma-recent-head-name">{{'History'}}</span>
           <span class="cursor-pointer" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="commonObj.addonsTabsActivity = false"></span>
         </div>
-        <div class="figma-recent-activities-wrapper1" style="max-height: 500px; overflow-y: auto; overflow-x: hidden;" id="style-1" infiniteScroll [scrollWindow]="false"  (scrolled)="onScroll()">
+        <div class="figma-recent-activities-wrapper1" style="max-height: calc(100vh - 135px); overflow-y: auto; overflow-x: hidden;" id="style-1" infiniteScroll [scrollWindow]="false"  (scrolled)="onScroll()">
      <ng-container *ngFor="let oppo of AllOrders;">
     <h5 style="font-size: 13px;margin-top:10px;">{{ oppo.date_str }}</h5>
     <div

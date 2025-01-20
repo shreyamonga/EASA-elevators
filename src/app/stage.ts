@@ -46,6 +46,7 @@ export interface ChangeStages
         DocId: any;
         StartDate: any;
         EndDate: any;
+        OpportunityStatus:any;
         Status: any;
        }
 

@@ -13,6 +13,16 @@ declare var $: any;
 export class ChatComponent implements OnInit {
   @ViewChild('scrollMe') private myScrollContainer!: ElementRef;
 
+  @ViewChild('ExcelsheetComponent', { static: false }) ExcelsheetComponent!: ElementRef | any;
+  getId(){
+    this.ExcelsheetComponent.openEmpll();
+  }
+  receiveData(data: string) {
+    if(data == 'true'){
+      this.ngOnInit();
+    }
+  }
+
   temp1: boolean = false;
   closeResult = '';
   zoomLevel = 1;
@@ -242,13 +252,26 @@ export class ChatComponent implements OnInit {
       (res: any) => {
         if (Object(res)['status'] == "200") {
 
-          this.hideSaveOnDevMode =  true
-          // console.log('check res  of dev mode' , res)
+          if(res.data[0].action == "create_field") {
+          this.hideSaveOnDevMode =  true;
           if(res.data.length != 0){
+            let typedText: any[] = [{
+              model_name:"",
+              field_data: [
+                {
+                  field_name:"",
+                  field_type:'CharField',
+                  verbose_name:"",
+                  data_option:[],
+                  data_type:"text",
+                }
+              ]
+            }];
           this.MessageArrya.push({ side: 'right', text: res.data[0].question, type: 'text' });
+          this.MessageArrya.push({ side: 'left', text: typedText, text2: res.data[0].query_result, type: 'Field' });
           }
-          // this.LastChatID = res.main_query_data.id;
           if(res.data.length > 1){
+            this.MessageArrya.pop();
           let typedText: any[] = [{
             model_name:"",
             field_data: [
@@ -261,14 +284,20 @@ export class ChatComponent implements OnInit {
               }
             ]
           }];
-          this.MessageArrya.push({ side: 'left', text: typedText, text2: res.data[1].query_result, type: 'Field' });
+          this.MessageArrya.push({ side: 'left', text: typedText, text2: res.data[0].query_result, type: 'Field' });
+          this.MessageArrya.push({ side: 'left', text: res.data[1].query_result, text2: res.data[1].query_result, type: 'text' });
+
         }
-          // if (res.data.length != 0) {
-          //   for (let i = 0; i < res.data.length; i++) {
-          //     this.MessageArrya.push({ side: 'right', text: res.data[i].question, type: 'text' });
-          //     this.MessageArrya.push({ side: 'left', text: res.data[i].answer, type: 'text' });
-          //   }
-          // }
+      }
+      else{
+        if(res.data.length != 0){
+          this.hideSaveOnDevMode =  true;
+          let typedText: any[] = [];
+          typedText[0] = 'Click Here...';
+        this.MessageArrya.push({ side: 'right', text: res.data[0].question, type: 'text' });
+        this.MessageArrya.push({ side: 'left', text: typedText, text2: res.data[0].query_result, type: 'Record' });
+        }
+      }
           this.scrollToBottom();
         }
         else {
@@ -378,7 +407,7 @@ export class ChatComponent implements OnInit {
       else {
 
         if (ApiRes.data.action == "create_field") {
-          this.hideSaveOnDevMode = false
+          this.hideSaveOnDevMode = false;
           this.LastChatID = ApiRes.data.id;
           textType = 'Field';
 
@@ -424,6 +453,7 @@ export class ChatComponent implements OnInit {
           this.isTyping = false;
         }
         else{
+          this.hideSaveOnDevMode = false;
           this.LastChatID = ApiRes.data.id;
           textType = 'Record';
 

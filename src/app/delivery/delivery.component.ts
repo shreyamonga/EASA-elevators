@@ -194,6 +194,24 @@ export class DeliveryComponent implements OnInit {
 
   }
 
+  // openDeliveryModal(){
+  //   this.openModal(this.mymodal);
+  // }
+
+  // openModal(content : any ){
+  //   console.log('chedk ' , content) 
+  //   this.modalService
+  //   .open(content, { ariaLabelledBy: 'modal-basic-title',backdrop: 'static', modalDialogClass: 'confirm-modal modal-dialog-centered' })
+  //   .result.then(
+  //     (result) => {
+  //       this.closeResult = `Closed with: ${result}`;
+  //     },
+  //     (reason) => {
+  //       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+  //     }
+  //   );
+  // }
+
   getDynaimcFld(name:any){
     this.bridgeService2.GetDynamicFld(name).subscribe(
       (res: any) => {

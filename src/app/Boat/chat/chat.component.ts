@@ -4,6 +4,7 @@ import { NotiferService } from 'src/app/modules/service/helpers/notifer.service'
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import * as XLSX from 'xlsx';
 import { AuthService } from 'src/app/modules/service/AuthService.service';
+import { Router } from '@angular/router';
 declare var $: any;
 @Component({
   selector: 'app-chat',
@@ -14,8 +15,31 @@ export class ChatComponent implements OnInit {
   @ViewChild('scrollMe') private myScrollContainer!: ElementRef;
 
   @ViewChild('ExcelsheetComponent', { static: false }) ExcelsheetComponent!: ElementRef | any;
+  @ViewChild('DeliveryComponent', { static: false }) DeliveryComponent!: ElementRef | any;
   getId(){
-    this.ExcelsheetComponent.openEmpll();
+    if(this.modelName  === 'Lead' ){
+      this.ExcelsheetComponent.openEmpll();
+    }
+    else if(this.modelName === 'BusinessPartner' ){
+      this.router.navigate(['/customer/add-customer']); 
+    }
+    else if(this.modelName === 'Order' ){
+      this.router.navigate(['/order/add-order']); 
+    }
+    else if(this.modelName === 'Opportunity' ){
+      this.router.navigate(['/opportunity/add-opportunity']); 
+    }
+    else if(this.modelName === 'Campaign' ){
+      this.router.navigate(['/campaign/add-campaign']); 
+    }
+    // else if(this.modelName === 'Delivery' ){
+    //   this.DeliveryComponent.openDeliveryModal();
+    // }
+    
+    
+    
+    
+    
   }
   modelName : any;
   receiveData(data: string) {
@@ -171,7 +195,8 @@ export class ChatComponent implements OnInit {
   ];
 
 
-  constructor(private authService: AuthService,private bridgeService2: BridgeService, private modalService: NgbModal, private _NotifierService: NotiferService) { }
+  constructor(private router: Router,
+    private authService: AuthService,private bridgeService2: BridgeService, private modalService: NgbModal, private _NotifierService: NotiferService) { }
 
 
   ngOnInit(): void {

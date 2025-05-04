@@ -60,7 +60,8 @@ export class CustomerEditComponent implements OnInit {
   statess2: States[] = [];
   bridgess: Bridge[] = [];
   editcustomer: any = {
-
+    C_Landline :'',
+    C_CurrentOrderInHand : '',
   zone:'',
     id: '',
     CardCode: '',
@@ -314,6 +315,8 @@ export class CustomerEditComponent implements OnInit {
           // console.log("data[0]",data[0])
 
         this.editcustomer.U_LEADID = data[0]['U_LEADID'];
+        this.editcustomer.C_CurrentOrderInHand = data[0]['C_CurrentOrderInHand'];
+        this.editcustomer.C_Landline = data[0]['C_Landline'];
         this.editcustomer.U_LEADNM = data[0]['U_LEADNM'];
         this.editcustomer.Industry = data[0]['Industry'];
         this.editcustomer.zone = data[0]['zone'];

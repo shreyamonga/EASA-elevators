@@ -147,6 +147,7 @@ export class QuotationDetailsComponent implements OnInit {
         (res: any) => {
           if (Object(res)['status'] == "200") {
             this.DynamicFiledPositionDetials = res.data;
+            console.log("dynamic",this.DynamicFiledPositionDetials )
             for(let i=0;i<this.DynamicFiledPositionDetials.length;i++){
               this.quotations[this.DynamicFiledPositionDetials[i].field_name] = '';
             }
@@ -327,4 +328,155 @@ export class QuotationDetailsComponent implements OnInit {
   //   }
   //   return false;
   // }
+ 
+  LONG_DATA_LABELS: any[] = [
+    {key:'carDesigns',label:'Car Designs',subkey:'carDesignsCost',sublabel:'Cost'},
+    {key:'series',label:'Series',subkey:'seriesCost',sublabel:'Cost'},
+    { key: 'sidePanels', label: 'Side Panels', subkey: 'sidePanelsCost', sublabel: 'Cost' },
+    { key: 'rearPanels', label: 'Rear Panels', subkey: 'rearPanelsCost', sublabel: 'Cost' },
+    { key: 'mirror', label: 'Mirror', subkey: 'mirrorCost', sublabel: 'Cost' },
+    { key: 'handrail', label: 'Handrail', subkey: 'handrailCost', sublabel: 'Cost' },
+    { key: 'flooring', label: 'Flooring', subkey: 'flooringCost', sublabel: 'Cost' },
+    { key: 'ceiling', label: 'Ceiling', subkey: 'ceilingCost', sublabel: 'Cost' },
+    { key: 'lighting', label: 'Lighting', subkey: 'lightingCost', sublabel: 'Cost' },
+    { key: 'fan', label: 'Fan', subkey: 'fanCost', sublabel: 'Cost' },
+    { key: 'COP_Plate', label: 'COP Plate', subkey: 'copPlateCost', sublabel: 'Cost' },
+    { key: 'LOP_Plate', label: 'LOP Plate', subkey: 'lopPlateCost', sublabel: 'Cost' },
+    { key: 'display', label: 'Display', subkey: 'displayCost', sublabel: 'Cost' },
+    { key: 'pushButtons', label: 'Push Buttons', subkey: 'pushButtonsCost', sublabel: 'Cost' },
+    { key: 'doorOperation', label: 'Door Operation', subkey: 'doorOperationCost', sublabel: 'Cost' },
+    { key: 'doorClearOpeningsWidth', label: 'Door Clear Openings Width', subkey: 'doorClearOpeningsWidthCost', sublabel: 'Cost' },
+    { key: 'doorClearOpeningHeight', label: 'Door Clear Opening Height', subkey: 'doorClearOpeningHeightCost', sublabel: 'Cost' },
+    { key: 'carDoorPanel', label: 'Car Door Panel', subkey: 'carDoorPanelCost', sublabel: 'Cost' },
+    { key: 'landingDoorFrame', label: 'Landing Door Frame', subkey: 'landingDoorFrameCost', sublabel: 'Cost' },
+    { key: 'landingDoorPanel', label: 'Landing Door Panel', subkey: 'landingDoorPanelCost', sublabel: 'Cost' },
+    { key: 'sensorOnCabin', label: 'Sensor On Cabin', subkey: 'sensorOnCabinCost', sublabel: 'Cost' },
+    { key: 'cabinInterior', label: 'Cabin Interior', subkey: 'cabinInteriorCost', sublabel: 'Cost' },
+    { key: 'capacity', label: 'Capacity' },
+    { key: 'carDoor', label: 'Car Door', subkey: 'carDoorCost', sublabel: 'Cost' },
+    { key: 'customization', label: 'Customization(remarks)', subkey: 'customizationCost', sublabel: 'Cost' },
+    { key: 'frame', label: 'Frame', subkey: 'frameCost', sublabel: 'Cost' },
+    { key: 'lopCop', label: 'LOP COP', subkey: 'lopcopCost', sublabel: 'Cost' },
+    { key: 'model', label: 'Model', subkey: 'modelCost', sublabel: 'Cost' },
+    { key: 'modelNo', label: 'Model No' },
+    { key: 'operation', label: 'Operation', subkey: 'operationCost', sublabel: 'Cost' },
+    { key: 'Partition', label: 'Partition', subkey: 'partitionCost', sublabel: 'Cost' },
+    { key: 'persons', label: 'Persons' },
+    { key: 'pit', label: 'Pit', subkey: 'pitCost', sublabel: 'Cost' },
+    { key: 'plateLOP', label: 'Plate LOP', subkey: 'plateLOPCost', sublabel: 'Cost' },
+    { key: 'protection', label: 'Protection', subkey: 'protectionCost', sublabel: 'Cost' },
+    { key: 'skirting', label: 'Skirting', subkey: 'skirtingCost', sublabel: 'Cost' },
+    { key: 'speed', label: 'Speed', subkey: 'speedCost', sublabel: 'Cost' },
+    { key: 'structure', label: 'Structure', subkey: 'structureCost', sublabel: 'Cost' }
+  ];
+  
+  ELEVATOR_SHAFT_LABELS: any[] = [
+    { key: 'shaftWidth', label: 'Shaft Width (plastered) in mm' },
+    { key: 'shaftDepth', label: 'Shaft Depth (plastered) in mm' },
+    { key: 'pit', label: 'Pit in mm' },
+    { key: 'overhead', label: 'Overhead' },
+    { key: 'machineRoomWidth', label: 'Machine Room Width (Plastered) in mm' },
+    { key: 'machineRoomDepth', label: 'Machine Room Depth (Plastered) in mm' },
+    { key: 'minimumFloorHeight', label: 'Minimum Floor Height in mm' },
+    { key: 'totalCarTravel', label: 'Total Car Travel (Vertical Car Travel) in mm' },
+    { key: 'lintelHeightCladding', label: 'Lintel Height + Cladding (40mm for Stone/20mm for Wood)' },
+  ];
+  ELEVATOR_SPECIFICATION_LABELS: any[] = [
+    { key: 'Payload', label: 'Payload (live load capacity)' },
+    { key: 'Capacity', label: 'Capacity (in person)' },
+    { key: 'NoOfStops', label: 'Number of Stops' },
+    { key: 'NoOfOpenings', label: 'Number of Openings' },
+    { key: 'AccessibleSidesFront', label: 'Accessible Sides Front' },
+    { key: 'AccessibleSidesRear', label: 'Accessible Sides Rear' },
+    { key: 'AccessibleSides90Degree', label: 'Accessible Sides 90 Degree' },
+    { key: 'FloorDesignation', label: 'Floor Designation' },
+    { key: 'Speed', label: 'Speed (m/s)' },
+    { key: 'CarWidth', label: 'Car width in mm' },
+    { key: 'CarDepth', label: 'Car depth in mm' },
+    { key: 'CarHeight', label: 'Car height in mm' },
+    { key: 'StartStop', label: 'Start and stop' },
+    { key: 'controlSystem', label: 'Control System' },
+  ];
+  TECHNICAL_DETAILS_LABELS: any[] = [
+    { key: 'motor', label: 'Motor'  },
+    { key: 'Gearbox', label: 'Gearbox' },
+    { key: 'Controller', label: 'Controller'  },
+  ];
+  
+  // ELEVATOR_STEEL_STRUCTURE_LABELS: any[] = [
+  //   { key: 'Type', label: 'Type' },
+  //   { key: 'verticalMembers', label: 'Vertical Members' },
+  //   { key: 'horizontalMembers', label: 'Horizontal Members' },
+  //   { key: 'foundation', label: 'Foundation' },
+  //   { key: 'cladding', label: 'Cladding (optional)' },
+  //   { key: 'anchorage', label: 'Anchorage' },
+  // ];
+  ELEVATOR_STEEL_STRUCTURE_LABELS: any[] = [ 
+   
+  
+    { key: 'CladdingChoice', label: 'Cladding Choice', subkey: 'CladdingChoiceCost', sublabel: 'Cost' },
+    { key: 'FoundationBolts', label: 'Foundation Bolts', subkey: 'FoundationBoltsCost', sublabel: 'Cost' },
+  
+    { key: 'HorizontalSheetMetal', label: 'Horizontal Sheet Metal', subkey: 'HorizontalSheetMetalCost', sublabel: 'Cost' },
+    { key: 'HorizontalTubular', label: 'Horizontal Tubular', subkey: 'HorizontalTubularCost', sublabel: 'Cost' },
+  
+    { key: 'Type', label: 'Type', subkey: 'TypeCost', sublabel: 'Cost' },
+  
+    { key: 'VerticalSheetMetal', label: 'Vertical Sheet Metal', subkey: 'VerticalSheetMetalCost', sublabel: 'Cost' },
+    { key: 'VerticalTubular', label: 'Vertical Tubular', subkey: 'VerticalTubularCost', sublabel: 'Cost' },
+  ];
+  
+  DOORS_LABELS: any[] = [
+    // { key: 'TypeOfDoor', label: 'Type of Door', subkey: 'TypeOfDoorCost', sublabel: 'Cost' },
+    { key: 'DoorWidth', label: 'Door Width(in mm)' },
+    { key: 'DoorHeight', label: 'Door Height(in mm)' },
+    { key: 'DoorPanels', label: 'Door Panels' },
+    { key: 'LandingDoorFrame', label: 'Landing Door Frame' },
+    { key: 'CarInterlock', label: 'Car Interlock' },
+    { key: 'LandingDoorInterlock', label: 'Landing Door Interlock' },
+  ];
+  
+  SCOPE_OF_WORK_LABELS: any[] = [
+    { key: 'PackingLoading', label: 'Packing Loading', subkey: 'PackingLoadingCost', sublabel: 'Cost' },
+    { key: 'Transportation', label: 'Transportation', subkey: 'TransportationCost', sublabel: 'Cost' },
+    { key: 'Unloading', label: 'Unloading', subkey: 'UnloadingCost', sublabel: 'Cost' },
+    { key: 'Storing', label: 'Storing', subkey: 'StoringCost', sublabel: 'Cost' },
+    { key: 'Scaffolding', label: 'Scaffolding', subkey: 'ScaffoldingCost', sublabel: 'Cost' },
+    { key: 'IBEAM', label: 'IBEAM', subkey: 'IBEAMCost', sublabel: 'Cost' },
+    { key: 'Liasoning', label: 'Liasoning', subkey: 'LiasoningCost', sublabel: 'Cost' },
+    { key: 'License', label: 'License', subkey: 'LicenseCost', sublabel: 'Cost' },
+    { key: 'IbeamforMachineBase', label: 'Ibeam for Machine Base', subkey: 'IbeamforMachineBaseCost', sublabel: 'Cost' },
+    { key: 'IBeamShiftingtillMachineRoom', label: 'IBeam Shifting till Machine Room', subkey: 'IBeamShiftingtillMachineRoomCost', sublabel: 'Cost' },
+    { key: 'MinorCivilWork', label: 'Minor Civil Work', subkey: 'MinorCivilWorkCost', sublabel: 'Cost' },
+  ];
+
+  OPTIONAL_FEATURES_LABELS: any[] = [
+    { key: 'VVVFDrive', label: 'VVVF Drive', subkey: 'VVVFDriveCost', sublabel: 'Cost' },
+    { key: 'overloadDevice', label: 'Overload Device', subkey: 'overloadDeviceCost', sublabel: 'Cost' },
+    { key: 'automaticRescueDevice', label: 'Automatic Rescue Device', subkey: 'automaticRescueDeviceCost', sublabel: 'Cost' },
+    { key: 'singlePhaseOperation', label: 'Single Phase Operation', subkey: 'singlePhaseOperationCost', sublabel: 'Cost' },
+    { key: 'ViewWindow', label: 'View Window (80mm * 1000mm view slit in doors)', subkey: 'ViewWindowCost', sublabel: 'Cost' },
+    { key: 'bigVisionGlassDoors', label: 'Big Vision Glass Doors', subkey: 'bigVisionGlassDoorsCost', sublabel: 'Cost' },
+    { key: 'EmergencyTelephoneSystem', label: 'Emergency Telephone System (GSM)', subkey: 'EmergencyTelephoneSystemCost', sublabel: 'Cost' },
+    { key: 'EmergencyTelephoneSystemPublic', label: 'Emergency Telephone System (Public Wireline Network)', subkey: 'EmergencyTelephoneSystemPublicCost', sublabel: 'Cost' },
+    { key: 'BiometricAccess', label: 'Biometric Access', subkey: 'BiometricAccessCost', sublabel: 'Cost' },
+    { key: 'CardReaderAccess', label: 'Card Reader Access', subkey: 'CardReaderAccessCost', sublabel: 'Cost' },
+    { key: 'FullHeightCarOperatingPanel', label: 'Full Height Car Operating Panel', subkey: 'FullHeightCarOperatingPanelCost', sublabel: 'Cost' },
+    { key: 'Intercom', label: 'Intercom (Press and Speak)', subkey: 'IntercomCost', sublabel: 'Cost' },
+    { key: 'AttendantOperation', label: 'Attendant Operation', subkey: 'AttendantOperationCost', sublabel: 'Cost' },
+    { key: 'ParkingKeySwitch', label: 'Parking Key Switch', subkey: 'ParkingKeySwitchCost', sublabel: 'Cost' },
+    { key: 'DuplexAndTriplexCarGroupOperation', label: 'Duplex and Triplex Car Group Operation', subkey: 'DuplexAndTriplexCarGroupOperationCost', sublabel: 'Cost' },
+    { key: 'TimedBlindFloor', label: 'Timed Blind Floor', subkey: 'TimedBlindFloorCost', sublabel: 'Cost' },
+    { key: 'VoiceSynthesizerWithCustomizedMusic', label: 'Voice Synthesizer With Customized Music', subkey: 'VoiceSynthesizerWithCustomizedMusicCost', sublabel: 'Cost' },
+    { key: 'handrail', label: 'Handrail', subkey: 'handrailCost', sublabel: 'Cost' }
+  ];
+  GUARANTEE_LABELS: any[] = [
+    { key: 'Guarantee', label: 'Guarantee', subkey: 'GuaranteeCost', sublabel: 'Cost' },
+    { key: 'GuaranteeDateOfDispatch', label: 'Guarantee from the date of dispatch', subkey: 'GuaranteeDateOfDispatchCost', sublabel: 'Cost' },
+    { key: 'FreeMaintenancePeriod', label: 'Free Maintenance Period', subkey: 'FreeMaintenancePeriodCost', sublabel: 'Cost' },
+    { key: 'FreeMaintenancePeriodDate', label: 'Free Maintenance Period from the date of intimation', subkey: 'FreeMaintenancePeriodDateCost', sublabel: 'Cost' }
+  ];
+  
+  
+  
     }

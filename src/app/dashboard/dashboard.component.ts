@@ -648,6 +648,18 @@ this.bridgeService.HotWarmDealsGraph(code).subscribe((data2)=>{
   });
 }
 
+openNav() {
+  (document.getElementById("mySidepanel") as HTMLInputElement).style.width = "340px";
+  (document.getElementById("mySidepanel") as HTMLInputElement).style.zIndex = "9";
+  $('#mySidepanel').addClass('sidepanel2');
+  $('#mySidepanel').removeClass('mySidepanelGo');
+  $('.sidepanel').show();
 
+}
+closeNav() {
+  (document.getElementById("mySidepanel") as HTMLInputElement).style.width = "340";
+  $('#mySidepanel').removeClass('sidepanel2');
+  $('#mySidepanel').addClass('mySidepanelGo');
+}
 
 }

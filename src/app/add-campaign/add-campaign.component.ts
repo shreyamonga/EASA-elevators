@@ -49,7 +49,7 @@ export class AddCampaignComponent implements OnInit {
     OppStage: "",
     OppFromDate: "",
     OppToDate: "",
-    BPType: "",
+    // BPType: "",
     BPSalePerson: "",
     BPCountry: "India",
     BPCountryCode: "IN",
@@ -67,7 +67,11 @@ export class AddCampaignComponent implements OnInit {
     CreateBy: "",
     AllLead: "",
     AllOpp: "",
-    AllBP: ""
+    AllBP: "",
+    LeadTypeOfLift:"",
+	  OppTypeOfLift:"",
+  	BPType:"",
+
   };
 
   Countrys: string = 'IN, India';
@@ -114,7 +118,11 @@ export class AddCampaignComponent implements OnInit {
   CampaignOpportunityType:any;
   savedModules: any[] = [];
   Headingss: any[] = [];
-  constructor(private _location: Location,public HeadingServices: HeadingServicesService, private _NotifierService: NotiferService, private route: Router, private router: Router, private bridgeService: BridgeService, private modalService: NgbModal,
+  optyp: any;
+  cstmrtype: any;
+  constructor(private _location: Location,private bridgeService2: BridgeService,
+    public HeadingServices: HeadingServicesService, private _NotifierService: NotiferService, 
+    private route: Router, private router: Router, private bridgeService: BridgeService, private modalService: NgbModal,
 
     private http: HttpClient,
   ) { }
@@ -138,6 +146,8 @@ export class AddCampaignComponent implements OnInit {
     this.getDynaimcFld('Campaign');
     this.getAllSource();
     this.getLeadAll();
+    this.getOpportunityList();
+    this.getCustomerTypeList()
     this.compaigns.CreateBy = String(sessionStorage.getItem('SalesEmployeeCode'));
     this.compaigns.CampaignSetOwner = String(sessionStorage.getItem('SalesEmployeeCode'));
     // this.getDivisionList();
@@ -304,8 +314,10 @@ export class AddCampaignComponent implements OnInit {
         f.value[keys] = "";
       }
     }
+ 
 
-    if (this.selectleadsource == undefined || this.selectleadsource.length != 0) {
+    //Source
+    if (this.selectleadsource == undefined || this.selectleadsource.length == 0) {
       this.compaigns.LeadSource = "";
     }
     else {
@@ -313,7 +325,7 @@ export class AddCampaignComponent implements OnInit {
     }
 
     //status
-    if (this.selectleadstatus == undefined || this.selectleadstatus.length != 0) {
+    if (this.selectleadstatus == undefined || this.selectleadstatus.length == 0) {
       this.compaigns.LeadStatus = ""
     }
     else {
@@ -321,7 +333,7 @@ export class AddCampaignComponent implements OnInit {
     }
 
     //for Employee
-    if (this.selectOppEmployeee == undefined || this.selectOppEmployeee.length != 0) {
+    if (this.selectOppEmployeee == undefined || this.selectOppEmployeee.length == 0) {
       this.compaigns.OppSalePerson = ""
     }
     else {
@@ -329,7 +341,7 @@ export class AddCampaignComponent implements OnInit {
     }
 
     //for Bp Employee
-    if (this.selectBPEmployeee == undefined || this.selectBPEmployeee.length != 0) {
+    if (this.selectBPEmployeee == undefined || this.selectBPEmployeee.length == 0) {
       this.compaigns.BPSalePerson = ""
     }
     else {
@@ -337,7 +349,7 @@ export class AddCampaignComponent implements OnInit {
     }
 
     //for industory
-    if (this.selectIndustory == undefined || this.selectIndustory.length != 0) {
+    if (this.selectIndustory == undefined || this.selectIndustory.length == 0) {
       this.compaigns.BPIndustry = ""
     }
     else {
@@ -636,6 +648,33 @@ export class AddCampaignComponent implements OnInit {
         console.log(err);
         this.error = err;
       }
+    );
+  }
+
+    getOpportunityList(): void {
+    // console.log('check inside list data' , this.leadType);
+    
+    this.isLoading = true;
+    this.bridgeService2.getOpportunityTypeData().subscribe(
+      (data: any[]) => {
+        this.optyp = data;
+        // console.log(this.optyp);
+        this.isLoading = false;
+        // console.log('this.optyp name',this.optyp);
+      },
+
+    );
+  }
+
+
+  getCustomerTypeList(): void {
+    this.isLoading = true;
+    this.bridgeService2.getCustomerTypeData().subscribe(
+      (data: any[]) => {
+        this.isLoading = false;
+        this.cstmrtype = data;
+      },
+
     );
   }
 

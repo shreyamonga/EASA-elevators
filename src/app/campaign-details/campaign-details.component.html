@@ -131,6 +131,16 @@
                     </div>
                     <div class="col-md-1"></div>
                   </ng-container>
+                  <ng-container *ngIf="HeadingServices.isModulefieldview(2, 'LeadTypeOfLift')">
+                    <div class="col-md-2">
+                      <p class="grey1">Type of Lift </p>
+                    </div>
+                    <div class="col-md-3">
+                      <p class="cstmr-size" *ngIf="item.LeadTypeOfLift != ''">{{item.LeadTypeOfLift_detail[0].Type}}</p>
+                      <p class="cstmr-size" *ngIf="item.LeadTypeOfLift == ''">NA</p>
+                    </div>
+                    <div class="col-md-1"></div>
+                  </ng-container>
                   </div>
 
                 </div>
@@ -157,7 +167,7 @@
                       <p class="grey1">{{Headingss[0].heading13}}</p>
                     </div>
                     <div class="col-md-3" *ngIf="item.AllBP != '1'">
-                      <p class="cstmr-size" *ngIf="item.BPType != ''">{{item.BPType}}</p>
+                      <p class="cstmr-size" *ngIf="item.BPType != ''">{{item.BPType_detail[0].Type}}</p>
                       <p class="cstmr-size" *ngIf="item.BPType == ''">NA</p>
                     </div>
                     <div class="col-md-1"></div>
@@ -301,6 +311,21 @@
                     </div>
                     <div class="col-md-1"></div>
                   </ng-container>
+                  
+                  </div>
+                  <div class="row" *ngIf="item.AllOpp != '1'">
+                    <ng-container *ngIf="HeadingServices.isModulefieldview(2, 'OppTypeOfLift')">
+                    <div class="col-md-2">
+                      <p class="grey1">Type of Lift </p>
+                    </div>
+                    <div class="col-md-3">
+                      <p class="cstmr-size" *ngIf="item.OppTypeOfLift != ''">{{item.OppTypeOfLift_detail[0].Type}}</p>
+                      <p class="cstmr-size" *ngIf="item.OppTypeOfLift == ''">NA</p>
+                    </div>
+                    <div class="col-md-1"></div>
+                  </ng-container>
+        
+                  
                   </div>
                 </div>
               </div>

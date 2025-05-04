@@ -18,25 +18,25 @@
       --template-btn-bg-light: rgba(120, 35, 46, 0.5);
     }
 
-    .table>tbody>tr>td,
+    /* .table>tbody>tr>td,
     .table>tbody>tr>th,
     .table>tfoot>tr>td,
     .table>tfoot>tr>th,
     .table>thead>tr>td,
     .table>thead>tr>th {
       border-top: 1px solid #525252;
-    }
+    } */
 
     tbody {
-      border: 1px solid #525252;
-      border-top: 1px solid #525252 !important;
+      /* border: 1px solid #525252;
+      border-top: 1px solid #525252 !important; */
     }
 
     body {
       margin-top: 20px;
       background: #eee;
       font-family: sans-serif;
-      font-size: 13px;
+      font-size: 16px;
     }
 
     .main-header {
@@ -94,6 +94,14 @@
       font-size: 10px;
     }
 
+    .mb-0 {
+      margin-bottom: 0px;
+    }
+
+    .p-20 {
+      padding: 20px;
+    }
+
     #api2 tr td {
       text-align: center;
       font-weight: bold;
@@ -141,18 +149,35 @@
       border-color: #d9dfe3;
     }
 
+    .font-w800 {
+      font-weight: 600;
+    }
+
+    .text-decoration {
+
+      text-decoration: underline;
+    }
+
+    .text-deco-double {
+
+      text-decoration-line: underline;
+      text-decoration-style: double;
+    }
+
     .table-responsive {
       overflow-x: clip;
+      padding: 0px 60px 0px 60px !important;
+      ;
     }
 
     table,
     th,
 
     td {
-      border: 1px solid #525252;
+      /* border: 1px solid #525252; */
       border-collapse: collapse;
 
-      padding: 8px;
+      /* padding: 8px; */
       font-family: Arial, Helvetica, sans-serif;
     }
 
@@ -167,6 +192,20 @@
     .barimg {
       padding-top: 80px;
       width: 150px;
+    }
+
+    .fontSize-20 {
+      font-size: 20px;
+    }
+
+    .tableDataTd {
+      font-size: 16px;
+      padding: 6px 0px;
+    }
+
+    .text-center {
+      text-align: center;
+
     }
 
     @media screen and (max-width: 767px) {
@@ -209,6 +248,7 @@
       .table-responsive>.table>thead>tr>td,
       .table-responsive>.table>thead>tr>th {
         white-space: normal;
+       
       }
 
       .main-pd-wrapper {
@@ -327,10 +367,14 @@
       padding: 10px;
 
     }
+    td {
+      padding: 5px;
 
-    tbody tr {
-      border-bottom: 1px solid #525252;
     }
+
+    /* tbody tr {
+      border-bottom: 1px solid #525252;
+    } */
 
     .table-cell-loader {
       padding: 0;
@@ -454,7 +498,7 @@
       display: block;
       height: 1px;
       border: 0;
-      border-top: 1px solid #525252;
+      /* border-top: 1px solid #525252; */
       padding: 0;
     }
 
@@ -688,150 +732,175 @@
                 <table class="table table-invoice" id="api1" style="width:1100px">
 
                   <tr>
-                    <td colspan="11">
-                      <div class="col-xs-2 col-md-2">
-                        <img src="../../assets/img/newBridgelogo.png" id="PDFlogo" style=" width:70px;" alt="Bridge Logo">
+                    <td colspan="11" style="border: none;">
+                      <div class="col-xs-2 col-md-2" style="float: right;">
+                        <img src="../../assets/img/newBridgelogo.png" style=" width:150px;" alt="Bridge Logo">
                       </div>
-                      <div class="col-xs-8 col-md-8 text-center">
-                        <span style="font-size: 18px;font-weight: 800;">Sales Quotation</span><br><br>
-                        <span style="font-weight: 600;">(For Supply from Factory/Warehouse on payment of GST Under
-                          Rule-7,Section-31)</span>
-                      </div>
+                      <br>
+
                     </td>
                   </tr>
+
                   <tr>
-                    <td colspan="11">
-                      <div class="col-xs-2 col-md-2">
-                        <!-- <img src="../../assets/img/newBridgelogo.png" style=" width:150px;" alt="Bridge Logo"> -->
+                    <td style="border: none;">
+                      <div style="margin-bottom: 20px;">
+                        <span class="font-w800 text-decoration" >Billing Address:</span><br><span class="AddressName"></span>
+                        <span class="BillToStreet"></span>  
                       </div>
-                      <div class="col-xs-8 col-md-8 text-center">
-                        <span style="font-size: 18px;font-weight: 800;" class="BPLName">...</span><br>
-                        <!-- <span><b>Registered Office: </b> 18/13-14 WEA, Karol Bagh, New Delhi Delhi
-                          110005-India</span><br> -->
-                        <span><b>Branch Office: </b> : <span class="ourbranch">...</span>
-                        </span><br>
-                        <span><b>GSTIN : </b> <span class="FederalTaxID">...</span>  </span><br>
-                        <!-- <span><b>CIN: </b> U93020DL2002PTC116230 <b>UAM: </b> HR05E0025040</span><br> -->
 
-                        </span>
-                      </div>
-                      <div class="col-xs-2 col-md-2" style="padding: 0;font-weight: 800;">
-                        <!-- <span style="font-size: 12px;">Original For Recipient</span>
-                                            <img src="" id="qrimg" style="width: 100%;"> -->
+                      <div style="margin-bottom: 20px;">
+                        <span class="font-w800  text-decoration">Shipping Address:</span><br>
+                        <span class="ShipAddressName"></span><span class="ShipToStreet"></span>
+                          <!-- Dharamveer Singh Hospital, Thakur Sultanpur, Muradabad, UP -->
                       </div>
                     </td>
                   </tr>
-                  <tr>
-                    <td colspan="11" style="font-size: 12px;">
 
-                      <div class="col-xs-6 col-sm-6">
-                        <span class="col-xs-4 col-sm-4 pedig-left0">Sales Quot No</span><span
-                          class="col-xs-8 col-sm-8">: <span class="OrderId">... </span></span><br>
-                        <span class="col-xs-4 col-sm-4 pedig-left0">Sales Quot Date</span><span
-                          class="col-xs-8 col-sm-8">: <span class="CreateDate">...</span></span><br>
-
-                      </div>
-                      <div class="col-xs-6 col-sm-6">
-                        <!-- <span class="col-xs-4 col-sm-4 pedig-left0">PO No.</span><span class="col-xs-8 col-sm-8">:
-                          <span>GN/ 232414147 </span></span><br>
-                        <span class="col-xs-4 col-sm-4 pedig-left0">PO Date</span><span class="col-xs-8 col-sm-8">:
-                          <span>31-Jan-2024</span></span><br> -->
-                        <span class="col-xs-4 col-sm-4 pedig-left0">Employee</span><span class="col-xs-8 col-sm-8">:
-                          <span class="SalesEmployeeName">...</span></span><br>
-                        <span class="col-xs-4 col-sm-4 pedig-left0">Payment Terms</span><span
-                          class="col-xs-8 col-sm-8">: <span class="PaymentTermsGroupName">...</span></span><br>
-                      </div>
-                    </td>
+                  <!-- <tr> -->
+                  <!-- <td>
+                      
+                    </td> -->
 
 
-                  </tr>
-                  <tr style="    background-color: #c5c5c5;
-                                        color: #181818;">
-                    <td colspan="3">
-                      <span style="font-weight: 800;"> Customer Name & Address (Bill To):</span>
-                    </td>
-                    <td colspan="8">
-                      <span style="font-weight: 800;"> Place of Supply (Ship To):</span>
+                  <table style="width: 100%; margin-bottom: 20px;">
+                    <tr style="font-weight: bold;">
+                      <td>Date: </td>
+                      <td>Kind Attention: </td>
+                      <td>Your Reference: </td>
+                      <td>Our Reference: </td>
+                    </tr>
+                    <tr>
+                      <td class="CreateDate">
+                        
+                      </td>
+                      <td class="ContactPerson">
+                       
+                      </td>
+                      <td>
+                        Site Visit
+                      </td>
+                      <td class="quotationCode">
+                       
+                      </td>
+                    </tr>
+                  </table>
 
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="3">
-                      <div>
-                        <span class="col-xs-12 col-sm-12"><span style="font-weight: 800;" class="AddressName"></span></span><br><br>
-                        <span class="col-xs-12 col-sm-12"><span class="BillToStreet">...</span></span><br>
-                        <span class="col-xs-5 col-sm-5 pedig-left0">Contact Number </span><span
-                          class="col-xs-7 col-sm-7">: <span class="MobilePhone">...</span></span><br>
-                          <div class="col-xs-6 col-sm-6">
-                            <span class="col-xs-5 col-sm-5 pedig-left0">State </span><span class="col-xs-7 col-sm-7">:
-                              <span class="U_STATE">...</span></span>
-                              </div>
-                              <div class="col-xs-6 col-sm-6">
-                            <span class="col-xs-5 col-sm-5 pedig-left0">State Code </span><span class="col-xs-7 col-sm-7">:
-                              <span class="State">...</span></span>
-                              </div>
-                        <!-- <br>
-                        <div class="col-xs-6 col-sm-6">
-                          <span class="col-xs-5 col-sm-5 pedig-left0">GST No. </span><span class="col-xs-7 col-sm-7">:
-                            <span>06ALHPB5450F1ZI</span></span>
-                            </div>
-                            <div class="col-xs-6 col-sm-6">
-                          <span class="col-xs-5 col-sm-5 pedig-left0">PAN No. </span><span class="col-xs-7 col-sm-7">:
-                            <span>6</span></span>
-                            </div>
-
-                      </div> -->
-                    </td>
-                    <td colspan="8">
-                      <div>
-                        <span class="col-xs-12 col-sm-12"><span style="font-weight: 800;" class="ShipAddressName"></span></span><br><br>
-                        <span class="col-xs-12 col-sm-12"><span class="ShipToStreet">...</span></span><br>
-                        <span class="col-xs-5 col-sm-5 pedig-left0">Contact Number </span><span
-                          class="col-xs-7 col-sm-7">: <span class="MobilePhone">...</span></span><br>
-                          <div class="col-xs-6 col-sm-6">
-                            <span class="col-xs-5 col-sm-5 pedig-left0">State </span><span class="col-xs-7 col-sm-7">:
-                              <span class="ShipU_STATE">...</span></span>
-                              </div>
-                              <div class="col-xs-6 col-sm-6">
-                            <span class="col-xs-5 col-sm-5 pedig-left0">State Code </span><span class="col-xs-7 col-sm-7">:
-                              <span class="ShipState">...</span></span>
-                              </div>
-                        <!-- <br>
-                        <div class="col-xs-6 col-sm-6">
-                          <span class="col-xs-5 col-sm-5 pedig-left0">GST No. </span><span class="col-xs-7 col-sm-7">:
-                            <span>06ALHPB5450ZI</span></span>
-                            </div>
-                            <div class="col-xs-6 col-sm-6">
-                          <span class="col-xs-5 col-sm-5 pedig-left0">PAN No. </span><span class="col-xs-7 col-sm-7">:
-                            <span>6</span></span>
-                            </div>
-                      </div> -->
-                    </td>
+                  <span>Subject:</span>
+                  <span class="font-w800">
+                    Techno Commercial offer for Supply, Erection, Installation, Testing and Commissioning of  <span class="TypeOfLift"></span> at your site for your prestigious project.
+                  </span>
+                  <br>
+                  <br>
 
 
-                  </tr>
+                  <!-- </tr> -->
 
-                  <tr style="background-color: #c5c5c5;
-                                color: #181818;">
+                  <p><strong>Dear Sir,</strong></p>
+                  <br>
+                  <br>
 
-                    <th class="text-left pding3" style="width: 20px;">S.No</th>
-                    <th class="text-left pding3" style="width: 220px;">Product Description</th>
-                    <th class="text-left pding3" id="hsnheadin">HSN</th>
-                    <!-- <th class="text-left pding3">Brand</th> -->
-                    <!-- <th class="text-left pding3">Pack Size</th> -->
-                    <th class="text-left pding3">GST (%)</th>
+                  <p>
+                    We thank you for providing us an opportunity to submit a proposal for supply, installation, testing
+                    &
+                    commissioning of a <span class="TypeOfLift" style="font-weight: bold;"></span>. We would like to
+                    introduce
+                    our company and offer a brief of our International Alliances, Product and Services.
+                  </p>
 
-                    <th class="text-left pding3">Qty</th>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
 
-                    <!-- <th class="text-left pding3">MRP</th> -->
-                    <th class="text-left pding3">Price <span class="curretype">[INR]</span></th>
+                  <span class="font-w800" style="margin-top: 30px;">Our Company</span>
+                  <p>
+                    Easa Elevators has achieved market leadership in providing Customized Elevator Systems with
+                    Exclusive Designs,
+                    Features, Interiors and Installations in Civil Structures as well as Steel Structures cladded with
+                    glass,
+                    ACP wire mesh or various spectrums of other materials.
+                  </p>
+                  <p>
+                    Easa’s product range comprises of Elevators for High Speed Vertical Transportation for Passengers,
+                    Freight,
+                    Automobiles and Accessibility Home Elevators & Stair Lifts. The product portfolio includes Elevators
+                    for Low to
+                    midrise building and High-rise buildings with both options of Geared & Gearless Machines.
+                  </p>
+                  <br>
+                  <br>
+                  <span class="font-w800" style="margin-top: 30px;">Infrastructure</span>
+                  <p>
+                    EASA has a fully equipped modern facility for manufacturing located at RIICO Industrial Area at
+                    Khushkhera
+                    (Near Bhiwadi). The production machinery in the factory includes state of art CNC Trumpf German
+                    punching and
+                    formation machine, CNC Shearing and CNC Press brakes.
+                  </p>
+                  <p>
+                    Easa is the first company in India to have two experience centers, one in Gurgaon and one in Mohali
+                    and
+                    branch offices in Delhi, Haridwar and Ahmedabad.
+                  </p>
+                  <br>
+                  <br>
+                  <span class="font-w800" style="margin-top: 30px;">Maintenance</span>
+                  <p>
+                    We have qualified and trained maintenance teams to provide you efficient services.
+                    Our services are very competitive and cost effective which adds up to Real Savings!!!
+                  </p>
+                  <p>
+                    We once again thank you for the interest shown by you in our company. Please find the enclosed offer
+                    for the Elevator for your project.
+                  </p>
+                  <p>
+                    For more technical information and cabin designs on the product please find the attached catalog or
+                    visit our web site
+                    <a href="https://easaelevators.in/" target="_blank"
+                      style="color: blue;text-decoration: underline;">www.easaelevators.in</a>
+                  </p>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <p>
+                    Yours Sincerely,
+                  </p>
+                  <p>
+                    For EASA Elevators Private Limited.
+                  </p>
+                  <br>
+                  <br>
+                  <div>
+                    <p class="mb-0 SalesEmployeeName">
+                      
+                    </p>
+                    <p class="mb-0">
+                      Assistant Manager- Sales
+                    </p>
+                    <p class="mb-0">
+                      8750068789
+                    </p>
 
-                    <th class="text-left pding3">Disc(%)</th>
-                    <th class="text-left pding3">Taxable Value</th>
 
 
-                  </tr>
+                  </div>
+                  <br>
+                  <br>
+                  <h4 class="text-underline font-w800">IMPORTANT NOTE:</h4>
+                  <br>
+                  <br>
 
+
+                  <p>
+                    We believe that the EASA Elevator adds value to your establishment and should be very Reliable,
+                    Safe and Aesthetically Good & Appealing. EASA® manufactures, Installs and maintains High End
+                    Elevators for
+                    Vertical transportation suitable & safe for all types of buildings.
+                  </p>
 
                   <tbody id="data">
 
@@ -841,31 +910,25 @@
 
                   <tr>
                     <td class="text-left f-w-800" colspan="11">
-                      <span style="font-weight: 800;  font-size: 13px;">Remarks : </span>
-                      <sapn style=" font-size: 13px;" class="Comments">...</sapn>
+                      <!-- <span style="font-weight: 800;  font-size: 13px;">Remarks : </span>
+                      <sapn style=" font-size: 13px;" class="Comments">...</sapn> -->
                     </td>
                   </tr>
- <tr>
-                    <th colspan="4">
+                  <tr>
+                    <!-- <th colspan="4">
                       <span style="font-weight: 800;  font-size: 13px;">Amount In Words : </span>
                       <sapn style="font-size: 13px;text-transform: capitalize;">India Rupee <span
                         class="amount_in_words"></span>.</sapn>
                       <br><br>
-                      <!-- <span class="col-xs-3 col-sm-3 pedig-left0">IRN No: </span><span class="col-xs-9 col-sm-9">:
-                        <span>9215598806</span></span><br><br>
-                      <span class="col-xs-2 col-sm-2 pedig-left0">ACK No. </span><span class="col-xs-4 col-sm-4">:
-                        <span>Haryana</span></span>
-                      <span class="col-xs-2 col-sm-2 pedig-left0">ACK Date: </span><span class="col-xs-4 col-sm-4">:
-                        <span>6</span></span>
-                      <br> -->
-                    </th>
+                
+                    </th> -->
                     <td colspan="7" rowspan="1">
 
                       <div style="
                       line-height: 25px;
                   ">
 
-                        <span class="col-xs-9 col-sm-9 pedig-left0"> Total Before Discount</span> <span
+                        <!-- <span class="col-xs-9 col-sm-9 pedig-left0"> Total Before Discount</span> <span
                           class="col-xs-3 col-sm-3 text-right pedig-right0 total_after">...</span>
                         <span class="col-xs-9 col-sm-9 pedig-left0"> Discount</span> <span
                           class="col-xs-3 col-sm-3 text-right pedig-right0 DiscountPercent"> ...</span>
@@ -876,7 +939,7 @@
                           <span class="col-xs-9 col-sm-9 pedig-left0"> Freight Charges</span> <span
                           class="col-xs-3 col-sm-3 text-right pedig-right0 Freight">...</span>
                         <span class="col-xs-9 col-sm-9 pedig-left0"> Grand Total</span> <span
-                          class="col-xs-3 col-sm-3 text-right pedig-right0 total_Amount"> ...</span>
+                          class="col-xs-3 col-sm-3 text-right pedig-right0 total_Amount"> ...</span> -->
                       </div>
 
                     </td>
@@ -889,23 +952,23 @@
                   <tr>
                     <td colspan="11">
                       <div class="col-xs-7 col-sm-7 pedig-left0" style="margin-top: 20px;visibility: hidden;">
-                        <span>Our Bank Details :</span><br>
+                        <!-- <span>Our Bank Details :</span><br>
                         <span>Payee Name: Esskay Beauty Resources Private Limited</span><br>
                         <span>Bank Name: HDFC BANK</span><br>
                         <span>Bank Branch: Udyog Vihar Ph.V, Gurugram</span><br>
                         <span>Account No. : 50200009940265</span><br>
-                        <span>IFSC Code : HDFC0000485</span><br>
+                        <span>IFSC Code : HDFC0000485</span><br> -->
                       </div>
                       <div class="col-xs-5 col-sm-5 pedig-left0" style="text-align: right;">
-                        <p colspan="7" id="ComName" style="
+                        <!-- <p colspan="7" id="ComName" style="
                                 text-align: right;font-weight:800;
                             "><b>For ...</b></p>
-                        <p style="padding-top: 75px;">Authorized Signature</p>
+                        <p style="padding-top: 75px;">Authorized Signature</p> -->
                       </div>
                     </td>
                   </tr>
                   <tr>
-                    <td colspan="11">
+                    <!-- <td colspan="11">
                       <p class="specification newp"> <span style="font-weight:bold"> Note :-
                           :</span>
                       <p class="newp">1. In case of any loss, due to Damage/Shortage of material found , kindly report
@@ -917,9 +980,910 @@
                       </p>
                       <p class="newp"> 5. Subject to Delhi Jurisdiction.</p>
 
+                    </td> -->
+                  </tr>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+
+                </table>
+                <div style="page-break-before: always;"></div>
+                <table class="table table-invoice" id="api1" style="width:1100px">
+                  <tr>
+                    <td colspan="11" style="border: none;">
+                      <div class="col-xs-2 col-md-2" style="float: right;">
+                        <img src="../../assets/img/newBridgelogo.png" style=" width:150px;" alt="Bridge Logo">
+                      </div>
+                      <br>
+
+                    </td>
+                  </tr>
+
+                  <table border="1" cellspacing="0" cellpadding="8"
+                    style="width: 100%; margin: 0 auto; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 14px; text-align: center;">
+                    <h4 style="font-weight: bold;
+                   
+                    align-items: center;
+                    text-align: center;
+                    padding: 20px;
+                    font-size: 20px;" class="text-deco-double">CONTENTS</h4>
+                    <thead>
+                      <tr style="font-weight: bold;text-align: center;" class="text-deco-double">
+                        <th>SL. NO</th>
+                        <th>DESCRIPTION</th>
+                        <th>SECTION</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="p-20">1</td>
+                        <td class="p-20" style="text-align: left;">TECHNICAL DATA SHEET</td>
+                        <td class="p-20">I</td>
+                      </tr>
+                      <tr>
+                        <td class="p-20">2</td>
+                        <td class="p-20" style="text-align: left;">DELIVERY SCHEDULE &amp; WARRANTY</td>
+                        <td class="p-20">II</td>
+                      </tr>
+                      <tr>
+                        <td class="p-20">3</td>
+                        <td class="p-20" style="text-align: left;">OUR OBLIGATIONS</td>
+                        <td class="p-20"> III</td>
+                      </tr>
+                      <tr>
+                        <td class="p-20">4</td>
+                        <td class="p-20" style="text-align: left;">CUSTOMER SCOPE OF WORK</td>
+                        <td class="p-20">IV</td>
+                      </tr>
+                      <tr>
+                        <td class="p-20">5</td>
+                        <td class="p-20" style="text-align: left;">PRICE SCHEDULE</td>
+                        <td class="p-20">V</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+
+
+
+
+                </table>
+                <div style="page-break-before: always;"></div>
+                <table style="width: 866px;">
+
+                  <tr>
+                    <td colspan="11" style="border: none;">
+                      <div class="col-xs-2 col-md-2" style="float: right;">
+                        <img src="../../assets/img/newBridgelogo.png" style=" width:150px;" alt="Bridge Logo">
+                      </div>
+                      <br>
+
                     </td>
                   </tr>
                 </table>
+                <table border="1" cellspacing="0" cellpadding="6"
+                  style="width: 100%; margin: 20px auto; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 14px;">
+
+
+                  <h5 style="font-weight: bold;
+                   
+                  align-items: center;
+                  text-align: center;
+                  padding: 8px;
+                  font-size: 20px;" class="text-deco-double">Section I</h5>
+
+                  <h5 style="font-weight: bold;
+                   
+                  align-items: center;
+                  text-align: center;
+                  padding: 5px;
+                  font-size: 17px;" class="text-deco-double">TECHNICAL DATA SHEET</h5>
+
+                  
+                  <tr>
+                    <th rowspan="2">
+
+                    </th>
+                    <th colspan="4" style="background-color: #e1e1e1; color: black; text-align: center;">Group 001</th>
+                  </tr>
+                  <tr>
+                    <th colspan="4" style="background-color: #e1e1e1; text-align: center;" class="TypeOfLift"> </th>
+                  </tr>
+
+                  <!-- A. Basic Product -->
+                  <tr style="background-color: #e6e6ff; font-weight: bold;">
+                    <td colspan="4" class="fontSize-20">A. Basic Product</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" class="tableDataTd">Type Of Lift</td>
+                    <td colspan="2" class="tableDataTd text-center TypeOfLift"  > </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" class="tableDataTd">Type of Installation</td>
+                    <td colspan="2" class="tableDataTd text-center TypeOfInstallation" > 
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" class="tableDataTd ">Machine</td>
+                    <td colspan="2" class="tableDataTd text-center Machine"> </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" class="tableDataTd">Version</td>
+                    <td colspan="2" class="tableDataTd text-center Version"> </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">Number of Elevators</td>
+                    <td colspan="2" style=" text-align: center;" class="text-center NoOfElevators"></td>
+                  </tr>
+
+                  <!-- B. Elevator Shaft -->
+                  <tr style="background-color: #e6e6ff; font-weight: bold;">
+                    <td colspan="4" class="fontSize-20">B. Elevator Shaft (Civil Requirement)</td>
+                  </tr>
+                  <tbody id="elevatorDetailsTableBody">
+                    <!-- Dynamic rows will come here -->
+                  </tbody>
+                  
+                  </tr>
+
+                  <!-- C. Elevator Steel Structure -->
+                  <tr style="background-color: #e6e6ff; font-weight: bold;">
+                    <td colspan="4" class="fontSize-20">C. Elevator Steel Structure</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" class="tableDataTd">Elevator Steel Structure</td>
+                    <td colspan="2" class="tableDataTd text-center">NA</td>
+                  </tr>
+
+                  <!-- D. Elevator Specifications -->
+                  <tr style="background-color: #e6e6ff; font-weight: bold;">
+                    <td colspan="4" class="fontSize-20">D. Elevator Specifications</td>
+                  </tr>
+                 <tbody id="elevatorSpecificationTableBody">
+
+                 </tbody>
+                  <!-- E. Cabin Design -->
+                  <tr style="background-color: #e6e6ff; font-weight: bold;">
+                    <td colspan="4" class="fontSize-20">E. Cabin Design</td>
+                  </tr>
+                  <tbody id="cabinDesigntablebody">
+
+                  </tbody>
+                  <!-- F. Doors -->
+                  <tr style="background-color: #e6e6ff; font-weight: bold;">
+                    <td colspan="4" class="fontSize-20">F. Doors</td>
+                  </tr>
+                  <tbody id="doorstablebody">
+
+                  </tbody>
+                  <!-- G. Optional Features.-->
+                  <tr style="background-color: #e6e6ff; font-weight: bold;">
+                    <td colspan="4" class="fontSize-20">G. Optional Features.</td>
+                  </tr>
+                  <tbody id="optionalFeaturestablebody">
+
+                  </tbody>
+                  H. Scope Of Work
+                  <tr style="background-color: #e6e6ff; font-weight: bold;">
+                    <td colspan="4" class="fontSize-20">H. Scope Of Work</td>
+                  </tr>
+                  <tbody id="scopeofWorktablebody">
+
+                  </tbody>
+                </table>
+                <div style="page-break-before: always;"></div>
+                <table style="width: 866px;">
+
+                  <tr>
+                    <td colspan="11" style="border: none;">
+                      <div class="col-xs-2 col-md-2" style="float: right;">
+                        <img src="../../assets/img/newBridgelogo.png" style=" width:150px;" alt="Bridge Logo">
+                      </div>
+                      <br>
+
+                    </td>
+                  </tr>
+                <table border="1" cellspacing="0" cellpadding="6"
+                  style="width: 100%; margin: 20px auto; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 14px;">
+
+
+                  <h5 style="font-weight: bold;
+                   
+                  align-items: center;
+                  text-align: center;
+                  padding: 8px;
+                  font-size: 20px;" class="text-deco-double">Section II</h5>
+
+                  <h5 style="font-weight: bold;
+                   
+                  align-items: center;
+                  text-align: center;
+                  padding: 5px;
+                  font-size: 17px;" class="text-deco-double">DELIVERY SCHEDULE & WARRANTY</h5>
+
+                  <tr>
+                    <td colspan="6">WARRANTY :</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6">The equipment offered is covered by our warranty for <strong class="Guarantee"></strong> from the date of intimation/completion of Installation
+
+                      and request for handover to client or <strong class="GuaranteeDateOfDispatch"></strong> from the date of intimation readiness of material at our works The
+                      
+                      Warranty includes replacement or repairs of all components, which are faulty, and does not cover defects arising out of
+                      
+                      vandalism, theft, rain, fire, rodents etc. The warranty shall be void in case of tampering or maintained or serviced by a
+                      
+                      technician not authorized by EASA.</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="6"  > FREE MAINTENANCE PERIOD:</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" >The free maintenance is for a period of <strong class="FreeMaintenancePeriodDate"></strong> from the date of installation and as intimated to you on completion of
+
+                      installation, or <strong class="FreeMaintenancePeriod"></strong> from the date of intimation readiness of material at our works. The date of free maintenance
+                      
+                      shall remain unchanged irrespective of any delay in building completion, inspection or commencing the use of elevator.
+                      
+                      Maintenance will consist of regular examination and any necessary calibration/adjustments and lubrications of the
+                      
+                      equipment by our maintenance team or representatives. All the parts required because of normal wear and tear will be
+                      
+                      provided except such parts as may be needed because of negligence, misuse, accidents, willful damage, mishandling,
+                      
+                      theft, vandalism or sabotage.
+                      
+                      The maintenance shall be carried on normal working days and working hours between 9 am and 6.30 pm and our team
+                      
+                      shall have free access to the building and the elevator.</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="6"  style="font-weight: bold;"> DELIVERY OF LIFT MATERIAL</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6"  >We would be in a position to Fabricate all components for this lift within <strong>4 - 6 Weeks </strong>(Field addition) only if the following is
+
+                      completed.
+                      
+                      1. Approval of general Arrangement drawings (GAD) by the Customer is done.
+                      
+                      2. Completion of shaft, machine room, plastering of the lift well walls (If enclosure walls are in brick) with white wash is
+                      
+                      done.
+                      
+                      3. Fulfillment of Payments as per schedule and Availability of Form A form Client.
+                      
+                      In case the above conditions are not met, we reserve the right to defer the date of dispatch.</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="font-weight: bold;" >INSTALLATION</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6"  > We have included in the Quotation the price of Erection of all the lift components and all skilled and unskilled
+
+                      labor necessary to complete the erection, wiring and testing of the lift. Installation of the lift shall be
+                      
+                      completed within <strong>6-7 weeks </strong> from the date of installation provided the site is ready as per customer scope of
+                      
+                      work in schedule-IV.</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="font-weight: bold;" >HANDING OVER</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6"  > To avoid any inconvenience, you agree to take over the lift as soon as the erection is done. Our erection team will test and
+
+                      commission the lift and will give you a week’s prior notice for taking over the lift. Please note the commissioning team has
+                      
+                      the instructions not to allow customers to use the Elevator unless officially handed over with all documentation.</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="font-weight: bold;" > FORCE MAJEURE AND OTHER CONDITIONS</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6"  > EASA will not be liable for direct, indirect or consequential losses or damages that may be caused to client/ consignee due
+
+                      to delay in delivery/ erection/maintenance of the Elevator or on account/event of power outage, strikes, lockouts, fire,
+                      
+                      explosion, theft, floods, riots, commotion, war or act of God and other force majeure conditions.</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="font-weight: bold;" > DEMURRAGE CHARGES</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6"  >In case the material is manufactures at our works on the date agreed with customer & the same has not been dispatched
+
+                      to the site due to non-receipt of payment, non-readiness of site, non-availability of proper storage space or any other
+                      
+                      reason, which is attributed to customer, the demurrage charges @ 0.5 % of contract value shall become applicable from
+                      
+                      the date of intimation of material being ready at our works.</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="font-weight: bold;" > CANCELLATION OF CONTRACT</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6"  >In the event of cancellation of contract, we shall be charging you as follow.
+
+                      10% of the contract value with GST if the order is cancelled before the GA drawing is prepared.
+                      
+                      25% of the contact value with GST if the order is cancelled within a month after the GA drawing is approved.
+                      
+                      40% of the contract value with GST if the order is cancelled after 2 months of the approval of the GA drawings.
+                      
+                      90% of the contract value with all applicable GST if the order is cancelled after the material has been delivered at your site.
+                      
+                      100% of the contract value with all applicable GST if the installation has begun at site.</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="font-weight: bold;" >TERMINATION</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6"  >In case the supply of lift materials is not completed WITHIN 6 months from the date of conclusion of the contract due to
+
+                      default or delay on compliance of any terms of the contract by customer, company shall be at liberty at any time thereafter
+                      
+                      to offer a revised time schedule for execution of the contact against revised price and payment terms.
+                      
+                      In case customer do- not accept the revised offer made in accordance with clause (a) within 4 weeks of such revised offer,
+                      
+                      company shall be at liberty to treat the contact as cancelled by customer and proceed in accordance with the above
+                      
+                      cancellation of contact.</td>
+
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="font-weight: bold;" >TITLE TO PROPERTY (OWNERSHIP OF MATERIAL)</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6"  > Any material supplied by us shall remain our property until payment is received in full and the lift is handed
+
+                      over. We reserve the right to remove any equipment supplied by us at your cost in case of default of any
+                      
+                      payment by you, irrespective of the manner of attachments of the reality, sale, mortgage or lease of the
+                      
+                      premises. Owner should take care of adequate insurance coverage against any damage, pilferage or theft at
+                      
+                      site, for the materials unloaded at owner’s site and kept in the designated storage area allocated by owner,
+                      
+                      as all such storage and safeguarding risk shall be to the owner’s account.</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="font-weight: bold;" > RIGHT TO USE</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6"  > You are not entitled to use the equipment under the following circumstances
+
+                      1. Any usage of the equipment for any purpose before the formal handover to you.
+                      
+                      2. Without making full and final payment.</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="font-weight: bold;" > DELAYED PAYMENTS</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6"  >Interest at the rate of 18%perannum shall be payable to us on all amount remaining unpaid amount after 15
+
+                      days from the due date. We reserve the right to discontinue our work at any time until the overdue payments
+                      
+                      with interest are released.</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="font-weight: bold;" > SURPLUS MATERIAL</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6"  > All surplus material, consumable goods packing cases, tools and tackles wiring material etc. employed
+
+                      during execution of the contract shall remain our property and we have right to take such materials supplied
+                      
+                      back into our possessions.</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="font-weight: bold;" > RECONDITIONING & REMOBILIZATION CHARGES</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6"  > In case the installation work is stopped for more than 6 weeks, due to site condition or non-availability of
+
+                      power supply, remobilization charges of 5%of the total contract value would be charged additional over the
+                      
+                      contract value, whenever we are asked tore start the work. This would need to be paid before the start of the
+                      
+                      work again. You would have to give us 2-3 weeks of time to re mobilize. In case of material is not in
+                      
+                      workable condition, pilferage or any kind of damage, the conditioning or replacement cost would be to your
+                      
+                      account.</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="font-weight: bold;" > ARBITRATION OR LEGAL JURISDICTION</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6"  >In the event of any question, dispute or difference, whatsoever, arising between EASA and the customer in
+
+                      relation to or in connection with the contract, only courts in Delhi or Gurgaon would have jurisdiction to try
+                      
+                      and determine the suit and the parties hereto submit themselves to the exclusive jurisdiction of the courts in
+                      
+                      Delhi or Gurgaon. Under no circumstances, the liability of the company on any account will exceed the
+                      
+                      contract value (net of taxes) or the amount paid by the customer or the unexecuted portion of the contract
+                      
+                      whichever is lower.</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="font-weight: bold;" >CLAIMS</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6"  >In the case of more than one elevators are to be sold/ installed in one complex of the customer or at more
+
+                      than one projects, each elevator shall be treated as a separate unit for delivery, installation, handling over
+                      
+                      and payment as per the terms of contract.</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="font-weight: bold;" > CLAIMS AND LIABILITY ON INPUT TAX CREDIT</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6"  >Providing correct registration number is on you and we will not be responsible for verification of GSTIN
+
+                      provided to us, if you fails to furnish GST registration number, then we considered and unregistered and
+                      
+                      returns filled accordingly. Any loss of credit arising on account of providing incomplete, erroneous or wrong
+                      
+                      details to us and same captured on the invoice and/or upload made to GSTN</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" style="font-weight: bold;" > INTELLECTUAL PROPERTY RIGHTS</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6"  >All intellectual property rights in the equipment’s including the control software which enables routine
+
+                      operation, maintenance and repair of the equipment ("Control Software") remain the property of EASA
+                      
+                      Elevators Pvt. Ltd. The Customer is entitled to a non-exclusive right to use the Control Software and to
+                      
+                      operate the Equipment only for its own purpose</td>
+                  </tr>
+                  </table>
+                  <div style="page-break-before: always;"></div>
+                  <table style="width: 866px;">
+  
+                    <tr>
+                      <td colspan="11" style="border: none;">
+                        <div class="col-xs-2 col-md-2" style="float: right;">
+                          <img src="../../assets/img/newBridgelogo.png" style=" width:150px;" alt="Bridge Logo">
+                        </div>
+                        <br>
+  
+                      </td>
+                    </tr>
+                  <table border="1" cellspacing="0" cellpadding="6"
+                    style="width: 100%; margin: 20px auto; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 14px;">
+  
+  
+                    <h5 style="font-weight: bold;
+                     
+                    align-items: center;
+                    text-align: center;
+                    padding: 8px;
+                    font-size: 20px;" class="text-deco-double">Section III</h5>
+  
+                    <h5 style="font-weight: bold;
+                     
+                    align-items: center;
+                    text-align: center;
+                    padding: 5px;
+                    font-size: 17px;" class="text-deco-double">OUR OBLIGATIONS</h5>
+                    <h5>In addition to the supply of all the Lift materials as per specifications, we agree to perform the following when applicable.</h5>
+
+                    
+                    <tr>
+                      <td colspan="6" style="font-weight: bold;" > TECHNICAL ASSISTANCEL</td>
+                    </tr>
+                    <tr>
+                      <td colspan="6"  >All statutory permissions for starting / executing, completing and handing over the works from various
+
+                        authorities will be obtained by you. We agree to provide technical assistance for getting approval with the
+                        
+                        Electrical Inspector or Lift Inspector whenever applicable. This includes for all electrical layout drawings
+                        
+                        concerned with the Lifts and also General Arrangement Drawings. However, the application and fees for
+                        
+                        inspection or approval and out of pocket expenses will have to be by you. We will provide suitable guidance.
+                        
+                        The purchaser further agrees not to use the product (s) until the clearance/license is obtained. Any liability
+                        
+                        arising out of using the Elevator without Proper clearance/License shall be that of the purchaser.</td>
+                    </tr>
+                    <tr>
+                      <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="6" style="font-weight: bold;" > GENERAL ARRANGEMENT DRAWINGS</td>
+                    </tr>
+                    <tr>
+                      <td colspan="6"  >The General Arrangement Drawing will be sent to you in triplicate in approximately 7-10 Days from the date
+
+                        of receiving complete site details along with order and advances. The purpose of this drawing is to clearly
+                        
+                        indicate to you pertinent dimensional details of the Lift Shaft, Pit, machine room, car and landing opening
+                        
+                        etc., In case any modification is required by you in our General Arrangement Drawing it is advisable to hold
+                        
+                        on construction till the revised General Arrangement Drawing is resubmitted by us and approved by you.
+                        
+                        Please note that the above set of drawings will give you complete information for the civil constructions.<br><br>
+                        => We agree to provide necessary labor for erection and commissioning of the lift.
+                         </td>
+                    </tr>
+
+                   </table>  
+                   <div style="page-break-before: always;"></div>
+                   <table style="width: 866px;">
+   
+                     <tr>
+                       <td colspan="11" style="border: none;">
+                         <div class="col-xs-2 col-md-2" style="float: right;">
+                           <img src="../../assets/img/newBridgelogo.png" style=" width:150px;" alt="Bridge Logo">
+                         </div>
+                         <br>
+   
+                       </td>
+                     </tr>
+                   <table border="1" cellspacing="0" cellpadding="6"
+                     style="width: 100%; margin: 20px auto; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 14px;">
+   
+   
+                     <h5 style="font-weight: bold;
+                      
+                     align-items: center;
+                     text-align: center;
+                     padding: 8px;
+                     font-size: 20px;" class="text-deco-double">Section IV</h5>
+   
+                     <h5 style="font-weight: bold;
+                      
+                     align-items: center;
+                     text-align: center;
+                     padding: 5px;
+                     font-size: 17px;" class="text-deco-double">CUSTOMER SCOPE OF WORK</h5>
+                     <h5>The tender excludes, the following items and it shall be responsibility of customers to provide these to meet our requirements.</h5>
+                     
+                    <tr>
+                      <td colspan="6" style="font-weight: bold;" > CUSTOMER SCOPE OF WORK</td>
+                    </tr>
+                    <tr>
+                      <tr>
+                        <td colspan="1">1</td>
+                        <td colspan="5">Storing of material at site 30-55 Sq. Meters (space at ground floor), with dry, Ventilated and illuminated storage space protected from theft and damage, weather protection and locking arrangement within 10-meter radius before material delivery at site. This room will remain in possession of installation engineer till erection is completed and handed over.</td>
+                       </tr>
+                       <tr>
+                        <td colspan="1">2</td>
+                        <td colspan="5">Construction of lift shaft and overhead as per general Arrangement drawing, Builders work such as forming Lift Well, pit and overhead as per IS norms 9” brick or 6” RCC which shall be dry and free from dust with necessary access according to local regulations and all minor builders work such as cutting away etc., and also Lift Shaft painting/White wash with 2 coats.<br>
+                          NOTE: For a Machine Room Type Elevator, the Machine Room shall have proper access (Stair case – Steel / Brick) from the roof/Top floor.
+                          <br> Load hooks or I beam for lifting the machine designed for 2000 kg load.</td>
+                       </tr>
+                       <tr>
+                        <td colspan="1">3</td>
+                        <td colspan="5">Dividing beams for multiple wells and inter-well pit screens shall be provided if required. Pit should be waterproofed.</td>
+                       </tr>
+                       <tr>
+                        <td colspan="1">4</td>
+                        <td colspan="5">Entrance shall be rough finished as per drawings and Guarding on the openings on all floor.</td>
+
+                       </tr>
+                       <tr>
+                        <td colspan="1">5</td>
+                        <td colspan="5">Lift Scaffolding, Planks and ladders to fix in the shaft as per our requirements by the client.</td>
+                       </tr>
+                       <tr>
+                        <td colspan="1">6</td>
+                        <td colspan="5">Fees for inspection of the Lift by the lift Inspector or Electrical inspector or any other fees Charge by the surveyor or Corporation or Municipality or other Government agencies to be borne by client.</td>
+                       </tr>
+
+                    </tr>
+                    <tr>
+                      <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="6" style="font-weight: bold;" > ELECTRICALS</td>
+                    </tr>
+                    <tr>
+                      <tr>
+                        <td colspan="1">1</td>
+                        <td colspan="5">Working lights for shaft and temporary and permanent electricity supplies. Cost of electricity and water to be provided by the client to carry out the erection and testing work.</td>
+                       </tr>
+                       <tr>
+                        <td colspan="1">2</td>
+                        <td colspan="5">Wiring of main and earth wires from the source of supply to the top floor terminating in a TPIC switch fuse near the control.</td>
+                       </tr>
+                       <tr>
+                        <td colspan="1">3</td>
+                        <td colspan="5">Provide proper and safe power supply for MRL on the lift top floor and for Machine Room type Elevator in the Machine Room during the installation and permanent operation of elevators. Electric power of 415V 50Hz 3 Phase terminating in suitable main switches for power and lighting circuits with necessary breakers accessories like MCB’s (rating as mentioned in our General arrangement drawing), suitable earthling leads and other protective device necessary to meet legal code requirements.</td>
+                       </tr>
+                       <tr>
+                        <td colspan="1">4</td>
+                        <td colspan="5">Suitable lightings of the shaft way and overhead exhaust fan, rubber mat, fire extinguisher and First Aid box to be provided. For Machine Room Type Lift, the Machine Room Shall be adequately lit with Fan and Exhaust.</td>
+                       </tr>
+                       <tr>
+                        <td colspan="1">5</td>
+                        <td colspan="5">The lift power wiring (Main Cable) should be taken from outside lift shaft. The single-phase wiring for lift bulk head fitting also to be taken from ground floor to lift the top floor separately for each lift.</td>
+                       </tr>
+                    </tr>
+                    <tr>
+                      <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="6" style="font-weight: bold;" > DURING ERECTION &COMMISSIONING</td>
+                    </tr>
+                    <tr>
+                      <tr>
+                        <td colspan="1">1</td>
+                        <td colspan="5">Minor Builder Works such as Hole cutting and grouting of landing push button boxes, indicator. Grouting of control board, etc</td>
+                       </tr>
+                       <tr>
+                        <td colspan="1">2</td>
+                        <td colspan="5">Cleaning down, renewal or replacement of lift equipment damaged by dust to dry grinding of mosaic or other builders work.</td>
+                       </tr>
+                       <tr>
+                        <td colspan="1">3</td>
+                        <td colspan="5">Sill support & Header support channel/ bracket to provide if the wall thickness is not as required.</td>
+                       </tr>
+                       <tr>
+                        <td colspan="1">4</td>
+                        <td colspan="5">Facials & Architraves fixing and decoration of the landing entrance. (Work will stop during this time).</td>
+                       </tr>
+                       <tr>
+                        <td colspan="1">5</td>
+                        <td colspan="5">If specifications like telephone, piped music, BMS Contracts, are being supplied in the elevators, then we will terminate the wirings for the same in the respective lift top floor, all subsequent work/wiring and including supply and installation of telephones speakers etc. will have to be carried out by other contractors.</td>
+                       </tr>
+                    </tr>
+                     </table>
+                     <div style="page-break-before: always;"></div>
+                     <table style="width: 866px;">
+     
+                       <tr>
+                         <td colspan="11" style="border: none;">
+                           <div class="col-xs-2 col-md-2" style="float: right;">
+                             <img src="../../assets/img/newBridgelogo.png" style=" width:150px;" alt="Bridge Logo">
+                           </div>
+                           <br>
+     
+                         </td>
+                       </tr>
+                     <table border="1" cellspacing="0" cellpadding="6"
+                       style="width: 100%; margin: 20px auto; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 14px;">
+     
+     
+                       <h5 style="font-weight: bold;
+                        
+                       align-items: center;
+                       text-align: center;
+                       padding: 8px;
+                       font-size: 20px;" class="text-deco-double">Section V</h5>
+     
+                       <h5 style="font-weight: bold;
+                        
+                       align-items: center;
+                       text-align: center;
+                       padding: 5px;
+                       font-size: 17px;" class="text-deco-double">PRICE SCHEDULE& FINANCIAL JUSTIFICATION</h5>
+                       <h5>The proposal is for Composite Supply, Erection, Installation, Testing and Commissioning of EASA Elevator at site as per the offer & conditions. The prices are in INR.</h5>
+                       <tr >
+                        <tr>
+                          <td>Sr.No</td>
+                          <td>Lift Description</td>
+                          <td>No. Of Units</td>
+                          <td>Basic Cost Per Unit</td>
+                          <td>Total Amount INR</td>
+                        </tr>
+                        <tr>
+                          <td>1</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td>TOTAL</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                       </tr>
+                       <tr>
+                        <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                      </tr>
+                       <tr>
+                        <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;border-top: 1px solid white;"></td>
+                      </tr>
+                      <tr>
+                         <tr>
+                          <td colspan="1">1</td>
+                          <td colspan="1">Product Class</td>
+                          <td colspan="4">As per technical data section 1</td>
+                         </tr>
+                         <tr>
+                          <td colspan="1">2</td>
+                          <td colspan="1">Elevator Illustration</td>
+                          <td colspan="4">As per technical data section 1</td>
+                         </tr>
+                         <tr>
+                          <td colspan="1">3</td>
+                          <td colspan="1">Car model</td>
+                          <td colspan="4">As per technical data section 1</td>
+                         </tr>
+                         <tr>
+                          <td colspan="1">4</td>
+                          <td colspan="1">Tax Rate</td>
+                          <td colspan="4">GST 18%</td>
+                         </tr>
+                         <tr>
+                          <td colspan="1">5</td>
+                          <td colspan="1">Validity</td>
+                          <td colspan="4">Our quotation is valid for (15) days from the date of offer</td>
+                         </tr>
+                      </tr>
+                      <tr>
+                        <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                      </tr>
+                      <tr>
+                        <td colspan="6" style="font-weight: bold;" > TAX DETAILS</td>
+                      </tr>
+                      <tr>
+                        <td colspan="6"><strong>The transaction for this contract shall be treated as “Works Contract” under HSN Code 9954 AND charged GST 18% for composite supply in relation to immovable property - Supply, Installation and testing and commissioning of Elevator at your site.</strong>
+                          <br>
+                          Any increase in the prevailing tax structure or any indirect tax as may be applicable revised, renamed,
+                          reviewed, modified in any manner (such as CGST, SGST, IGST, UTGST, Duties or Octroi, Cess etc) will be
+                        charged and recovered over and above the contract price. Any variation in the present and future taxation
+                        structure including and but not limited to and/or levy of additional taxes by the Central/State and Local
+                        Authorities or Municipal levy, as applicable to buyer will be exclusively borne by you.
+                        <br><br>
+                         <strong>Note:</strong> In case you claim any concessional or exemption on taxes under any law, you shall solely be liable for
+
+                        ensuring the compliances and shall indemnify EASA against all cost, expenses and liabilities arising out of
+                        such transactions.
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                      </tr>
+                      <tr>
+                        <td colspan="6" style="font-weight: bold;" > PAYMENT TERMS</td>
+                      </tr>
+                      <tr>
+                        <tr>
+                          <td colspan="1" style="border-right: 1px solid white;border-bottom: 1px solid white;"></td>
+                          <td colspan="5" style="border-bottom: 1px solid white;">
+                            <strong>• </strong>  40% On receipt of Order
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="1" style="border-right: 1px solid white;border-bottom: 1px solid white;"></td>
+                        <td colspan="5" style="border-bottom: 1px solid white;">
+                         <strong>• </strong> 50% Before release to production
+                        </td></tr>
+                      <tr>
+                        <td colspan="1" style="border-right: 1px solid white;"></td>
+                        <td colspan="5">
+                          <strong>• </strong>  10% On handover
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="6" style="border-top: 1px solid white;"> <strong>Note: </strong> In the event of any delay in building construction, non-availability of power or for any reason beyond Easa’s control final payment shall be released within 90 days of material supply.</td>
+                      </tr>
+                      </tr>
+                      <tr>
+                        <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                      </tr>
+                      <tr>
+                        <td colspan="6" style="border: 1px solid white;  ">
+                          <div style="display: flex; flex-direction: column;padding: 0px 40px;width: 830px;">
+                            <div><strong>Note: </strong> Payments are accepted strictly & exclusively via Bank Transfer, Cheque, or Demand Draft, made payable to “EASA Elevators Pvt Ltd.”</div>
+                            <div style="width: 530px;margin-left: 200px;">The bank details are provided below:<br><br> Beneficiary; Easa Elevators Pvt. Ltd. 
+                              <br>
+                              Bank Name - kotak Mahindra Bank<br>
+                              Account No -0511726246 IFSC -KKBK0000298  <br>Branch - Sohna Road, Badshahpur, Gurgaon</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="6" style="height: 20px;border: 1px solid white;border-right: 1px solid white;"></td>
+                      </tr>
+                      <tr>
+                        <td colspan="6" style="height: 20px;border-left: 1px solid white;border-right: 1px solid white;"></td>
+                      </tr>
+                      <tr>
+                        <td colspan="6" class="font-w800">CONTRACT</td>
+                      </tr>
+                      <tr>
+                        <td colspan="6">
+                          <div style="margin-bottom: 30px;">
+                            <div><span style="text-decoration: underline solid #525252;">Quotation No: INQ009900/1</span></div>
+                            <div style="text-align: right; margin-bottom: 20px; ">date</div>
+                            <div>The terms & conditions as specified in this offer shall on acceptance by both parties, constitute a legal binding agreement between, EASA Elevators Pvt. Ltd. and Dharamveer Singh hospital</div>
+                          </div>
+                          <div style="display: flex; justify-content: space-between;">
+                            <div>
+                              <div style="margin-bottom: 30px;">For and on behalf of the Purchaser / Client</div>
+                              <div>Signature / Name :</div>
+                              <div>Date :</div>
+                            </div>
+                           
+                           
+                            <div style="width: 50%;">
+                              <div style="margin-bottom: 30px;">For and on behalf of the Purchaser / Client</div>
+                              <div>Signature / Name :</div>
+                              <div>Date :</div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                       </table>
+                     
+   
+
+
 
               </div>
             </div>
@@ -931,292 +1895,511 @@
       </div>
       <script>
 
+let elevatorData;
+let elevatorSpecification;
+let  cabinDesign;
+let  doors;
+let  optionalFeatures;
+let  scopeofWork;
+        fetch('/assets/config.json')
+          .then(response => response.json())
+          .then(config => {
 
-fetch('/assets/config.json')
-      .then(response => response.json())
-      .then(config => {
+            var mainbkurl = config[0].Api;
 
-        var mainbkurl = config[0].Api;
-
-    function changedateformatt(nowdate) {
-            date = new Date(nowdate);
-            olddate = nowdate;
-            monthss = date.getMonth() + 1;
-            month = (monthss < 10 ? '0' : '') + monthss;
-            dayss = (date.getDate() < 10 ? '0' : '') + date.getDate();
-            date2 = dayss + "/" + month + "/" + date.getFullYear();
-            return date2
-          }
-               function replaceNone(val) {
-            var valData = ''
-            if (val == 'None') {
-              valData = '';
+            function changedateformatt(nowdate) {
+              date = new Date(nowdate);
+              olddate = nowdate;
+              monthss = date.getMonth() + 1;
+              month = (monthss < 10 ? '0' : '') + monthss;
+              dayss = (date.getDate() < 10 ? '0' : '') + date.getDate();
+              date2 = dayss + "/" + month + "/" + date.getFullYear();
+              return date2
             }
-            else {
-              valData = val + " ";
-            }
-            return valData
-          }
-
-          function replaceNoneWithComma(val) {
-            var valData = ''
-            if (val == 'None') {
-              valData = '';
-            }
-            else {
-              valData = val + " ";
-            }
-            return valData
-
-          }
-
-          function checkBillingCity(val, val2) {
-            var valData = ''
-            if (val != 'None') {
-              valData = val + " ";
-            }
-            else if (val2 != 'None') {
-              valData = val2 + " ";
-            }
-            else {
-              valData = '';
-            }
-
-            return valData
-          }
-        var text = "";
-        var text1 = "";
-        var str = window.location.href;
-        let url = new URL(str);
-      let search_params = url.searchParams;
-        var before_dis = 0
-
-        let currentId = search_params.get('id');
-      let access_token = search_params.get('token');
-
-      // login api
-
-      var settings22 = {
-          "url": mainbkurl+"/employee/get_user_info",
-          "method": "GET",
-          "timeout": 0,
-          "headers": {
-            "Content-Type": "application/json",
-          "Authorization": 'Token ' + access_token,
-          },
-          "data": JSON.stringify(),
-        };
-
-        $.ajax(settings22).done(function (response22) {
-
-if(response22.data[0].ProjectSetting[0].custom_field1 != null && response22.data[0].ProjectSetting[0].custom_field1 != ''){
-$('#PDFlogo').attr("src",mainbkurl+response22.data[0].ProjectSetting[0].custom_field1);
-}
-
-if(response22.data[0].ProjectSetting[0].custom_field2 != null && response22.data[0].ProjectSetting[0].custom_field2 != ''){
-  $("#ComName").html((response22.data[0].ProjectSetting[0].custom_field2));
-}
-
-if(response22.data[0].ProjectSetting[0].currency_type != null && response22.data[0].ProjectSetting[0].currency_type != ''){
-  $(".curretype").html("["+response22.data[0].ProjectSetting[0].currency_type+"]");
-}
-
-        })
-
-        // quot api
-
-        var settings = {
-          "url": mainbkurl+"/quotation/one",
-          "method": "POST",
-          "timeout": 0,
-          "headers": {
-            "Content-Type": "application/json",
-          "Authorization": 'Token ' + access_token,
-          },
-          "data": JSON.stringify({
-            "id": currentId
-          }),
-        };
-
-        $.ajax(settings).done(function (response) {
-
-          $(".CardName").html((response.data[0].CardName));
-          $(".OrderId").html((response.data[0].id));
-          $(".CreateDate").html((changedateformatt(response.data[0].CreateDate)));
-          $(".Comments").html((response.data[0].Comments || 'NA'));
-          $(".Freight").html(Number(response.data[0].FreightCharge || '0').toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }));
-
-          if(response.data[0].ContactPersonCodeDetails.length != 0){
-          $(".MobilePhone").html((response.data[0].ContactPersonCodeDetails[0].MobilePhone));
-          }
-          if(response.data[0].CompanyBranchDetails.length != 0){
-          $(".BPLName").html((response.data[0].CompanyBranchDetails[0].BPLName));
-          $(".FederalTaxID").html((response.data[0].CompanyBranchDetails[0].FederalTaxID));
-            $(".ourbranch").html(
-            replaceNoneWithComma(response.data[0].CompanyBranchDetails[0].Building) +
-            replaceNone(response.data[0].CompanyBranchDetails[0].City) +
-            checkBillingCity(response.data[0].CompanyBranchDetails[0].State) +
-            replaceNone(response.data[0].CompanyBranchDetails[0].Country) +
-            replaceNone(response.data[0].CompanyBranchDetails[0].ZipCode));
-
-          }
-
-          if(response.data[0].SalesPersonCodeDetails.length != 0){
-          $(".SalesEmployeeName").html((response.data[0].SalesPersonCodeDetails[0].SalesEmployeeName));
-          }
-          if(response.data[0].AddressExtension.length != 0){
-            $(".AddressName").html(replaceNone(response.data[0].AddressExtension.BillToBuilding))
-            $(".BillToStreet").html(
-            replaceNoneWithComma(response.data[0].AddressExtension.BillToStreet) +
-            replaceNone(response.data[0].AddressExtension.BillToCity) +
-            checkBillingCity(response.data[0].AddressExtension.U_BSTATE) +
-            replaceNone(response.data[0].AddressExtension.U_BCOUNTRY) +
-            replaceNone(response.data[0].AddressExtension.BillToZipCode));
-
-          $(".U_STATE").html((response.data[0].AddressExtension.U_BSTATE));
-          $(".State").html((response.data[0].AddressExtension.BillToState));
-
-          $(".ShipAddressName").html(replaceNone(response.data[0].AddressExtension.ShipToBuilding))
-            $(".ShipToStreet").html(
-            replaceNoneWithComma(response.data[0].AddressExtension.ShipToStreet) +
-            replaceNone(response.data[0].AddressExtension.ShipToCity) +
-            checkBillingCity(response.data[0].AddressExtension.U_SSTATE) +
-            replaceNone(response.data[0].AddressExtension.U_BCOUNTRY) +
-            replaceNone(response.data[0].AddressExtension.ShipToZipCode));
-
-          $(".ShipU_STATE").html((response.data[0].AddressExtension.U_SSTATE));
-          $(".ShipState").html((response.data[0].AddressExtension.ShipToState));
-
-          }
-
-          if(response.data[0].PaymentGroupCodeDetails.length != 0){
-          $(".PaymentTermsGroupName").html((response.data[0].PaymentGroupCodeDetails[0].PaymentTermsGroupName));
-          }
-
-          var fianllindtotal = 0;
-          var total_after = 0;
-          var total_after_tax = 0;
-          var tax_Value = 0;
-          var total_Amount = 0;
-          var totalamount = []
-          $.each(response.data[0].DocumentLines, function (key, val) {
-            val.ItemDescription = replaceNone(val.ItemDescription);
-            iddd = parseInt(key) + 1
-
-            var hsncode = response.data[0].DocType == 'dDocument_Service' ? val.SAC : val.HSN
-            text += '<tr>'
-            text += '<td>' + iddd + '</td>'
-            text += '<td>' + val.ItemDescription + '</td>';
-            text += '<td>' + "..." + '</td>';
-            // text += '<td>' + "..." + '</td>';
-            text += '<td style="width:100px">' + val.TaxRate + '</td>';
-            text += '<td>' + val.Quantity + '</td>';
-            text += '<td>' + Number(val.UnitPrice).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }) + '</td>';
-            text += '<td>' + val.DiscountPercent + '</td>';
-             text += '<td class="text-right">' + Number(val.UnitPrice*val.Quantity).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }) + '</td>';
-
-            text += '</tr>'
-            fianllindtotal += Number(val.UnitPrice*val.Quantity);
-
-            var basic = Number(val.Quantity) * Number(val.UnitPrice);
-          var afterfdis = basic - (basic * (Number(val.DiscountPercent) / 100))
-          var aftersdis = afterfdis - (afterfdis * (Number(response.data[0].DiscountPercent) / 100))
-          var total = aftersdis + (aftersdis * (Number(val.TaxRate) / 100))
-          // totalamount += Number(total);
-          total_after += afterfdis;
-          total_after_tax += aftersdis;
-          tax_Value +=  (aftersdis * (Number(val.TaxRate) / 100));
-          })
-          total_Amount = Number(total_after_tax)+Number(tax_Value);
-          if(response.data[0].FreightCharge != ''){
-            total_Amount = Number(total_Amount) + Number(response.data[0].FreightCharge)
-          }
-          text1 += '<td>' + '' + '</td>';
-          text1 += '<td style="width:35%;"> Total </td>';
-          text1 += '<td>' + '' + '</td>';
-          text1 += '<td>' + '' + '</td>';
-          // text1 += '<td>' + '' + '</td>';
-          text1 += '<td>' + '' + '</td>';
-          text1 += '<td>' + '' + '</td>';
-          text1 += '<td>' + '' + '</td>';
-          text1 += '<td class="text-right">' + Number(fianllindtotal).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }) + '</td>';
-
-          document.getElementById("data").innerHTML += text;
-          document.getElementById("total").innerHTML += text1;
-          $(".total_after").html((Number(total_after).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
-          $(".DiscountPercent").html((Number(response.data[0].DiscountPercent).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
-          $(".total_after_tax").html((Number(total_after_tax).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
-          $(".tax_Value").html((Number(tax_Value).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
-          $(".total_Amount").html((Number(total_Amount).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
-
-          function numberToWords(num) {
-            const units = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
-            const teens = ["", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
-            const tens = ["", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
-            const thousands = ["", "Thousand", "Lakh", "Crore"];
-
-            if (num === 0) return "Zero";
-
-            function getBelowThousand(n) {
-              let str = "";
-              if (n > 99) {
-                str += units[Math.floor(n / 100)] + " Hundred ";
-                n %= 100;
+            function replaceNone(val) {
+              var valData = ''
+              if (val == 'None') {
+                valData = '';
               }
-              if (n > 10 && n < 20) {
-                str += teens[n - 10] + " ";
-              } else {
-                str += tens[Math.floor(n / 10)] + " ";
-                str += units[n % 10] + " ";
+              else {
+                valData = val + " ";
               }
-              return str.trim();
+              return valData
             }
 
-            let result = "";
-            let thousandCounter = 0;
-
-            while (num > 0) {
-              const chunk = num % 1000;
-              if (chunk !== 0) {
-                result = getBelowThousand(chunk) + " " + thousands[thousandCounter] + " " + result;
+            function replaceNoneWithComma(val) {
+              var valData = ''
+              if (val == 'None') {
+                valData = '';
               }
-              num = Math.floor(num / 1000);
-              thousandCounter++;
+              else {
+                valData = val + " ";
+              }
+              return valData
+
             }
 
-            return result.trim();
-          }
+            function checkBillingCity(val, val2) {
+              var valData = ''
+              if (val != 'None') {
+                valData = val + " ";
+              }
+              else if (val2 != 'None') {
+                valData = val2 + " ";
+              }
+              else {
+                valData = '';
+              }
 
-          function numberToWordsWithDecimals(amount) {
-    const integerPart = Math.floor(amount);
-    const decimalPart = Math.round((amount - integerPart) * 100); // Get two decimal places
+              return valData
+            }
+            var text = "";
+            var text1 = "";
+            var str = window.location.href;
+            let url = new URL(str);
+            let search_params = url.searchParams;
+            var before_dis = 0
 
-    let result = numberToWords(integerPart);
+            let currentId = search_params.get('id');
+            let access_token = search_params.get('token');
 
-    if (decimalPart > 0) {
-        result += " Point";
-        const decimalDigits = decimalPart.toString().split('');
-        for (const digit of decimalDigits) {
-            result += " " + numberToWords(parseInt(digit));
-        }
-    }
+            // login api
 
-    return result;
-}
+            var settings22 = {
+              "url": mainbkurl + "/employee/get_user_info",
+              "method": "GET",
+              "timeout": 0,
+              "headers": {
+                "Content-Type": "application/json",
+                "Authorization": 'Token ' + access_token,
+              },
+              "data": JSON.stringify(),
+            };
 
-          total_Amount = parseFloat(total_Amount); // Convert to a number
+            $.ajax(settings22).done(function (response22) {
 
-          const amountInWords = numberToWordsWithDecimals(total_Amount);
-          $(".amount_in_words").text(amountInWords);
+              if (response22.data[0].ProjectSetting[0].custom_field1 != null && response22.data[0].ProjectSetting[0].custom_field1 != '') {
+                $('#PDFlogo').attr("src", mainbkurl + response22.data[0].ProjectSetting[0].custom_field1);
+              }
 
-        });
+              if (response22.data[0].ProjectSetting[0].custom_field2 != null && response22.data[0].ProjectSetting[0].custom_field2 != '') {
+                $("#ComName").html((response22.data[0].ProjectSetting[0].custom_field2));
+              }
+
+              if (response22.data[0].ProjectSetting[0].currency_type != null && response22.data[0].ProjectSetting[0].currency_type != '') {
+                $(".curretype").html("[" + response22.data[0].ProjectSetting[0].currency_type + "]");
+              }
+
+            })
+
+            // quot api
+
+            var settings = {
+              "url": mainbkurl + "/quotation/one",
+              "method": "POST",
+              "timeout": 0,
+              "headers": {
+                "Content-Type": "application/json",
+                "Authorization": 'Token ' + access_token,
+              },
+              "data": JSON.stringify({
+                "id": currentId
+              }),
+            };
+
+            $.ajax(settings).done(function (response) {
+
+              $(".CardName").html((response.data[0].CardName));
+              $(".quotationCode").html((response.data[0].Quot_Code));
+              $(".TypeOfLift").html((response.data[0].TypeOfLift));
+              $(".Machine").html((response.data[0].Machine || ""));
+              $(".NoOfElevators").html((response.data[0].NoOfElevators || ""));
+              $(".Version").html((response.data[0].Version || ""));
+              $(".TypeOfInstallation").html((response.data[0].TypeOfInstallation || ""));
+              $(".OrderId").html((response.data[0].id));
+              $(".CreateDate").html((changedateformatt(response.data[0].CreateDate)));
+              $(".Comments").html((response.data[0].Comments || 'NA'));
+              $(".Freight").html(Number(response.data[0].FreightCharge || '0').toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }));
+
+              if (response.data[0].ContactPersonCodeDetails.length != 0) {
+                $(".MobilePhone").html((response.data[0].ContactPersonCodeDetails[0].MobilePhone));
+                $(".ContactPerson").html(
+                  replaceNoneWithComma(response.data[0].ContactPersonCodeDetails[0].FirstName) +
+                  replaceNone(response.data[0].ContactPersonCodeDetails[0].MiddleName  || "") +
+                  checkBillingCity(response.data[0].ContactPersonCodeDetails[0].LastName || ""
+                  ));
+              }
+              if (response.data[0].CompanyBranchDetails.length != 0) {
+                $(".BPLName").html((response.data[0].CompanyBranchDetails[0].BPLName));
+                $(".FederalTaxID").html((response.data[0].CompanyBranchDetails[0].FederalTaxID));
+                $(".ourbranch").html(
+                  replaceNoneWithComma(response.data[0].CompanyBranchDetails[0].Building) +
+                  replaceNone(response.data[0].CompanyBranchDetails[0].City) +
+                  checkBillingCity(response.data[0].CompanyBranchDetails[0].State) +
+                  replaceNone(response.data[0].CompanyBranchDetails[0].Country) +
+                  replaceNone(response.data[0].CompanyBranchDetails[0].ZipCode));
+
+              }
+
+              if (response.data[0].SalesPersonCodeDetails.length != 0) {
+                $(".SalesEmployeeName").html((response.data[0].SalesPersonCodeDetails[0].SalesEmployeeName));
+              }
+              if (response.data[0].Guarantee.length != 0) {
+                $(".Guarantee").html((response.data[0].Guarantee[0].Guarantee || '0 Months'));
+                $(".FreeMaintenancePeriodDate").html((response.data[0].Guarantee[0].FreeMaintenancePeriodDate || '0 Months'));
+                $(".GuaranteeDateOfDispatch").html((response.data[0].Guarantee[0].GuaranteeDateOfDispatch || '0 Months'));
+                $(".FreeMaintenancePeriod").html((response.data[0].Guarantee[0].FreeMaintenancePeriod || '0 Months'));
+              }
+              if (response.data[0].AddressExtension.length != 0) {
+                $(".AddressName").html(replaceNone(response.data[0].AddressExtension.BillToBuilding))
+                $(".BillToStreet").html(
+                  replaceNoneWithComma(response.data[0].AddressExtension.BillToStreet) +
+                  replaceNone(response.data[0].AddressExtension.BillToCity) +
+                  checkBillingCity(response.data[0].AddressExtension.U_BSTATE) +
+                  replaceNone(response.data[0].AddressExtension.U_BCOUNTRY) +
+                  replaceNone(response.data[0].AddressExtension.BillToZipCode));
+
+                $(".U_STATE").html((response.data[0].AddressExtension.U_BSTATE));
+                $(".State").html((response.data[0].AddressExtension.BillToState));
+
+                $(".ShipAddressName").html(replaceNone(response.data[0].AddressExtension.ShipToBuilding))
+                $(".ShipToStreet").html(
+                  replaceNoneWithComma(response.data[0].AddressExtension.ShipToStreet) +
+                  replaceNone(response.data[0].AddressExtension.ShipToCity ) +
+                  checkBillingCity(response.data[0].AddressExtension.U_SSTATE) +
+                  replaceNone(response.data[0].AddressExtension.U_BCOUNTRY) +
+                  replaceNone(response.data[0].AddressExtension.ShipToZipCode));
+
+                $(".ShipU_STATE").html((response.data[0].AddressExtension.U_SSTATE));
+                $(".ShipState").html((response.data[0].AddressExtension.ShipToState));
+
+              }
+
+              if (response.data[0].PaymentGroupCodeDetails.length != 0) {
+                $(".PaymentTermsGroupName").html((response.data[0].PaymentGroupCodeDetails[0].PaymentTermsGroupName));
+              }
+              elevatorData = response.data[0].ElevatorShaft[0];
+              elevatorSpecification = response.data[0].ElevatorSpecification[0];
+              cabinDesign = response.data[0].LongData[0];
+              doors = response.data[0].Doors[0];
+              optionalFeatures = response.data[0].OptionalFeatures[0];
+              scopeofWork = response.data[0].ScopeOfWork[0];
+             
+              var fianllindtotal = 0;
+              var total_after = 0;
+              var total_after_tax = 0;
+              var tax_Value = 0;
+              var total_Amount = 0;
+              var totalamount = []
+              $.each(response.data[0].DocumentLines, function (key, val) {
+                val.ItemDescription = replaceNone(val.ItemDescription);
+                iddd = parseInt(key) + 1
+
+                var hsncode = response.data[0].DocType == 'dDocument_Service' ? val.SAC : val.HSN
+                text += '<tr>'
+                text += '<td>' + iddd + '</td>'
+                text += '<td>' + val.ItemDescription + '</td>';
+                text += '<td>' + "..." + '</td>';
+                // text += '<td>' + "..." + '</td>';
+                text += '<td style="width:100px">' + val.TaxRate + '</td>';
+                text += '<td>' + val.Quantity + '</td>';
+                text += '<td>' + Number(val.UnitPrice).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }) + '</td>';
+                text += '<td>' + val.DiscountPercent + '</td>';
+                text += '<td class="text-right">' + Number(val.UnitPrice * val.Quantity).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }) + '</td>';
+
+                text += '</tr>'
+                fianllindtotal += Number(val.UnitPrice * val.Quantity);
+
+                var basic = Number(val.Quantity) * Number(val.UnitPrice);
+                var afterfdis = basic - (basic * (Number(val.DiscountPercent) / 100))
+                var aftersdis = afterfdis - (afterfdis * (Number(response.data[0].DiscountPercent) / 100))
+                var total = aftersdis + (aftersdis * (Number(val.TaxRate) / 100))
+                // totalamount += Number(total);
+                total_after += afterfdis;
+                total_after_tax += aftersdis;
+                tax_Value += (aftersdis * (Number(val.TaxRate) / 100));
+              })
+              total_Amount = Number(total_after_tax) + Number(tax_Value);
+              if (response.data[0].FreightCharge != '') {
+                total_Amount = Number(total_Amount) + Number(response.data[0].FreightCharge)
+              }
+              text1 += '<td>' + '' + '</td>';
+              text1 += '<td style="width:35%;"> Total </td>';
+              text1 += '<td>' + '' + '</td>';
+              text1 += '<td>' + '' + '</td>';
+              // text1 += '<td>' + '' + '</td>';
+              text1 += '<td>' + '' + '</td>';
+              text1 += '<td>' + '' + '</td>';
+              text1 += '<td>' + '' + '</td>';
+              text1 += '<td class="text-right">' + Number(fianllindtotal).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }) + '</td>';
+
+            //  document.getElementById("data").innerHTML += text;
+             // document.getElementById("total").innerHTML += text1;
+              $(".total_after").html((Number(total_after).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
+              $(".DiscountPercent").html((Number(response.data[0].DiscountPercent).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
+              $(".total_after_tax").html((Number(total_after_tax).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
+              $(".tax_Value").html((Number(tax_Value).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
+              $(".total_Amount").html((Number(total_Amount).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
+
+              function numberToWords(num) {
+                const units = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+                const teens = ["", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+                const tens = ["", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+                const thousands = ["", "Thousand", "Lakh", "Crore"];
+
+                if (num === 0) return "Zero";
+
+                function getBelowThousand(n) {
+                  let str = "";
+                  if (n > 99) {
+                    str += units[Math.floor(n / 100)] + " Hundred ";
+                    n %= 100;
+                  }
+                  if (n > 10 && n < 20) {
+                    str += teens[n - 10] + " ";
+                  } else {
+                    str += tens[Math.floor(n / 10)] + " ";
+                    str += units[n % 10] + " ";
+                  }
+                  return str.trim();
+                }
+
+                let result = "";
+                let thousandCounter = 0;
+
+                while (num > 0) {
+                  const chunk = num % 1000;
+                  if (chunk !== 0) {
+                    result = getBelowThousand(chunk) + " " + thousands[thousandCounter] + " " + result;
+                  }
+                  num = Math.floor(num / 1000);
+                  thousandCounter++;
+                }
+
+                return result.trim();
+              }
+
+              function numberToWordsWithDecimals(amount) {
+                const integerPart = Math.floor(amount);
+                const decimalPart = Math.round((amount - integerPart) * 100); // Get two decimal places
+
+                let result = numberToWords(integerPart);
+
+                if (decimalPart > 0) {
+                  result += " Point";
+                  const decimalDigits = decimalPart.toString().split('');
+                  for (const digit of decimalDigits) {
+                    result += " " + numberToWords(parseInt(digit));
+                  }
+                }
+
+                return result;
+              }
+
+              total_Amount = parseFloat(total_Amount); // Convert to a number
+
+              const amountInWords = numberToWordsWithDecimals(total_Amount);
+              $(".amount_in_words").text(amountInWords);
+
+   debugger
+  console.log("hello",elevatorData);
+ const ELEVATOR_SHAFT_LABELS = [
+  { key: 'shaftWidth', label: 'Shaft Width (plastered) in mm' },
+  { key: 'shaftDepth', label: 'Shaft Depth (plastered) in mm' },
+  { key: 'pit', label: 'Pit in mm' },
+  { key: 'overhead', label: 'Overhead' },
+  { key: 'machineRoomWidth', label: 'Machine Room Width (Plastered) in mm' },
+  { key: 'machineRoomDepth', label: 'Machine Room Depth (Plastered) in mm' },
+  { key: 'minimumFloorHeight', label: 'Minimum Floor Height in mm' },
+  { key: 'totalCarTravel', label: 'Total Car Travel (Vertical Car Travel) in mm' },
+  { key: 'lintelHeightCladding', label: 'Lintel Height + Cladding (40mm for Stone/20mm for Wood)' },
+];
+ 
+
+// Loop to generate <tr> and <td>
+  ELEVATOR_SHAFT_LABELS.forEach(item => {
+  const value = elevatorData[item.key] !== undefined ? elevatorData[item.key] : 'NA';
+
+  const row = `
+    <tr>
+      <td colspan="2" class="tableDataTd">${item.label}</td>
+      <td colspan="2" class="tableDataTd text-center">${value}</td>
+    </tr>
+  `;
+  document.getElementById('elevatorDetailsTableBody').innerHTML += row;
+});
+ELEVATOR_SPECIFICATION_LABELS = [
+    { key: 'Payload', label: 'Payload (live load capacity)' },
+    { key: 'Capacity', label: 'Capacity (in person)' },
+    { key: 'NoOfStops', label: 'Number of Stops' },
+    { key: 'NoOfOpenings', label: 'Number of Openings' },
+    { key: 'AccessibleSidesFront', label: 'Accessible Sides Front' },
+    { key: 'AccessibleSidesRear', label: 'Accessible Sides Rear' },
+    { key: 'AccessibleSides90Degree', label: 'Accessible Sides 90 Degree' },
+    { key: 'FloorDesignation', label: 'Floor Designation' },
+    { key: 'Speed', label: 'Speed (m/s)' },
+    { key: 'CarWidth', label: 'Car width in mm' },
+    { key: 'CarDepth', label: 'Car depth in mm' },
+    { key: 'CarHeight', label: 'Car height in mm' },
+    { key: 'StartStop', label: 'Start and stop' },
+    { key: 'controlSystem', label: 'Control System' },
+  ];
+
+  
+// Loop to generate <tr> and <td>
+  ELEVATOR_SPECIFICATION_LABELS.forEach(item => {
+  const value = elevatorSpecification[item.key] !== undefined ? elevatorSpecification[item.key] : 'NA';
+
+  const row1 = `
+    <tr>
+      <td colspan="2" class="tableDataTd">${item.label}</td>
+      <td colspan="2" class="tableDataTd text-center">${value}</td>
+    </tr>
+  `;
+  document.getElementById('elevatorSpecificationTableBody').innerHTML += row1;
+});
 
 
+LONG_DATA_LABELS = [
+    {key:'carDesigns',label:'Car Designs',subkey:'carDesignsCost',sublabel:'Cost'},
+    {key:'series',label:'Series',subkey:'seriesCost',sublabel:'Cost'},
+    { key: 'sidePanels', label: 'Side Panels', subkey: 'sidePanelsCost', sublabel: 'Cost' },
+    { key: 'rearPanels', label: 'Rear Panels', subkey: 'rearPanelsCost', sublabel: 'Cost' },
+    { key: 'mirror', label: 'Mirror', subkey: 'mirrorCost', sublabel: 'Cost' },
+    { key: 'handrail', label: 'Handrail', subkey: 'handrailCost', sublabel: 'Cost' },
+    { key: 'flooring', label: 'Flooring', subkey: 'flooringCost', sublabel: 'Cost' },
+    { key: 'ceiling', label: 'Ceiling', subkey: 'ceilingCost', sublabel: 'Cost' },
+    { key: 'lighting', label: 'Lighting', subkey: 'lightingCost', sublabel: 'Cost' },
+    { key: 'fan', label: 'Fan', subkey: 'fanCost', sublabel: 'Cost' },
+    { key: 'COP_Plate', label: 'COP Plate', subkey: 'copPlateCost', sublabel: 'Cost' },
+    { key: 'LOP_Plate', label: 'LOP Plate', subkey: 'lopPlateCost', sublabel: 'Cost' },
+    { key: 'display', label: 'Display', subkey: 'displayCost', sublabel: 'Cost' },
+    { key: 'pushButtons', label: 'Push Buttons', subkey: 'pushButtonsCost', sublabel: 'Cost' },
+    { key: 'doorOperation', label: 'Door Operation', subkey: 'doorOperationCost', sublabel: 'Cost' },
+    { key: 'doorClearOpeningsWidth', label: 'Door Clear Openings Width', subkey: 'doorClearOpeningsWidthCost', sublabel: 'Cost' },
+    { key: 'doorClearOpeningHeight', label: 'Door Clear Opening Height', subkey: 'doorClearOpeningHeightCost', sublabel: 'Cost' },
+    { key: 'carDoorPanel', label: 'Car Door Panel', subkey: 'carDoorPanelCost', sublabel: 'Cost' },
+    { key: 'landingDoorFrame', label: 'Landing Door Frame', subkey: 'landingDoorFrameCost', sublabel: 'Cost' },
+    { key: 'landingDoorPanel', label: 'Landing Door Panel', subkey: 'landingDoorPanelCost', sublabel: 'Cost' },
+    { key: 'sensorOnCabin', label: 'Sensor On Cabin', subkey: 'sensorOnCabinCost', sublabel: 'Cost' },
+    { key: 'cabinInterior', label: 'Cabin Interior', subkey: 'cabinInteriorCost', sublabel: 'Cost' },
+    { key: 'capacity', label: 'Capacity' },
+    { key: 'carDoor', label: 'Car Door', subkey: 'carDoorCost', sublabel: 'Cost' },
+    { key: 'customization', label: 'Customization(remarks)', subkey: 'customizationCost', sublabel: 'Cost' },
+    { key: 'frame', label: 'Frame', subkey: 'frameCost', sublabel: 'Cost' },
+    { key: 'lopCop', label: 'LOP COP', subkey: 'lopcopCost', sublabel: 'Cost' },
+    { key: 'model', label: 'Model', subkey: 'modelCost', sublabel: 'Cost' },
+    { key: 'modelNo', label: 'Model No' },
+    { key: 'operation', label: 'Operation', subkey: 'operationCost', sublabel: 'Cost' },
+    { key: 'Partition', label: 'Partition', subkey: 'partitionCost', sublabel: 'Cost' },
+    { key: 'persons', label: 'Persons' },
+    { key: 'pit', label: 'Pit', subkey: 'pitCost', sublabel: 'Cost' },
+    { key: 'plateLOP', label: 'Plate LOP', subkey: 'plateLOPCost', sublabel: 'Cost' },
+    { key: 'protection', label: 'Protection', subkey: 'protectionCost', sublabel: 'Cost' },
+    { key: 'skirting', label: 'Skirting', subkey: 'skirtingCost', sublabel: 'Cost' },
+    { key: 'speed', label: 'Speed', subkey: 'speedCost', sublabel: 'Cost' },
+    { key: 'structure', label: 'Structure', subkey: 'structureCost', sublabel: 'Cost' }
+  ];
+  LONG_DATA_LABELS.forEach(item => {
+  const value = cabinDesign[item.key] !== undefined ? cabinDesign[item.key] : 'NA';
 
-      });
-   function generatePDF() {
+  const row2 = `
+    <tr>
+      <td colspan="2" class="tableDataTd">${item.label}</td>
+      <td colspan="2" class="tableDataTd text-center">${value}</td>
+    </tr>
+  `;
+  document.getElementById('cabinDesigntablebody').innerHTML += row2;
+});
+DOORS_LABELS = [
+{ key: 'CarInterlock', label: 'Car Interlock' },
+  { key: 'DoorClearOpeningHeightinmm', label: 'Door Clear Opening Heightinmm' },
+  { key: 'DoorClearOpeningsWidht', label: 'Door Clear Openings Widht' },
+  { key: 'DoorHeight', label: 'Door Height' },
+  { key: 'DoorPanels', label: 'Door Panels' },
+  { key: 'DoorWidth', label: 'Door Width' },
+  { key: 'LandingDoor', label: 'Landing Door' },
+  { key: 'LandingDoorFrame', label: 'Landing Door Frame' },
+  { key: 'LandingDoorInterlock', label: 'Landing Door Interlock' },
+  { key: 'LandingDoorPanel', label: 'Landing Door Panel' },
+  { key: 'TypeOfDoor', label: 'Type Of Door' },
+  { key: 'AutomaticDoors', label: 'Automatic Doors' },
+  { key: 'SensorOnCabinDoor', label: 'Sensor On Cabin Door' }
+  ];
+  DOORS_LABELS.forEach(item => {
+  const value = doors[item.key] !== undefined ? doors[item.key] : 'NA';
+
+  const row3 = `
+    <tr>
+      <td colspan="2" class="tableDataTd">${item.label}</td>
+      <td colspan="2" class="tableDataTd text-center">${value}</td>
+    </tr>
+  `;
+  document.getElementById('doorstablebody').innerHTML += row3;
+});
+OPTIONAL_FEATURES_LABELS = [
+    { key: 'VVVFDrive', label: 'VVVF Drive', subkey: 'VVVFDriveCost', sublabel: 'Cost' },
+    { key: 'overloadDevice', label: 'Overload Device', subkey: 'overloadDeviceCost', sublabel: 'Cost' },
+    { key: 'automaticRescueDevice', label: 'Automatic Rescue Device', subkey: 'automaticRescueDeviceCost', sublabel: 'Cost' },
+    { key: 'singlePhaseOperation', label: 'Single Phase Operation', subkey: 'singlePhaseOperationCost', sublabel: 'Cost' },
+    { key: 'ViewWindow', label: 'View Window (80mm * 1000mm view slit in doors)', subkey: 'ViewWindowCost', sublabel: 'Cost' },
+    { key: 'bigVisionGlassDoors', label: 'Big Vision Glass Doors', subkey: 'bigVisionGlassDoorsCost', sublabel: 'Cost' },
+    { key: 'EmergencyTelephoneSystem', label: 'Emergency Telephone System (GSM)', subkey: 'EmergencyTelephoneSystemCost', sublabel: 'Cost' },
+    { key: 'EmergencyTelephoneSystemPublic', label: 'Emergency Telephone System (Public Wireline Network)', subkey: 'EmergencyTelephoneSystemPublicCost', sublabel: 'Cost' },
+    { key: 'BiometricAccess', label: 'Biometric Access', subkey: 'BiometricAccessCost', sublabel: 'Cost' },
+    { key: 'CardReaderAccess', label: 'Card Reader Access', subkey: 'CardReaderAccessCost', sublabel: 'Cost' },
+    { key: 'FullHeightCarOperatingPanel', label: 'Full Height Car Operating Panel', subkey: 'FullHeightCarOperatingPanelCost', sublabel: 'Cost' },
+    { key: 'Intercom', label: 'Intercom (Press and Speak)', subkey: 'IntercomCost', sublabel: 'Cost' },
+    { key: 'AttendantOperation', label: 'Attendant Operation', subkey: 'AttendantOperationCost', sublabel: 'Cost' },
+    { key: 'ParkingKeySwitch', label: 'Parking Key Switch', subkey: 'ParkingKeySwitchCost', sublabel: 'Cost' },
+    { key: 'DuplexAndTriplexCarGroupOperation', label: 'Duplex and Triplex Car Group Operation', subkey: 'DuplexAndTriplexCarGroupOperationCost', sublabel: 'Cost' },
+    { key: 'TimedBlindFloor', label: 'Timed Blind Floor', subkey: 'TimedBlindFloorCost', sublabel: 'Cost' },
+    { key: 'VoiceSynthesizerWithCustomizedMusic', label: 'Voice Synthesizer With Customized Music', subkey: 'VoiceSynthesizerWithCustomizedMusicCost', sublabel: 'Cost' },
+    { key: 'handrail', label: 'Handrail', subkey: 'handrailCost', sublabel: 'Cost' }
+  ];
+  OPTIONAL_FEATURES_LABELS.forEach(item => {
+  const value = optionalFeatures[item.key] !== undefined ? optionalFeatures[item.key] : 'NA';
+
+  const row4 = `
+    <tr>
+      <td colspan="2" class="tableDataTd">${item.label}</td>
+      <td colspan="2" class="tableDataTd text-center">${value}</td>
+    </tr>
+  `;
+  document.getElementById('optionalFeaturestablebody').innerHTML += row4;
+});
+SCOPE_OF_WORK_LABELS = [
+    { key: 'PackingLoading', label: 'Packing Loading', subkey: 'PackingLoadingCost', sublabel: 'Cost' },
+    { key: 'Transportation', label: 'Transportation', subkey: 'TransportationCost', sublabel: 'Cost' },
+    { key: 'Unloading', label: 'Unloading', subkey: 'UnloadingCost', sublabel: 'Cost' },
+    { key: 'Storing', label: 'Storing', subkey: 'StoringCost', sublabel: 'Cost' },
+    { key: 'Scaffolding', label: 'Scaffolding', subkey: 'ScaffoldingCost', sublabel: 'Cost' },
+    { key: 'IBEAM', label: 'IBEAM', subkey: 'IBEAMCost', sublabel: 'Cost' },
+    { key: 'Liasoning', label: 'Liasoning', subkey: 'LiasoningCost', sublabel: 'Cost' },
+    { key: 'License', label: 'License', subkey: 'LicenseCost', sublabel: 'Cost' },
+    { key: 'IbeamforMachineBase', label: 'Ibeam for Machine Base', subkey: 'IbeamforMachineBaseCost', sublabel: 'Cost' },
+    { key: 'IBeamShiftingtillMachineRoom', label: 'IBeam Shifting till Machine Room', subkey: 'IBeamShiftingtillMachineRoomCost', sublabel: 'Cost' },
+    { key: 'MinorCivilWork', label: 'Minor Civil Work', subkey: 'MinorCivilWorkCost', sublabel: 'Cost' },
+  ];
+  SCOPE_OF_WORK_LABELS.forEach(item => {
+  const value = scopeofWork[item.key] !== undefined ? scopeofWork[item.key] : 'NA';
+
+  const row5 = `
+    <tr>
+      <td colspan="2" class="tableDataTd">${item.label}</td>
+      <td colspan="2" class="tableDataTd text-center">${value}</td>
+    </tr>
+  `;
+  document.getElementById('scopeofWorktablebody').innerHTML += row5;
+});
+            });
+      
+          });
+
+        function generatePDF() {
           window.print();
         }
+   
       </script>
 
 

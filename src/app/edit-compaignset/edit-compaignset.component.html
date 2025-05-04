@@ -180,12 +180,13 @@
                     <ng-select #selectLeadSource [clearOnBackspace]="false" [searchable]="false" [multiple]="true" name="LeadSource"
                       [(ngModel)]="selectleadsource" #LeadSource="ngModel"
                       class="ngsearch-dropdown input-fld"
-                      [class.required-fld]="HeadingServices.isModulefieldMendetory(2, 'LeadSource')"
+                      
                       [class.disable-fld]="!HeadingServices.isModulefieldedit(2, 'LeadSource')"
                       [disabled]="!HeadingServices.isModulefieldedit(2, 'LeadSource')"
-                      [required]="HeadingServices.isModulefieldMendetory(2, 'LeadSource')"
+                      
                       placeholder="Select {{Headingss[0].heading4}}">
-
+                      <!-- [class.required-fld]="HeadingServices.isModulefieldMendetory(2, 'LeadSource')"
+                      [required]="HeadingServices.isModulefieldMendetory(2, 'LeadSource')" -->
                       <ng-template ng-header-tmp>
                         <input class="ng-dropdown-search" style="width: 100%; line-height: 24px"
                           placeholder="search" type="text" (input)="selectLeadSource.filter($event.target.value)" />
@@ -195,12 +196,12 @@
                       <ng-option value="{{source.item_text}}" *ngFor="let source of dropdownList">{{source.item_text}}</ng-option>
                     </ng-select>
 
-                    <ng-container *ngIf="HeadingServices.isModulefieldMendetory(2, 'LeadSource')">
+                    <!-- <ng-container *ngIf="HeadingServices.isModulefieldMendetory(2, 'LeadSource')">
                       <span class="help-block danger"
                         *ngIf="(LeadSource.errors?.required && f.submitted)||(LeadSource.errors?.required && LeadSource.touched)">
                         The {{Headingss[0].heading4}} is required
                       </span>
-                    </ng-container>
+                    </ng-container> -->
                   </div>
                 </div>
 
@@ -232,14 +233,21 @@
                   <div class="position-relative">
                     <div class="Alllead">
                     </div>
-                    <input type="date" class="input-fld" [class.required-fld]="HeadingServices.isModulefieldMendetory(2, 'LeadFromDate')" name="LeadFromDate" #LeadFromDate="ngModel"
-                      [(ngModel)]="compaigns.LeadFromDate" placeholder="From Date" *ngIf="HeadingServices.isModulefieldview(2, 'LeadFromDate')" [class.disable-fld]="!HeadingServices.isModulefieldedit(2, 'LeadFromDate')" [disabled]="!HeadingServices.isModulefieldedit(2, 'LeadFromDate')" [required]="HeadingServices.isModulefieldMendetory(2, 'LeadFromDate')">
-                      <ng-container *ngIf="HeadingServices.isModulefieldMendetory(2, 'LeadFromDate')">
-                        <!-- <span class="help-block danger"
+                    <input type="date" class="input-fld"  
+                    name="LeadFromDate" #LeadFromDate="ngModel"
+                      [(ngModel)]="compaigns.LeadFromDate" placeholder="From Date" 
+                      *ngIf="HeadingServices.isModulefieldview(2, 'LeadFromDate')"
+                       [class.disable-fld]="!HeadingServices.isModulefieldedit(2, 'LeadFromDate')" 
+                       [disabled]="!HeadingServices.isModulefieldedit(2, 'LeadFromDate')" 
+                       >
+                       <!-- [required]="HeadingServices.isModulefieldMendetory(2, 'LeadFromDate')"
+                       [class.required-fld]="HeadingServices.isModulefieldMendetory(2, 'LeadFromDate')" -->
+                      <!-- <ng-container *ngIf="HeadingServices.isModulefieldMendetory(2, 'LeadFromDate')">
+                        <span class="help-block danger"
                           *ngIf="(LeadFromDate.errors?.required && f.submitted)||(LeadFromDate.errors?.required && LeadFromDate.touched)">
                           The {{Headingss[0].heading6}} is required
-                        </span> -->
-                      </ng-container>
+                        </span>
+                      </ng-container> -->
                   </div>
                 </div>
                 <div class="lead-update-wrapper" *ngIf="HeadingServices.isModulefieldview(2, 'LeadToDate')">
@@ -247,14 +255,20 @@
                   <div class="position-relative">
                     <div class="Alllead">
                     </div>
-                    <input type="date" class="input-fld" [class.required-fld]="HeadingServices.isModulefieldMendetory(2, 'LeadToDate')" name="LeadToDate" #LeadToDate="ngModel" [(ngModel)]="compaigns.LeadToDate"
-                      placeholder="To Date" [class.disable-fld]="!HeadingServices.isModulefieldedit(2, 'LeadToDate')" [disabled]="!HeadingServices.isModulefieldedit(2, 'LeadToDate')" [required]="HeadingServices.isModulefieldMendetory(2, 'LeadToDate')">
-                      <ng-container *ngIf="HeadingServices.isModulefieldMendetory(2, 'LeadSource')">
+                    <input type="date" class="input-fld" 
+                    name="LeadToDate"
+                     #LeadToDate="ngModel" [(ngModel)]="compaigns.LeadToDate"
+                      placeholder="To Date" [class.disable-fld]="!HeadingServices.isModulefieldedit(2, 'LeadToDate')"
+                       [disabled]="!HeadingServices.isModulefieldedit(2, 'LeadToDate')"
+                        >
+                        <!-- [required]="HeadingServices.isModulefieldMendetory(2, 'LeadToDate')"
+                        [class.required-fld]="HeadingServices.isModulefieldMendetory(2, 'LeadToDate')" -->
+                      <!-- <ng-container *ngIf="HeadingServices.isModulefieldMendetory(2, 'LeadSource')">
                         <span class="help-block danger"
                           *ngIf="(LeadToDate.errors?.required && f.submitted)||(LeadToDate.errors?.required && LeadToDate.touched)">
                           The {{Headingss[0].heading7}} is required
                         </span>
-                      </ng-container>
+                      </ng-container> -->
                   </div>
                   <!-- <div class="col-sm-1"></div> -->
                 </div>
@@ -265,12 +279,13 @@
                     <ng-select #selectLeadStatus [clearOnBackspace]="false" [searchable]="false" [multiple]="true" name="LeadStatus"
                       [(ngModel)]="selectleadstatus" #LeadStatus="ngModel"
                       class="ngsearch-dropdown input-fld"
-                      [class.required-fld]="HeadingServices.isModulefieldMendetory(2, 'LeadStatus')"
+                      
                       [class.disable-fld]="!HeadingServices.isModulefieldedit(2, 'LeadStatus')"
                       [disabled]="!HeadingServices.isModulefieldedit(2, 'LeadStatus')"
-                      [required]="HeadingServices.isModulefieldMendetory(2, 'LeadStatus')"
+                      
                       placeholder="Select {{Headingss[0]?.heading8}}">
-
+                      <!-- [required]="HeadingServices.isModulefieldMendetory(2, 'LeadStatus')"
+                      [class.required-fld]="HeadingServices.isModulefieldMendetory(2, 'LeadStatus')" -->
                       <ng-template ng-header-tmp>
                         <input class="ng-dropdown-search" style="width: 100%; line-height: 24px"
                           placeholder="search" type="text" (input)="selectLeadStatus.filter($event.target.value)" />
@@ -280,12 +295,32 @@
                       <ng-option value="{{status.item_text}}" *ngFor="let status of dropdownList1">{{status.item_text}}</ng-option>
                     </ng-select>
 
-                    <ng-container *ngIf="HeadingServices.isModulefieldMendetory(2, 'LeadStatus')">
+                    <!-- <ng-container *ngIf="HeadingServices.isModulefieldMendetory(2, 'LeadStatus')">
                       <span class="help-block danger"
                         *ngIf="(LeadStatus.errors?.required && f.submitted)||(LeadStatus.errors?.required && LeadStatus.touched)">
                         The {{Headingss[0].heading8}} is required
                       </span>
-                    </ng-container>
+                    </ng-container> -->
+                  </div>
+                </div>
+
+                <div class="lead-update-wrapper">
+                  <label>Type of Lift </label>
+                  <div>
+                    <ng-select #selectSType [clearOnBackspace]="false" [searchable]="false"  
+                      class="ngsearch-dropdown input-fld" #LeadTypeOfLift="ngModel"
+                      [(ngModel)]="compaigns.LeadTypeOfLift" name="LeadTypeOfLift"  placeholder="Select Type of Lift">
+                      
+                      <ng-template ng-header-tmp>
+                        <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
+                          type="text" (input)="selectSType.filter($event.target.value)" />
+                      </ng-template>
+                      <ng-option value="" disable selected>Select Type of Lift</ng-option>
+                      <ng-option *ngFor="let item of optyp" value="{{item.id}}">{{item.Type}}</ng-option>
+                    </ng-select>
+
+                
+
                   </div>
                 </div>
 
@@ -336,8 +371,13 @@
                   <div class="position-relative">
                     <div class="AllOppcl">
                     </div>
-                    <ng-select #selecttype [clearOnBackspace]="false" [searchable]="false" name="OppType" #OppType="ngModel" [(ngModel)]="compaigns.OppType" class="ngsearch-dropdown input-fld" [class.required-fld]="HeadingServices.isModulefieldMendetory(2, 'OppType')"
-                    [class.disable-fld]="!HeadingServices.isModulefieldedit(2, 'OppType')" [disabled]="!HeadingServices.isModulefieldedit(2, 'OppType')" [required]="HeadingServices.isModulefieldMendetory(2, 'OppType')">
+                    <ng-select #selecttype [clearOnBackspace]="false" [searchable]="false"
+                     name="OppType" #OppType="ngModel" [(ngModel)]="compaigns.OppType" 
+                     class="ngsearch-dropdown input-fld"
+                    [class.disable-fld]="!HeadingServices.isModulefieldedit(2, 'OppType')" [disabled]="!HeadingServices.isModulefieldedit(2, 'OppType')"
+                     >
+                     <!-- [required]="HeadingServices.isModulefieldMendetory(2, 'OppType')"
+                     [class.required-fld]="HeadingServices.isModulefieldMendetory(2, 'OppType')" -->
                       <ng-template ng-header-tmp>
                         <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
                           type="text" (input)="selecttype.filter($event.target.value)" />
@@ -345,12 +385,12 @@
                       <ng-option value="" disable selected>Select {{Headingss[0].heading11}}</ng-option>
                       <ng-option value="{{opptype}}" *ngFor="let opptype of CampaignOpportunityType">{{opptype}}</ng-option>
                     </ng-select>
-                    <ng-container *ngIf="HeadingServices.isModulefieldMendetory(2, 'OppType')">
+                    <!-- <ng-container *ngIf="HeadingServices.isModulefieldMendetory(2, 'OppType')">
                       <span class="help-block danger"
                         *ngIf="(OppType.errors?.required && f.submitted)||(OppType.errors?.required && OppType.touched)">
                         The {{Headingss[0].heading11}} is required
                       </span>
-                    </ng-container>
+                    </ng-container> -->
                     <!-- <select class="input-fld  AllOppcl" name="OppType" [(ngModel)]="compaigns.OppType">
                       <option value="" selected>Choose Select</option>
                       <option value="{{opptype}}" *ngFor="let opptype of CampaignOpportunityType">{{opptype}}</option>
@@ -386,6 +426,26 @@
                   </div>
                 </div>
 
+                <div class="lead-update-wrapper">
+                  <label>Type of Lift </label>
+                  <div>
+                    <ng-select #selectSType [clearOnBackspace]="false" [searchable]="false"  
+                      class="ngsearch-dropdown input-fld"  #OppTypeOfLift="ngModel"
+                      [(ngModel)]="compaigns.OppTypeOfLift" name="OppTypeOfLift"  placeholder="Type of Lift">
+                   
+                      <ng-template ng-header-tmp>
+                        <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
+                          type="text" (input)="selectSType.filter($event.target.value)" />
+                      </ng-template>
+                      <ng-option value="" disable selected>Select Type of Lift</ng-option>
+                      <ng-option *ngFor="let item of optyp" value="{{item.id}}">{{item.Type}}</ng-option>
+                    </ng-select>
+
+                
+
+                  </div>
+                </div>
+
                 <h6 class="label-mark-inner">Business Partner</h6>
                 <div class="lead-update-checkbox ">
                   <input class="form-check-input chk1" (change)="fireBP($event)" type="checkbox" value=""
@@ -396,7 +456,7 @@
                 </div>
                 <div class="lead-update-wrapper" *ngIf="HeadingServices.isModulefieldview(2, 'BPType')">
                   <label>{{Headingss[0].heading13}} </label>
-                  <div class="position-relative">
+                  <!-- <div class="position-relative">
                     <div class="AllBP">
                     </div>
                     <ng-select #selecttyp [clearOnBackspace]="false" [searchable]="false" name="BPType" #BPType="ngModel" [(ngModel)]="compaigns.BPType" class="ngsearch-dropdown input-fld" [class.required-fld]="HeadingServices.isModulefieldMendetory(2, 'BPType')"
@@ -416,6 +476,24 @@
                         The {{Headingss[0].heading13}} is required
                       </span>
                     </ng-container>
+                  </div> -->
+
+                  <div>
+                    <ng-select  [clearOnBackspace]="false"  
+                     [searchable]="false"placeholder="Select Type"
+                     class="ngsearch-dropdown input-fld" 
+                      [class.disable-fld]="!HeadingServices.isModulefieldedit(3, 'BPType')"
+                      [disabled]="!HeadingServices.isModulefieldedit(2, 'BPType')"
+                      [(ngModel)]="compaigns.BPType"
+                       name="BPType" #BPType="ngModel" >
+             
+                      <ng-template ng-header-tmp>
+                        <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
+                          type="text" (input)="selectType.filter($event.target.value)" />
+                      </ng-template>
+                      <ng-option value="" disable selected>Select Type</ng-option>
+                      <ng-option *ngFor="let item of cstmrtype " value="{{item.id}}">{{item.Type}}</ng-option>
+                    </ng-select>
                   </div>
                 </div>
 

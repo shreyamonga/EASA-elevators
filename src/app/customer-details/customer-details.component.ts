@@ -491,47 +491,35 @@ export class CustomerDetailsComponent implements OnInit {
     );
   }
   orderAttachment:any = [];
-  selectedDay: any;
-  code: any[]=[];
+ selectedDay: any;
   filterVal: any = '';
-  // this.branch.Country = this.code[0];
-  //     this.branch.U_COUNTRY = this.code[1];
-  //     this.branch.State = this.codeState[0];
-  //     this.branch.U_STATE = this.codeState[1];
   selectChangeHandler(event: any) {
-    // console.log('------event',event);
-    //update the ui
-
-    this.filterVal = this.countrys.filter(($option: any) => $option.Code == event.Code)[0];
-    // console.log(this.filterVal);
-    console.log('country filter value',this.filterVal);
-
-    this.code[0] = this.filterVal.Code;
-    this.code[1] = this.filterVal.Name;
+    this.filterVal = this.countrys.filter(($option: any) => $option.Code == event)[0];
+if(this.filterVal){
+      this.branch.Country = this.filterVal.Code;
+      this.branch.U_COUNTRY = this.filterVal.Name;
     this.selectedDay = event;
-   // this.code = this.selectedDay.split(',');
     this.getState();
+}
   }
-
+ 
   selectedDayState: any;
-  codeState: any[]=[];
   filtersateVal:any='';
   selectChangeHandlerState(event: any) {
-    //update the ui
-    this.filtersateVal = this.statess.filter(($option: any) => $option.Code == event.Code)[0];
-    console.log('state filter value',this.filterVal);
-    this.codeState[0] = this.filtersateVal.Code;
-    this.codeState[1] = this.filtersateVal.Name;
-    console.log('state filter value',this.filtersateVal);
+    this.filtersateVal = this.statess.filter(($option: any) => $option.Code == event)[0];
+    if(this.filtersateVal){
+    this.branch.State = this.filtersateVal.Code;
+    this.branch.U_STATE = this.filtersateVal.Name;
     this.selectedDayState = event;
+    }
    // this.codeState = this.selectedDayState.split(',');
   }
-
+ 
   getState(): void {
-    this.bridgeService.getStatedata(this.code[0]).subscribe(
+    this.bridgeService.getStatedata(this.branch.Country).subscribe(
       (data: States[]) => {
         this.statess = data;
-
+ 
       },
       (err) => {
         console.log(err);
@@ -539,6 +527,8 @@ export class CustomerDetailsComponent implements OnInit {
       }
     );
   }
+ 
+
   // this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg`,backdrop:'static' }).result.then((result) => {
   //   this.closeResult = `Closed with: ${result}`;
 
@@ -640,12 +630,7 @@ export class CustomerDetailsComponent implements OnInit {
     }
     if (f.valid) {
       // console.log(this.branch)
-      if(this.code.length != 0){
-      this.branch.Country = this.code[0];
-      this.branch.U_COUNTRY = this.code[1];
-      }
-      this.branch.State = this.codeState[0];
-      this.branch.U_STATE = this.codeState[1];
+    
       this.branch.BPID = this.idd;
       this.branch.BPCode = this.CardCode;
       this.branch.BranchName = this.branch.AddressName;
@@ -802,28 +787,34 @@ export class CustomerDetailsComponent implements OnInit {
     // console.log('contact edit');
 
   }
-
+ 
   editselectedDay: any;
   editcode: any;
-
+ 
   editselectChangeHandler(event: any) {
    // this.editselectedDay = event.target.value;
-    this.editcode = this.countrys.filter(($option: any) => $option.Code == event.Code)[0];
+    this.editcode = this.countrys.filter(($option: any) => $option.Code == event)[0];
     //this.editcode = this.editselectedDay.split(',');
+    if(this.editcode){
     this.editbranch.Country = this.editcode.Code;
     this.editbranch.U_COUNTRY = this.editcode.Name;
     this.getState2();
+    }
   }
   editselectedDayState: any;
   editcodeState: any;
   editselectChangeHandlerState(event: any) {
+    // console.log(event)
     //this.editselectedDayState = event.target.value;
-    this.editcodeState = this.statess1.filter(($option: any) => $option.Code == event.Code)[0];
+    this.editcodeState = this.statess1.filter(($option: any) => $option.Code == event)[0];
    // this.editcodeState = this.editselectedDayState.split(',');
+  //  console.log(this.editcodeState);
+  if(this.editcodeState){
     this.editbranch.State = this.editcodeState.Code;
     this.editbranch.U_STATE = this.editcodeState.Name;
   }
-
+  }
+ 
   getState2(): void {
     this.bridgeService.getStatedata(this.editcode.Code).subscribe(
       (data: States[]) => {

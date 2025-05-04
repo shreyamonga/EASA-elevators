@@ -44,14 +44,16 @@ export class LinkedinComponent implements OnInit {
   UserId = sessionStorage.getItem('UserId');
 
   bridges: Bridge2 = {
-    date: this.newdate, location: '', companyName: '', source: '', contactPerson: '',
-    phoneNumber: '', message: '', email: '', productInterest: '',
+    date: this.newdate, location: '', companyName: '', source: '', contactPerson: '',city:'' ,state:'',
+    address:'',zipCode:'',
+    phoneNumber: '', message: '', email: '', productInterest: '',campaign: '',campaign_set:'',cardcode:'',
     assignedTo: this.UserId, timestamp: this.newdatetime, employeeId: this.UserId, numOfEmployee: '0', turnover: '', designation: '', status: 'Follow Up', leadType: '', Attach: '', Caption: '',
   };
   bridges22: EditBridge2[] = [];
   editbridges: EditBridge2 = {
-    date: '', location: '', companyName: '', source: '', contactPerson: '',
-    phoneNumber: '', message: '', email: '', productInterest: '',
+    date: '', location: '', companyName: '', source: '', contactPerson: '',city:'' ,state:'',
+    address:'',zipCode:'',
+    phoneNumber: '', message: '', email: '', productInterest: '',campaign: '',campaign_set:'',cardcode:'',
     assignedTo: '', timestamp: '', employeeId: '', id: '', numOfEmployee: '0', turnover: '', designation: '', status: '', leadType: '', Attach: '', Caption: '',
   };
 

@@ -104,15 +104,14 @@ export class InvoiceAddComponent implements OnInit {
     isLoading: boolean = false;
 
     p: number = 1;
-    searchValue: string = '';
-    searchValue1: any;
+    searchValue1: string = '';
     baseUrl2: any;
     quotations: Quotation[] = [];
     quotationsList: Quotation[] = [];
     DeliveryList: any[] = [];
     showshipaddressBool: boolean = true;
     _quotationItem: any;
-
+    quotation:any
 
     urlcheck: any;
     orderid: any;
@@ -273,40 +272,40 @@ export class InvoiceAddComponent implements OnInit {
         (data: Orders[]) => {
           this.isdataLoading=false;
           var totalamount:any = 0;
-          this.quotations = data;
+          this.quotation = data;
           this.order.id = idd;
           this.order.BaseEntry = Number(data[0].BaseEntry);
           this.order.BaseType = data[0].BaseType;
           this.Type = data[0].BaseType;
-          this.order.FreightCharge = Number(this.quotations[0].FreightCharge);
-          this.order.PONumber = this.quotations[0].PONumber;
-          this.order.PODate = this.quotations[0].PODate;
-          this.order.BPLID = this.quotations[0].BPLID;
+          this.order.FreightCharge = Number(this.quotation[0].FreightCharge);
+          this.order.PONumber = this.quotation[0].PONumber;
+          this.order.PODate = this.quotation[0].PODate;
+          this.order.BPLID = this.quotation[0].BPLID;
           // console.log(this.order.U_OPPID )
-          this.order.DiscountPercent = Number(this.quotations[0].DiscountPercent);
+          this.order.DiscountPercent = Number(this.quotation[0].DiscountPercent);
 
-          this.order.TaxRate = Number(this.quotations[0].TaxRate);
+          this.order.TaxRate = Number(this.quotation[0].TaxRate);
           console.log('TaxRate',this.order.TaxRate)
-          this.order.CardCode = this.quotations[0].CardCode;
-          this.order.DocumentLines = this.quotations[0].DocumentLines;
-          this.order.AddressExtension = this.quotations[0].AddressExtension;
-          this.order.FreightCharge = this.quotations[0].FreightCharge;
-          this.order.PaymentGroupCode = this.quotations[0].PaymentGroupCode
-          this.order.SalesPersonCode = this.quotations[0].SalesPersonCode
-          // const newArray = this.bridgeService2.replaceKeyInArray(this.quotations[0].DocumentLines, 'TaxRate', 'Tax');
-          // this.quotations[0].DocumentLines = newArray;
-          for (let i = 0; i < this.quotations[0].DocumentLines.length; i++) {
+          this.order.CardCode = this.quotation[0].CardCode;
+          this.order.DocumentLines = this.quotation[0].DocumentLines;
+          this.order.AddressExtension = this.quotation[0].AddressExtension;
+          this.order.FreightCharge = this.quotation[0].FreightCharge;
+          this.order.PaymentGroupCode = this.quotation[0].PaymentGroupCode
+          this.order.SalesPersonCode = this.quotation[0].SalesPersonCode
+          // const newArray = this.bridgeService2.replaceKeyInArray(this.quotation[0].DocumentLines, 'TaxRate', 'Tax');
+          // this.quotation[0].DocumentLines = newArray;
+          for (let i = 0; i < this.quotation[0].DocumentLines.length; i++) {
             this.QuatItems.push({
               id: this.QuatItems.length + 1,
-              Oid: this.quotations[0].DocumentLines[i].id,
-              Quantity: this.quotations[0].DocumentLines[i].Quantity,
-              UnitPrice: this.quotations[0].DocumentLines[i].UnitPrice,
-              DueDate: this.quotations[0].DocumentLines[i].DueDate,
-              DiscountPercent: this.quotations[0].DocumentLines[i].DiscountPercent,
-              ItemCode: this.quotations[0].DocumentLines[i].ItemCode,
-              ItemDescription: this.quotations[0].DocumentLines[i].ItemDescription,
-              TaxCode: this.quotations[0].DocumentLines[i].TaxCode,
-              TaxRate: this.quotations[0].DocumentLines[i].TaxRate||0,
+              Oid: this.quotation[0].DocumentLines[i].id,
+              Quantity: this.quotation[0].DocumentLines[i].Quantity,
+              UnitPrice: this.quotation[0].DocumentLines[i].UnitPrice,
+              DueDate: this.quotation[0].DocumentLines[i].DueDate,
+              DiscountPercent: this.quotation[0].DocumentLines[i].DiscountPercent,
+              ItemCode: this.quotation[0].DocumentLines[i].ItemCode,
+              ItemDescription: this.quotation[0].DocumentLines[i].ItemDescription,
+              TaxCode: this.quotation[0].DocumentLines[i].TaxCode,
+              TaxRate: this.quotation[0].DocumentLines[i].TaxRate||0,
             });
           }
 
@@ -314,12 +313,12 @@ export class InvoiceAddComponent implements OnInit {
             delete this.QuatItems[i]['id'];
             var basic = Number(this.QuatItems[i].Quantity) * Number(this.QuatItems[i].UnitPrice);
         var afterfdis = basic - (basic * (Number(this.QuatItems[i].DiscountPercent) / 100))
-        var aftersdis = afterfdis - (afterfdis * (Number(this.quotations[0].DiscountPercent) / 100))
+        var aftersdis = afterfdis - (afterfdis * (Number(this.quotation[0].DiscountPercent) / 100))
         var total = aftersdis + (aftersdis * (Number(this.QuatItems[i].TaxRate) / 100))
         totalamount += total;
       }
       this.total_Amount = totalamount.toFixed(2);
-      if(this.quotations[0].FreightCharge != ''){
+      if(this.quotation[0].FreightCharge != ''){
         this.total_Amount = Number(this.total_Amount) + Number(this.order.FreightCharge);
         }
         this.total_Amount =  Number(this.total_Amount).toFixed(2);
@@ -327,7 +326,7 @@ export class InvoiceAddComponent implements OnInit {
         console.log(this.order.DocumentLines)
 
 
-          this.CountItem = this.quotations[0].DocumentLines.length;
+          this.CountItem = this.quotation[0].DocumentLines.length;
           this.selectChangeHandlerItem(this.order.CardCode,'Quot');
           setTimeout(() => this.isdataLoading = false, 2000)
         },
@@ -448,21 +447,21 @@ export class InvoiceAddComponent implements OnInit {
       this.bridgeService2.getOneDeliverydata(event?.id ?? event).subscribe(
         (data: Orders[]) => {
           // this.isdataLoading=false;
-          this.quotations = data;
-          this.order.BaseEntry = Number(this.quotations[0].id);
+          this.quotation = data;
+          this.order.BaseEntry = Number(this.quotation[0].id);
           this.order.BaseType = 'Delivery';
-          this.order.DiscountPercent = Number(this.quotations[0].DiscountPercent);
-          this.order.CardCode = this.quotations[0].CardCode;
-          this.order.TaxRate = Number(this.quotations[0].TaxRate)||0;
-          this.order.PONumber = this.quotations[0].PONumber;
-          this.order.PODate = this.quotations[0].PODate;
-          this.order.AddressExtension = this.quotations[0].AddressExtension;
-          this.order.FreightCharge = Number(this.quotations[0].FreightCharge);
-          this.order.PaymentGroupCode = this.quotations[0].PaymentGroupCode
-          this.order.SalesPersonCode = this.quotations[0].SalesPersonCode
-          // const newArray = this.bridgeService2.replaceKeyInArray(this.quotations[0].DocumentLines, 'TaxRate', 'Tax');
-          // this.quotations[0].DocumentLines = newArray;
-          this.calculatitonFuntion(this.quotations[0].DocumentLines,'Quot');
+          this.order.DiscountPercent = Number(this.quotation[0].DiscountPercent);
+          this.order.CardCode = this.quotation[0].CardCode;
+          this.order.TaxRate = Number(this.quotation[0].TaxRate)||0;
+          this.order.PONumber = this.quotation[0].PONumber;
+          this.order.PODate = this.quotation[0].PODate;
+          this.order.AddressExtension = this.quotation[0].AddressExtension;
+          this.order.FreightCharge = Number(this.quotation[0].FreightCharge);
+          this.order.PaymentGroupCode = this.quotation[0].PaymentGroupCode
+          this.order.SalesPersonCode = this.quotation[0].SalesPersonCode
+          // const newArray = this.bridgeService2.replaceKeyInArray(this.quotation[0].DocumentLines, 'TaxRate', 'Tax');
+          // this.quotation[0].DocumentLines = newArray;
+          this.calculatitonFuntion(this.quotation[0].DocumentLines,'Quot');
           this.selectChangeHandlerItem(this.order.CardCode,'Quot');
           setTimeout(() => this.isdataLoading = false, 2000)
         })
@@ -475,23 +474,23 @@ export class InvoiceAddComponent implements OnInit {
       this.bridgeService2.getOneOrderdata(event?.id ?? event).subscribe(
         (data: Orders[]) => {
           // this.isdataLoading=false;
-          this.quotations = data;
-          this.order.BaseEntry = Number(this.quotations[0].id);
+          this.quotation = data;
+          this.order.BaseEntry = Number(this.quotation[0].id);
           this.order.BaseType = 'Order';
-          this.order.DiscountPercent = Number(this.quotations[0].DiscountPercent);
-          this.order.TaxRate = Number(this.quotations[0].TaxRate)||0;
-          this.order.CardCode = this.quotations[0].CardCode;
-          this.order.BPLID = this.quotations[0].BPLID;
+          this.order.DiscountPercent = Number(this.quotation[0].DiscountPercent);
+          this.order.TaxRate = Number(this.quotation[0].TaxRate)||0;
+          this.order.CardCode = this.quotation[0].CardCode;
+          this.order.BPLID = this.quotation[0].BPLID;
 
-          this.order.PONumber = this.quotations[0].PONumber;
-          this.order.PODate = this.quotations[0].PODate;
-          this.order.AddressExtension = this.quotations[0].AddressExtension;
-          this.order.FreightCharge = Number(this.quotations[0].FreightCharge);
-          this.order.PaymentGroupCode = this.quotations[0].PaymentGroupCode
-          this.order.SalesPersonCode = this.quotations[0].SalesPersonCode
-          // const newArray = this.bridgeService2.replaceKeyInArray(this.quotations[0].DocumentLines, 'TaxRate', 'Tax');
-          // this.quotations[0].DocumentLines = newArray;
-          this.calculatitonFuntion(this.quotations[0].DocumentLines,'Quot');
+          this.order.PONumber = this.quotation[0].PONumber;
+          this.order.PODate = this.quotation[0].PODate;
+          this.order.AddressExtension = this.quotation[0].AddressExtension;
+          this.order.FreightCharge = Number(this.quotation[0].FreightCharge);
+          this.order.PaymentGroupCode = this.quotation[0].PaymentGroupCode
+          this.order.SalesPersonCode = this.quotation[0].SalesPersonCode
+          // const newArray = this.bridgeService2.replaceKeyInArray(this.quotation[0].DocumentLines, 'TaxRate', 'Tax');
+          // this.quotation[0].DocumentLines = newArray;
+          this.calculatitonFuntion(this.quotation[0].DocumentLines,'Quot');
           this.selectChangeHandlerItem(this.order.CardCode,'Quot');
           setTimeout(() => this.isdataLoading = false, 2000)
         })
@@ -783,14 +782,14 @@ export class InvoiceAddComponent implements OnInit {
       this.getQuotationItem2(this.CategroyIDD);
     }
     emptySeach2(){
-      this.searchValue = '';
+      this.searchValue2 = '';
       this.RowPerPage2();
     }
 
       categorys:any[]=[]
       getQuotationItem(): void {
         this.isLoading = true;
-        this.bridgeService2.getItemCateByPagination(this.pagination,this.searchValue,this.order_by_field,this.order_by_value).subscribe(
+        this.bridgeService2.getItemCateByPagination(this.pagination,this.searchValue1,this.order_by_field,this.order_by_value).subscribe(
           (data: any) => {
             this.categorys = data.data;
             this.totalCount = data.meta.count;
@@ -830,7 +829,7 @@ export class InvoiceAddComponent implements OnInit {
         this.getQuotationItem();
       }
       emptySeach(){
-        this.searchValue = '';
+        this.searchValue1 = '';
         this.RowPerPage();
       }
 

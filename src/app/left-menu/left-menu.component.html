@@ -180,10 +180,10 @@
       <span class="links_name">Project Management</span>
     </li> -->
 
-   <!-- <li routerLink="/target-assisment" (click)="falseDropdown()" [routerLinkActive]="['active']">
+   <li routerLink="/target-assisment" (click)="falseDropdown()" [routerLinkActive]="['active']">
       <i class='fa fa-truck'></i>
       <span class="links_name" title="{{Headingss[11].leftheading}}">{{Headingss[11].leftheading}} </span>
-    </li> -->
+    </li>
    <li routerLink="/notification" (click)="falseDropdown()" [routerLinkActive]="['active']">
       <i class='fa fa-bell'></i>
       <span class="links_name" title="Notification">Notification </span>
@@ -194,10 +194,10 @@
     </li>
 
 
-   <li routerLink="/boat/chat" (click)="falseDropdown()" [routerLinkActive]="['active']">
+   <!-- <li routerLink="/boat/chat" (click)="falseDropdown()" [routerLinkActive]="['active']">
     <img src="../../assets/img/askmile.jpg" style="height: 15px;width: 15px;border-radius: 50%;">
     <span class="links_name" title="Notification">Ask Milo </span>
-  </li>
+  </li> -->
 
     <!-- <li (click)="querysParam('isList',true)" [routerLinkActive]="['active']" [ngClass]="isLocation?'active':''">
       <i class='fa fa-map-marker'></i>
@@ -230,6 +230,10 @@
           <i class="fa fa-industry" title="Form"></i>
           <span class="links_name">Survey Form</span>
         </li> -->
+        <li routerLink='/setting/leadcource' [routerLinkActive]="['active']">
+          <i class="fa fa-tasks" aria-hidden="true"></i>
+          <span class="links_name" title="Lead Source">Lead Source</span>
+        </li>
         <li routerLink='/setting/industry' [routerLinkActive]="['active']">
           <i class="fa fa-industry" aria-hidden="true"></i>
           <span class="links_name" title="Industry">Industry</span>

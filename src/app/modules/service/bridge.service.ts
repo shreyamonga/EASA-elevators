@@ -11,7 +11,7 @@ import { Editopportunity, opportunity, UpdateOppSetStatus } from '../../opportun
 
 import { Quotation, EditQuotation, QuoAttach, Attachment } from '../../quotation';
 import { Login, Target, TargeEmployeGet, TargeYear, TargeQuoter } from '../../login';
-import { Stages, CreateStages, ChangeStages, CompleteStages } from '../../stage';
+import { Stages, CreateStages, ChangeStages, CompleteStages, SecondStage } from '../../stage';
 import { Chatter, Activity, EditActivity, OppoAttach } from '../../chatter';
 
 import { Customer, EditCustomer, Branch, EditBranch, ContactPerson, updateContactPerson } from '../../customer';
@@ -25,6 +25,7 @@ import { MAP } from '../model/customer';
 import { DomSanitizer } from '@angular/platform-browser';
 import { LocalSetting } from '../model/bridge';
 import { Config } from 'src/config';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -80,9 +81,9 @@ export class BridgeService {
     return  new WebSocket(this.SocektApi+'/licence_expiry_notifications/');
   }
 
-  getNotifcationCounter(){
-    return  new WebSocket(this.SocektApi+'/activity_count_notifications/');
-  }
+  // getNotifcationCounter(){
+  //   return  new WebSocket(this.SocektApi+'/activity_count_notifications/');
+  // }
 // Super Admin Api
 
   MainSessionloginFunction(login: any) {
@@ -328,6 +329,22 @@ storeApplication(customer: any,appEdit:boolean) {
     );
 
   }
+
+    // }
+    getAllUpperReporting() {
+      return this.http.post(`${this.baseUrl2}/employee/upper_reportingTo`, {
+        "SalesEmployeeCode": this.SalesEmployeeCode,
+ 
+      }, { 'headers': this.getHeader() }).pipe(
+        map((res: any) => {
+          // //console.log(res)
+          return res['data'];
+        })
+      );
+  
+    }
+
+  
   getLocationAddress(lat: any, long: any) {
     return this.http.get(`https://apis.mapmyindia.com/advancedmaps/v1/AIzaSyAiPvRFmfyB8vuyzTDRScLZCRhaW84R25U/rev_geocode?lat=${lat}&lng=${long}&region=IND&lang=hi`, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
@@ -719,6 +736,21 @@ storeApplication(customer: any,appEdit:boolean) {
     }))
   }
 
+//   http://103.197.76.50:8048/employee/button_status
+// {
+//     "SalesEmployeeCode":"1",
+//     "SelectedEmployee":"2"
+// }
+getDrawingStatus(idd: any, salesPersonId : any) {
+  return this.http.post(`${this.baseUrl2}/employee/button_status`,
+     { "SalesEmployeeCode": idd ,
+        "SelectedEmployee" : salesPersonId
+      }, { 'headers': this.getHeader() }).pipe(map((res: any) => {
+    return res['data'];
+  }))
+}
+
+
   getoneemployeechecklogout(idd: any) {
     return this.http.post(`${this.baseUrl2}/employee/one`, { "id": idd }, { 'headers': this.getHeader() }).pipe(map((res: any) => {
       return res;
@@ -839,12 +871,30 @@ storeApplication(customer: any,appEdit:boolean) {
     );
   }
 
+  
   HotWarmDealsGraph(evt: any) {
+
+const dateObj = new Date();
+const year = dateObj.getUTCFullYear();
+const year1 = year-1;
+const year2 = year+1;
+
+const month2 = dateObj.getMonth() + 1;
+var Fromdate = '';
+var Todate = '';
+if(month2 >= 3){
+Fromdate = year+"-04-01"
+Todate = year2+"-03-31"
+}
+else{
+  Fromdate = year1+"-04-01"
+  Todate = year+"-03-31"
+}
     return this.http.post(`${this.baseUrl2}/employee/monthly_lead_report`,
       {
         "SalesEmployeeCode": evt,
-        "FromDate": "2023-01-01",
-        "ToDate": "2024-12-31"
+        "FromDate": Fromdate,
+        "ToDate": Todate
       },
       { 'headers': this.getHeader() }).pipe(
         map((res: any) => {
@@ -1041,15 +1091,313 @@ storeApplication(customer: any,appEdit:boolean) {
   }
 
 
-  ChangeStage(bridge2: ChangeStages) {
-    //console.log(bridge2);
-    return this.http.post(`${this.baseUrl2}/opportunity/change_stage`, bridge2, { 'headers': this.getHeader() }).pipe(
-      map((res: any) => {
-        return res;
-      })
-    );
+  // ChangeStage(bridge2: ChangeStages) {
+  //   console.log(bridge2);
+  //   bridge2.Floor = JSON.stringify(bridge2.Floor);
+  //   const uploadData = new FormData();
+  //   for (let i = 0; i < Object.keys(bridge2).length; i++) {
+  //     uploadData.append(Object.keys(bridge2)[i], Object.values(bridge2)[i]);
+  //   }
+
+  //   if (bridge2.File != '') {
+  //     uploadData.delete('File');
+  //     for (var i = 0; i < bridge2.File.length; i++) {
+  //       uploadData.append("File", bridge2.File[i]);
+  //     }
+  //   }
+  //   // if (bridge2.SitePicture != '') {
+  //   //   uploadData.delete('SitePicture');
+  //   //   for (var i = 0; i < bridge2.SitePicture.length; i++) {
+  //   //     uploadData.append("SitePicture", bridge2.SitePicture[i]);
+  //   //   }
+  //   // }
+
+
+  //   return this.http.post(`${this.baseUrl2}/opportunity/change_stage`, uploadData, { 'headers': this.getHeader() }).pipe(
+  //     map((res: any) => {
+  //       return res;
+  //     })
+  //   );
+  // }
+
+
+
+  uploadProfileImage(data: any){
+    const uploadData = new FormData();
+    for (let key in data) {
+        if (data.hasOwnProperty(key)) {
+            uploadData.append(key, data[key]);
+        }
+    }
+
+    // Handle file uploads
+    if (data.Image != '') {
+        uploadData.delete('Image');
+        for (let i = 0; i < data.Image.length; i++) {
+            uploadData.append("Image", data.Image[i]);
+        }
+    }
+
+
+    return this.http.post(`${this.baseUrl2}/employee/employee_image_upload`, uploadData, { 'headers': this.getHeader() }).pipe(map((res: any) => {
+      return res;
+    }))
   }
 
+ChangeStage(data: any, sid: number, state: any): Promise<any> {
+  console.log("Sending Data:", data);
+  
+
+    if (sid === 1) {
+        data.Floor = JSON.stringify(data.Floor);
+    }
+
+    const uploadData = new FormData();
+    for (let key in data) {
+        if (data.hasOwnProperty(key)) {
+          // const value = data[key] == "undefined" ? '' : data[key];  // <-- this line added
+          const value = (data[key] === null || data[key] === undefined) ? '' : data[key];
+
+            // uploadData.append(key, data[key]);
+            uploadData.append(key, value);
+        }
+    }
+
+    // Handle file uploads
+    if (sid === 1 && data.File != '') {
+      console.log('check file');
+      
+        uploadData.delete('File');
+        for (let i = 0; i < data.File.length; i++) {
+            uploadData.append("File", data.File[i]);
+        }
+    }
+ 
+
+
+    if (sid === 2 && data.SitePicture != '') {
+        uploadData.delete('SitePicture');
+        for (let i = 0; i < data.SitePicture.length; i++) {
+            uploadData.append("SitePicture", data.SitePicture[i]);
+        }
+        console.log('check Site Picture' , data.SitePicture )
+
+    }
+    if (sid === 2 && data.BDMPictures != '') {
+      uploadData.delete('BDMPictures');
+      for (let i = 0; i < data.BDMPictures.length; i++) {
+          uploadData.append("BDMPictures", data.BDMPictures[i]);
+      }
+      console.log('check Site Picture' , data.BDMPictures )
+
+  }
+
+  if (sid === 2 && data.PhysicalCopyOfRGF != '') {
+    uploadData.delete('PhysicalCopyOfRGF');
+    for (let i = 0; i < data.PhysicalCopyOfRGF.length; i++) {
+        uploadData.append("PhysicalCopyOfRGF", data.PhysicalCopyOfRGF[i]);
+    }
+    console.log('check Site Picture' , data.PhysicalCopyOfRGF )
+
+}
+
+
+if (sid === 2 && data.DrawingAttachment != '') {
+  uploadData.delete('DrawingAttachment');
+  for (let i = 0; i < data.DrawingAttachment.length; i++) {
+      uploadData.append("DrawingAttachment", data.DrawingAttachment[i]);
+  }
+  console.log('check Site Picture' , data.DrawingAttachment )
+
+}
+
+
+
+if (sid === 3 && data.File != '') {
+  uploadData.delete('File');
+  for (let i = 0; i < data.File.length; i++) {
+      uploadData.append("File", data.File[i]);
+  }
+  console.log('check Site Picture' , data.File )
+
+}
+
+if (sid === 5 && data.File != '') {
+  uploadData.delete('File');
+  for (let i = 0; i < data.File.length; i++) {
+      uploadData.append("File", data.File[i]);
+  }
+  console.log('check Final Attachment' , data.File )
+
+}
+
+if (sid === 5.1 && data.File != '') {
+  uploadData.delete('File');
+  for (let i = 0; i < data.File.length; i++) {
+      uploadData.append("File", data.File[i]);
+  }
+  console.log('check Final Attachment' , data.File )
+
+}
+
+
+if (sid === 6 && data.File != '') {
+  uploadData.delete('File');
+  for (let i = 0; i < data.File.length; i++) {
+      uploadData.append("File", data.File[i]);
+  }
+  console.log('check Final Attachment' , data.File )
+
+}
+
+if (sid === 7 && data.SignedQuote != '') {
+  uploadData.delete('SignedQuote');
+  for (let i = 0; i < data.SignedQuote.length; i++) {
+      uploadData.append("SignedQuote", data.SignedQuote[i]);
+  }
+  console.log('check Final Attachment' , data.SignedQuote )
+}
+if (sid === 7 && data.PaymentProof != '') {
+  uploadData.delete('PaymentProof');
+  for (let i = 0; i < data.PaymentProof.length; i++) {
+      uploadData.append("PaymentProof", data.PaymentProof[i]);
+  }
+  console.log('check Final Attachment' , data.PaymentProof )
+}
+
+if (sid === 7 && data.LOI != '') {
+  uploadData.delete('LOI');
+  for (let i = 0; i < data.LOI.length; i++) {
+      uploadData.append("LOI", data.LOI[i]);
+  }
+  console.log('check Final Attachment' , data.LOI )
+}
+if (sid === 9 && data.PreNIChecklist_File != '') {
+  uploadData.delete('PreNIChecklist_File');
+  for (let i = 0; i < data.PreNIChecklist_File.length; i++) {
+      uploadData.append("PreNIChecklist_File", data.PreNIChecklist_File[i]);
+  }
+  console.log('check Final Attachment' , data.PreNIChecklist_File )
+}
+if (sid === 9 && data.Handover != '') {
+  uploadData.delete('Handover');
+  for (let i = 0; i < data.Handover.length; i++) {
+      uploadData.append("Handover", data.Handover[i]);
+  }
+  console.log('check Final Attachment' , data.Handover )
+}
+
+if (sid === 9 && data.MOM != '') {
+  uploadData.delete('MOM');
+  for (let i = 0; i < data.MOM.length; i++) {
+      uploadData.append("MOM", data.MOM[i]);
+  }
+  console.log('check Final Attachment' , data.MOM )
+}
+
+
+console.log('check uoliad' , uploadData);
+
+
+
+
+// if(state == 'create'){
+//   return this.http.post(`${this.baseUrl2}/opportunity/change_stage1`, uploadData, { headers: this.getHeader() })
+//   .pipe(
+//       map((res: any) => {
+//           return res;
+//       })
+//   );
+// }
+// else if(state == 'update' ){
+//   console.log('check inside update');
+//   return this.http.post(`${this.baseUrl2}/opportunity/change_stage1`, uploadData, { headers: this.getHeader() })
+//   .pipe(
+//       map((res: any) => {
+//           return res;
+//       })
+// );
+  
+// }
+// if(state == 'create'){
+  return new Promise((resolve, reject) => {
+    
+    const url = state === 'create' ? `${this.baseUrl2}/opportunity/change_stage` : `${this.baseUrl2}/opportunity/update_stage`;
+  
+    // HTTP POST request converted to Promise
+    console.log('check dataaa' , uploadData)
+    this.http.post(url, uploadData, { headers: this.getHeader() })
+        .toPromise()
+        .then((res: any) => resolve(res))  // Resolve the promise with the response
+        .catch((err: any) => reject(err)); // Reject the promise with the error
+  });
+  
+  // }
+
+  
+}
+
+// ChangeStage(data: any, sid: number, state: any): Promise<any> {
+//   console.log("Sending Data:", data);
+//   console.log("STATE:", state);
+
+
+//   if (sid === 1) {
+//       data.Floor = JSON.stringify(data.Floor);
+//   }
+
+//   const uploadData = new FormData();
+//   for (let key in data) {
+//       if (data.hasOwnProperty(key)) {
+//           uploadData.append(key, data[key]);
+//       }
+//   }
+
+//   // Handle file uploads
+//   if (sid === 1 && data.File != '') {
+//       console.log('check file');
+//       uploadData.delete('File');
+//       for (let i = 0; i < data.File.length; i++) {
+//           uploadData.append("File", data.File[i]);
+//       }
+//   }
+
+//   // Similar checks for other 'sid' values...
+
+//   console.log('check uploadData:', uploadData);
+
+//   // Return a promise for the HTTP request
+//   return new Promise((resolve, reject) => {
+//       const url = state === 'create' ? `${this.baseUrl2}/opportunity/change_stage1` : `${this.baseUrl2}/opportunity/update_stage1`;
+
+//       // HTTP POST request converted to Promise
+//       this.http.post(url, uploadData, { headers: this.getHeader() })
+//           .toPromise()
+//           .then((res: any) => resolve(res))  // Resolve the promise with the response
+//           .catch((err: any) => reject(err)); // Reject the promise with the error
+//   });
+// }
+
+
+createChecklist(data: any,) {
+  console.log("Sending Data:", data);
+  return this.http.post(`${this.baseUrl2}/opportunity/checklist_create`, data, { headers: this.getHeader() })
+      .pipe(
+          map((res: any) => {
+              return res;
+          })
+      );
+}
+
+updateChecklist(data :  any) {
+  console.log("Sending Data:", data);
+  return this.http.post(`${this.baseUrl2}/opportunity/checklist_update`, data, { headers: this.getHeader() })
+      .pipe(
+          map((res: any) => {
+              return res;
+          })
+      );
+}
 
 
   CompleteStage(bridge2: CompleteStages) {
@@ -1408,16 +1756,73 @@ storeApplication(customer: any,appEdit:boolean) {
     console.log(Quotation);
     Quotation.AddressExtension = JSON.stringify(Quotation.AddressExtension);
     Quotation.DocumentLines = JSON.stringify(Quotation.DocumentLines);
+    // Quotation.LongData = JSON.stringify([Quotation.LongData]);
+    // console.log('check payload format' , Quotation.LongData);
+    
+    // Quotation.ElevatorShaft = JSON.stringify([Quotation.ElevatorShaft]);
+    // Quotation.ElevatorSpecification = JSON.stringify([Quotation.ElevatorSpecification]);
+    // Quotation.Doors = JSON.stringify([Quotation.Doors]);
+    // Quotation.ScopeOfWork = JSON.stringify([Quotation.ScopeOfWork]);
+    
+    // Quotation.Guarantee = JSON.stringify([Quotation.Guarantee]);
+    // Quotation.OptionalFeatures = JSON.stringify([Quotation.OptionalFeatures]);
+
+    
+        Quotation.LongData = JSON.stringify(Array.isArray(Quotation.LongData) ? Quotation.LongData : [Quotation.LongData]);
+        Quotation.ElevatorShaft = JSON.stringify(Array.isArray(Quotation.ElevatorShaft) ? Quotation.ElevatorShaft : [Quotation.ElevatorShaft]);
+        Quotation.ElevatorSpecification = JSON.stringify(Array.isArray(Quotation.ElevatorSpecification) ? Quotation.ElevatorSpecification : [Quotation.ElevatorSpecification]);
+        Quotation.Doors = JSON.stringify(Array.isArray(Quotation.Doors) ? Quotation.Doors : [Quotation.Doors]);
+        // Quotation.ScopeOfWork = JSON.stringify(Array.isArray(Quotation.ScopeOfWork) ? Quotation.ScopeOfWork : [Quotation.ScopeOfWork]);
+        // Quotation.Guarantee = JSON.stringify(Array.isArray(Quotation.Guarantee) ? Quotation.Guarantee : [Quotation.Guarantee]);
+        // Quotation.OptionalFeatures = JSON.stringify(Array.isArray(Quotation.OptionalFeatures) ? Quotation.OptionalFeatures : [Quotation.OptionalFeatures]);
+        Quotation.ScopeOfWork = JSON.stringify(filterEmptyFields(Quotation.ScopeOfWork));
+        Quotation.OptionalFeatures = JSON.stringify(filterEmptyFields(Quotation.OptionalFeatures));
+        Quotation.Guarantee = JSON.stringify(filterEmptyFields(Quotation.Guarantee));
+        Quotation.ElevatorSteelStructure = JSON.stringify(filterEmptyFields(Quotation.ElevatorSteelStructure));
+        Quotation.TechnicalDetails = JSON.stringify(filterEmptyFields(Quotation.TechnicalDetails));
+
+    console.log('check longdata 1 ', Quotation.LongData);
+    console.log('check ElevatorShaft 2', Quotation.ElevatorShaft);
+    console.log('check ElevatorSpecification 3', Quotation.ElevatorSpecification);
+    console.log('check Doors 4', Quotation.Doors);
+    console.log('check ScopeOfWork 5', Quotation.ScopeOfWork);
+    console.log('check OptionalFeatures 6', Quotation.OptionalFeatures);
+    console.log('check Guarantee 7', Quotation.Guarantee);
+    console.log('check ElevatorSteelStructure 8', Quotation.ElevatorSteelStructure);
+
+
+
+    function filterEmptyFields(data: any) {
+      // If data is already an array, filter empty objects
+      if (Array.isArray(data)) {
+        return data.filter(item => Object.keys(item).length > 0);
+      }
+
+      // If data is an object, convert it into an array (unless it's empty)
+      return Object.keys(data).length > 0 ? [data] : [];
+    }
+          // Check for missing data and send blank arrays if empty
+    // Quotation.ElevatorSteelStructure = JSON.stringify(Quotation.ElevatorSteelStructure && Object.keys(Quotation.ElevatorSteelStructure).length ? [Quotation.ElevatorSteelStructure] : []);
+
+    Quotation.CabinDesign = JSON.stringify(Quotation.CabinDesign && Object.keys(Quotation.CabinDesign).length ? [Quotation.CabinDesign] : []);
+    // Quotation.TechnicalDetails = JSON.stringify(Quotation.TechnicalDetails && Object.keys(Quotation.TechnicalDetails).length ? [Quotation.TechnicalDetails] : []);
+    Quotation.Others = JSON.stringify(Quotation.Others && Object.keys(Quotation.Others).length ? [Quotation.Others] : []);
+    console.log('check payload format', Quotation);
+
+    
     const uploadData = new FormData();
     for (let i = 0; i < Object.keys(Quotation).length; i++) {
       uploadData.append(Object.keys(Quotation)[i], Object.values(Quotation)[i]);
     }
+    console.log('check form' , uploadData);
+
     if (Quotation.Attach != '') {
       uploadData.delete('Attach');
       for (var i = 0; i < Quotation.Attach.length; i++) {
         uploadData.append("Attach", Quotation.Attach[i]);
       }
     }
+    console.log('check form' , uploadData);
     return this.http.post(`${this.baseUrl2}/quotation/create`, uploadData, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
         return res;
@@ -1427,7 +1832,20 @@ storeApplication(customer: any,appEdit:boolean) {
 
 
   editQuotation(Quotation: EditQuotation) {
-    //console.log(Quotation);
+    console.log(Quotation);
+    Quotation.ElevatorShaft = [Quotation.ElevatorShaft]
+    Quotation.ElevatorSpecification = [Quotation.ElevatorSpecification]
+    Quotation.Doors = [Quotation.Doors]
+    Quotation.ScopeOfWork = [Quotation.ScopeOfWork]
+    Quotation.LongData = [Quotation.LongData]
+    Quotation.OptionalFeatures = [Quotation.OptionalFeatures]
+    Quotation.ElevatorSteelStructure = [Quotation.ElevatorSteelStructure]
+
+    Quotation.Guarantee = [Quotation.Guarantee]
+
+
+
+
     return this.http.post(`${this.baseUrl2}/quotation/update`, Quotation, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
         return res;
@@ -2482,13 +2900,28 @@ storeApplication(customer: any,appEdit:boolean) {
 
 
   getLeadByPagination(pagination: any, searchValue: any, filter: any, order_by_field: any, order_by_value: any, leadType: any) {
-    // console.log(filter)
-    // filter = this.findRemovedOrEmptyKeys(filter,filter)
     filter.assignedTo = this.checkKeyEpty(filter.assignedTo);
     filter.source = this.checkKeyEpty(filter.source);
-    filter.status = this.checkKeyEpty(filter.status);
+    filter.status = this.checkKeyEpty(filter.status);    
     filter.CreateDate__gte = this.checkKeyEpty(filter.CreateDate__gte);
     filter.CreateDate__lte = this.checkKeyEpty(filter.CreateDate__lte);
+
+     // Build the field object dynamically
+  const field: any = {
+    assignedTo_id__in: filter.assignedTo,
+    source__in: filter.source,
+    status: filter.status,
+    CreateDate__gte: filter.CreateDate__gte,
+    CreateDate__lte: filter.CreateDate__lte
+  };
+
+  // Condition 
+  if (filter.city && filter.city.trim() !== '') {
+    field.city = filter.city;
+  }
+  if (filter.state && filter.state.trim() !== '') {
+    field.state = filter.state;
+  }
     return this.http.post(`${this.baseUrl2}/lead/all_filter_page`, {
       "SalesPersonCode": this.SalesEmployeeCode,
       "PageNo": pagination.PageNo,
@@ -2497,16 +2930,10 @@ storeApplication(customer: any,appEdit:boolean) {
       "order_by_value": order_by_value,
       "SearchText": searchValue,
       "leadType": leadType,
-      "field": {
-        assignedTo_id__in: filter.assignedTo,
-        source__in: filter.source,
-        status: filter.status,
-        CreateDate__gte: filter.CreateDate__gte,
-        CreateDate__lte: filter.CreateDate__lte,
-      }
+      "field": field
     }, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
-        // //console.log(res)
+      
         return res;
       })
     );
@@ -2742,6 +3169,20 @@ storeApplication(customer: any,appEdit:boolean) {
         CreateDate__lte: filteruser.CreateDate__lte,
         SalesPersonCode__in: filteruser.assignedTo,
       }
+    }, { 'headers': this.getHeader() }).pipe(
+      map((res: any) => {
+        // //console.log(res)
+        return res;
+      })
+    );
+
+  }
+
+  getOrderListing( salesPersonCode: any) {
+    return this.http.post(`${this.baseUrl2}/order/all_ord`, {
+      "SalesPersonCode": salesPersonCode,
+      "departement": '2',
+    
     }, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
         // //console.log(res)
@@ -3880,6 +4321,43 @@ replaceKeyInArray(arr: any[], oldKey: string, newKey: string): any[] {
     );
   }
 
+  StatusApprovalQuotation(Payload: any,id:any){
+    return this.http.post(`${this.baseUrl2}/quotation/approval_status`,{
+      "id": id,
+      "status": Payload.status,
+      "SalesEmployeeCode" : Payload.user,
+      "Remarks" : Payload.remark,
+   
+      }, { 'headers': this.getHeader() }).pipe(
+      map((res: any) => {
+        return res;
+      })
+    );
+  }
+
+
+  StatusApprovalOrder(Payload: any,id:any){
+    return this.http.post(`${this.baseUrl2}/order/approval_status`,{
+      "id": id,
+      "status": Payload.status,
+      "SalesEmployeeCode" : Payload.user,
+      "Remarks" : Payload.remark,
+   
+      }, { 'headers': this.getHeader() }).pipe(
+      map((res: any) => {
+        return res;
+      })
+    );
+  }
+
+
+  // http://103.197.76.50:8048/order/approval_status
+  // {
+  //     "id": "73",
+  //     "status":"1",#0: Pending, 1 Approved, 3 Reject
+  //     "SalesEmployeeCode":"",
+  //     "Remarks":""
+  // }
   UpdateSingleField(apiType: any) {
     return this.http.post(`${this.baseUrl2}/add_dynamic_field`,apiType
       , { 'headers': this.getHeader() }).pipe(
@@ -3889,6 +4367,16 @@ replaceKeyInArray(arr: any[], oldKey: string, newKey: string): any[] {
     );
   }
 
+  getCheckListData(id : any){
+      return this.http.post(`${this.baseUrl2}/opportunity/checklist_one`, {
+        "Opp_Id": id,
+     
+        }, { 'headers': this.getHeader() }).pipe(
+        map((res: any) => {
+          return res;
+        })
+      );
+  }
 
   GetDynamicFld(name:any){
     return this.http.get(`${this.baseUrl2}/dynamic_field_list?module_name=${name}`
@@ -3998,6 +4486,14 @@ replaceKeyInArray(arr: any[], oldKey: string, newKey: string): any[] {
   }
   oppsetstatus(campn: UpdateOppSetStatus) {
     return this.http.post(`${this.baseUrl2}/opportunity/opp_status`, campn, { 'headers': this.getHeader() }).pipe(
+      map((res: any) => {
+        return res;
+      })
+    );
+  }
+
+  AddEditLeadSource(indusadd: any, isEdit: boolean) {
+    return this.http.post(`${this.baseUrl2}/lead/${isEdit ? 'source_update' : 'source_create'}`, indusadd, { 'headers': this.getHeader() }).pipe(
       map((res: any) => {
         return res;
       })

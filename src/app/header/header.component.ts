@@ -5,6 +5,7 @@ import { Bridge } from '../bridge';
 import { NotiferService } from '../modules/service/helpers/notifer.service';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from '@angular/forms';
+import { uploadProfilePic} from '../stage';
 declare var $: any;
 @Component({
   selector: 'app-header',
@@ -17,7 +18,7 @@ export class HeaderComponent implements OnInit {
   hiddingLeftNav: any = { match: ["#/", "", "#/login"] };
   leftNavbar: any;
   error: any;
-
+  salesEmployeeCode : any
   isBoat:boolean = false;
   isLoading2:boolean = false;
   constructor(private route: Router,public bridgeService2: BridgeService,private _NotifierService: NotiferService, private modalService: NgbModal) { }
@@ -48,6 +49,13 @@ export class HeaderComponent implements OnInit {
     "subscription": "1",
     "customer": ''
 }
+
+
+
+  uploadPicture : uploadProfilePic = {
+    SalesEmployeeCode: '' ,
+    Image: 'abc.png' ,
+};
 
 notify: any[] = [];
 DeveloperMode:boolean = false;
@@ -97,7 +105,7 @@ Bridge2: any;
     });
 
     // Socekt Connection
-    this.socket = this.bridgeService2.getNotifcationCounter();
+    this.socket = this.bridgeService2.getNotificationSocket();
 
     this.socket.addEventListener('open', (event) => {
       // console.log('WebSocket connection opened:', event);
@@ -106,7 +114,6 @@ Bridge2: any;
 
     this.socket.addEventListener('message', (event) => {
       if(JSON.parse(event.data).message.client_id == sessionStorage.getItem('client_id')){
-
         for(let i=0;i<JSON.parse(event.data).message.user_list.length;i++){
           if(JSON.parse(event.data).message.user_list[i].emp_id == sessionStorage.getItem('UserId')){
             this.getNotificationData();
@@ -229,7 +236,11 @@ Bridge2: any;
         if (data.status == "200") {
         // this.isLoading2 = false;
         this.Bridge2 = data.data;
-        // console.log('user details data',this.Bridge2);
+        this.salesEmployeeCode = this.Bridge2[0].SalesEmployeeCode
+        this.profileImage = this.Bridge2[0].ProfileImage[0].profileImage
+        console.log('check pro' , this.profileImage);
+        
+        console.log('user details data',this.Bridge2[0].SalesEmployeeCode);
       }
       else {
         this._NotifierService.showError(data.message);
@@ -245,6 +256,52 @@ Bridge2: any;
       }
     );
   }
+
+
+  profileImage: string | ArrayBuffer | null = null;
+
+onFileSelected(event: any) {
+  this.profileImage = event.target.files;
+  console.log('check img' , this.profileImage);
+ 
+  }
+
+
+  cropImage(){
+
+    
+    let payload: any;
+    this.uploadPicture.Image = this.profileImage;
+    this.uploadPicture.SalesEmployeeCode = this.salesEmployeeCode
+    payload = this.uploadPicture;
+    console.log('check log image' , payload);
+    this.bridgeService2.uploadProfileImage(payload).subscribe(
+      (data: any) => {
+        if (data.status == "200") {
+        console.log('check neww' , data);
+        this._NotifierService.showSuccess('Image Updated Succesfully');
+        this.modalService.dismissAll();
+        // this.Bridge2 = data.data;
+      }
+      else {
+        this._NotifierService.showError(data.message);
+        // this.route.navigate(['/login']);
+      }
+      },
+      (err) => {
+        // this.isLoading2 = false;
+        console.log(err);
+        if(err.status == 401){
+        this.bridgeService2.logout();
+        }
+      }
+    );
+    this.getEmpOne()
+    console.log('check' , this.profileImage)
+  }
+  
+
+
 
   ngAfterViewInit() {
     this.leftNavbar = document.querySelector('.figma-sidebar');
@@ -429,6 +486,18 @@ for (let i = 0; i < this.appList.length; i++) {
     console.log(id)
     this.resetPass.id = id;
     this.resetPass.app_id = '2'
+  }
+
+  openUpdatePic(updateProfilePic : any , id: any){
+    this.modalService.open(updateProfilePic, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal' })
+    .result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
   }
 
 

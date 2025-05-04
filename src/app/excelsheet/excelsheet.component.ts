@@ -13,6 +13,11 @@ import { NotiferService } from '../modules/service/helpers/notifer.service';
 import { PhoneComponent } from '../phone/phone.component';
 import { CommonModulesPayload } from '../modules/code/common-static.model';
 declare var $: any;
+interface Campaign {
+  id: number;
+  CampaignSetName: string;
+  // Add other properties if needed
+}
 @Component({
   selector: 'app-excelsheet',
   templateUrl: './excelsheet.component.html',
@@ -24,7 +29,7 @@ export class ExcelsheetComponent implements OnInit {
   @ViewChild('mymodal') mymodal!: ElementRef;
   @ViewChild('followup') followup!: ElementRef;
   @ViewChild('confirmModal44') confirmModal44!: ElementRef;
-  @Output() dataEvent = new EventEmitter<string>();
+
 
   DynamicFiledPositionDetials: any[] = [];
   baseUrl2: any;
@@ -39,6 +44,7 @@ export class ExcelsheetComponent implements OnInit {
   stringifiedData: any;
   dateObj = new Date();
   CampaigNameList: any;
+  compaignData:any
   savedModules: any[] = [];
 
 
@@ -50,13 +56,15 @@ export class ExcelsheetComponent implements OnInit {
 
   bridges: any = {
     date: this.HeadingServices.getDate(), location: '', companyName: '', source: '', contactPerson: '',
-    phoneNumber: '', message: '', email: '', productInterest: '', campaign: '',
+    phoneNumber: '', message: '', email: '', productInterest: '', campaign: '',campaign_set:'',cardcode:'',	city:'' ,state:'',
+    address:'',zipCode:'',
     assignedTo: this.UserId, timestamp: this.HeadingServices.getDateTime(), employeeId: this.UserId, numOfEmployee: '0', turnover: '', designation: '', status: 'New', leadType: '', Attach: '', Caption: '',
   };
   bridges22: EditBridge2[] = [];
   editbridges: any = {
-    date: '', location: '', companyName: '', source: '', contactPerson: '',
-    phoneNumber: '', message: '', email: '', productInterest: '',
+    date: '', location: '', companyName: '', source: '', contactPerson: '',city:'' ,state:'',
+    address:'',zipCode:'',
+    phoneNumber: '', message: '', email: '', productInterest: '',campaign: '',campaign_set:'',cardcode:'',
     assignedTo: '', timestamp: '', employeeId: '', id: '', numOfEmployee: '0', turnover: '', designation: '', status: '', leadType: '', Attach: '', Caption: '',
   };
 
@@ -149,6 +157,9 @@ export class ExcelsheetComponent implements OnInit {
     {label:"Status",value:"status"},
     {label:"Lead Priority",value:"leadType"},
     {label:"Created By",value:"employeeId"},
+    {label:"Created By",value:"createdDate"},
+
+    
     {label:"Assigned To",value:"assignedTo"},
     "Company Name",
     "Person Name",
@@ -156,8 +167,11 @@ export class ExcelsheetComponent implements OnInit {
     "Status",
     "Lead Priority",
     "Created By",
+    "Created Date",
+
     "Assigned To"
   ];
+  
   commonPayload = new CommonModulesPayload('Lead').payload;
   constructor(private router: Router,
     public HeadingServices: HeadingServicesService,
@@ -179,7 +193,7 @@ export class ExcelsheetComponent implements OnInit {
       }
     }
   }
-
+  filter_customer: any = {Name:'',ctype:'',industry:'',saleemp:'',pterms:''};
   openEmployee22(id: any) {
     this.openEdit(this.contentEdit, [id], false);
   }
@@ -213,12 +227,15 @@ export class ExcelsheetComponent implements OnInit {
     this.leadStatus = this.bridgeService2.leadStatus;
     this.ModeOfCommunication = this.bridgeService2.ModeOfCommunication;
     this.getAllSource();
+ 
     this.getDynaimcFld('Lead');
     this.getBridge2();
     this.getBridge();
     this.getcampaign1List();
+    this.getOpportunityList();
 
     this.Headingss = this.HeadingServices.getModule2();
+    console.log('check log' , this.Headingss)
     $(document).mouseup(function (e: { target: any; }) {
       var popup = $(".hover-show");
       if (!$('.edit-delete').is(e.target) && !popup.is(e.target) && popup.has(e.target).length == 0) {
@@ -475,9 +492,18 @@ export class ExcelsheetComponent implements OnInit {
       (data: any) => {
         if (data.status == "200") {
           this.bridges2 = data.data;
+          console.log('check data , ' , this.bridges2);
+          
           this.totalCount = data.meta.count;
           this.CurrentPage = this.pagination.PageNo;
           this.isLoading = false;
+
+          // this.editbridges.campaign_set = data[0]['campaign_set'];
+             // Set campaign_set from the backend response
+        if (this.bridges2 && this.bridges2.length > 0) {
+          this.editbridges.campaign_set = this.bridges2[0].campaign_set;  // Assuming the first bridge has the campaign_set value
+        }
+
           if (this.pagination.maxItem != 'All') {
             this.startind = ((this.pagination.PageNo - 1) * Number(this.pagination.maxItem)) + 1;
             this.endind = ((this.pagination.PageNo - 1) * Number(this.pagination.maxItem)) + Number(this.pagination.maxItem);
@@ -656,7 +682,7 @@ CallImport(data:any){
           "employeeId": this.UserId,
           "timestamp": this.HeadingServices.getDateTime(),
           "designation": this.exedesignation,
-          "numOfEmployee": this.exenoofemp,
+          //"numOfEmployee": this.exenoofemp,
           "turnover": this.exeturnover,
           "status": 'New',
           "leadType": '',
@@ -776,14 +802,20 @@ addLeads(f: NgForm) {
   if (f.valid) {
     this.isLoading = true;
     this.bridgeService2.addlead(this.bridges).subscribe(
+    
+      
       (res: Bridge2) => {
+        console.log('check bridegs' , this.bridges);
         if (Object(res)['message'] == "successful") {
           this.isLoading = false;
           this._NotifierService.showSuccess(this.Headingss[0].leftheading + " " + this.Headingss[0].heading103 + " " + this.Headingss[0].heading106);
           this.modalService.dismissAll();
-          this.dataEvent.emit('true');
-          setTimeout(() => {           
-         this.reload();
+
+          setTimeout(() => {
+            let currentUrl = this.router.url;
+            this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+            this.router.onSameUrlNavigation = 'reload';
+            this.router.navigate([currentUrl]);
           }, 2000);
         }
         else {
@@ -847,6 +879,15 @@ addLeads(f: NgForm) {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       this.commonObj.bigScreenMode = false;
     });
+    this.resetForm();
+  }
+
+  resetForm(){
+    this.bridges = {
+      date: this.HeadingServices.getDate(), location: '', companyName: '', source: '', contactPerson: '',
+      phoneNumber: '', message: '', email: '', productInterest: '', campaign: '',
+      assignedTo: this.UserId, timestamp: this.HeadingServices.getDateTime(), employeeId: this.UserId, numOfEmployee: '0', turnover: '', designation: '', status: 'New', leadType: '', Attach: '', Caption: '',
+    };
   }
 
 private getDismissReason(reason: any): string {
@@ -860,8 +901,9 @@ private getDismissReason(reason: any): string {
 }
 
 openEdit(contentEdit: any, item2: any, isView: boolean) {
+  var isprority:boolean = contentEdit._declarationTContainer.localNames[0] == 'contentPriorityEdit';
   this.commonObj.bigScreenMode = false;
-  this.modalService.open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal figma-cards-modal-lg `,backdrop:'static' }).result.then((result) => {
+  this.modalService.open(contentEdit, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: `modal-dialog-centered figma-cards-modal ${isprority == false?'figma-cards-modal-lg':''} `,backdrop:'static' }).result.then((result) => {
     this.closeResult = `Closed with: ${result}`;
   }, (reason) => {
     this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -889,11 +931,31 @@ openEdit(contentEdit: any, item2: any, isView: boolean) {
       this.editbridges.leadType = item.leadType;
       this.editbridges.designation = item.designation;
       this.editbridges.turnover = item.turnover;
-      this.editbridges.numOfEmployee = item.numOfEmployee;
+      this.editbridges.campaign_set = item.campaign_set
+      this.editbridges.campaign = item.campaign
+      this.editbridges.cardcode = item.cardcode
+      this.editbridges.city = item.city
+      this.editbridges.address = item.address
+      this.editbridges.state = item.state 
+      this.editbridges.zipCode = item.zipCode 
+
+     // this.editbridges.numOfEmployee = item.numOfEmployee;
 
       for(let i=0;i<this.DynamicFiledPositionDetials.length;i++){
         this.editbridges[this.DynamicFiledPositionDetials[i].field_name] = item[this.DynamicFiledPositionDetials[i].field_name];
       }
+
+
+      if(this.editbridges.campaign_set && this.editbridges.campaign){
+        this.setSelectedCampaignSet();  
+        this.setSelectedCampaign();
+      }
+  //  if(item.customer){
+    this.setSelectedCustomer()
+
+  //  }
+
+
 
     },
     (err) => {
@@ -902,24 +964,80 @@ openEdit(contentEdit: any, item2: any, isView: boolean) {
     }
   );
 
-  // console.log(this.editbridges.employeeId);
 }
 
+
+ 
+  // setSelectedCampaignSet(): void {
+  //   if (this.editbridges.campaign_set && this.CampaigNameList.length > 0) {
+  //     // Find the campaign set name that matches the id from the backend
+  //     const selectedCampaignSet = this.CampaigNameList.find(campaign => campaign.id === this.editbridges.campaign_set);
+  //     if (selectedCampaignSet) {
+  //       // Set the campaign name to be displayed
+  //       this.editbridges.campaign_set = selectedCampaignSet.CampaignSetName;
+  //     }
+  //   }
+  // }
+
+  setSelectedCampaignSet(): void {
+    const selectedCampaignSet = this.CampaigNameList.find(
+      (campaign: { id: number; CampaignSetName: any }) => campaign.id == this.editbridges.campaign_set
+    );
+  
+    if (selectedCampaignSet) {
+      console.log('Selected Campaign Set:', selectedCampaignSet);
+      this.editbridges.campaign_set = selectedCampaignSet.CampaignSetName;
+    } else {
+      console.log('No campaign set found for ID:', this.editbridges.campaign_set);
+    }
+  }
+
+  setSelectedCampaign() : void{
+  this.getCampaignNameList(this.editbridges.campaign);
+  setTimeout(() => {
+    const selectedCampaign = this.compaignData.find(
+      (campaign: { id: number ; CampaignName : any}) => campaign.id == this.editbridges.campaign
+    );
+  
+    if (selectedCampaign) {
+      console.log('Selected Campaign Set:', selectedCampaign);
+      this.editbridges.campaign = selectedCampaign.CampaignName;
+      console.log('camp ID:', this.editbridges.campaign);
+
+    } else {
+      console.log('No campaign set found for ID:', this.editbridges.campaign);
+    }
+  }, 1000);
+  }
+
+  setSelectedCustomer():void {
+    this.getCustomer();
+    const selectedCustomer = this.customers.find(
+      (campaign: { CardCode: number; CardName: any }) => campaign.CardCode == this.editbridges.customer
+    );
+  
+    if (selectedCustomer) {
+      console.log('Selected Campaign Set:', selectedCustomer);
+      this.editbridges.customer = selectedCustomer.CardName;
+    } else {
+      console.log('No campaign set found for ID:', this.editbridges.customer);
+    }
+  }
+  
+  
 
 editLeads(fb: NgForm) {
   fb = this.bridgeService2.GlobaleTrimFunc(fb);
   this.resetAlerts();
   if (fb.valid) {
     this.isLoading = true;
-    // this.editbridges.assignedTo = this.editbridges.assignedTo ?? this.assignSalesCode;
     this.bridgeService2.editleads(this.editbridges).subscribe(
       (res: EditBridge2) => {
         if (Object(res)['status'] == "200") {
           this.isLoading = false;
           this._NotifierService.showSuccess(this.Headingss[0].leftheading + " " + this.Headingss[0].heading104 + " " + this.Headingss[0].heading106);
           this.modalService.dismissAll();
-          console.log('check data:' , this.dataEvent)
-          this.dataEvent.emit('true');
+
           setTimeout(() => {
          this.reload();
           }, 2000);
@@ -1307,12 +1425,18 @@ sortsend: boolean | undefined;
 isDesc: boolean = false;
 
 source1: any;
+campaign : any
+customers:any
+
 getAllSource(): void {
   let sourcetmp: any[] = [];
   this.bridgeService2.getAllSourcedata().subscribe(
     (data: any[]) => {
       this.source1 = data;
-      // console.log(this.source1)
+
+      console.log(this.source1)
+
+  
 
     },
     (err) => {
@@ -1322,13 +1446,111 @@ getAllSource(): void {
   );
 }
 
+
+
+
+
+// getAllSource(): void {
+//   this.bridgeService2.getAllSourcedata().subscribe(
+//     (data: any[]) => {
+//       // Filter only the required entry
+//       this.source1 = data.filter(item => item.Name === "exhibition ArchX");
+//       console.log(this.source1);
+//     },
+//     (err) => {
+//       console.log(err);
+//       this.error = err;
+//     }
+//   );
+// }
+
+
+
+
 getcampaign1List() {
   this.bridgeService2.getCampaignnameList().subscribe(
     (data: any) => {
       this.CampaigNameList = data;
-      // this.quotation.ContactPersonCode = this.contactPersoneList[0].InternalCode;
+      console.log('check camogn' , this.CampaigNameList);
+   
+
+
+      
+      
 
     });
+}
+
+
+
+
+getCampaignNameList(id:any): void {
+  this.bridgeService2.getCampsetlistByPagination(this.pagination,this.searchValue,this.order_by_field,this.order_by_value,id).subscribe(
+    (data: any) => {
+      if (data.status == "200") {
+      this.compaignData = data.data;
+      console.log('check123' , this.compaignData);
+      
+  
+  }
+
+  // else {
+  //   alert(data.message);
+  //   this.totalCount2 = 0;
+  //   this.isLoading2 = false;
+  // }
+},
+    (err) => {
+      // this.isLoading2 = false;
+      // this.totalCount2 = 0;
+      const delim = ':';
+      const name = err.message;
+      const result = name.split(delim).slice(3).join(delim);
+      alert(result);
+    }
+  );
+}
+
+
+onCampaignChange(selectedCampaign: any) {
+  if (selectedCampaign) {
+    // console.log('Selected Campaign ID:', selectedCampaign);
+    this.getCampaignNameList(selectedCampaign); 
+  }
+}
+
+onSourceChange(slectedSource:any){
+this.getCustomer()
+  if (slectedSource != 'Exhibition' || slectedSource != 'Existing customer') {
+    // bridges.campaign_set
+    console.log('check', slectedSource);
+    this.editbridges.campaign_set = ''
+    this.editbridges.campaign = ''
+    this.bridges.campaign_set = ''
+    this.bridges.campaign = ''
+
+  }
+}
+
+
+getCustomer(): void {
+  // this.isLoading2 = true;
+  this.setPrevious();
+  this.bridgeService2.getCustomerByPagination(this.pagination,this.searchValue,this.filter_customer,this.order_by_field,this.order_by_value).subscribe(
+    (data: any) => {
+      if (data.status == "200") {
+      this.customers = data.data;
+      // console.log('check bp' , this.customers);
+  }
+},
+    (err) => {
+      this.totalCount = 0;
+      const delim = ':';
+      const name = err.message;
+      const result = name.split(delim).slice(3).join(delim);
+      this._NotifierService.showError(result);
+    }
+  );
 }
 
 lead_Type: any;
@@ -1454,6 +1676,19 @@ if ((document.querySelector('.figma-cards-modal') as any).classList.contains('fi
 }
 
 
+}
+optyp: any;
+
+getOpportunityList(): void {
+  this.isLoading = true;
+  this.bridgeService2.getOpportunityTypeData().subscribe(
+    (data: any[]) => {
+      this.optyp = data;
+      this.isLoading = false;
+      console.log('this.optyp name',this.optyp);
+    },
+
+  );
 }
 }
 

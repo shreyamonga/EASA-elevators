@@ -1,0 +1,15 @@
+/* .customer-details-grid {
+    display: grid
+;
+    grid-template-columns: repeat(6, minmax(110px, 210px));
+    row-gap: 5px;
+    margin-top: 10px;
+} */
+.customer-details-grid {
+    display: grid
+;
+    grid-template-columns: 300px 300px 200px 200px;
+    row-gap: 5px;
+    margin-top: 10px;
+    column-gap: 20px;
+}

@@ -113,7 +113,7 @@ export class HeadingServicesService {
   Module2: any[] = [ // Lead
     {
       leftheading: 'Lead', SubHeading1: 'General', SubHeading2: 'Junk', SubHeading3: 'Split', SubHeading4: 'Kanban', heading0: 'ID', Date: 'Company Name', heading2: 'Person Name', heading3: this.Module1[0].heading7, heading4: 'Person Designation', heading5: this.Module1[0].heading6, heading6: 'Location',
-      heading7: 'Source', heading8: 'Product Interest', heading9: 'Num Of Employee', heading10: 'Turnover', heading11: this.Module1[0].heading11, heading12: 'Lead Priority', heading13: 'Assigned To', heading14: 'Remarks', heading15: 'Created By', heading16: 'Created Date', heading17: 'BP', heading100: this.Module1[0].heading100,
+      heading7: 'Source', heading8: 'Product Interest', heading9: 'Num Of Employee', heading10: 'Turnover', heading11: this.Module1[0].heading11,  heading13: 'Assigned To', heading14: 'Remarks', heading15: 'Created By', heading16: 'Created Date', heading17: 'BP', heading100: this.Module1[0].heading100,
       heading19: this.Module1[0].heading11,
 
       heading101: this.MainWord.heading101, heading102: this.MainWord.heading102, heading103: this.MainWord.heading103, heading104: this.MainWord.heading104, heading105: this.MainWord.heading105,
@@ -127,6 +127,7 @@ export class HeadingServicesService {
     }
   ];
 
+  // heading12: 'Lead Priority',
 
   Module21: any[] = [ // Campain
     {
@@ -146,7 +147,8 @@ export class HeadingServicesService {
       leftheading: 'Business Partner', SubHeading: 'BP', SubHeading2: 'General Details', SubHeading3: 'Contact Details', heading0: 'BP Code', heading1: this.Module2[0].leftheading, heading2: this.Module2[0].heading1
       , heading3: 'Website', heading4: this.Module1[0].heading7, heading5: this.Module2[0].heading5, heading6: this.Module2[0].heading10
       , heading7: 'Industry', heading8: 'Sales Employee', heading9: 'Business Type', heading10: 'Payment Term'
-      , heading11: this.Module1[0].heading5, heading12: 'Parent Account', heading13: 'GST', heading14: this.Module2[0].heading14
+      , heading11: this.Module1[0].heading5, heading12: 'Parent Account', heading13: 'GST', heading14: this.Module2[0].heading14, 
+      heading15 : 'Landline Number' , heading16 : 'Current Order in Hand'
       , heading100: this.Module1[0].heading100,
       heading101: this.MainWord.heading101, heading102: this.MainWord.heading102, heading103: this.MainWord.heading103, heading104: this.MainWord.heading104, heading105: this.MainWord.heading105,
       heading106: this.MainWord.heading106, heading107: this.MainWord.heading107, heading108: this.MainWord.heading108, heading109: this.MainWord.heading109, heading110: this.MainWord.heading110,
@@ -154,7 +156,7 @@ export class HeadingServicesService {
       heading116: this.MainWord.heading116, heading117: this.MainWord.heading117, heading118: this.MainWord.heading118, heading119: this.MainWord.heading119, heading120: this.MainWord.heading120
     },
     {
-      SubHeading: 'Contact Person', heading: 'Contact Person', heading0: 'Contact Name', heading02: 'Last Name', heading1: this.Module1[0].heading7, heading2: this.Module2[0].heading5, heading3: 'Address', heading4: 'Position',
+      SubHeading: 'Contact Person Name', heading: 'Contact Person Name', heading0: 'Contact Name', heading02: 'Last Name', heading1: this.Module1[0].heading7, heading2: this.Module2[0].heading5, heading3: 'Address', heading4: 'Position',
     },
     {
       SubHeading: 'Branch', heading: 'Address Details', SubHeading1: 'Billing', SubHeading2: 'Shipping Address', heading0: 'Billing Name', heading1: 'Billing Address', heading2: 'City', heading3: 'State', heading4: 'Country', heading5: 'Zip code', heading6: 'Shipping Type',heading7: 'Shipping Name',
@@ -197,11 +199,46 @@ export class HeadingServicesService {
     },
     // this.Module3[2],
     {
-      SubHeading: 'Branch', heading: 'Address Details', SubHeading1: 'Billing', SubHeading2: 'Shipping Address', heading0: 'Billing Name', heading1: 'Billing Address', heading2: 'City',
+      heading14 : 'Basic Product' , SubHeading: 'Branch', heading: 'Address Details', SubHeading1: 'Billing', SubHeading2: 'Shipping Address', heading0: 'Billing Name', heading1: 'Billing Address', heading2: 'City',
        heading3: 'State', heading4: 'Country', heading5: 'Zip code', heading6: 'Shipping Type',heading7: 'Shipping Name', heading8: 'Zip code',heading9: 'Country',heading10: 'State',heading11: 'City',
-       heading12: 'Shipping Name',heading13: 'Shipping Type', heading111: 'Billing Steet',SubHeading22: 'Shipping Street'
+       heading12: 'Shipping Name',heading13: 'Shipping Type', heading111: 'Billing Steet',SubHeading22: 'Shipping Street' , heading15 : 'Type of Lift' , heading16 : 'Type of Installation',
+       heading17 : 'Machine' , heading18 : 'Version' , heading19 : 'No of Elevators' , heading20: 'Elevator Shaft (Civil Requirement)' , heading21 : 'Shaft Width(plastered) in mm' , heading22 : 'Shaft depth(plastered) in mm',
+        heading23 : 'Pit in mm' ,  heading24 : 'Overhead',  heading25 : 'Minimum floor height in mm',  heading26 : 'Total car travel (vertical car travel) in mm',  heading27 : 'Lintel height + cladding (40mm for stone/20mm for wood)', 
+        heading28 : 'Elevator Specification' , heading29 : 'Payload (live load capacity)' , heading30 : 'Capacity (in person)',
+        heading31 : 'No of stops' , heading32 : 'No of openings' , heading33 : 'Accessible sides front', heading34 : 'Accessible sides Rear',
+        heading35 : 'Accessible sides 90 Degree' , heading36 : 'Floor designation' , heading37 : 'Speed (m/s)' , heading38 : 'Car width in mm' , 
+        heading39 : 'Car depth in mm' , heading40 : 'Car height in mm' , heading41 : 'Start and stop' , 
+        heading44 : 'DOORS' , heading45 :'Type of door' ,  heading46 : 'Door Width in mm', heading47 :'Door Height in mm' , heading48 :'Door Panels',
+         heading49 :'Landing Door Frame', heading50 :'Car & Interlock', heading51 :'Landing Door interlock',
+heading52 :'Scope of Work', heading53 :'Packing and Loading', heading54 :'Transportation', heading55 :'Unloading ', heading56 :'Storing',
+heading57 :'Scaffolding',heading58 :'I BEAM',heading59: 'Optional Features',heading60:'Guarantee',
+heading61: 'View Window (80mm * 1000mm view slit in doors)',
+heading62: 'Emergency Telephone System (GSM)',
+heading63: 'Emergency Telephone System (Public Wireline Network)',
+heading64: 'Biometric Access',
+heading65: 'Card Reader Access',
+heading66: 'Full Height Car Operating Panel',
+heading67: 'Intercom (Press and Speak)',
+heading68: 'Attendant Operation',
+heading69: 'Parking key Switch',
+heading70: 'Duplex and Triplex Car Group Operation',
+heading71: 'Timed Blind Floor',
+heading72: 'Voice Synthesizer with Customized Music',
+heading73: 'Guarantee from the date of dispatch',
+heading74: 'Free Maintenance Period',
+heading75: 'Free Maintenance Period from the date of intimation',
+heading80: 'Overhead (Minimum 4300 mm required) in mm',
+heading81: 'Machine Room Width (Plastered) in mm',
+heading82: 'Machine Room Depth (Plastered) in mm',
+heading83: 'Accessible sides',
 
-    },
+heading84: 'Standard Specification',
+heading85: 'Payment Terms'
+
+
+
+
+     },
     this.Module4[1],
     this.Module4[2],
     {
@@ -228,9 +265,9 @@ export class HeadingServicesService {
     },
     // this.Module5[1],
     {
-      SubHeading: 'Branch', heading: 'Address Details', SubHeading1: 'Billing', SubHeading2: 'Shipping Address', heading0: 'Billing Name', heading1: 'Billing Address', heading2: 'City',
+       SubHeading: 'Branch', heading: 'Address Details', SubHeading1: 'Billing', SubHeading2: 'Shipping Address', heading0: 'Billing Name', heading1: 'Billing Address', heading2: 'City',
        heading3: 'State', heading4: 'Country', heading5: 'Zip code', heading6: 'Shipping Type',heading7: 'Shipping Name', heading8: 'Zip code',heading9: 'Country',heading10: 'State',
-       heading11: 'City',heading13: 'Shipping Type',SubHeading22: 'Shipping Street', heading111: 'Billing Steet'
+       heading11: 'City',heading13: 'Shipping Type',SubHeading22: 'Shipping Street', heading111: 'Billing Steet',
     },
     this.Module5[2],
     this.Module5[3],

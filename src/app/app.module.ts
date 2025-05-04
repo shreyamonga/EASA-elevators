@@ -180,6 +180,7 @@ import { WorkflowlistComponent } from './workflowlist/workflowlist.component';
 import { AddEditWorkflowComponent } from './workflowlist/add-edit-workflow/add-edit-workflow.component';
 import { CustomTimePipe } from './custom-time.pipe';
 import { ChatComponent } from './Boat/chat/chat.component';
+import { SourcesComponent } from './leads/sources/sources.component';
 // import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 // import { LeadFollowupComponent } from './lead-followup/lead-followup.component';
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
@@ -340,7 +341,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     AddEditWorkflowComponent,
     WorkflowlistComponent,
     CustomTimePipe,
-    ChatComponent
+    ChatComponent,
+    SourcesComponent
   ],
   imports: [
     BrowserModule,

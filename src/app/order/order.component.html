@@ -71,7 +71,7 @@
                     <input type="checkbox" id="checkbox{{item.id}}" value="{{item.id}}" class="checkbox"
                     (click)="checkboxclick(item.id)">
                 </td>
-                <td>{{i+1}}</td>
+                <td>{{item.Order_Code}}</td>
                 <td (click)="suplier(item.id)">
                   {{item.CreateDate | customDate}}
                 </td>
@@ -82,10 +82,14 @@
                 <td (click)="suplier(item.id)" *ngIf="item.is_draft == 0" style="color:green">{{Headingss[0].leftheading}}</td>
                   <!-- &#8377; {{ getTotal(item)}} -->
 
-              <div class="table-status-warning" *ngIf="item.status == '0'" (click)="open(mymodal,item.id)">{{'Pending'}}
+              <!-- <div class="table-status-warning" *ngIf="item.status == '0'" (click)="open(mymodal,item.id)">{{'Pending'}}
               </div>
               <div class="table-status-success" *ngIf="item.status == '1'">{{'Approved'}}</div>
-              <div class="table-status-danger" *ngIf="item.status == '2'">{{'Reject'}}</div>
+              <div class="table-status-danger" *ngIf="item.status == '2'">{{'Reject'}}</div> -->
+                <div class="table-status-warning" *ngIf="item.OrderStatus == '0'" (click)="open(mymodal,item.id)">{{'Booked'}}
+              </div>
+              <div class="table-status-success" *ngIf="item.OrderStatus == '1'">{{'Confirmed'}}</div>
+              <!-- <div class="table-status-danger" *ngIf="item.OrderStatus == '2'">{{'Reject'}}</div> -->
                 <td (click)="suplier(item.id)">{{item.DocTotal || 0 | priceFormat}}</td>
                 <ng-container *ngIf="item.CancelStatus == 'csNo'">
                 <div class="table-status-warning" *ngIf="item.DocumentStatus == 'bost_Open'">{{'Open'}}</div>
@@ -305,14 +309,15 @@
       </div>
 
     </ng-container>
-    <form #f="ngForm" name="theForm" *ngIf="is_visible == true">
+    <form #f="ngForm" name="theForm" >
+      <!-- *ngIf="is_visible == true" -->
       <div class="row">
         <div class="col-md-12">
           <label>Status </label>
-          <select type="text" class="input-fld required-fld" name="userName" [(ngModel)]="Payload.status" required>
-            <option [value]=0>Pending</option>
-            <option [value]=1>Approved</option>
-            <option [value]=2>Reject</option>
+          <select type="text" class="input-fld required-fld" name="status" [(ngModel)]="Payload.status" required>
+            <option [value]=0>Booked</option>
+            <option [value]=1>Confirmed</option>
+            <!-- <option [value]=2>Reject</option> -->
           </select>
 
 
@@ -326,7 +331,7 @@
         </div>
 
 
-        <div class="col-md-12 text-center mt-3">
+        <div class="col-md-12 text-center mt-3" >
           <button class="add-invent1" (click)="SendRequest()">Save</button>
         </div>
 

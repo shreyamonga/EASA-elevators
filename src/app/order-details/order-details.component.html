@@ -69,6 +69,10 @@
               <li [class.active]="commonObj.detailTab == 'Items'" (click)="commonObj.detailTab = 'Items'"><span [innerHTML]="'figma-product-bag-ico' | svgIcons:''"></span>{{Headingss[0].heading118}}</li>
               <li [class.active]="commonObj.detailTab == 'detail'" (click)="commonObj.detailTab = 'detail'"><span [innerHTML]="'figma-detail-file-ico' | svgIcons:''"></span>{{Headingss[0].heading107}}</li>
               <li [class.active]="commonObj.detailTab == 'attachment'" (click)="commonObj.detailTab = 'attachment'"><span [innerHTML]="'figma-attachment-file-ico' | svgIcons:''"></span>{{Headingss[0].heading108}}</li>
+              <li [class.active]="commonObj.detailTab == 'additionalDetails'"
+              (click)="commonObj.detailTab = 'additionalDetails'"><span
+                [innerHTML]="'figma-detail-file-ico' | svgIcons:''"></span>Additional {{Headingss[0].heading107}}s
+            </li>
               </ul>
           </div>
 
@@ -340,6 +344,340 @@
               </div>
             </div>
           </ng-container>
+
+
+          <ng-container *ngIf="commonObj.detailTab == 'additionalDetails'">
+            <div class="figma-collapse-common-info">
+              <div class="figma-collapse-head-tab">
+                <p class="figma-collapse-head-name" style="border-bottom: 2px solid #4a79e4;">Basic Product</p>
+                <i class="fa-solid fa-chevron-up figma-collapse-arrow-chev-font-awe-icon" (click)="collapse44.toggle()"
+                  [attr.aria-expanded]="!isCollapsed44"
+                  [ngClass]="{'fa-chevron-up': isCollapsed44, 'fa-chevron-down': !isCollapsed44}"></i>
+              </div>
+              <div class="figma-collapse-common-info-detail">
+                <div class="figma-collapse-common-info-detail-wrapper-new" #collapse44="ngbCollapse"
+                  [(ngbCollapse)]="isCollapsed44">
+
+                  <div class="customer-details-grid" style="margin-top:0px;">
+
+                    <div>
+                      <p class="grey1">Type of Lift</p>
+                    </div>
+                    <div>
+                      <p class="dtl">{{item.TypeOfLift || 'NA'}}</p>
+                    </div>
+                    <div></div>
+                    <div></div>
+                    <div>
+                      <p class="grey1">Version</p>
+                    </div>
+                    <div>
+                      <p class="dtl"> {{item.Version || 'NA'}}</p>
+
+                    </div>
+                    <div></div>
+                    <div></div>
+                    <div>
+                      <p class="grey1"> Standard Specification</p>
+                    </div>
+                    <div>
+
+                      <p class="dtl">{{item.StandardSpecification ||'NA'}}</p>
+                    </div>
+                    <div></div>
+                    <div></div>
+                    
+                      <div>
+                        <p class="grey1">Type Of Installation</p>
+                      </div>
+                      <div>
+                        <p class="dtl">{{item.TypeOfInstallation || 'NA'}}</p>
+                      </div>
+                      <div>
+                        <p class="grey1"> Cost</p>
+                      </div>
+                      <div>
+                        <p class="dtl">{{item.TypeOfInstallationCost | priceFormat}}</p>
+                      </div>
+                      <div>
+                        <p class="grey1"> Machine</p>
+                      </div>
+                      <div>
+                        <p class="dtl">{{item.Machine || 'NA'}}</p>
+                      </div>
+                      <div>
+                        <p class="grey1"> Cost</p>
+                      </div>
+                      <div>
+                        <p class="dtl">{{item.MachineCost | priceFormat}}</p>
+                      </div>
+                      <div>
+                        <p class="grey1"> No Of Elevators</p>
+                      </div>
+                      <div>
+                        <p class="dtl">{{item.NoOfElevators || 'NA'}}</p>
+                      </div>
+                      <div></div>
+                      <div></div>
+
+
+                      <div>
+                        <p class="grey1"> Passengers</p>
+                      </div>
+                      <div>
+                        <p class="dtl">{{item.passengers || 'NA'}}</p>
+                      </div>
+                      <div></div>
+                      <div></div>
+
+                      <!-- basic product -->
+
+                      <ng-container *ngFor="let item2 of LONG_DATA_LABELS">
+                        <ng-container *ngIf="item.LongData[0][item2.key] != undefined">
+                          <div  >
+                            <p class="grey1"> {{item2.label}}</p>
+                          </div>
+                          <div  >
+                            <p class="dtl">{{item.LongData[0][item2.key]  || "NA"}}</p>
+                          </div>
+                          <div *ngIf="item2.sublabel!=undefined">
+                            <p class="grey1"> {{item2.sublabel}}</p>
+                          </div>
+                          <div *ngIf="item2.sublabel===undefined" >
+                            
+                          </div>
+                          <div *ngIf="item2.sublabel!=undefined">
+                            <p class="dtl">{{item.LongData[0][item2.subkey] | priceFormat}}</p>
+                          </div>
+                          <div *ngIf="item2.sublabel===undefined" >
+                            
+                          </div>
+                        </ng-container>
+                      </ng-container>
+
+                      <div>
+                        <p class="grey1">Remarks 1</p>
+                      </div>
+                      <div>
+                        <p class="dtl">{{item.LongData[0].remarks1 || 'NA'}}</p>
+                      </div>
+
+                      <div>
+                        <p class="grey1">Remarks 2</p>
+                      </div>
+                      <div>
+                        <p class="dtl">{{item.LongData[0].remarks2 || 'NA'}}</p>
+                      </div>
+
+                      <h6 class="heading-title-underline" *ngIf="item.ElevatorShaft.length>0">Elevator Shaft (Civil Requirement)</h6>
+                      <ng-container *ngFor="let shaft of ELEVATOR_SHAFT_LABELS">
+                        <ng-container *ngIf="item.ElevatorShaft[0][shaft.key] != undefined">
+                          <div>
+                            <p class="grey1"> {{shaft.label}}</p>
+                          </div>
+                          <div>
+                            <p class="dtl">{{item.ElevatorShaft[0][shaft.key]  || "NA"}}</p>
+                          </div>
+                          <!-- <div>
+                            <p class="grey1"> {{shaft.sublabel}}</p>
+                          </div>
+                          <div>
+                            <p class="dtl">{{item.ElevatorShaft[0][shaft.subkey]}}</p>
+                          </div> -->
+                        </ng-container>
+                      </ng-container>
+                   
+                    <ng-container *ngFor="let itemnew of DynamicFiledPositionDetials">
+                      <ng-container *ngIf="HeadingServices.isModulefieldview(5, itemnew.field_name)">
+                        <div>
+                          <p class="grey1">{{itemnew.field_value}}</p>
+                        </div>
+                        <div>
+                          <p class="dtl">{{item[itemnew.field_name] || 'NA'}}</p>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+                   
+
+
+                    <h6 class="heading-title-underline" *ngIf="item.ElevatorSpecification.length>0">Elevator Specification</h6>
+
+                    <ng-container *ngFor="let Spec of ELEVATOR_SPECIFICATION_LABELS">
+                      <ng-container *ngIf="item.ElevatorSpecification[0][Spec.key] != undefined">
+                        <div>
+                          <p class="grey1"> {{Spec.label}}</p>
+                        </div>
+                        <div>
+                          <p class="dtl">{{item.ElevatorSpecification[0][Spec.key]  || "NA"}}</p>
+                        </div>
+                        <!-- <div>
+                          <p class="grey1"> {{shaft.sublabel}}</p>
+                        </div>
+                        <div>
+                          <p class="dtl">{{item.ElevatorShaft[0][shaft.subkey]}}</p>
+                        </div> -->
+                      </ng-container>
+                    </ng-container>
+
+                  
+                    <!-- Technical Details -->
+                    <h6 class="heading-title-underline" *ngIf="item.TechnicalDetails.length>0">Technical Details
+                    </h6>
+                    <ng-container *ngFor="let tech of TECHNICAL_DETAILS_LABELS">
+                      <ng-container *ngIf=" item.TechnicalDetails.length>0 &&  item.TechnicalDetails[0][tech.key] != undefined ">
+                        <div>
+                          <p class="grey1"> {{tech.label}}</p>
+                        </div>
+                        <div>
+                          <p class="dtl">{{item.TechnicalDetails[0][tech.key]  || "NA"}}</p>
+                        </div>
+                        <!-- <div>
+                          <p class="grey1"> {{tech.sublabel}}</p>
+                        </div>
+                        <div>
+                          <p class="dtl">{{item.TechnicalDetails[0][tech.subkey] | priceFormat}}</p>
+                        </div> -->
+                      </ng-container>
+                    </ng-container>
+
+                   
+                    <!-- Elevator Steel Structure begin -->
+
+                    <h6 class="heading-title-underline" *ngIf="item.ElevatorSteelStructure.length>0" >Elevator
+                      Steel Structure</h6>
+                      
+                      <ng-container *ngFor="let steel of ELEVATOR_STEEL_STRUCTURE_LABELS">
+                        <ng-container *ngIf="item.ElevatorSteelStructure.length>0 && item.ElevatorSteelStructure[0][steel.key] != undefined">
+                          <div>
+                            <p class="grey1"> {{steel.label}}</p>
+                          </div>
+                          <div>
+                            <p class="dtl">{{item.ElevatorSteelStructure[0][steel.key]  || "NA"}}</p>
+                          </div>
+                          <div>
+                            <p class="grey1"> {{steel.sublabel}}</p>
+                          </div>
+                          <div>
+                            <p class="dtl">{{item.ElevatorSteelStructure[0][steel.subkey] | priceFormat}}</p>
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                       
+                      <div *ngIf="item.ElevatorSteelStructure.length>0 && item.ElevatorSteelStructure[0].Anchorage != undefined">
+                        <p class="grey1"> Anchorage</p>
+                      </div>
+                      <div   *ngIf="item.ElevatorSteelStructure.length>0 && item.ElevatorSteelStructure[0].Anchorage != undefined">
+                        <p class="dtl">{{item.ElevatorSteelStructure[0].Anchorage  || "NA"}}</p>
+                      </div>
+
+                  <!-- doors -->
+
+                    <h6 class="heading-title-underline" *ngIf="item.Doors.length>0">DOORS</h6>
+
+                    <div *ngIf="item.Doors[0]?.TypeOfDoor !== undefined">
+                      <p class="grey1">Type of Door</p>
+                    </div>
+                    <div *ngIf="item.Doors[0]?.TypeOfDoor !== undefined">
+                      <p class="dtl">{{ item.Doors[0]?.TypeOfDoor || 'NA' }}</p>
+                    </div>
+
+                    <div *ngIf="item.Doors[0]?.TypeOfDoorCost !== undefined">
+                      <p class="grey1">Type of Door Cost</p>
+                    </div>
+                    <div *ngIf="item.Doors[0]?.TypeOfDoorCost !== undefined">
+                      <p class="dtl">{{ item.Doors[0]?.TypeOfDoorCost || 0 | priceFormat}}</p>
+                    </div>
+
+                    <ng-container *ngFor="let door of DOORS_LABELS">
+                      <ng-container *ngIf="item.Doors.length>0 && item.Doors[0][door.key] != undefined">
+                        <div>
+                          <p class="grey1"> {{door.label}}</p>
+                        </div>
+                        <div>
+                          <p class="dtl">{{(item.Doors[0][door.key]  || "NA" )}}</p>
+                        </div>
+                        <!-- <div>
+                          <p class="grey1"> {{door.sublabel}}</p>
+                        </div>
+                        <div>
+                          <p class="dtl">{{item.Doors[0][door.subkey]}}</p>
+                        </div> -->
+                      </ng-container>
+                    </ng-container>
+
+                  
+
+                    <h6 class="heading-title-underline" *ngIf="item.ScopeOfWork.length>0">Scope of Work</h6>
+
+                    <ng-container *ngFor="let scope of SCOPE_OF_WORK_LABELS">
+                      <ng-container *ngIf="item.ScopeOfWork.length>0 && item.ScopeOfWork[0][scope.key] != undefined">
+                        <div>
+                          <p class="grey1"> {{scope.label}}</p>
+                        </div>
+                        <div>
+                          <p class="dtl">{{item.ScopeOfWork[0][scope.key]  || "NA"}}</p>
+                        </div>
+                        <div>
+                          <p class="grey1"> {{scope.sublabel}}</p>
+                        </div>
+                        <div>
+                          <p class="dtl">{{item.ScopeOfWork[0][scope.subkey] | priceFormat}}</p>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+
+                       <!-- Optional Features section start -->
+
+                    <h6 class="heading-title-underline" *ngIf="item.OptionalFeatures.length>0">Optional Features</h6>
+
+                    <ng-container *ngFor="let Opfeature of OPTIONAL_FEATURES_LABELS">
+                     
+                      <ng-container *ngIf="item.OptionalFeatures[0][Opfeature.key] != undefined">
+                       
+                        <div>
+                          <p class="grey1"> {{Opfeature.label}}</p>
+                        </div>
+                        <div>
+                          <p class="dtl">{{item.OptionalFeatures[0][Opfeature.key]  || "NA"}}</p>
+                        </div>
+                        <div>
+                          <p class="grey1"> {{Opfeature.sublabel}}</p>
+                        </div>
+                        <div>
+                          <p class="dtl">{{item.OptionalFeatures[0][Opfeature.subkey] | priceFormat}}</p>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+                    
+                    
+
+                    <!-- Guarantee section start -->
+                    <h6 class="heading-title-underline" *ngIf="item.Guarantee.length>0">Guarantee</h6>
+                    <ng-container *ngFor="let gaurt of GUARANTEE_LABELS">
+                      <ng-container *ngIf="item.Guarantee.length>0 && item.Guarantee[0][gaurt.key] != undefined">
+                        <div>
+                          <p class="grey1"> {{gaurt.label}}</p>
+                        </div>
+                        <div>
+                          <p class="dtl">{{item.Guarantee[0][gaurt.key] || "NA"}}</p>
+                        </div>
+                        <div>
+                          <p class="grey1"> {{gaurt.sublabel}}</p>
+                        </div>
+                        <div>
+                          <p class="dtl">{{item.Guarantee[0][gaurt.subkey] | priceFormat}}</p>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+ 
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </ng-container>
+
         </div>
 
       </div>

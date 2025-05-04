@@ -1,6 +1,22 @@
 export interface Quotation {
   is_draft?:any;
   DocumentStatus?: any;
+  LongData?: any;
+  ElevatorShaft?: any,
+  ElevatorSpecification?: any,
+  Doors?: any,
+  ScopeOfWork?: any,
+  OptionalFeatures?: any,
+  Guarantee?:any,
+  StandardSpecification?: any,
+
+
+  ElevatorSteelStructure?: any,
+  CabinDesign?: any,
+  TechnicalDetails?: any,
+  Others?: any
+  
+
   DocTotal?:any;
    U_QUOTNM: string;
    TaxDate: string;
@@ -35,6 +51,29 @@ export interface Quotation {
    FreightCharge?:any;
    PaymentGroupCode?:any;
    id?: any;
+    AdvanceDate:any;
+    AdvanceAmount:any;
+    DrawingPercentage:any;
+    DrawingDate:any;
+    DrawingAmount:any;
+    PreProductionPercentage:any;
+    PreProductionDate:any;
+    PreProductionAmount:any;
+    PostProductionPercentage:any;
+    PostProductionDate:any;
+    PostProductionAmount:any;
+    PreDispatchPercentage:any;
+    PreDispatchDate:any;
+    PreDispatchAmount:any;
+    PostDispatchPercentage:any;
+    PostDispatchDate:any;
+    PostDispatchAmount:any;
+    MechanicalPercentage:any;
+    MechanicalDate:any;
+    MechanicalAmount:any;
+    HandoverPercentage:any;
+    HandoverlDate:any;
+    HandoverAmount:any;
 }
 
 export interface OneQuotation {
@@ -169,6 +208,7 @@ export interface EditQuotation {
       U_BCOUNTRY: string;
       U_SHPTYPS: string;
    }
+
    DocumentLines: any;
    CreateDate: string;
    CreateTime: string;
@@ -180,4 +220,19 @@ export interface EditQuotation {
    OpportunityID?:any;
    FreightCharge?:any;
    PaymentGroupCode?:any;
+
+
+   LongData?: any;
+   ElevatorShaft?: any,
+   ElevatorSpecification?: any,
+   Doors?: any,
+   ScopeOfWork?: any,
+   OptionalFeatures?: any,
+   Guarantee?:any,
+
+   ElevatorSteelStructure?: any,
+   CabinDesign?: any,
+   TechnicalDetails?: any,
+   Others?: any
+
 }

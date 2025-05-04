@@ -168,6 +168,31 @@
                     </span> -->
                   </div>
                 </div>
+
+                <div class="lead-update-wrapper" >
+                  <!-- *ngIf="HeadingServices.isModulefieldview(3, 'U_ANLRVN')"
+*ngIf="HeadingServices.isModulefieldview(3, 'U_ANLRVN')" -->
+                  <label>{{Headingss[0].heading15}}</label>
+                  <div class="newrupe">
+                 
+                    <input type="text" class="input-fld pl-10" name="C_Landline" [(ngModel)]="editcustomer.C_Landline"
+                      #C_Landline="ngModel"  placeholder="Enter {{Headingss[0].heading15}}"  
+                    >
+
+              
+                  </div>
+                </div>
+                <div class="lead-update-wrapper" >
+                  <label>{{Headingss[0].heading16}}</label>
+                  <div class="newrupe">
+                    <!-- <span>{{'' | priceFormat:''}}</span> -->
+                    <input type="number" class="input-fld pl-10" 
+                     name="C_CurrentOrderInHand"
+                      [(ngModel)]="editcustomer.C_CurrentOrderInHand"
+                      #C_CurrentOrderInHand="ngModel"  placeholder="Enter {{Headingss[0].heading16}}">
+                
+                  </div>
+                </div>
                 <ng-container *ngFor="let item of DynamicFiledPositionDetials">
 
                   <!-- <div class="lead-update-wrapper" *ngIf="HeadingServices.isModulefieldview(1,item.field_name)"> -->
@@ -275,8 +300,8 @@
                   <label>{{Headingss[0].heading10}}</label>
                   <div>
                     <ng-select #selectpayterms [clearOnBackspace]="false" [searchable]="false" name="PayTermsGrpCode"
-                      #PayTermsGrpCode=ngModel [(ngModel)]="editcustomer.PayTermsGrpCode" required
-                      class="ngsearch-dropdown input-fld required-fld">
+                      #PayTermsGrpCode=ngModel [(ngModel)]="editcustomer.PayTermsGrpCode" 
+                      class="ngsearch-dropdown input-fld ">
                       <ng-template ng-header-tmp>
                         <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
                           type="text" (input)="selectpayterms.filter($event.target.value)" />
@@ -291,9 +316,9 @@
                       <option *ngFor="let item of paymentterms" value="{{item.GroupNumber}}">
                         {{item.PaymentTermsGroupName}}</option>
                     </select> -->
-                    <span class="help-block danger" *ngIf="(PayTermsGrpCode.errors?.required && f.submitted)||(PayTermsGrpCode.errors?.required)">
+                    <!-- <span class="help-block danger" *ngIf="(PayTermsGrpCode.errors?.required && f.submitted)||(PayTermsGrpCode.errors?.required)">
                       {{Headingss[0].heading10}} is required
-                    </span>
+                    </span> -->
                   </div>
                 </div>
 
@@ -360,6 +385,7 @@
                   </div>
                 </div>
 
+             
 
 
                 <div class="lead-update-wrapper" *ngIf="HeadingServices.isModulefieldview(3, 'Remarks1')">

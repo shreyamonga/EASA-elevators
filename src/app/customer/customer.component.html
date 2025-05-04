@@ -62,9 +62,9 @@
               </th>
               <th (click)="togglesortType('EmailAddress')">{{Headingss[0].heading5}} <span [innerHTML]="'up-down-arrow' | svgIcons:''"></span>
               </th>
-              <th (click)="togglesortType('U_ANLRVN')">{{Headingss[0].heading6}} <span
-                  [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th>
-                  <!-- <th>Address </th> -->
+              <!-- <th (click)="togglesortType('U_ANLRVN')">{{Headingss[0].heading6}} <span
+                  [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th> -->
+                 
               <th>{{Headingss[0].heading111}}</th>
             </tr>
           </thead>
@@ -75,7 +75,7 @@
                   <input type="checkbox" id="checkbox{{item.id}}" value="{{item.id}}" class="checkbox"
                     (click)="checkboxclick(item.id)">
                 </td>
-                <td>{{i+1}}</td>
+                <td>{{item.BP_Code}}</td>
                 <td>{{item.CardCode}}</td>
                 <td (click)="suplier(item.CardCode)">{{item.CardName}}</td>
                 <!-- <td (click)="suplier(item.id)">{{item.Industry}}</td> -->
@@ -90,16 +90,15 @@
                 <td (click)="suplier(item.CardCode)">{{item.U_CONTOWNR ||'NA'}}</td>
                 <td (click)="suplier(item.CardCode)">{{item.Phone1}}</td>
                 <td (click)="suplier(item.CardCode)">{{item.EmailAddress}}</td>
-                <td (click)="suplier(item.CardCode)">{{item.U_ANLRVN || 0 | priceFormat}}</td>
-                <!-- <td (click)="suplier(item.CardCode)">{{item.BPAddresses[1].AddressName}}</td> -->
+                <!-- <td (click)="suplier(item.CardCode)">{{item.U_ANLRVN || 0 | priceFormat}}</td> -->
+         
                 <td class="EditBoxForm">
                   <span class="edit-delete edit-delete{{item.id}}" (click)="editdeletepop(item)"
                     [innerHTML]="'table-v-dots' | svgIcons:''" class="table-v-dots"></span>
                   <div class="hover-show hover-show{{item.id}} hover-show-inactive">
                     <a routerLink="/customer/edit-customer/{{item.CardCode}}" style="text-decoration: none; color:#4E4E56;" *ngIf="HeadingServices.isModuleViewedit(3)"><span><i
                           class="fa fa-pencil" aria-hidden="true"></i> {{Headingss[0].heading102}} {{Headingss[0].leftheading}}</span></a><br *ngIf="HeadingServices.isModuleViewedit(3)">
-                    <!-- <span (click)="deleteCustomer(item.id? item.id:0)"><i class="fa fa-trash" aria-hidden="true"></i>
-                      Delete Customer</span><br> -->
+                 
                     <span (click)="createOpportunity(item)"><i class="fa fa-plus" aria-hidden="true"></i> {{Headingss[0].heading101}}
                       {{Headingss[3].quicklink1}}</span><br>
                   </div>
@@ -210,8 +209,7 @@
 
     </div>
 
-    <!-- <div class="col-5 mb-3">
-    </div> -->
+
     <div class="col-12 mb-1 pb-3">
       <label class="MainLabelNames">{{Headingss[0].heading10}}</label>
       <ng-select #selectpterms [clearOnBackspace]="false" [searchable]="false" name="pterms" placeholder="Select {{Headingss[0].heading10}}" [(ngModel)]="filter_customer.pterms" class="ngsearch-dropdown input-fld">

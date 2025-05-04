@@ -27,7 +27,11 @@
     </div>
     <!-- <span class="figma-user-bell-ico" [innerHTML]="'figma-user-bell-ico' | svgIcons:''"></span> -->
     <div class="figma-user-detail" (click)="openNav()" style="cursor: pointer;">
-      <img src="../../assets/img/figma-ellipse-1.png" style="border-radius: 50%;">
+      <img 
+      [src]="profileImage ? (bridgeService2.baseUrl2 + profileImage) : '../../assets/img/profile-picture-default-png.png'" 
+      width="50px" height="50px" style="border-radius: 50%;">
+    
+      <!-- src="../../assets/img/profile-picture-default-png.png" -->
       <div class="figma-user">
         <div class="figma-user-name" title="{{bridgeService2.UserName}}">{{show10Only(bridgeService2.UserName)}}</div>
         <div class="figma-user-role">{{bridgeService2.role}}</div>
@@ -42,11 +46,11 @@
     <div class="col-12">
 
     </div>
-    <div class="col-lg-12" style="background-color: rgb(196, 216, 255);">
+    <!-- <div class="col-lg-12" style="background-color: rgb(196, 216, 255);">
       <div class="UserProfile">
-        <!-- <a class="closebtn" (click)="closeNav()">&times;</a> -->
+       
         <div class="Pro-Img">
-          <img src="https://www.translitescaffolding.com/wp-content/uploads/2013/06/user-avatar.png" alt="">
+          <img src="../../assets/img/profile-img-popup.png" style="border-radius: 50%;" alt="">
         </div>
         <div class="AllContent" *ngFor="let item of Bridge2">
           <li>{{bridgeService2.UserName}}</li>
@@ -57,7 +61,45 @@
             Password</li>
         </div>
       </div>
+    </div> -->
+
+
+
+    <div class="col-lg-12" style="background-color: rgb(196, 216, 255);">
+      <div class="UserProfile">
+     
+        <div class="AllContent" *ngFor="let item of Bridge2">
+
+          <div class="Pro-Img">
+
+            <!-- <img 
+  [src]="item.ProfileImage[0].profileImage ? (bridgeService2.baseUrl2 + item.ProfileImage[0].profileImage) : '../../assets/img/profile-picture-default-png.png'" 
+  style="border-radius: 50%;cursor: pointer;"> -->
+
+            <img src="{{bridgeService2.baseUrl2}}{{item.ProfileImage[0]?.profileImage}}" 
+            alt="Profile Image"
+                 style="border-radius: 50%; cursor: pointer;" 
+                >
+          </div>
+          <li>{{ bridgeService2.UserName }}</li>
+          <li>{{ item.Email }}</li>
+          <li>{{ item.Mobile }}</li>
+
+          <li style="display: flex;">
+            <div (click)="openPass(contentchangepassword, item.user_id)" class="profile">
+              
+            <i class="fa fa-key" aria-hidden="true"></i> Reset Password
+            </div>
+            <div (click)="openUpdatePic(updateProfilePic, item.user_id)" class="profile">
+              
+            <i class="fa fa-edit" aria-hidden="true"></i> Update Profile Picture
+            </div>
+          </li>
+
+        </div>
+      </div>
     </div>
+    
 
     <!-- <div class="col-lg-12">
       <div class="AllProduct_img">
@@ -138,8 +180,69 @@
   </div>
 </ng-template>
 
+<!-- <ng-template #updateProfilePic let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title modal-heading" id="modal-basic-title">Update Profile Picture</h4>
 
 
+    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" (click)="modal.dismiss('Cross click')"></span>
+  </div>
+
+  <div class="modal-body">
+
+    <form #f="ngForm" name="theForm"  class="figma-modal-form " >
+
+      <div class="row">
+        <div class="col-md-12">
+    
+          
+    
+      
+        </div>
+        <div style="text-align: center;" *ngIf="isLoading">
+          <img src="../../assets/img/loder.gif" style="height: 100%;width: 10%;">
+        </div>
+      </div>
+
+      <div class="figma-modal-fotter">
+        <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+        <button class="figma-prim-btn"  >Save</button>
+      </div>
+    </form>
+  </div>
+</ng-template> -->
+<ng-template #updateProfilePic let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title modal-heading" id="modal-basic-title">Update Profile Picture</h4>
+    <span class="figma-screen-close" [innerHTML]="'figma-modal-close' | svgIcons:''" 
+          (click)="modal.dismiss('Cross click')">
+    </span>
+  </div>
+
+  <div class="modal-body">
+    <form #f="ngForm" name="theForm" class="figma-modal-form">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <!-- File Upload Input -->
+          <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput style="display: none;">
+          <p  type="button" (click)="fileInput.click()">Choose Image</p>
+
+      
+        </div>
+      </div>
+
+      <!-- Loading GIF (optional) -->
+      <div style="text-align: center;" *ngIf="isLoading">
+        <img src="../../assets/img/loder.gif" style="width: 10%;">
+      </div>
+
+      <div class="figma-modal-fotter">
+        <button class="figma-outline-btn" (click)="modal.dismiss('Cross click')">Cancel</button>
+        <button class="figma-prim-btn" (click)="cropImage()">Save</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
 
 <div class="showNoti">
   <div class="notifyArea showall">

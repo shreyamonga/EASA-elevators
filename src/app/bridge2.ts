@@ -1,6 +1,6 @@
 export interface Bridge2 {
   date: string;
-  campaign?: string;
+  // campaign?: string;
   location: string;
   companyName: string;
   source: string;
@@ -20,6 +20,13 @@ export interface Bridge2 {
   Attach:string,
   Caption:string,
   id?: any;
+  campaign_set :any;
+  campaign : any;
+  cardcode :any;
+  city: any
+  state: any
+  address: any
+  zipCode: any
 }
 
 
@@ -46,6 +53,13 @@ export interface EditBridge2 {
   Attach:string,
   Caption:string,
   id: any;
+  campaign_set :any;
+  campaign : any;
+  cardcode :any;
+  city: any
+  state: any
+  address: any
+  zipCode: any
 }
 
 export interface Follow {

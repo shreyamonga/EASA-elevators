@@ -55,13 +55,15 @@ export class ContactComponent implements OnInit {
 
   bridges: Bridge2 = {
     date: this.newdate, location: '', companyName: '', source: '', contactPerson: '',Attach: '',Caption:'',
-    phoneNumber: '', message: '', email: '', productInterest: '',
+    phoneNumber: '', message: '', email: '', productInterest: '',campaign: '',campaign_set:'',cardcode:'',city:'' ,state:'',
+    address:'',zipCode:'',
     assignedTo: this.UserId, timestamp: this.newdatetime, employeeId: this.UserId, numOfEmployee: '0', turnover: '', designation: '', status: 'Follow Up', leadType: 'Hot',
   };
   bridges22: EditBridge2[] = [];
   editbridges: EditBridge2 = {
-    date: '', location: '', companyName: '', source: '', contactPerson: '',Attach: '',Caption:'',
-    phoneNumber: '', message: '', email: '', productInterest: '',
+    date: '', location: '', companyName: '', source: '', contactPerson: '',Attach: '',Caption:'',city:'' ,state:'',
+    address:'',zipCode:'',
+    phoneNumber: '', message: '', email: '', productInterest: '',campaign: '',campaign_set:'',cardcode:'',
     assignedTo: '', timestamp: '', employeeId: '', id: '', numOfEmployee: '0', turnover: '', designation: '', status: '', leadType: ''
   };
   Follow: Follow[] = [];

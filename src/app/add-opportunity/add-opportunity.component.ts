@@ -25,9 +25,8 @@ declare var $: any;
 export class AddOpportunityComponent implements OnInit {
   DynamicFiledPositionDetials: any[] = [];
   baseUrl2: any;
-  searchValue: string='';
+  searchValue1: string='';
   searchValue2: string='';
-  searchValue1: any;
   CountItem: Number = 0;
   newdate:any = this.HeadingServices.getDate();
   quotationsitem: QuotationItem[] = [];
@@ -37,6 +36,8 @@ export class AddOpportunityComponent implements OnInit {
   businesspartners: BusinessPartners[] = [];
   bridges2: Bridge2[] = [];
   paginDisplay:boolean=true;
+  leadType:any
+  leadTypeId : any
   opportunitys: opportunity[] = [];
   opportunity: any = {
     SequentialNo: '',
@@ -248,6 +249,13 @@ export class AddOpportunityComponent implements OnInit {
         this.opportunity.SalesPerson = data[0].assignedTo.SalesEmployeeCode;
         this.opportunity.OpportunityName = data[0].companyName;
         this.opportunity.U_LSOURCE = data[0].source;
+        this.leadType = data[0].productInterest
+        this.getOpportunityList();
+
+        // this.opportunity.U_TYPE = data[0].productInterest
+
+        // console.log('check type' , this.opportunity.U_TYPE);
+        
         }
       },
       (err) => {
@@ -422,6 +430,7 @@ export class AddOpportunityComponent implements OnInit {
         this.opportunity.UpdateTime = this.HeadingServices.getTime2();
         this.opportunity.UpdateTime = this.HeadingServices.getTime();
         this.opportunity.CreateDate = this.HeadingServices.getDate();
+        this.opportunity.U_TYPE = this.leadTypeId
         this.bridgeService2.storeopportunity(this.opportunity).subscribe(
           (res: opportunity) => {
             this.isLoading = false;
@@ -492,18 +501,51 @@ export class AddOpportunityComponent implements OnInit {
   }
   optyp: any;
 
+  // getOpportunityList(): void {
+  //   console.log('check inside list data' , this.leadType);
+    
+  //   this.isLoading = true;
+  //   this.bridgeService2.getOpportunityTypeData().subscribe(
+  //     (data: any[]) => {
+  //       this.optyp = data;
+  //       // console.log(this.optyp);
+  //       this.isLoading = false;
+  //       console.log('this.optyp name',this.optyp);
+  //     },
+
+  //   );
+  // }
   getOpportunityList(): void {
+    console.log('check inside list data', this.leadType);
+  
     this.isLoading = true;
     this.bridgeService2.getOpportunityTypeData().subscribe(
       (data: any[]) => {
         this.optyp = data;
-        // console.log(this.optyp);
         this.isLoading = false;
-        // console.log('this.optyp name',this.optyp);
+        console.log('this.optyp name', this.optyp);
+  
+        // Match leadType with Type and get the corresponding ID
+        const matchedType = this.optyp.find((item: { id: number ; Type : any}) => item.Type === this.leadType);
+        if (matchedType) {
+          this.leadTypeId  = matchedType.id
+          console.log('check id' , matchedType.id);
+          
+          this.opportunity.U_TYPE = matchedType.Type;
+          console.log('Matched Type ID:', matchedType.id);
+        } else {
+          console.log('No matching type found for leadType:', this.leadType);
+        }
       },
-
+      error => {
+        this.isLoading = false;
+        console.error('Error fetching opportunity types:', error);
+      }
     );
   }
+  
+
+
   source1: any;
   getAllSource(): void {
     this.isLoading = true;
@@ -571,14 +613,14 @@ export class AddOpportunityComponent implements OnInit {
       this.getQuotationItem2(this.CategroyIDD);
     }
     emptySeach2(){
-      this.searchValue = '';
+      this.searchValue2 = '';
       this.RowPerPage2();
     }
 
     categorys:any[]=[]
   getQuotationItem(): void {
     this.isLoading = true;
-    this.bridgeService2.getItemCateByPagination(this.pagination,this.searchValue,this.order_by_field,this.order_by_value).subscribe(
+    this.bridgeService2.getItemCateByPagination(this.pagination,this.searchValue1,this.order_by_field,this.order_by_value).subscribe(
       (data: any) => {
         this.categorys = data.data;
         this.totalCount = data.meta.count;
@@ -618,7 +660,7 @@ export class AddOpportunityComponent implements OnInit {
     this.getQuotationItem();
   }
   emptySeach(){
-    this.searchValue = '';
+    this.searchValue1 = '';
     this.RowPerPage();
   }
 

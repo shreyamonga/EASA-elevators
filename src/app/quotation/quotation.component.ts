@@ -61,6 +61,7 @@ export class QuotationComponent implements OnInit {
   Headingss: any[] = [];
   exportStatus: boolean = false;
   savedModules: any[] = [];
+  ItemId:any
   constructor(
     private modalService: NgbModal,
     private route: Router,public HeadingServices: HeadingServicesService,
@@ -332,9 +333,13 @@ export class QuotationComponent implements OnInit {
     return total_Amount;
   }
   open(content: any,id:any) {
-    this.GetAppHistory(id);
-    this.Payload.status = 0;
-    this.Payload.remark = '';
+    
+    this.ItemId = id
+    console.log('check status' , this.ItemId);
+
+    // this.GetAppHistory(id);
+    // this.Payload.status = 0;
+    // this.Payload.remark = '';
     this.modalService
     .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css' })
     .result.then(
@@ -385,11 +390,28 @@ export class QuotationComponent implements OnInit {
     return JSON.parse(val);
   }
   SendRequest(){
-    this.bridgeService2.AppruvedRequest(this.Payload,this.Idd).subscribe(
+    // this.bridgeService2.AppruvedRequest(this.Payload,this.Idd).subscribe(
+    //   (res: any) => {
+    //     if (Object(res)['status'] == "200") {
+    //       this._NotifierService.showSuccess('Status Updated Successfully !');
+    //       this.modalService.dismissAll();
+    //       this.reload();
+
+    //     }
+    //     else {
+    //       this._NotifierService.showError(Object(res)['message']);
+    //     }
+    //   },
+    //   (err) => {
+    //     const delim = ":"
+    //     const name = err.message
+    //     const result = name.split(delim).slice(3).join(delim)
+    //     console.log(result);
+    //   }
+    // );
+    this.bridgeService2.StatusApprovalQuotation(this.Payload,this.ItemId).subscribe(
       (res: any) => {
         if (Object(res)['status'] == "200") {
-          // this.AppHistoryData = res.data;
-
           this._NotifierService.showSuccess('Status Updated Successfully !');
           this.modalService.dismissAll();
           this.reload();
@@ -406,6 +428,7 @@ export class QuotationComponent implements OnInit {
         console.log(result);
       }
     );
+    
   }
 
   openLock(lockcontent: any) {

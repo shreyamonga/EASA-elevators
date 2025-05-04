@@ -103,8 +103,8 @@ export class OrderAddComponent implements OnInit {
   isLoading: boolean = false;
 
   p: number = 1;
-  searchValue: string = '';
-  searchValue1: any;
+  searchValue1: string = '';
+
   baseUrl2: any;
   quotations: any[] = [];
   quotationsList: Quotation[] = [];
@@ -754,7 +754,7 @@ isEdit:boolean=false;
       this.getQuotationItem2(this.CategroyIDD);
     }
     emptySeach2(){
-      this.searchValue = '';
+      this.searchValue2 = '';
       this.RowPerPage2();
     }
 
@@ -762,7 +762,7 @@ isEdit:boolean=false;
     categorys:any[]=[]
     getQuotationItem(): void {
       this.isLoading = true;
-      this.bridgeService2.getItemCateByPagination(this.pagination,this.searchValue,this.order_by_field,this.order_by_value).subscribe(
+      this.bridgeService2.getItemCateByPagination(this.pagination,this.searchValue1,this.order_by_field,this.order_by_value).subscribe(
         (data: any) => {
           this.categorys = data.data;
           this.totalCount = data.meta.count;
@@ -802,7 +802,7 @@ isEdit:boolean=false;
       this.getQuotationItem();
     }
     emptySeach(){
-      this.searchValue = '';
+      this.searchValue1 = '';
       this.RowPerPage();
     }
 
@@ -1247,7 +1247,8 @@ isEdit:boolean=false;
         this.order.UpdateTime= this.HeadingServices.getTime(),
 
         this.order = this.bridgeService2.replaceNullWithSpace(this.order);
-        var Payload = JSON.parse(JSON.stringify(this.order))
+         var Payload = JSON.parse(JSON.stringify(this.order))
+         Payload.Attach = this.order.Attach;
         this.bridgeService2.addEditOrders(Payload,this.isEdit).subscribe(
           (res: Orders) => {
             if (Object(res)['status'] == '200') {

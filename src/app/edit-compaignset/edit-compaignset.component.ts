@@ -37,6 +37,8 @@ export class EditCompaignsetComponent implements OnInit {
   isdataLoading:boolean=false;
   compaign: CampaignSet[] = [];
   UserName: any;
+  cstmrtype: any;
+  optyp: any;
   compaigns: any = {
 
     CampaignSetName: "",
@@ -70,7 +72,9 @@ export class EditCompaignsetComponent implements OnInit {
     AllLead: "",
     AllOpp: "",
     AllBP: "",
-    id: ""
+    id: "",
+    LeadTypeOfLift:"",
+	  OppTypeOfLift:"",
   };
 
   Countrys: string = 'IN, India';
@@ -99,11 +103,11 @@ export class EditCompaignsetComponent implements OnInit {
   dropdownSettings1 = {};
   dropdownSettings2 = {};
   input_fld: any = 'input-fld3';
-  selectleadsource: any = {};
-  selectleadstatus: any = {};
-  selectOppEmployeee: any = {};
-  selectBPEmployeee: any = {};
-  selectIndustory: any = {};
+  selectleadsource: any ;
+  selectleadstatus: any ;
+  selectOppEmployeee: any ;
+  selectBPEmployeee: any ;
+  selectIndustory: any ;
   selectedItems: any = [];
   dropdownListemp: any = [];//for empl
   dropdownListind: any = [];//for ind
@@ -119,7 +123,8 @@ export class EditCompaignsetComponent implements OnInit {
   savedModules: any[] = [];
   Headingss: any[] = [];
   // Country: any = 'IN, India';
-  constructor(private _location: Location, private route: Router,public HeadingServices: HeadingServicesService, private router: ActivatedRoute, private bridgeService: BridgeService, private modalService: NgbModal,private _NotifierService: NotiferService,
+  constructor(private _location: Location,private bridgeService2: BridgeService,
+     private route: Router,public HeadingServices: HeadingServicesService, private router: ActivatedRoute, private bridgeService: BridgeService, private modalService: NgbModal,private _NotifierService: NotiferService,
 
     private http: HttpClient,
   ) { }
@@ -144,6 +149,8 @@ export class EditCompaignsetComponent implements OnInit {
     this.getAllSource();
     // this.editCompaignSet();
     this.getLeadAll();
+    this.getOpportunityList();
+    this.getCustomerTypeList()
     this.getDynaimcFld('Campaign');
     this.compaigns.CreateBy = String(sessionStorage.getItem('SalesEmployeeCode'));
     this.compaigns.CampaignSetOwner = String(sessionStorage.getItem('SalesEmployeeCode'));
@@ -328,6 +335,8 @@ export class EditCompaignsetComponent implements OnInit {
         }
 
         this.compaigns.BPType = data[0]['BPType'];
+        this.compaigns.LeadTypeOfLift = data[0]['LeadTypeOfLift']
+        this.compaigns.OppTypeOfLift = data[0]['OppTypeOfLift']
         if (data[0]['BPSalePerson'].length != 0) {
           this.compaigns.BPSalePerson = data[0]['BPSalePerson'];
         }
@@ -542,7 +551,7 @@ export class EditCompaignsetComponent implements OnInit {
 
     // console.log(this.selectleadsource);
     // return 1
-    if (this.selectleadsource == undefined || this.selectleadsource.length != 0) {
+    if (this.selectleadsource == undefined || this.selectleadsource.length == 0) {
       this.compaigns.LeadSource = "";
     }
     else {
@@ -550,7 +559,7 @@ export class EditCompaignsetComponent implements OnInit {
     }
 
     //status
-    if (this.selectleadstatus == undefined || this.selectleadstatus.length != 0) {
+    if (this.selectleadstatus == undefined || this.selectleadstatus.length == 0) {
       this.compaigns.LeadStatus = ""
     }
     else {
@@ -559,7 +568,7 @@ export class EditCompaignsetComponent implements OnInit {
 
 
     //for Employee
-    if (this.selectOppEmployeee == undefined || this.selectOppEmployeee.length != 0) {
+    if (this.selectOppEmployeee == undefined || this.selectOppEmployeee.length == 0) {
       this.compaigns.OppSalePerson = ""
     }
     else {
@@ -568,7 +577,7 @@ export class EditCompaignsetComponent implements OnInit {
 
 
     //for Bp Employee
-    if (this.selectBPEmployeee == undefined || this.selectBPEmployeee.length != 0) {
+    if (this.selectBPEmployeee == undefined || this.selectBPEmployeee.length == 0) {
       this.compaigns.BPSalePerson = ""
     }
     else {
@@ -576,7 +585,7 @@ export class EditCompaignsetComponent implements OnInit {
     }
 
     //for industory
-    if (this.selectIndustory == undefined || this.selectIndustory.length != 0) {
+    if (this.selectIndustory == undefined || this.selectIndustory.length == 0) {
       this.compaigns.BPIndustry = ""
     }
     else {
@@ -815,6 +824,33 @@ export class EditCompaignsetComponent implements OnInit {
         console.log(err);
         this.error = err;
       }
+    );
+  }
+
+  
+  getOpportunityList(): void {
+    // console.log('check inside list data' , this.leadType);
+    
+    this.isLoading = true;
+    this.bridgeService2.getOpportunityTypeData().subscribe(
+      (data: any[]) => {
+        this.optyp = data;
+        // console.log(this.optyp);
+        this.isLoading = false;
+        // console.log('this.optyp name',this.optyp);
+      },
+
+    );
+  }
+
+  getCustomerTypeList(): void {
+    this.isLoading = true;
+    this.bridgeService2.getCustomerTypeData().subscribe(
+      (data: any[]) => {
+        this.isLoading = false;
+        this.cstmrtype = data;
+      },
+
     );
   }
 

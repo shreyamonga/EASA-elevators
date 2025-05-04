@@ -164,7 +164,7 @@
 
                   </div>
                 </div>
-                <div class="lead-update-wrapper" *ngIf="HeadingServices.isModulefieldview(4, 'U_PROBLTY')">
+                <!-- <div class="lead-update-wrapper" *ngIf="HeadingServices.isModulefieldview(4, 'U_PROBLTY')">
                   <label>{{Headingss[0].heading8}}</label>
                   <div>
                     <ng-select #selectProbability [clearOnBackspace]="false" [searchable]="false" name="U_PROBLTY"
@@ -188,14 +188,14 @@
                       </span>
                     </ng-container>
                   </div>
-                </div>
+                </div> -->
 
                 <div class="lead-update-wrapper">
                   <label>{{Headingss[0].heading9}}</label>
                   <div>
                     <ng-select #selectLeadSource [clearOnBackspace]="false" [searchable]="false" #U_LSOURCE="ngModel"
-                      [(ngModel)]="opportunity.U_LSOURCE" name="U_LSOURCE" required
-                      class="ngsearch-dropdown input-fld required-fld">
+                      [(ngModel)]="opportunity.U_LSOURCE" name="U_LSOURCE" 
+                      class="ngsearch-dropdown input-fld">
                       <ng-template ng-header-tmp>
                         <input class="ng-dropdown-search" style="width: 100%;line-height: 24px" placeholder="search"
                           type="text" (input)="selectLeadSource.filter($event.target.value)" />
@@ -203,11 +203,11 @@
                       <ng-option value="" disable selected>Select {{Headingss[0].heading9}}</ng-option>
                       <ng-option value="{{item1.Name}}" *ngFor="let item1 of source1">{{item1.Name}}</ng-option>
                     </ng-select>
-
+<!-- 
                     <span class="help-block danger"
                       *ngIf="(U_LSOURCE.errors?.required && f.submitted)||(U_LSOURCE.errors?.required && U_LSOURCE.touched)">
                       Select {{Headingss[0].heading9}} is required
-                    </span>
+                    </span> -->
                   </div>
                 </div>
 
@@ -330,13 +330,21 @@
           <div class="em-search-container">
             <div class="em-search">
               <!-- <span [innerHTML]="'search-icon' | svgIcons:''" class="quick-search"></span><input class="sear-are" placeholder="Quick Search" [(ngModel)]="searchValue"> -->
-              <div class="toggle-show">
-                <span [innerHTML]="'search-icon' | svgIcons:''" class="quick-search"></span><input class="sear-are"
-                  placeholder="Search" [(ngModel)]="searchValue1">
+              <div class="toggle-show" style="position: relative;">
+                <span ></span><input class="sear-are" style="width: 220px;padding-left: 15px;"
+                  placeholder="Search" [(ngModel)]="searchValue1" (keyup.enter)="RowPerPage()">
+                <span [innerHTML]="'figma-modal-close2' | svgIcons:''" class="new-search-cross" (click)="emptySeach()"
+                  *ngIf="searchValue1 != ''" style="left: 65%;margin-top: 3px;"></span>
+                <button type="button" class="new-search-btn" style="position: absolute;right: 0;min-width: 31px;border-radius: 0px 3px 3px 0px;width: 50px;" (click)="RowPerPage()"><i
+                    class="fa-solid fa-magnifying-glass"></i></button>
               </div>
-              <div class="toggle-show1">
-                <span [innerHTML]="'search-icon' | svgIcons:''" class="quick-search"></span><input class="sear-are"
-                  placeholder="Search" [(ngModel)]="searchValue">
+              <div class="toggle-show1" style="position: relative;">
+                <span ></span><input class="sear-are"
+                  placeholder="Search" [(ngModel)]="searchValue2" (keyup.enter)="RowPerPage2()" style="width: 220px;padding-left: 15px;">
+                <span [innerHTML]="'figma-modal-close2' | svgIcons:''" class="new-search-cross" (click)="emptySeach2()"
+                  *ngIf="searchValue2 != ''" style="left: 65%;margin-top: 3px;"></span>
+                <button type="button" class="new-search-btn" style="position: absolute;right: 0;min-width: 31px;border-radius: 0px 3px 3px 0px;width: 50px;" (click)="RowPerPage2()"><i
+                    class="fa-solid fa-magnifying-glass"></i></button>
               </div>
             </div>
           </div>
@@ -365,7 +373,7 @@
   [ngClass]="(categorys | inventorysearchfilter: searchValue1)?.length < 4 ? 'sales-details-cateCate sales-details-cateCate-limiting' :    'sales-details-cateCate'" *ngIf="!isLoading" id="CateCate"   >
   
   
-  <ng-container *ngIf="(categorys | inventorysearchfilter: searchValue1)?.length > 0; else noData" >
+  
     <ng-container *ngFor="let item of categorys | inventorysearchfilter: searchValue1">
       <div (click)="getQuotationItem2(item.id)">
         <img *ngIf="item.CategoryImageURL == ''" src="../../assets/img/iner-box1.png" alt=""
@@ -375,10 +383,9 @@
         <p>{{item.CategoryName}}</p>
       </div>
     </ng-container>
-  </ng-container>
 
   
-  <ng-template #noData  >
+  <ng-container *ngIf="categorys.length == 0"  >
      <p class="" style="text-align: center;
      font-size: 20px;
      color: #4A79E4;
@@ -387,7 +394,7 @@
      grid-column: 1 / -1;
      line-height: 400px;">No Data Found
      </p>
-  </ng-template>
+  </ng-container>
 <!-- </div> -->
 <!-- </div>  -->
  </div>
@@ -411,7 +418,7 @@
                       </tr>
                     <!-- </thead> -->
                     <ng-container>
-                      <tr class="hover"  *ngFor="let item of items | invendata:searchValue"
+                      <tr class="hover"  *ngFor="let item of items"
                         (click)="open(mymodal, item)">
                         <td>{{item.id}}</td>
                         <td>
@@ -431,7 +438,7 @@
                       <!-- <td colspan="7" id="itemnoDataFound" style="text-align: center;font-size: 20px;color: #4A79E4;">
               No Data Found
             </td> -->
-                      <td colspan="10" id="itemnoDataFound"
+                      <td colspan="10" *ngIf="items.length == 0"
                         style="text-align: center;font-size: 20px;color: #4A79E4;padding-top: 15% !important;">No Data
                         Found</td>
                     </tr>

@@ -100,7 +100,7 @@ import { FieldManagementComponent } from './field-management/field-management.co
 import { WorkflowlistComponent } from './workflowlist/workflowlist.component';
 import { AddEditWorkflowComponent } from './workflowlist/add-edit-workflow/add-edit-workflow.component';
 import { ChatComponent } from './Boat/chat/chat.component';
-
+import { SourcesComponent } from './leads/sources/sources.component';
 
 const routes: Routes = [
   // { path: '', component: HomeComponent },
@@ -210,7 +210,7 @@ const routes: Routes = [
   {path:'workflow/addEdit/:id',component:AddEditWorkflowComponent},
 
   {path:'boat/chat',component:ChatComponent},
-
+  {path:'setting/leadcource',component:SourcesComponent},
 
 ];
 

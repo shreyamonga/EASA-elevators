@@ -169,15 +169,23 @@ export class LeftMenuComponent implements OnInit {
     });
 
     this.socket.addEventListener('message', (event) => {
+
+      if(JSON.parse(event.data).message.base_url == this.bridgeService2.baseUrl2){
       if(JSON.parse(event.data).message.client_id == sessionStorage.getItem('client_id')){
         if(JSON.parse(event.data).message.manager_id.includes(sessionStorage.getItem('UserId'))){
       this.SocektMessage.push(JSON.parse(event.data).message);
+      for(let i=0;i<JSON.parse(event.data).message.user_list.length;i++){
+        if(JSON.parse(event.data).message.user_list[i].emp_id == sessionStorage.getItem('UserId')){
+      sessionStorage.setItem('unreadCount', JSON.parse(event.data).message.user_list[i].unread_count);
+        }
+      }
       setTimeout(()=>{
         $(".notification_"+Number(this.SocektMessage.length-1)).addClass('show');
         this.CloseNotifiationaftertime(Number(this.SocektMessage.length-1));
       }, 500);
     }
   }
+}
     });
 
     this.socket.addEventListener('close', (event) => {

@@ -230,3 +230,6 @@ input[type='checkbox'] {
 .col-md-6 {
   float: left;
 }
+.pl-10{
+  padding-left: 10px !important;
+}

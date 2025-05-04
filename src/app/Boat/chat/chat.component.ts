@@ -4,7 +4,6 @@ import { NotiferService } from 'src/app/modules/service/helpers/notifer.service'
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import * as XLSX from 'xlsx';
 import { AuthService } from 'src/app/modules/service/AuthService.service';
-import { Router } from '@angular/router';
 declare var $: any;
 @Component({
   selector: 'app-chat',
@@ -15,42 +14,12 @@ export class ChatComponent implements OnInit {
   @ViewChild('scrollMe') private myScrollContainer!: ElementRef;
 
   @ViewChild('ExcelsheetComponent', { static: false }) ExcelsheetComponent!: ElementRef | any;
-  @ViewChild('DeliveryComponent', { static: false }) DeliveryComponent!: ElementRef | any;
   getId(){
-    if(this.modelName  === 'Lead' ){
-      this.ExcelsheetComponent.openEmpll();
-    }
-    else if(this.modelName === 'BusinessPartner' ){
-      this.router.navigate(['/customer/add-customer']); 
-    }
-    else if(this.modelName === 'Order' ){
-      this.router.navigate(['/order/add-order']); 
-    }
-    else if(this.modelName === 'Opportunity' ){
-      this.router.navigate(['/opportunity/add-opportunity']); 
-    }
-    else if(this.modelName === 'Campaign' ){
-      this.router.navigate(['/campaign/add-campaign']); 
-    }
-    // else if(this.modelName === 'Delivery' ){
-    //   this.DeliveryComponent.openDeliveryModal();
-    // }
-    
-    
-    
-    
-    
+    this.ExcelsheetComponent.openEmpll();
   }
-  modelName : any;
   receiveData(data: string) {
     if(data == 'true'){
-      this.getModuleData({
-        "id": this.LastChatID,
-        "model_name" : this.modelName,
-        "action": 'create_record',
-        "field_name": '',
-        "data_type":'',
-    });
+      this.ngOnInit();
     }
   }
 
@@ -195,8 +164,7 @@ export class ChatComponent implements OnInit {
   ];
 
 
-  constructor(private router: Router,
-    private authService: AuthService,private bridgeService2: BridgeService, private modalService: NgbModal, private _NotifierService: NotiferService) { }
+  constructor(private authService: AuthService,private bridgeService2: BridgeService, private modalService: NgbModal, private _NotifierService: NotiferService) { }
 
 
   ngOnInit(): void {
@@ -441,7 +409,6 @@ export class ChatComponent implements OnInit {
         if (ApiRes.data.action == "create_field") {
           this.hideSaveOnDevMode = false;
           this.LastChatID = ApiRes.data.id;
-          this.modelName = ApiRes.data.modules[0].module_name
           textType = 'Field';
 
           let typedText: any[] = [];
@@ -488,7 +455,6 @@ export class ChatComponent implements OnInit {
         else{
           this.hideSaveOnDevMode = false;
           this.LastChatID = ApiRes.data.id;
-          this.modelName = ApiRes.data.modules[0].module_name
           textType = 'Record';
 
           let typedText: any[] = []
@@ -594,11 +560,7 @@ export class ChatComponent implements OnInit {
   transformString(input: string): string {
     return input.trim().toLowerCase().replace(/\s+/g, '_');
   }
-  AppruvedPosition2()
- 
-  {
-    // console.log('check data from the Save click' , data)
-    // this.clickFrom = data
+  AppruvedPosition2(){
     // console.log(this.MessageArrya.length);
    var AddUser:any = this.MessageArrya[this.MessageArrya.length-1].text[0];
     this.isLoading = true;
@@ -618,8 +580,8 @@ export class ChatComponent implements OnInit {
             "id": this.LastChatID,
             "model_name": AddUser.model_name,
             "action": 'create_field',
-            "field_name": AddUser.field_data[0].verbose_name,
-            "data_type": AddUser.field_data[0].data_type ,
+            "field_name":AddUser.field_data[0].verbose_name,
+            "data_type":AddUser.field_data[0].data_type
         });
           this._NotifierService.showSuccess("Field Added Successfully");
           this.modalService.dismissAll();

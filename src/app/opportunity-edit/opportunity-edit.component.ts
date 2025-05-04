@@ -75,8 +75,8 @@ export class OpportunityEditComponent implements OnInit {
     id: '',
   };
   isLoading: boolean = false;
-  searchValue: any = '';
-  searchValue1: any;
+  searchValue1: any = '';
+  
   error = '';
   success = '';
   role: any;
@@ -726,13 +726,13 @@ showitem() {
       this.getQuotationItem2(this.CategroyIDD);
     }
     emptySeach2(){
-      this.searchValue = '';
+      this.searchValue2 = '';
       this.RowPerPage2();
     }
     categorys:any[]=[]
     getQuotationItem(): void {
       this.isLoading = true;
-      this.bridgeService2.getItemCateByPagination(this.pagination,this.searchValue,this.order_by_field,this.order_by_value).subscribe(
+      this.bridgeService2.getItemCateByPagination(this.pagination,this.searchValue1,this.order_by_field,this.order_by_value).subscribe(
         (data: any) => {
           this.categorys = data.data;
           this.totalCount = data.meta.count;
@@ -772,7 +772,7 @@ showitem() {
       this.getQuotationItem();
     }
     emptySeach(){
-      this.searchValue = '';
+      this.searchValue1 = '';
       this.RowPerPage();
     }
 

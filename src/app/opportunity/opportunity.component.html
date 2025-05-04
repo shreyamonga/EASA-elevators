@@ -67,14 +67,14 @@
               </th>
               <th (click)="togglesortType('U_TYPE')">{{Headingss[0].heading7}} <span
                   [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th>
-              <th (click)="togglesortType('U_LSOURCE')">{{Headingss[0].heading9}} <span
-                  [innerHTML]="'up-down-arrow' | svgIcons:''"></span></th>
+              <!-- <th (click)="togglesortType('U_LSOURCE')">{{Headingss[0].heading9}} <span
+                  [innerHTML]="'up-down-arrow' | svgIcons:''"></span></th> -->
               <th (click)="togglesortType('ClosingDate')">{{Headingss[0].heading5}} <span
                   [innerHTML]="'up-down-arrow' | svgIcons:''"></span></th>
               <th (click)="togglesortType('DocTotal')">Total Amount <span
                   [innerHTML]="'up-down-arrow' | svgIcons:''"></span> </th>
-               <th >Status
-                  </th>
+               <!-- <th >Status
+                  </th> -->
 
               <th>{{Headingss[0].heading111}}</th>
 
@@ -83,7 +83,7 @@
           <tr class="hover" *ngFor="let item of opportunitys; let i = index">
             <td> <input type="checkbox" id="checkbox{{item.id}}" value="{{item.id}}" class="checkbox"
                 (click)="checkboxclick(item.id)"> </td>
-            <td>{{i+1}}</td>
+            <td>{{item.Opp_Code}}</td>
             <td (click)="suplier(item.id)">
               {{item.StartDate | customDate }}
 
@@ -92,27 +92,17 @@
             <!-- <td (click)="suplier(item.id)">{{item.CustomerName || 'NA'}}</td> -->
             <td (click)="suplier(item.id)">{{item.CardName || 'NA'}}</td>
             <td (click)="suplier(item.id)">
-              {{item.U_TYPE[0].Type}}
+              {{item.U_TYPE[0]?.Type}}
             </td>
 
-            <td (click)="suplier(item.id)">{{item.U_LSOURCE}}</td>
+            <!-- <td (click)="suplier(item.id)">{{item.U_LSOURCE}}</td> -->
             <td (click)="suplier(item.id)">
               {{item.ClosingDate | customDate}}
             </td>
             <td (click)="suplier(item.id)">{{item.DocTotal || 0 | priceFormat}}</td>
-            <td>{{ item.OpportunityStatus === "" || item.OpportunityStatus === "0" ? 'Lost' : (item.OpportunityStatus === "1" ? 'Won' : item.OpportunityStatus) }}</td>
+            <!-- <td>{{ item.OpportunityStatus === "" || item.OpportunityStatus === "0" ? 'Lost' : (item.OpportunityStatus === "1" ? 'Won' : item.OpportunityStatus) }}</td> -->
 
-            <!-- <td >{{ item.OpportunityStatus }}</td> -->
-            <!-- <ng-container [ngSwitch]="true">
-              <div ngbDropdown container="body">
-                <td ngbDropdownToggle *ngSwitchCase="item.OpportunityStatus == '1'" style="color:green;">Won</td>
-                <td ngbDropdownToggle *ngSwitchDefault style="color:red;">Lost</td>
-                <div ngbDropdownMenu>
-                  <button ngbDropdownItem class="actonbtn" (click)="action(item.id,1)">Won</button>
-                  <button ngbDropdownItem class="actonbtn" (click)="action(item.id,0)">Lost</button>
-                </div>
-              </div>
-            </ng-container> -->
+       
             <td class="EditBoxForm" style="padding: 0 15px;">
               <span class="edit-delete edit-delete{{item.id}}" (click)="editdeletepop(item)"
                 [innerHTML]="'table-v-dots' | svgIcons:''" class="table-v-dots"></span>
@@ -126,7 +116,7 @@
                 <a  style="text-decoration: none; color:#4E4E56;" (click)="createQuptation(item.id,'Order')" style="text-decoration: none;" *ngIf="HeadingServices.isModuleViewadd(6)"><span>
                     <i class="fa fa-plus" aria-hidden="true"></i> {{Headingss[0].heading101}}
                     {{Headingss[3].quicklink4}}</span></a><br *ngIf="HeadingServices.isModuleViewadd(6)">
-                <!-- <span ><i class="fa fa-trash" aria-hidden="true"></i> Delete Opportunity</span><br> -->
+              
               </div>
             </td>
           </tr>

@@ -35,6 +35,8 @@ export class CustomerAddComponent implements OnInit {
   contactPersoneList: any;
 
   customer: any = {
+    C_Landline :'',
+    C_CurrentOrderInHand : 0,
     zone:'',
     CardCode: '',
     CardName: '',
@@ -237,6 +239,8 @@ export class CustomerAddComponent implements OnInit {
     this.customer.Phone1='';
     this.customer.U_ANLRVN='';
     this.customer.EmailAddress='';
+    this.customer.C_Landline='';
+    
     this.customer.ContactEmployees[0].Name='';
     this.customer.ContactEmployees[0].MobilePhone='';
     this.customer.ContactEmployees[0].E_Mail='';

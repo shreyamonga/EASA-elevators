@@ -47,6 +47,7 @@ export class OrderComponent implements OnInit {
     maxItem: '10',
     PageShow:10
   }
+  itemID:any
   totalCount:any;
   // opposearchfilter
   searchValue: string = '';
@@ -502,10 +503,14 @@ jsonpart(val:any){
     return JSON.parse(val);
   }
   open(content: any,id:any) {
-    this.GetAppHistory(id);
+    this.itemID = id
+    console.log('check item id' , this.itemID);
+    
+    // this.GetAppHistory(id);
 
-    this.Payload.status = 0;
-    this.Payload.remark = '';
+    // this.Payload.status = 0;
+    // this.Payload.remark = '';
+
     this.modalService
     .open(content, { ariaLabelledBy: 'modal-basic-title', modalDialogClass: 'modal-dialog-centered figma-cards-modal figma-cards-modal-lg custom-modal-css' })
     .result.then(
@@ -554,7 +559,9 @@ jsonpart(val:any){
   }
 
   SendRequest(){
-    this.bridgeService2.AppruvedRequest(this.Payload,this.Idd).subscribe(
+    console.log('check item data id' , this.itemID);
+    
+    this.bridgeService2.StatusApprovalOrder(this.Payload,this.itemID).subscribe(
       (res: any) => {
         if (Object(res)['status'] == "200") {
           // this.AppHistoryData = res.data;

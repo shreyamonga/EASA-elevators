@@ -1,0 +1,3013 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width">
+  <title>Sales Quotation</title>
+  <link rel="icon" type="image/png" href="../../assets/img/Ledure-logo.png" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <style>
+    :root {
+      --left-bg-color: #f9ecd3;
+      --template-bg-color: #f5d6b8;
+      --template-btn-bg: #545454;
+      --template-btn-bg-light: rgba(120, 35, 46, 0.5);
+    }
+
+    .table>tbody>tr>td,
+    .table>tbody>tr>th,
+    .table>tfoot>tr>td,
+    .table>tfoot>tr>th,
+    .table>thead>tr>td,
+    .table>thead>tr>th {
+      border-top: 1px solid #525252;
+    }
+
+    tbody {
+      border: 1px solid #525252;
+      border-top: 1px solid #525252 !important;
+    }
+
+    body {
+      margin-top: 20px;
+      background: #eee;
+      font-family: sans-serif;
+      font-size: 13px;
+    }
+
+    .main-header {
+      background-color: #518DE3;
+      color: white;
+    }
+
+    .main-header .content h4 {
+      padding-left: 10px;
+    }
+
+    .newp {
+      font-size: 12px;
+      margin-bottom: 0px;
+    }
+
+    .main-header1 {
+      background-color: rgb(19, 19, 82);
+      color: white;
+      width: 100%;
+      display: flex;
+    }
+
+    .content {
+      width: 80%;
+    }
+
+    .bnk-dtl {
+      width: 19%;
+    }
+
+    .second {
+      width: 100%;
+      display: flex;
+    }
+
+    .left {
+      width: 70%;
+    }
+
+    .right {
+      width: 29%;
+    }
+
+    .right .quotaion-heading {
+      text-align: center;
+    }
+
+    .right-tbl {
+      margin-top: 100px;
+    }
+
+    .ftr1 {
+      text-align: center;
+      font-size: 10px;
+    }
+
+    #api2 tr td {
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .invoice {
+      background: #fff;
+      /* padding: 20px; */
+      padding: 16px;
+      width: 1000px;
+      /* width: fit-content; */
+    }
+
+    .invoice-company {
+      font-size: 20px
+    }
+
+    .invoice-footer {
+      /* border-top: 1px solid #ddd; */
+      padding-top: 10px;
+      font-size: 10px
+    }
+
+    .invoice-footer p {
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .invoice-note {
+      color: #999;
+      margin-top: 80px;
+      font-size: 85%
+    }
+
+
+    .btn.btn-white,
+    .btn.btn-white.disabled,
+    .btn.btn-white.disabled:focus,
+    .btn.btn-white.disabled:hover,
+    .btn.btn-white[disabled],
+    .btn.btn-white[disabled]:focus,
+    .btn.btn-white[disabled]:hover {
+      color: #2d353c;
+      background: #fff;
+      border-color: #d9dfe3;
+    }
+
+    .table-responsive {
+      overflow-x: clip;
+    }
+
+    table,
+    th,
+
+    td {
+      border: 1px solid #525252;
+      border-collapse: collapse;
+      padding: 3px !important;
+
+      padding: 8px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+
+    .box {
+      /* margin: 0 10%; */
+    }
+
+    .logo-img {
+      width: 185px
+    }
+
+    .barimg {
+      padding-top: 80px;
+      width: 150px;
+    }
+
+    .bg-grey {
+      background-color: #efefef;
+    }
+
+    .bg-orange {
+      background-color: #ffe599;
+    }
+
+    @media screen and (max-width: 767px) {
+
+      .table-responsive>.table>tbody>tr>td,
+      .table-responsive>.table>tbody>tr>th,
+      .table-responsive>.table>tfoot>tr>td,
+      .table-responsive>.table>tfoot>tr>th,
+      .table-responsive>.table>thead>tr>td,
+      .table-responsive>.table>thead>tr>th {
+        white-space: normal;
+      }
+
+      .barimg {
+        width: 110px;
+      }
+
+      /* .invoice{
+              padding: 0px;
+            } */
+    }
+
+    @media screen and (max-width: 600px) {
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      /* .invoice{
+              padding: 0px;
+            } */
+      .barimg {
+        width: 110px;
+      }
+
+      .table-responsive>.table>tbody>tr>td,
+      .table-responsive>.table>tbody>tr>th,
+      .table-responsive>.table>tfoot>tr>td,
+      .table-responsive>.table>tfoot>tr>th,
+      .table-responsive>.table>thead>tr>td,
+      .table-responsive>.table>thead>tr>th {
+        white-space: normal;
+      }
+
+      .main-pd-wrapper {
+        margin: 0 !important;
+      }
+
+      body {
+        background-color: white;
+      }
+
+      .table-invoice {
+        width: 100% !important;
+      }
+
+      .box {
+        width: 100vw;
+      }
+
+      .invoice-price .invoice-price-left,
+      .invoice-price .invoice-price-right {
+        padding: 0px;
+        font-size: 0px;
+      }
+
+      .invoice-price .invoice-price-right {
+        font-size: 5px;
+        text-align: center;
+      }
+
+      .box {
+        margin: 0 0%;
+      }
+
+      .second .left {
+        width: 45%;
+      }
+
+      .second .right {
+        width: 55%;
+      }
+
+      .right .quotaion-heading {
+        padding-left: 20px;
+      }
+
+      .logo-img {
+        width: 100px
+      }
+
+      .gst {
+        font-size: 12px;
+      }
+
+      .table-responsive {
+        overflow: scroll;
+        width: 900px;
+        /* overflow-x: none; */
+      }
+
+      .ftr1 {
+        text-align: center;
+      }
+
+      .ftr1 span {
+        font-size: 10px;
+      }
+
+      .right-tbl {
+        margin-left: 10px;
+        margin-top: 56px;
+      }
+
+      .text-right {
+        font-size: 11px;
+      }
+
+      .test1 {
+        font-size: 13px;
+      }
+    }
+
+    .hide {
+      display: none;
+    }
+
+    .card {
+      background-color: #fff;
+      border: 1px solid;
+      border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+      border-radius: 5px;
+      padding: 12px;
+      margin: 20px auto 20px;
+      max-width: 472px;
+      min-height: 200px;
+    }
+
+    .card--loading {
+      height: 250px;
+    }
+
+    .card--reset {
+      min-height: auto;
+      text-align: center;
+    }
+
+    .card--reset a {
+      color: #3b97ff;
+      text-decoration: none;
+    }
+
+    thead {
+      background: #f7f7f7;
+    }
+
+    th {
+      padding: 10px;
+
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #525252;
+    }
+
+    .table-cell-loader {
+      padding: 0;
+    }
+
+    .table__date {
+      width: 60px;
+    }
+
+    .table__descrip {
+      width: 250px;
+    }
+
+    .table__amount {
+      width: 100px;
+    }
+
+    .table__other {
+      width: 20px;
+    }
+
+    .table__icon {
+      color: #3b97ff;
+      font-size: 18px;
+    }
+
+    @keyframes placeHolderShimmer {
+      0% {
+        background: #ececec;
+      }
+
+      30% {
+        background: #f7f7f7;
+      }
+
+      50% {
+        background: #ececec;
+      }
+
+      80% {
+        background: #f7f7f7;
+      }
+
+      100% {
+        background: #ececec;
+      }
+    }
+
+    .loading-animation {
+      animation: placeHolderShimmer 3s infinite;
+    }
+
+    .mask {
+      background: #fff;
+      position: absolute;
+      height: 10px;
+    }
+
+    .mask--b-b {
+      top: 0;
+      width: 100%;
+      height: 1px;
+      right: 0;
+      background: #efefef;
+    }
+
+    .mask--t {
+      height: 10px;
+      width: 100%;
+    }
+
+    .mask--b {
+      height: 10px;
+      width: 100%;
+      bottom: 0;
+    }
+
+    .mask--r {
+      height: 30px;
+      width: 10px;
+      right: 0;
+    }
+
+    .mask--l {
+      height: 30px;
+      width: 10px;
+      left: 0;
+    }
+
+    .mask--sep-1 {
+      width: 20px;
+      right: 340px;
+      height: 30px;
+    }
+
+    .note-container {
+      display: flex;
+      flex-wrap: wrap;
+      /* Keeps all items in a single row */
+      /* align-items: center; */
+      gap: 10px;
+      /* Adds spacing between elements */
+    }
+
+    .mask--sep-2 {
+      width: 20px;
+      right: 185px;
+      height: 30px;
+    }
+
+    .mask--sep-3 {
+      width: 20px;
+      right: 73px;
+      height: 30px;
+    }
+
+    .u-pd-y--md {
+      padding: 25px 0 25px;
+    }
+
+    .u-pd--xs {
+      padding: 5px;
+    }
+
+    .u-pd--sm {
+      padding: 10px;
+    }
+
+    hr {
+      display: block;
+      height: 1px;
+      border: 0;
+      border-top: 1px solid #525252;
+      padding: 0;
+    }
+
+    .u-mg--xs {
+      margin: 5px;
+    }
+
+    .u-mg--sm {
+      margin: 10px;
+    }
+
+    .u-mg--md {
+      margin: 15px;
+    }
+
+    .u-flex {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+    }
+
+    .u-flex__cell {
+      flex: 1;
+    }
+
+    .icon-container {
+      border-left: 1px solid #efefef;
+    }
+
+    .u-hide-small--flex {
+      display: none;
+    }
+
+    @media only screen and (min-width: 768px) {
+      .u-hide-small--flex {
+        display: inline-block;
+      }
+    }
+
+    .u-show-large-only--flex {
+      display: none;
+    }
+
+    @media only screen and (min-width: 960px) {
+      .u-show-large-only--flex {
+        display: inline-block;
+      }
+    }
+
+    td .ri {
+      text-align: right;
+      right: 0;
+      margin-top: -91px;
+    }
+
+    .ank {
+      text-align: left;
+      border-bottom: none;
+    }
+
+    .pedig-left0 {
+      padding-left: 0 !important;
+      font-weight: 700;
+    }
+
+    .pedig-right0 {
+      padding-right: 0 !important;
+    }
+
+    .pding3 {}
+
+    @media print {
+
+      .table>tbody>tr>td,
+      .table>tbody>tr>th,
+      .table>tfoot>tr>td,
+      .table>tfoot>tr>th,
+      .table>thead>tr>td,
+      .table>thead>tr>th {
+        border-top: 1px solid #525252;
+        padding: 2px 8px;
+      }
+
+      .table {
+        margin-bottom: 0px;
+      }
+
+      .right-print1 {
+        display: none;
+      }
+
+      .main-pd-wrapper {
+        margin: 0 25px !important;
+      }
+
+      .invoice {
+        padding: 0;
+      }
+
+      table#api1 {
+        width: 950px !important;
+      }
+
+      .box {
+        margin: 0px !important;
+      }
+
+      #hideexcbtn {
+        display: none;
+      }
+
+      .col-xs-9.col-sm-7.pedig-left0 {
+        width: 75%;
+        float: left;
+      }
+
+      .col-xs-3.col-sm-5.barimg {
+        width: 25%;
+        float: left;
+      }
+
+      .invoice-content {
+        width: 950px !important;
+      }
+
+      /* .pagebreak {
+        page-break-before: always;
+      } */
+    }
+
+    b,
+    strong {
+      font-weight: 800;
+    }
+
+    .col-lg-1,
+    .col-lg-10,
+    .col-lg-11,
+    .col-lg-12,
+    .col-lg-2,
+    .col-lg-3,
+    .col-lg-4,
+    .col-lg-5,
+    .col-lg-6,
+    .col-lg-7,
+    .col-lg-8,
+    .col-lg-9,
+    .col-md-1,
+    .col-md-10,
+    .col-md-11,
+    .col-md-12,
+    .col-md-2,
+    .col-md-3,
+    .col-md-4,
+    .col-md-5,
+    .col-md-6,
+    .col-md-7,
+    .col-md-8,
+    .col-md-9,
+    .col-sm-1,
+    .col-sm-10,
+    .col-sm-11,
+    .col-sm-12,
+    .col-sm-2,
+    .col-sm-3,
+    .col-sm-4,
+    .col-sm-5,
+    .col-sm-6,
+    .col-sm-7,
+    .col-sm-8,
+    .col-sm-9,
+    .col-xs-1,
+    .col-xs-10,
+    .col-xs-11,
+    .col-xs-12,
+    .col-xs-2,
+    .col-xs-3,
+    .col-xs-4,
+    .col-xs-5,
+    .col-xs-6,
+    .col-xs-7,
+    .col-xs-8,
+    .col-xs-9 {
+      padding-right: 0px !important;
+      padding-left: 5px !important;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      background-color: #c5c5c5;
+      color: #181818;
+      padding: 10px;
+    }
+
+    .grid-item {
+      padding: 8px;
+      font-weight: 600;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding: 10px 0;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 600;
+    }
+
+    .bg-blue {
+      background-color: #9fc5e8;
+    }
+
+    .bg-yellow {
+      background-color: #ffff00;
+    }
+
+    .bg-purple {
+      background-color: #ead1dc;
+    }
+
+    .bold {
+      font-weight: bold;
+    }
+
+    .fontSize-11 {
+      font-size: 11px;
+    }
+
+    .bolder {
+      font-weight: 800;
+    }
+
+    .w-100 {
+      width: 100px;
+    }
+
+    /* Removing border-bottom */
+    .no-border {
+      border-bottom: none !important;
+    }
+  </style>
+  <script>
+    function exportHTML() {
+      var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+        "xmlns:w='urn:schemas-microsoft-com:office:word' " +
+        "xmlns='http://www.w3.org/TR/REC-html40'>" +
+        "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
+      var footer = "</body></html>";
+      var sourceHTML = header + document.getElementById("invoice").innerHTML + footer;
+
+      var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+      var fileDownload = document.createElement("a");
+      document.body.appendChild(fileDownload);
+      fileDownload.href = source;
+      fileDownload.download = 'document.doc';
+      fileDownload.click();
+      document.body.removeChild(fileDownload);
+    }
+  </script>
+</head>
+
+<body>
+  <section class="main-pd-wrapper" style="margin: 0 13%;">
+    <div id="invoice">
+
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+      <div class="box">
+        <div class="col-md-12">
+          <div class="invoice">
+            <div class="invoice-company text-inverse f-w-600">
+              <span class="pull-right hidden-print ">
+                <a href="javascript:;" onclick="generatePDF()" class="btn btn-sm btn-white m-b-10 p-l-5 right-print1"><i
+                    class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Download as PDF</a>
+                <!-- <button id="hideexcbtn" onclick="exportexcel();" style="font-size: 14px;">Download as .Excel</button> -->
+
+            </div>
+            <br class="right-print1"><br class="right-print1">
+            <!-- begin invoice-content -->
+            <div class="invoice-content">
+              <!-- begin table-responsive -->
+              <div class="table-responsive">
+                <!-- first-table-with-image-begin---------------------------------------- -->
+                <table class="table table-invoice" id="api1" style="width:1100px;margin-bottom: 0px;">
+
+                  <tr class="bg-blue" style="color: #181818;">
+                    <td colspan="11">
+                      <div class="col-xs-2 col-md-2">
+                      </div>
+                      <div class="col-xs-8 col-md-8 text-center ">
+                        <span style="font-size: 18px;font-weight: 600;">PRE NI - SITE CHECKLIST ENTRY SHEET</span>
+
+                      </div>
+                    </td>
+                  </tr>
+
+
+
+                  <!-- <tr style="border-bottom: none !important;">
+                    <td rowspan="3" class="bold">
+                      
+                      CUSTOMER SCOPE OF WORKS REPORT
+                
+                    </td>
+                    <td class="bg-yellow bold"> 
+                      SPACE FOR SERIAL NUMBER
+                    </td>
+                    <td style="width: 36%;">
+
+                    </td>
+             
+                  </tr> -->
+
+                  <!-- <tr style="border-bottom: none !important;">
+                    <td rowspan="3">
+                      
+                      CUSTOMER SCOPE OF WORKS REPORT
+              
+                    </td>
+                
+              
+                  
+             
+                  </tr> -->
+
+
+
+                  <tr style="border-bottom: none !important;background-color: #efefef;">
+                  <tr class="bg-grey">
+                    <td rowspan="3" style="width: 282px;" class="bold">CUSTOMER SCOPE OF WORKS REPORT</td>
+                    <td colspan="2" class="bold bg-yellow"> SPACE FOR SERIAL NUMBER</td>
+                    <td colspan="7" rowspan="8"></td>
+
+
+                  </tr>
+                  </tr>
+                  <tr>
+                    <td class="bold bg-orange" style="    width: 10%;">Lift No</td>
+                    <td style="width: 15%;" class="bg-purple">
+                      <p class="CUSTOMER_SCOPE_LIFTNO">...</p>
+                    </td>
+
+
+
+                  </tr>
+                  <tr class="bg-orange">
+                    <td class="bold">Tower</td>
+                    <td style="width: 15%;">
+                      <p class="CUSTOMER_SCOPE_TOWER">...</p>
+
+                    </td>
+
+
+
+
+
+
+                  </tr>
+
+
+
+                  <tr>
+                    <td class="bold bg-grey">SUPERVISOR NAME</td>
+                    <td class="bg-orange" colspan="2">
+                      <p class="SUPERVISOR_NAME">...</p>
+
+                    </td>
+                    <!-- <td colspan="2" ></td>
+                  <td colspan="2"></td>
+                  <td colspan="3"></td> -->
+
+                  </tr>
+
+                  <tr>
+                    <td class="bold bg-grey">ORDER NUMBER</td>
+                    <td colspan="2">
+                      <p class="ORDER_NUMBER">...</p>
+
+                    </td>
+                    <!-- <td colspan="2" ></td>
+                <td colspan="2"></td>
+                <td colspan="3"></td> -->
+
+                  </tr>
+                  <tr class="bg-grey">
+                    <td class="bold">PROJECT NAME</td>
+                    <td colspan="2" class="bg-purple">
+                      <p class="PROJECT_NAME">...</p>
+
+                    </td>
+                    <!-- <td colspan="2" ></td>
+                  <td colspan="2"></td>
+                  <td colspan="3"></td> -->
+
+                  </tr>
+
+                  <tr class="bg-grey">
+                    <td class="bold">SITE ADDRESS </td>
+                    <td colspan="2" class="bg-purple">
+                      <p class="SITE_ADDRESS">...</p>
+
+                    </td>
+                    <!-- <td colspan="2" ></td>
+                <td colspan="2"></td>
+                <td colspan="3"></td> -->
+
+                  </tr>
+
+
+                  <tr class="bg-grey">
+                    <td class="bold">TYPE OF LIFTS</td>
+                    <td colspan="2" class="bg-purple">
+                      <p class="TYPE_OF_LIFT">...</p>
+
+                    </td>
+                    <!-- <td colspan="2" ></td>
+              <td colspan="2"></td>
+              <td colspan="3"></td> -->
+
+                  </tr>
+
+
+                  <tr class="bg-grey">
+                    <td class="bold">TYPE OF DOORS</td>
+                    <td colspan="2" class="bg-purple">
+                      <p class="TYPE_OF_DOORS">...</p>
+
+                    </td>
+                    <!-- <td colspan="2" ></td>
+                  <td colspan="2"></td>
+                  <td colspan="3"></td> -->
+
+                  </tr>
+                  <tr class="bg-grey">
+                    <td class="bold">DATE OF VISIT</td>
+                    <td colspan="2">
+                      
+                      <p class="DATE_OF_VISIT">...</p>
+
+                    </td>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <td colspan="3"></td>
+
+                  </tr>
+                  
+                  
+                  
+                  
+             
+                  <tr class="bg-grey">
+                    <td class="bold">SITE READY UP TO WHICH FLOOR</td>
+                    <td colspan="2">
+                      <p class="SITE_READY_UP_TO_WHICH_FLOOR">...</p>
+
+                    </td>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <td colspan="3"></td>
+
+                  </tr>
+                  <tr class="bg-grey">
+                    <td class="bold">EXPECTED SITE READY DATE</td>
+                    <td colspan="2">
+                      <p class="EXPECTED_SITE_READY_DATE">...</p>
+
+                    </td>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <td colspan="3"></td>
+
+                  </tr>
+                  <tr class="bg-grey">
+                    <td class="bold">SIGNATURE</td>
+                    <td colspan="2">
+                      <p class="SIGNATURE">...</p>
+
+                    </td>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <td colspan="3"></td>
+
+                  </tr>
+                  <tr class="bg-grey">
+                    <td class="bold">CUSTOMER REP NAME</td>
+                    <td colspan="2">
+                      <p class="CUSTOMER_REP_NAME">...</p>
+
+                    </td>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <td colspan="3"></td>
+
+                  </tr>
+                  <tr class="bg-grey">
+                    <td class="bold">MOBILE NO</td>
+                    <td colspan="2">
+                      <p class="MOBILE_NO">...</p>
+
+                    </td>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <td colspan="3"></td>
+
+                  </tr>
+                  <tr class="bg-grey">
+                    <td class="bold" style="    height: 25px;"></td>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <td colspan="3"></td>
+
+                  </tr>
+                  <tr class="bg-grey">
+                    <td class="bold" style="    height: 25px;"></td>
+
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <td colspan="3"></td>
+                  </tr>
+                  </tr>
+
+
+
+
+
+
+                  <!-- 
+                  <tr style="border-bottom: none !important;background-color: #efefef;">
+                    <tr class="bg-grey">
+                      <td style="width: 213px;" class="bold">Type of Doors</td>
+                      <td colspan="2"></td>
+                      <td colspan="2" ></td>
+                      <td colspan="2"></td>
+                      <td colspan="3"></td>
+                    
+                  </tr>
+                  <tr  class="bg-grey">
+                      <td class="bold">Date of Visit</td>
+    <td colspan="2"></td>
+                      <td colspan="2" ></td>
+                      <td colspan="2"></td>
+                      <td colspan="3"></td>
+                      
+                  </tr>
+                  <tr  class="bg-grey">
+                      <td class="bold">Site Ready Up to Which Floor</td>
+    <td colspan="2"></td>
+                      <td colspan="2" ></td>
+                      <td colspan="2"></td>
+                      <td colspan="3"></td>
+                   
+                  </tr>
+                  <tr  class="bg-grey">
+                      <td class="bold">Expected Site Ready Date</td>
+    <td colspan="2"></td>
+                      <td colspan="2" ></td>
+                      <td colspan="2"></td>
+                      <td colspan="3"></td>
+                   
+                  </tr>
+                  <tr  class="bg-grey">
+                      <td class="bold">Signature</td>
+    <td colspan="2"></td>
+                      <td colspan="2" ></td>
+                      <td colspan="2"></td>
+                      <td colspan="3"></td>
+                    
+                  </tr>
+                  <tr  class="bg-grey">
+                      <td class="bold">Customer Rep Name</td>
+    <td colspan="2"></td>
+                      <td colspan="2" ></td>
+                      <td colspan="2"></td>
+                      <td colspan="3"></td>
+                   
+                  </tr>
+                  <tr  class="bg-grey">
+                      <td class="bold">Mobile No</td>
+    <td colspan="2"></td>
+                      <td colspan="2" ></td>
+                      <td colspan="2"></td>
+                      <td colspan="3"></td>
+                    
+                  </tr>
+                  <tr  class="bg-grey">
+                    <td class="bold" style="    height: 25px;"></td>
+                    <td colspan="2"></td>
+                    <td colspan="2" ></td>
+                    <td colspan="2"></td>
+                    <td colspan="3"></td>
+                
+                </tr>
+                <tr  class="bg-grey">
+                  <td class="bold"  style="    height: 25px;"></td>
+                 
+                  <td colspan="2"></td>
+                  <td colspan="2" ></td>
+                  <td colspan="2"></td>
+                  <td colspan="3"></td>
+              </tr>
+                  </tr> -->
+
+
+
+
+                  <table>
+                    <tr class="bg-blue ">
+                      <th class="bolder">ID</th>
+                      <th class="bolder" style="    width: 260px;
+">REQUIRED BEFORE START OF
+                        INSTALLATION</th>
+
+                      <th class="bolder">N/A </th>
+
+                      <th class="bolder">Done</th>
+
+                      <th class="bolder w-100">When </th>
+
+                      <th class="bolder w-100">Plan 01 </th>
+
+                      <th class="bolder w-100">Plan 02</th>
+
+                      <th class="bolder w-100">Plan 03</th>
+
+                      <th class="bolder w-100">Plan 04</th>
+
+                      <th class="bolder w-100">All Plan</th>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C1</td>
+                      <td class="bold"> Lift Shaft ,Pit ,Over Head / M/C Room
+                        Structure Completed As Per GAD</td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C2</td>
+                      <td class="bold"> Pit Finished To Required Depth As
+                        Per GAD
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C3</td>
+                      <td class="bold"> Waterproofing of Pit Completed
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C4</td>
+                      <td class="bold"> Hoisting Beams / Hooks Of Adequate
+                        Capacity As Per GAD</td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C5</td>
+                      <td class="bold"> Door Lintel On Every Floor
+                        ENTRANCE Provided As Per GAD</td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C6</td>
+                      <td class="bold"> Front Entrance Walls Provided On All
+                        Floors as per GAD</td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C7</td>
+                      <td class="bold"> Smoke Vent in Over Head Area
+                        Provided ( Min Size 450mm*450mm )</td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C8</td>
+                      <td class="bold"> Door Opening Full Width Available On
+                        Lowest Floor</td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C9</td>
+                      <td class="bold"> FFL Marking in Front Of Lift Entrance
+                        Provided in all Floors.</td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C10</td>
+                      <td class="bold"> Plastering In Lift Shaft at all floors
+                        Completed
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C11</td>
+                      <td class="bold">White Washing / Painting Completed
+                        in Lift Shaft on All Floors.</td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C12</td>
+                      <td class="bold">Lockable Store Room available Near
+                        Lift Shaft ( Approx 30 Sq M / Per Lift )
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C13</td>
+                      <td class="bold">Clean & Dry Pit & Lift Well Available (
+                        VERY CRITICAL )
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C14</td>
+                      <td class="bold">Safe , Clear & unobstructed access
+                        to Lift Shaft & M/C Room Available
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C15</td>
+                      <td class="bold">Suitable Notch in Sill fixing area of
+                        Landing Door available as per GAD
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C16</td>
+                      <td class="bold">Scaffolding & Safety Barricading
+                        Fixed In Lift Shaft As Per GAD
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C17</td>
+                      <td class="bold">Cut Out For LOP Provided On Front
+                        Wall of All Floor as per GAD
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+
+                    <tr class="bg-grey">
+                      <td class="bold">C18</td>
+                      <td class="bold">Steel Beams ( Machine Support
+                        Beams ) available at Top Floor.
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C19</td>
+                      <td class="bold">Marking for Cutouts for Beams
+                        Provided in walls in OH area
+
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C20</td>
+                      <td class="bold">Cutouts in walls in Over Head area for
+                        Beams Provided
+
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">E1</td>
+                      <td class="bold">Permanent Working Lights (Bulkhead
+                        Fitting ) in Lift Shaft Provided
+
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">E2</td>
+                      <td class="bold">Single Ph Power Switch / Socket
+                        Provided at all floors for Hammer
+                        Drill M/c
+
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">E3</td>
+                      <td class="bold">Earthing Provided On Steel
+                        Scaffolding
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold" style="    height: 25px;"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="bold bg-blue"></td>
+                      <td class="bold bg-blue">REQUIRED BEFORE START OF
+                        INSTALLATION ( WITH MACHINE
+                        ROOM )
+
+                      </td>
+                      <td class="bg-blue bold"> N/A </td>
+                      <td class="bg-blue bold">Done</td>
+                      <td class="bg-grey"></td>
+                      <td class="bg-grey"></td>
+                      <td class="bg-grey"></td>
+                      <td class="bg-grey"></td>
+                      <td class="bg-grey"></td>
+                      <td class="bg-grey"></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C21</td>
+                      <td class="bold"> Rope Cutouts Provided In Floor Slab
+                        of Machine Room
+
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C22</td>
+                      <td class="bold">Safe Staircase , Door, Lighting ,
+                        Exhaust-Fan Provided in M/C Room
+
+
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C23</td>
+                      <td class="bold">Plastering of Walls & Roof Completed
+                        in Machine Room
+
+
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C24</td>
+                      <td class="bold">White Washing / Painting Completed
+                        in Machine Room
+
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr>
+                      <td class="bold bg-blue"></td>
+                      <td class="bold bg-blue">REQUIRED DURING INSTALLATION
+
+                      </td>
+                      <td class="bg-blue bold"> N/A </td>
+                      <td class="bg-blue bold">Done</td>
+                      <td class="bg-grey"></td>
+                      <td class="bg-grey"></td>
+                      <td class="bg-grey"></td>
+                      <td class="bg-grey"></td>
+                      <td class="bg-grey"></td>
+                      <td class="bg-grey"></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C25</td>
+                      <td class="bold">Cladding / Architraves provided on all
+                        Lift Door Entrances
+
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C26</td>
+                      <td class="bold">Buffer Block ( RCC ) Provided In Lift
+                        Pit as per GAD
+
+
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C27</td>
+                      <td class="bold">FINAL Finish / W/Washing / Painting
+                        Completed in Lift Shaft / MR
+
+
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">C28</td>
+                      <td class="bold">Pit Ladder Provided in Lift Pit (
+                        Required where Pit Depth > / = 1350
+                        mm )
+
+
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">E4</td>
+                      <td class="bold">3 Phase Power + Double Earthing +
+                        MCB + RCCB Provided As Per GAD
+
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">E5</td>
+                      <td class="bold">Exhaust Fan Provided IN Lift Well or
+                        M/C Room
+
+
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">E6</td>
+                      <td class="bold"> Earthing Bracket Provided Near Lift
+                        Controller
+
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">E7</td>
+                      <td class="bold">Double Earthing Terminated On
+                        Earthing Bracket ( VERY CRITICAL )
+
+
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">E8</td>
+                      <td class="bold">Fire Extinguisher Provided near Lift
+                        Controller
+
+
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">E9</td>
+                      <td class="bold">Danger Plate (440 V) Provided on
+                        Controller
+
+
+
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">E10</td>
+                      <td class="bold">Proper Lighting Working in Lift shaft
+
+
+
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">E11</td>
+                      <td class="bold">Louvers Provided on Smoke Vent in
+                        Lift Shaft
+
+
+
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+                    <tr class="bg-grey">
+                      <td class="bold">E12</td>
+                      <td class="bold">Louvers Provided on Exhaust Fan
+
+
+                      </td>
+                      <td class="bg-orange"> <input type="checkbox"> </td>
+                      <td class="bg-orange"><input type="checkbox"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                    </tr>
+
+                  </table>
+
+
+
+
+
+
+                  <table style="margin-top: 20px;    width: 100%;"  id="stopsTable">
+                    <tbody>
+                      <tr>
+                        <td style="width: 150px;">
+
+                        </td>
+                        <td class="bolder bg-grey " style="    width: 276px;text-align: center;
+">
+                          CUSTOMER SCOPE OF WORKS REPORT
+                        </td>
+                        <td class="bold bg-yellow" style="    width: 199px;text-align: center;">
+                          SPACE FOR SERIAL NUMBER
+                        </td>
+                        <!-- <td class="bold">
+                          SPACE FOR SERIAL NUMBER
+                        </td> -->
+                        <td class="bolder bg-grey" colspan="2"  style="width: 1%;">
+                          EASA Job No
+                        </td>
+                        <td colspan="2" class="bolder  bg-purple" style="width: 12%;">
+                          <p class="Scope_EASA_Job_No">...</p>                          </div>
+
+                        </td>
+                        <!-- <td>
+
+                        </td> -->
+                      </tr>
+                      <tr>
+                        <td class="bold bg-gre">
+                          JOB NAME
+                        </td>
+                        <td class=" bg-purple">
+                          <p class="Scope_Job_Name">...</p>
+                        </td>
+                        <td class="bold" style="display: flex;border: none;">
+                          <div class="col-md-6">
+                            Lift No
+                          </div>
+                          <div class="col-md-6" style="border-left: 1px solid black;">
+                            <p class="Scope_Lift_No">...</p>                          </div>
+                        </td>
+                        <!-- <td class="bold">
+                          1
+                        </td> -->
+                        <td class="bold">
+                          ORDER DATE
+
+                        </td>
+                        <td colspan="4" style="width: 100px;">
+                          <p class="Scope_Order_Date">...</p>                          </div>
+
+                        </td>
+                        <!-- <td style="width: 100px;">
+
+                        </td> -->
+                      </tr>
+                      <tr>
+                        <td class="bold bg-grey">
+                          SITE ADDRESS
+                        </td>
+                        <td class="bold bg-purple">
+                          <p class="Scope_Site_address">...</p>                          </div>
+                        </td>
+                        <td class="bold" style="display: flex;border: none;">
+                          <div class="col-md-6">
+                            Tower
+                          </div>
+                          <div class="col-md-6" style="border-left: 1px solid black;">
+                            <p class="Scope_Tower">...</p>                          </div>
+                          </div>
+                        </td>
+                        <td class="bold bg-grey" style="width: 16%;">
+                          GAD APPROVAL DATE
+                        </td>
+                        <td colspan="4" >
+
+                        </td>
+                      </tr>
+                      <tr>
+                        <td rowspan="2" class="bold bg-grey">
+
+                      
+                            LIFT DETAILS
+                        
+                        </td>
+                        <td class="bold bg-grey" style="text-align: center;">
+                          
+                            TYPE OF DRIVE
+                          
+
+                        </td>
+                        <td class="bold bg-grey" style="text-align: center;">
+                        
+                            TYPE OF LIFT
+                          
+                        </td>
+                        <td class="bold bg-grey" colspan="4" style="text-align: center;">
+                          
+                            TYPE OF DOOR
+                          
+
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="bg-purple">
+
+                          
+                          <p class="Scope_Type_of_Drive">...</p>                          </div>
+                          
+                        </td>
+                        <td style="color: blue;text-align: center;" class="bold bg-purple">
+                          
+                          <p class="Scope_Type_of_Lift">...</p>                          </div>
+
+                          
+                        </td>
+                        <td class="bg-purple" colspan="4">
+                          <p class="Scope_Type_of_Door">...</p>                          </div>
+
+                          
+
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="bold">
+                          DATE OF VISIT
+                        </td>
+
+                        <td>
+                          
+                          <p class="Scope_Date_of_Visit">...</p>  
+                          
+                        </td>
+
+                        <td >
+                          
+                            
+                          
+                        </td>
+                        <td>
+                          
+                            
+                          
+                        </td>
+                       
+                    
+
+                      </tr>
+                      <tr>
+                        <td class="bold" style="width: 24%;">
+                          SITE READY UP TO WHICH FLOOR
+                        </td>
+
+                        <td>
+                          
+                          <p class="Scope_Site_Ready_up_to_Which_Floor">...</p>  
+                          
+                        </td>
+
+                     
+                        <td>
+                          
+                            
+                          
+                        </td>
+                        <td>
+                          
+                            
+                          
+                        </td>
+                     
+
+                      </tr>
+                      <tr>
+                        <td class="bold">
+                          EXPECTED SITE READY DATE
+                        </td>
+
+                      
+                        <td>
+                          <p class="Scope_Expected_Site_Ready_Date">...</p>  
+
+                            
+                          
+                        </td>
+                        <td>
+                          
+                            
+                          
+                        </td>
+                        <td>
+                          
+                            
+                          
+                        </td>
+                       
+
+                      </tr>
+                      <tr>
+                        <td class="bold">
+                          SUPERVISOR
+                        </td>
+
+                       
+                        <td>
+                          
+                          <p class="Scope_Supervisor">...</p>  
+ 
+                          
+                        </td>
+                        <td>
+                          
+                            
+                          
+                        </td>
+                        <td>
+                          
+                            
+                          
+                        </td>
+                      
+
+                      </tr>
+                      <tr class="bold">
+                        <td>
+                          SIGNATURE
+                        </td>
+
+                     
+                        <td>
+                          <p class="Scope_Signature">...</p>  
+
+                            
+                          
+                        </td>
+                        <td>
+                          
+                            
+                          
+                        </td>
+                        <td>
+                          
+                            
+                          
+                        </td>
+                      
+
+                      </tr>
+                      <tr>
+                        <td class="bold">
+                          CUSTOMER REP NAME
+                        </td>
+
+                       
+                        <td>
+                          <p class="Scope_Customer_Rep_Name">...</p>  
+
+                            
+                          
+                        </td>
+                        <td>
+                          
+                            
+                          
+                        </td>
+                        <td>
+                          
+                            
+                          
+                        </td>
+                     
+
+                      </tr>
+                      <tr>
+                        <td class="bold">
+                          MOBILE NO
+
+                        </td>
+
+                      
+                        <td>
+                          <p class="Scope_Mobile_No">...</p>  
+
+                            
+                          
+                        </td>
+                        <td>
+                          
+                            
+                          
+                        </td>
+                        <td>
+                          
+                            
+                          
+                        </td>
+                     
+
+                      </tr>
+                      <tr>
+                        <td class="bold">
+                          SIGNATURE
+                        </td>
+
+                      
+                        <td>
+                          <p class="Scope_Signature">...</p>  
+
+                            
+                          
+                        </td>
+                        <td>
+                          
+                            
+                          
+                        </td>
+                        <td>
+                          
+                            
+                          
+                        </td>
+                    
+
+                      </tr>
+
+
+
+<tr>
+
+</tr>
+
+
+                      <tr>
+                        <td rowspan="2" class="bold">
+                          Specs
+                        </td>
+                    
+                       <td style="padding: 0px !important;">
+                           
+                      <div style="width: 100%;display: flex;height: 36px;">
+                        <div style="width: 20%; ">
+                          Pax
+
+                        </div>
+                        <div style="width: 20%;border-left: 1px solid black;">
+                          Kg
+                        </div>
+                        <div style="width: 40%;border-left: 1px solid black;">
+                          Stops 
+                        </div>
+                        <div style="width: 20%;border-left: 1px solid black;">
+                          Speed
+                        </div>
+                      </div>
+                       </td>
+
+                          
+                       <td colspan="2" style="padding: 0px !important;">
+                           
+                        <div style="width: 100%;display: flex;height: 36px;">
+                          <div style="width: 20%; ">
+                            Pit (GAD)
+  
+                          </div>
+                          <div style="width: 20%;border-left: 1px solid black;">
+                            Pit (SITE)
+                          </div>
+                          <div style="width: 30%;border-left: 1px solid black;">
+                            Travel ( GAD)
+                          </div>
+                          <div style="border-left: 1px solid black;">
+                            Travel (SITE)
+                          </div>
+                        </div>
+                         </td>
+                            
+                         <td colspan="2" style="padding: 0px !important;">
+                           
+                          <div style="width: 100%;display: flex;height: 36px;">
+                            <div style="width: 24%; ">
+                              OH (GAD)
+    
+                            </div>
+                            <div style="width: 24%;border-left: 1px solid black;">
+                               OH( SITE)
+                            </div>
+                            <div style="width: 24%;border-left: 1px solid black;">
+                              SH (GAD)
+                            </div>
+                            <div style="width: 25%;border-left: 1px solid black;">
+                              SH (SITE)
+                            </div>
+                          </div>
+                           </td>
+                      </tr>
+
+                      <tr>
+                    
+                    
+                       <td style="padding: 0px !important;">
+                           
+                      <div style="width: 100%;display: flex;">
+                        <div style="width: 20%; ">
+                         
+                          <p class="Pax">...</p>  
+
+                        </div>
+                        <div style="width: 20%;border-left: 1px solid black;">
+                          <p class="kg">...</p>  
+ 
+                        </div>
+                        <div style="width: 40%;border-left: 1px solid black;">
+                          <p class="Stops">...</p>  
+
+                        </div>
+                        <div style="width: 20%;border-left: 1px solid black;">
+                          <p class="Speed">...</p>  
+
+                        </div>
+                      </div>
+                       </td>
+
+                          
+                       <td colspan="2" style="padding: 0px !important;">
+                           
+                        <div style="width: 100%;display: flex;">
+                          <div style="width: 20%; ">
+                            <p class="Pit_GAD">...</p>  
+   
+  
+                          </div>
+                          <div style="width: 20%;border-left: 1px solid black;">
+                            <p class="Pit_SITE">...</p>  
+   
+                          </div>
+                          <div style="width: 40%;border-left: 1px solid black;">
+                            <p class="Travel_GAD">...</p>  
+  
+                          </div>
+                          <div style="width: 20%;border-left: 1px solid black;">
+                            <p class="Travel_SITE">...</p>  
+  
+                          </div>
+                        </div>
+                         </td>
+                            
+                         <td colspan="2" style="padding: 0px !important;">
+                           
+                          <div style="width: 100%;display: flex;">
+                            <div style="width: 20%; ">
+                             
+                              <p class="OH_GAD">...</p>  
+
+                            </div>
+                            <div style="width: 20%;border-left: 1px solid black;">
+                              <p class="OH_SITE">...</p>  
+     
+                            </div>
+                            <div style="width: 40%;border-left: 1px solid black;">
+                              <p class="SH_GAD">...</p>  
+   
+                            </div>
+                            <div style="width: 20%;border-left: 1px solid black;">
+                              <p class="SH_SITE">...</p>  
+   
+                            </div>
+                          </div>
+                           </td>
+                      </tr>
+                      <!-- <tr>
+                        <td class="bold">
+                          Stops Counting
+                        </td>
+                    
+                       <td style="padding: 0px !important;">
+                           
+                      <div style="width: 100%;display: flex;height: 36px;">
+                    
+                      </div>
+                       </td>
+
+                          
+                      
+                      </tr> -->
+
+                      
+                    </tbody>
+                  </table>
+
+                <!-- </table> -->
+
+              </div>
+            </div>
+
+
+            <!-- end invoice-footer -->
+          </div>
+        </div>
+      </div>
+      <script>
+
+
+        fetch('/assets/config.json')
+          .then(response => response.json())
+          .then(config => {
+
+            var mainbkurl = config[0].Api;
+
+            function changedateformatt(nowdate) {
+              date = new Date(nowdate);
+              olddate = nowdate;
+              monthss = date.getMonth() + 1;
+              month = (monthss < 10 ? '0' : '') + monthss;
+              dayss = (date.getDate() < 10 ? '0' : '') + date.getDate();
+              date2 = dayss + "/" + month + "/" + date.getFullYear();
+              return date2
+            }
+            function replaceNone(val) {
+              var valData = ''
+              if (val == 'None') {
+                valData = '';
+              }
+              else {
+                valData = val + " ";
+              }
+              return valData
+            }
+
+            function replaceNoneWithComma(val) {
+              var valData = ''
+              if (val == 'None') {
+                valData = '';
+              }
+              else {
+                valData = val + " ";
+              }
+              return valData
+
+            }
+
+            function checkBillingCity(val, val2) {
+              // var valData = ''
+              // if (val != 'None') {
+              //   valData = val + " ";
+              // }
+              // else if (val2 != 'None') {
+              //   valData = val2 + " ";
+              // }
+              // else {
+              //   valData = '';
+              // }
+
+              // return valData
+            }
+            var text = "";
+            var text1 = "";
+            var str = window.location.href;
+            let url = new URL(str);
+            let search_params = url.searchParams;
+            var before_dis = 0
+
+            let currentId = search_params.get('id');
+            let access_token = search_params.get('token');
+
+            // login api
+
+            var settings22 = {
+              "url": mainbkurl + "/employee/get_user_info",
+              "method": "GET",
+              "timeout": 0,
+              "headers": {
+                "Content-Type": "application/json",
+                "Authorization": 'Token ' + access_token,
+              },
+              "data": JSON.stringify(),
+            };
+
+            $.ajax(settings22).done(function (response22) {
+
+              if (response22.data[0].ProjectSetting[0].custom_field1 != null && response22.data[0].ProjectSetting[0].custom_field1 != '') {
+                $('#PDFlogo').attr("src", mainbkurl + response22.data[0].ProjectSetting[0].custom_field1);
+              }
+
+              if (response22.data[0].ProjectSetting[0].custom_field2 != null && response22.data[0].ProjectSetting[0].custom_field2 != '') {
+                $("#ComName").html((response22.data[0].ProjectSetting[0].custom_field2));
+              }
+
+              if (response22.data[0].ProjectSetting[0].currency_type != null && response22.data[0].ProjectSetting[0].currency_type != '') {
+                $(".curretype").html("[" + response22.data[0].ProjectSetting[0].currency_type + "]");
+              }
+
+            })
+
+            // quot api
+
+            var settings = {
+              "url": mainbkurl + "/stage/all",
+              "method": "POST",
+              "timeout": 0,
+              "headers": {
+                "Content-Type": "application/json",
+                "Authorization": 'Token ' + access_token,
+              },
+              "data": JSON.stringify({
+                "Opp_Id": currentId
+              }),
+            };
+
+            $.ajax(settings).done(function (response) {
+
+              console.log('check res', response);
+
+              // $(".ProjectName").html((response.data[0].StageDetail[0].ProjectName));
+              // $(".Capacity").html((response.data[0].StageDetail[0].Capacity));
+              // $(".MR_MRL").html((response.data[0].StageDetail[0].MR_MRL));
+
+
+              // $(".CreatedDate").html((changedateformatt(response.data[0].StageDetail[0].CreateDate)));
+              // $(".MR_MRL").html((response.data[0].StageDetail[0].MR_MRL));
+
+              // $(".CabinWidth").html((response.data[0].StageDetail[0].CabinWidth));
+              // $(".CabinDepth").html((response.data[0].StageDetail[0].CabinDepth));
+              // $(".CabinHeight").html((response.data[0].StageDetail[0].CabinHeight));
+              // $(".DoorWidth").html((response.data[0].StageDetail[0].DoorWidth));
+
+              // $(".DoorHeight").html((response.data[0].StageDetail[0].DoorHeight));
+              // $(".CabinInteriorFinish").html((response.data[0].StageDetail[0].CabinInteriorFinish));
+              // $(".DoorFinish").html((response.data[0].StageDetail[0].DoorFinish));
+
+              // $(".DoorType").html((response.data[0].StageDetail[0].DoorType));
+              // $(".NonStandardFeature").html((response.data[0].StageDetail[0].NonStandardFeature));
+              // $(".TotalTravel").html((response.data[0].StageDetail[0].TotalTravel));
+              // $(".OverHead").html((response.data[0].StageDetail[0].OverHead));
+              // $(".NumberOfStop").html((response.data[0].StageDetail[0].NumberOfStop));
+              // $(".OpeningSided").html((response.data[0].StageDetail[0].OpeningSided));
+
+
+
+
+              // $(".PitDepth").html((response.data[0].StageDetail[0].PitDepth));
+
+              // $(".Floordata").html((response.data[0].StageDetail[0].Floor_data));
+              // console.log('check', response.data[0].StageDetail[0].Floor_data);
+              // populateTable(response.data[0].StageDetail[0].Floor_data
+
+              // );
+              // if (response.data[0].CompanyBranchDetails.length != 0) {
+              //   $(".BPLName").html((response.data[0].CompanyBranchDetails[0].BPLName));
+              //   $(".FederalTaxID").html((response.data[0].CompanyBranchDetails[0].FederalTaxID));
+              //   $(".ourbranch").html(
+              //     replaceNoneWithComma(response.data[0].CompanyBranchDetails[0].Building) +
+              //     replaceNone(response.data[0].CompanyBranchDetails[0].City) +
+              //     checkBillingCity(response.data[0].CompanyBranchDetails[0].State) +
+              //     replaceNone(response.data[0].CompanyBranchDetails[0].Country) +
+              //     replaceNone(response.data[0].CompanyBranchDetails[0].ZipCode));
+
+              // }
+
+              if (response.data[0].SalesPersonCodeDetails.length != 0) {
+                $(".SalesEmployeeName").html((response.data[0].SalesPersonCodeDetails[0].SalesEmployeeName));
+              }
+              if (response.data[0].AddressExtension.length != 0) {
+                $(".AddressName").html(replaceNone(response.data[0].AddressExtension.BillToBuilding))
+                $(".BillToStreet").html(
+                  replaceNoneWithComma(response.data[0].AddressExtension.BillToStreet) +
+                  replaceNone(response.data[0].AddressExtension.BillToCity) +
+                  checkBillingCity(response.data[0].AddressExtension.U_BSTATE) +
+                  replaceNone(response.data[0].AddressExtension.U_BCOUNTRY) +
+                  replaceNone(response.data[0].AddressExtension.BillToZipCode));
+
+                $(".U_STATE").html((response.data[0].AddressExtension.U_BSTATE));
+                $(".State").html((response.data[0].AddressExtension.BillToState));
+
+                $(".ShipAddressName").html(replaceNone(response.data[0].AddressExtension.ShipToBuilding))
+                $(".ShipToStreet").html(
+                  replaceNoneWithComma(response.data[0].AddressExtension.ShipToStreet) +
+                  replaceNone(response.data[0].AddressExtension.ShipToCity) +
+                  checkBillingCity(response.data[0].AddressExtension.U_SSTATE) +
+                  replaceNone(response.data[0].AddressExtension.U_BCOUNTRY) +
+                  replaceNone(response.data[0].AddressExtension.ShipToZipCode));
+
+                $(".ShipU_STATE").html((response.data[0].AddressExtension.U_SSTATE));
+                $(".ShipState").html((response.data[0].AddressExtension.ShipToState));
+
+              }
+
+              if (response.data[0].PaymentGroupCodeDetails.length != 0) {
+                $(".PaymentTermsGroupName").html((response.data[0].PaymentGroupCodeDetails[0].PaymentTermsGroupName));
+              }
+
+              var fianllindtotal = 0;
+              var total_after = 0;
+              var total_after_tax = 0;
+              var tax_Value = 0;
+              var total_Amount = 0;
+              var totalamount = []
+              $.each(response.data[0].DocumentLines, function (key, val) {
+                val.ItemDescription = replaceNone(val.ItemDescription);
+                iddd = parseInt(key) + 1
+
+                var hsncode = response.data[0].DocType == 'dDocument_Service' ? val.SAC : val.HSN
+                text += '<tr>'
+                text += '<td>' + iddd + '</td>'
+                text += '<td>' + val.ItemDescription + '</td>';
+                text += '<td>' + "..." + '</td>';
+                // text += '<td>' + "..." + '</td>';
+                text += '<td style="width:100px">' + val.TaxRate + '</td>';
+                text += '<td>' + val.Quantity + '</td>';
+                text += '<td>' + Number(val.UnitPrice).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }) + '</td>';
+                text += '<td>' + val.DiscountPercent + '</td>';
+                text += '<td class="text-right">' + Number(val.UnitPrice * val.Quantity).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }) + '</td>';
+
+                text += '</tr>'
+                fianllindtotal += Number(val.UnitPrice * val.Quantity);
+
+                var basic = Number(val.Quantity) * Number(val.UnitPrice);
+                var afterfdis = basic - (basic * (Number(val.DiscountPercent) / 100))
+                var aftersdis = afterfdis - (afterfdis * (Number(response.data[0].DiscountPercent) / 100))
+                var total = aftersdis + (aftersdis * (Number(val.TaxRate) / 100))
+                // totalamount += Number(total);
+                total_after += afterfdis;
+                total_after_tax += aftersdis;
+                tax_Value += (aftersdis * (Number(val.TaxRate) / 100));
+              })
+              total_Amount = Number(total_after_tax) + Number(tax_Value);
+              if (response.data[0].FreightCharge != '') {
+                total_Amount = Number(total_Amount) + Number(response.data[0].FreightCharge)
+              }
+              text1 += '<td>' + '' + '</td>';
+              text1 += '<td style="width:35%;"> Total </td>';
+              text1 += '<td>' + '' + '</td>';
+              text1 += '<td>' + '' + '</td>';
+              // text1 += '<td>' + '' + '</td>';
+              text1 += '<td>' + '' + '</td>';
+              text1 += '<td>' + '' + '</td>';
+              text1 += '<td>' + '' + '</td>';
+              text1 += '<td class="text-right">' + Number(fianllindtotal).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }) + '</td>';
+
+              document.getElementById("data").innerHTML += text;
+              document.getElementById("total").innerHTML += text1;
+              $(".total_after").html((Number(total_after).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
+              $(".DiscountPercent").html((Number(response.data[0].DiscountPercent).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
+              $(".total_after_tax").html((Number(total_after_tax).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
+              $(".tax_Value").html((Number(tax_Value).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
+              $(".total_Amount").html((Number(total_Amount).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
+
+              function numberToWords(num) {
+                const units = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+                const teens = ["", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+                const tens = ["", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+                const thousands = ["", "Thousand", "Lakh", "Crore"];
+
+                if (num === 0) return "Zero";
+
+                function getBelowThousand(n) {
+                  let str = "";
+                  if (n > 99) {
+                    str += units[Math.floor(n / 100)] + " Hundred ";
+                    n %= 100;
+                  }
+                  if (n > 10 && n < 20) {
+                    str += teens[n - 10] + " ";
+                  } else {
+                    str += tens[Math.floor(n / 10)] + " ";
+                    str += units[n % 10] + " ";
+                  }
+                  return str.trim();
+                }
+
+                let result = "";
+                let thousandCounter = 0;
+
+                while (num > 0) {
+                  const chunk = num % 1000;
+                  if (chunk !== 0) {
+                    result = getBelowThousand(chunk) + " " + thousands[thousandCounter] + " " + result;
+                  }
+                  num = Math.floor(num / 1000);
+                  thousandCounter++;
+                }
+
+                return result.trim();
+              }
+
+              function numberToWordsWithDecimals(amount) {
+                const integerPart = Math.floor(amount);
+                const decimalPart = Math.round((amount - integerPart) * 100); // Get two decimal places
+
+                let result = numberToWords(integerPart);
+
+                if (decimalPart > 0) {
+                  result += " Point";
+                  const decimalDigits = decimalPart.toString().split('');
+                  for (const digit of decimalDigits) {
+                    result += " " + numberToWords(parseInt(digit));
+                  }
+                }
+
+                return result;
+              }
+
+              total_Amount = parseFloat(total_Amount); // Convert to a number
+
+              const amountInWords = numberToWordsWithDecimals(total_Amount);
+              $(".amount_in_words").text(amountInWords);
+
+            });
+
+            var opportunityData = {
+              "url": mainbkurl + "/opportunity/checklist_one",
+              "method": "POST",
+              "timeout": 0,
+              "headers": {
+                "Content-Type": "application/json",
+                "Authorization": 'Token ' + access_token,
+              },
+              "data": JSON.stringify({
+                "Opp_Id": currentId
+              }),
+            };
+
+
+            $.ajax(opportunityData).done(function (response) {
+
+          
+              $(".CUSTOMER_SCOPE_LIFTNO").html((response.data[0].CUSTOMER_SCOPE_LIFTNO));
+              $(".CUSTOMER_SCOPE_TOWER").html((response.data[0].CUSTOMER_SCOPE_TOWER));
+              $(".SUPERVISOR_NAME").html((response.data[0].SUPERVISOR_NAME));
+              $(".ORDER_NUMBER").html((response.data[0].ORDER_NUMBER));
+              $(".PROJECT_NAME").html((response.data[0].PROJECT_NAME));
+              $(".SITE_ADDRESS").html((response.data[0].SITE_ADDRESS));
+              $(".TYPE_OF_LIFT").html((response.data[0].TYPE_OF_LIFT));
+              $(".TYPE_OF_DOORS").html((response.data[0].TYPE_OF_DOORS));
+              $(".DATE_OF_VISIT").html((response.data[0].DATE_OF_VISIT));
+              $(".SITE_READY_UP_TO_WHICH_FLOOR").html((response.data[0].SITE_READY_UP_TO_WHICH_FLOOR));
+              $(".EXPECTED_SITE_READY_DATE").html((response.data[0].EXPECTED_SITE_READY_DATE));
+              $(".SIGNATURE").html((response.data[0].SIGNATURE));
+              $(".CUSTOMER_REP_NAME").html((response.data[0].CUSTOMER_REP_NAME));
+              $(".MOBILE_NO").html((response.data[0].MOBILE_NO));
+             
+              $(".Scope_Job_Name").html((response.data[0].Scope_Job_Name));
+              $(".Scope_Lift_No").html((response.data[0].Scope_Lift_No));
+              $(".Scope_Order_Date").html((response.data[0].Scope_Order_Date));
+              $(".Scope_Signature").html((response.data[0].Scope_Signature));
+              $(".Scope_Site_Ready_up_to_Which_Floor").html((response.data[0].Scope_Site_Ready_up_to_Which_Floor));
+              $(".Scope_Site_address").html((response.data[0].Scope_Site_address));
+              $(".Scope_Signature").html((response.data[0].Scope_Signature));
+              $(".Scope_Supervisor").html((response.data[0].Scope_Supervisor));
+              $(".Scope_Tower").html((response.data[0].Scope_Tower));
+              $(".Scope_Type_of_Door").html((response.data[0].Scope_Type_of_Door));
+              $(".Scope_Type_of_Drive").html((response.data[0].Scope_Type_of_Drive));
+              $(".Scope_Type_of_Lift").html((response.data[0].Scope_Type_of_Lift));
+              $(".Scope_EASA_Job_No").html((response.data[0].Scope_EASA_Job_No));
+              $(".Scope_Date_of_Visit").html((response.data[0].Scope_Date_of_Visit));
+              $(".Scope_Expected_Site_Ready_Date").html((response.data[0].Scope_Expected_Site_Ready_Date));
+              $(".Scope_Customer_Rep_Name").html((response.data[0].Scope_Customer_Rep_Name));
+              $(".Scope_Mobile_No").html((response.data[0].Scope_Mobile_No));
+              $(".Pax").html((response.data[0].Specs[0].Pax));
+              $(".kg").html((response.data[0].Specs[0].kg));
+              $(".Travel_SITE").html((response.data[0].Specs[0].Travel_SITE));
+              $(".Travel_GAD").html((response.data[0].Specs[0].Travel_GAD));
+              $(".Stops").html((response.data[0].Specs[0].Stops));
+              $(".Speed").html((response.data[0].Specs[0].Speed));
+              $(".SH_SITE").html((response.data[0].Specs[0].SH_SITE));
+              $(".SH_GAD").html((response.data[0].Specs[0].SH_GAD));
+              $(".Pit_SITE").html((response.data[0].Specs[0].Pit_SITE));
+              $(".Pit_GAD").html((response.data[0].Specs[0].Pit_GAD));
+              $(".OH_SITE").html((response.data[0].Specs[0].OH_SITE));
+              $(".OH_GAD").html((response.data[0].Specs[0].OH_GAD));
+              $(".Stops_Counting").html((response.data[0].Stops_Counting));
+
+
+
+// Append the row after the exist
+
+
+              if (response.data[0].CheckList1) {
+        response.data[0].CheckList1.forEach(item => {
+            if (item.ID) {
+                let row = $(`tr:has(td:contains('${item.ID}'))`); // Find the row containing the ID
+                if (row.length) {
+                    if (item.NA === true) {
+                        row.find("td.bg-orange input[type='checkbox']").eq(0).prop("checked", true);
+                    }
+                    if (item.Done === true) {
+                        row.find("td.bg-orange input[type='checkbox']").eq(1).prop("checked", true);
+                    }
+                    if (item.When) {
+                        row.find("td").eq(4).text(item.When);
+                    }
+                    if (item.Plan01) {
+                        row.find("td").eq(5).text(item.Plan01);
+                    }
+                    if (item.Plan02) {
+                        row.find("td").eq(6).text(item.Plan02);
+                    }
+                    if (item.Plan03) {
+                        row.find("td").eq(7).text(item.Plan03);
+                    }
+                    if (item.Plan04) {
+                        row.find("td").eq(8).text(item.Plan04);
+                    }
+                    if (item.AllPlan) {
+                        row.find("td").eq(9).text(item.AllPlan);
+                    }
+                }
+            }
+        });
+    }
+    if (response.data[0].CheckList2) {
+        response.data[0].CheckList2.forEach(item => {
+            if (item.ID) {
+                let row = $(`tr:has(td:contains('${item.ID}'))`); 
+                if (row.length) {
+                    if (item.NA === true) {
+                        row.find("td.bg-orange input[type='checkbox']").eq(0).prop("checked", true);
+                    }
+                    if (item.Done === true) {
+                        row.find("td.bg-orange input[type='checkbox']").eq(1).prop("checked", true);
+                    }
+                    if (item.When) {
+                        row.find("td").eq(4).text(item.When); 
+                    }
+                    if (item.Plan01) {
+                        row.find("td").eq(5).text(item.Plan01); 
+                    }
+                    if (item.Plan02) {
+                        row.find("td").eq(6).text(item.Plan02); 
+                    }
+                    if (item.Plan03) {
+                        row.find("td").eq(7).text(item.Plan03); 
+                    }
+                    if (item.Plan04) {
+                        row.find("td").eq(8).text(item.Plan04); 
+                    }
+                    if (item.AllPlan) {
+                        row.find("td").eq(9).text(item.AllPlan); 
+                    }
+                }
+            }
+        });
+    }
+
+    if (response.data[0].CheckList3) {
+        response.data[0].CheckList3.forEach(item => {
+            if (item.ID) {
+                let row = $(`tr:has(td:contains('${item.ID}'))`); 
+                if (row.length) {
+                    if (item.NA === true) {
+                        row.find("td.bg-orange input[type='checkbox']").eq(0).prop("checked", true);
+                    }
+                    if (item.Done === true) {
+                        row.find("td.bg-orange input[type='checkbox']").eq(1).prop("checked", true);
+                    }
+                    if (item.When) {
+                        row.find("td").eq(4).text(item.When); 
+                    }
+                    if (item.Plan01) {
+                        row.find("td").eq(5).text(item.Plan01); 
+                    }
+                    if (item.Plan02) {
+                        row.find("td").eq(6).text(item.Plan02); 
+                    }
+                    if (item.Plan03) {
+                        row.find("td").eq(7).text(item.Plan03); 
+                    }
+                    if (item.Plan04) {
+                        row.find("td").eq(8).text(item.Plan04); 
+                    }
+                    if (item.AllPlan) {
+                        row.find("td").eq(9).text(item.AllPlan); 
+                    }
+                }
+            }
+        });
+    }
+   
+    var stopsData = response.data[0].Stops_Counting; // Array of stops
+    var stopsCount = stopsData.length; // Total stops
+
+    var table = $("#stopsTable"); // Target only the specific table
+
+    // Ensure the table exists before appending rows
+    if (table.length === 0) return;
+
+    // Generate Stops Counting row
+    var stopsRow = '<tr><td class="bold">Stops Counting</td>';
+    for (var i = 1; i <= stopsCount; i++) {
+        stopsRow += `<td style="text-align: center;">${i}</td>`;
+    }
+    stopsRow += '</tr>';
+    table.append(stopsRow);
+
+    // Function to generate checkbox rows
+    function generateCheckboxRow(label, key) {
+        var row = `<tr><td>${label}</td>`;
+        for (var i = 0; i < stopsCount; i++) {
+            var checked = stopsData[i][key] ? "checked" : "";
+            row += `<td style="text-align: center;">
+                        <input type="checkbox" ${checked} />
+                    </td>`;
+        }
+        row += '</tr>';
+        table.append(row);
+    }
+
+    // Function to generate value rows
+    function generateValueRow(label, key) {
+        var row = `<tr><td>${label}</td>`;
+        for (var i = 0; i < stopsCount; i++) {
+            var value = stopsData[i][key] || "-"; // If value is missing, show "-"
+            row += `<td style="text-align: center;">${value}</td>`;
+        }
+        row += '</tr>';
+        table.append(row);
+    }
+
+    // Generate checkbox rows
+    generateCheckboxRow("Floor Markings", "Floor_Markings");
+    generateCheckboxRow("Front Openings", "Front_Openings");
+    generateCheckboxRow("Back Openings", "Back_Openings");
+    generateCheckboxRow("Left/Right Openings", "Left_Right_Openings");
+
+    // Generate value rows
+    generateValueRow("Floor to Floor", "Floor_to_Floor");
+    generateValueRow("As per GAD", "As_per_GAD");
+
+
+              // if (response.data[0].CompanyBranchDetails.length != 0) {
+              //   $(".BPLName").html((response.data[0].CompanyBranchDetails[0].BPLName));
+              //   $(".FederalTaxID").html((response.data[0].CompanyBranchDetails[0].FederalTaxID));
+              //   $(".ourbranch").html(
+              //     replaceNoneWithComma(response.data[0].CompanyBranchDetails[0].Building) +
+              //     replaceNone(response.data[0].CompanyBranchDetails[0].City) +
+              //     checkBillingCity(response.data[0].CompanyBranchDetails[0].State) +
+              //     replaceNone(response.data[0].CompanyBranchDetails[0].Country) +
+              //     replaceNone(response.data[0].CompanyBranchDetails[0].ZipCode));
+
+              // }
+
+              // if (response.data[0].SalesPersonCodeDetails.length != 0) {
+              //   $(".SalesEmployeeName").html((response.data[0].SalesPersonCodeDetails[0].SalesEmployeeName));
+              // }
+              // if (response.data[0].AddressExtension.length != 0) {
+              //   $(".AddressName").html(replaceNone(response.data[0].AddressExtension.BillToBuilding))
+              //   $(".BillToStreet").html(
+              //     replaceNoneWithComma(response.data[0].AddressExtension.BillToStreet) +
+              //     replaceNone(response.data[0].AddressExtension.BillToCity) +
+              //     checkBillingCity(response.data[0].AddressExtension.U_BSTATE) +
+              //     replaceNone(response.data[0].AddressExtension.U_BCOUNTRY) +
+              //     replaceNone(response.data[0].AddressExtension.BillToZipCode));
+
+              //   $(".U_STATE").html((response.data[0].AddressExtension.U_BSTATE));
+              //   $(".State").html((response.data[0].AddressExtension.BillToState));
+
+              //   $(".ShipAddressName").html(replaceNone(response.data[0].AddressExtension.ShipToBuilding))
+              //   $(".ShipToStreet").html(
+              //     replaceNoneWithComma(response.data[0].AddressExtension.ShipToStreet) +
+              //     replaceNone(response.data[0].AddressExtension.ShipToCity) +
+              //     checkBillingCity(response.data[0].AddressExtension.U_SSTATE) +
+              //     replaceNone(response.data[0].AddressExtension.U_BCOUNTRY) +
+              //     replaceNone(response.data[0].AddressExtension.ShipToZipCode));
+
+              //   $(".ShipU_STATE").html((response.data[0].AddressExtension.U_SSTATE));
+              //   $(".ShipState").html((response.data[0].AddressExtension.ShipToState));
+
+              // }
+
+              // if (response.data[0].PaymentGroupCodeDetails.length != 0) {
+              //   $(".PaymentTermsGroupName").html((response.data[0].PaymentGroupCodeDetails[0].PaymentTermsGroupName));
+              // }
+
+              var fianllindtotal = 0;
+              var total_after = 0;
+              var total_after_tax = 0;
+              var tax_Value = 0;
+              var total_Amount = 0;
+              var totalamount = []
+              // $.each(response.data[0].DocumentLines, function (key, val) {
+              //   val.ItemDescription = replaceNone(val.ItemDescription);
+              //   iddd = parseInt(key) + 1
+
+
+              //   var basic = Number(val.Quantity) * Number(val.UnitPrice);
+              //   var afterfdis = basic - (basic * (Number(val.DiscountPercent) / 100))
+              //   var aftersdis = afterfdis - (afterfdis * (Number(response.data[0].DiscountPercent) / 100))
+              //   var total = aftersdis + (aftersdis * (Number(val.TaxRate) / 100))
+              //   // totalamount += Number(total);
+              //   total_after += afterfdis;
+              //   total_after_tax += aftersdis;
+              //   tax_Value += (aftersdis * (Number(val.TaxRate) / 100));
+              // })
+              total_Amount = Number(total_after_tax) + Number(tax_Value);
+              if (response.data[0].FreightCharge != '') {
+                total_Amount = Number(total_Amount) + Number(response.data[0].FreightCharge)
+              }
+              text1 += '<td>' + '' + '</td>';
+              text1 += '<td style="width:35%;"> Total </td>';
+              text1 += '<td>' + '' + '</td>';
+              text1 += '<td>' + '' + '</td>';
+              // text1 += '<td>' + '' + '</td>';
+              text1 += '<td>' + '' + '</td>';
+              text1 += '<td>' + '' + '</td>';
+              text1 += '<td>' + '' + '</td>';
+              text1 += '<td class="text-right">' + Number(fianllindtotal).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }) + '</td>';
+
+              document.getElementById("data").innerHTML += text;
+              document.getElementById("total").innerHTML += text1;
+              $(".total_after").html((Number(total_after).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
+              $(".DiscountPercent").html((Number(response.data[0].DiscountPercent).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
+              $(".total_after_tax").html((Number(total_after_tax).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
+              $(".tax_Value").html((Number(tax_Value).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
+              $(".total_Amount").html((Number(total_Amount).toLocaleString('en-IN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })));
+
+              function numberToWords(num) {
+                const units = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+                const teens = ["", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+                const tens = ["", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+                const thousands = ["", "Thousand", "Lakh", "Crore"];
+
+                if (num === 0) return "Zero";
+
+                function getBelowThousand(n) {
+                  let str = "";
+                  if (n > 99) {
+                    str += units[Math.floor(n / 100)] + " Hundred ";
+                    n %= 100;
+                  }
+                  if (n > 10 && n < 20) {
+                    str += teens[n - 10] + " ";
+                  } else {
+                    str += tens[Math.floor(n / 10)] + " ";
+                    str += units[n % 10] + " ";
+                  }
+                  return str.trim();
+                }
+
+                let result = "";
+                let thousandCounter = 0;
+
+                while (num > 0) {
+                  const chunk = num % 1000;
+                  if (chunk !== 0) {
+                    result = getBelowThousand(chunk) + " " + thousands[thousandCounter] + " " + result;
+                  }
+                  num = Math.floor(num / 1000);
+                  thousandCounter++;
+                }
+
+                return result.trim();
+              }
+
+              function numberToWordsWithDecimals(amount) {
+                const integerPart = Math.floor(amount);
+                const decimalPart = Math.round((amount - integerPart) * 100); // Get two decimal places
+
+                let result = numberToWords(integerPart);
+
+                if (decimalPart > 0) {
+                  result += " Point";
+                  const decimalDigits = decimalPart.toString().split('');
+                  for (const digit of decimalDigits) {
+                    result += " " + numberToWords(parseInt(digit));
+                  }
+                }
+
+                return result;
+              }
+
+              total_Amount = parseFloat(total_Amount); // Convert to a number
+
+              const amountInWords = numberToWordsWithDecimals(total_Amount);
+              $(".amount_in_words").text(amountInWords);
+
+            });
+
+          });
+
+        // function populateTable(data) {
+        //   let tableBody = document.getElementById("tableBody");
+        //   tableBody.innerHTML = ""; // Clear existing data
+
+        //   if (data.length === 0) {
+        //     // If data is empty, show an empty row
+        //     let emptyRow = `<tr><td colspan="8">No Data Available</td></tr>`;
+        //     tableBody.innerHTML = emptyRow;
+        //     return;
+        //   }
+
+        //   // Loop through data and create table rows dynamically
+        //   data.forEach(item => {
+        //     let row = `
+        //             <tr>
+        //                 <td>${item.FNO || ""}</td>
+        //                 <td>${item.SW || ""}</td>
+        //                 <td>${item.SD || ""}</td>
+        //                 <td>${item.FH || ""}</td>
+        //                 <td>${item.DW || ""}</td>
+        //                 <td>${item.DH || ""}</td>
+        //                 <td>${item.LE || ""}</td>
+        //                 <td>${item.RE || ""}</td>
+        //             </tr>
+        //         `;
+        //     tableBody.innerHTML += row;
+        //   });
+        // }
+        function generatePDF() {
+          window.print();
+        }
+      </script>
+
+
+    </div>
+  </section>
+
+</body>
+
+</html>
